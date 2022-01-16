@@ -1,0 +1,76 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using COMP3451Project.EnginePackage.CoreInterfaces;
+
+namespace COMP3451Project.EnginePackage.Services.Commands
+{
+    /// <summary>
+    /// Class which schedules commands at a specific point in a runtime loop
+    /// Author: William Smith & Declan Kerby-Collins
+    /// Date: 16/01/22
+    /// </summary>
+    public class CommandScheduler : IService, IExecuteCommand, IUpdatable
+    {
+        #region FIELD VARIABLES
+
+        // DECLARE an IList<ICommand>, name it '_commandList':
+        private IList<ICommand> _commandList;
+
+        #endregion
+
+
+        #region CONSTRUCTOR
+
+        /// <summary>
+        /// Constructor for objects of CommandScheduler
+        /// </summary>
+        public CommandScheduler()
+        {
+            // INSTANTIATE _commandList as a new List<ICommand>(), made on construction to store initial commands:
+            _commandList = new List<ICommand>();
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IEXECUTECOMMAND
+
+        /// <summary>
+        /// Executes a specified Command via a parameter
+        /// </summary>
+        /// <param name="pCommand"> Requested command to be executed </param>
+        public void ExecuteCommand(ICommand pCommand)
+        {
+            // CALL ExecuteMethod() on pCommand:
+            pCommand.ExecuteMethod();
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IUPDATABLE
+
+        /// <summary>
+        /// Updates object when a frame has been rendered on screen
+        /// </summary>
+        /// <param name="pGameTime"> Holds reference to GameTime object </param>
+        public void Update(GameTime pGameTime)
+        {
+            // FOREACH ICommand object stored in _commandList:
+            foreach (ICommand pCommand in _commandList)
+            {
+                // CALL ExecuteCommand, passing pCommand as a parameter:
+                ExecuteCommand(pCommand);
+            }
+
+            // CALL Clear() on _commandList to remove all previous commands in queue:
+            _commandList.Clear();
+        }
+
+        #endregion
+    }
+}
