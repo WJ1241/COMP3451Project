@@ -7,9 +7,9 @@ namespace COMP3451Project.EnginePackage.EntityManagement
     /// Author(s): William Smith & Declan Kerby-Collins
     /// Date: 17/01/22
     /// </summary>
-    interface IInitialiseIEntity
+    public interface IInitialiseIEntity
     {
-        #region IMPLEMENTATION OF IINITIALISEIENTITY
+        #region METHODS
 
         /// <summary>
         /// Initialises an object with an IEntity object

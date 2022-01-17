@@ -44,6 +44,8 @@
   <ItemGroup>
     <Compile Include="EnginePackage\Behaviours\Behaviour.cs" />
     <Compile Include="EnginePackage\Behaviours\IBehaviour.cs" />
+    <Compile Include="EnginePackage\CustomEventArgs\UpdateEventArgs.cs" />
+    <Compile Include="EnginePackage\EntityManagement\IInitialiseIEntity.cs" />
     <Compile Include="GameCode\GCBehaviour\NPCBehavior.cs" />
     <Compile Include="GameCode\GCBehaviour\PlayerBehaviour.cs" />
     <Compile Include="GameCode\GCBehaviour\TorchBehaviour.cs" />
@@ -94,7 +96,6 @@
     <Compile Include="EnginePackage\Camera\Camera.cs" />
     <Compile Include="EnginePackage\Camera\ICamera.cs" />
     <Compile Include="EnginePackage\Camera\IDrawCamera.cs" />
-    <Compile Include="EnginePackage\EntityManagement\IInitialiseEntity.cs" />
     <Compile Include="EnginePackage\Services\IService.cs" />
     <Compile Include="GameCode\GCEntities\NPC.cs" />
     <Compile Include="GameCode\GCEntities\Player.cs" />
