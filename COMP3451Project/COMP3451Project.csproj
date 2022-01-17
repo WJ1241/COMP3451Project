@@ -42,9 +42,11 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="EnginePackage\Behaviours\NPCBehavior.cs" />
-    <Compile Include="EnginePackage\Behaviours\PlayerBehaviour.cs" />
-    <Compile Include="EnginePackage\Behaviours\TorchBehaviour.cs" />
+    <Compile Include="EnginePackage\Behaviours\Behaviour.cs" />
+    <Compile Include="EnginePackage\Behaviours\IBehaviour.cs" />
+    <Compile Include="GameCode\GCBehaviour\NPCBehavior.cs" />
+    <Compile Include="GameCode\GCBehaviour\PlayerBehaviour.cs" />
+    <Compile Include="GameCode\GCBehaviour\TorchBehaviour.cs" />
     <Compile Include="EnginePackage\Camera\IZoom.cs" />
     <Compile Include="EnginePackage\CollisionManagement\CollisionManager.cs" />
     <Compile Include="EnginePackage\CollisionManagement\ICollisionListener.cs" />
@@ -94,11 +96,11 @@
     <Compile Include="EnginePackage\Camera\IDrawCamera.cs" />
     <Compile Include="EnginePackage\EntityManagement\IInitialiseEntity.cs" />
     <Compile Include="EnginePackage\Services\IService.cs" />
-    <Compile Include="GameCode\NPC.cs" />
-    <Compile Include="GameCode\Player.cs" />
-    <Compile Include="GameCode\PlayerInput.cs" />
-    <Compile Include="GameCode\Torch.cs" />
-    <Compile Include="GameCode\Wall.cs" />
+    <Compile Include="GameCode\GCEntities\NPC.cs" />
+    <Compile Include="GameCode\GCEntities\Player.cs" />
+    <Compile Include="GameCode\GCEntities\PlayerInput.cs" />
+    <Compile Include="GameCode\GCEntities\Torch.cs" />
+    <Compile Include="GameCode\GCEntities\Wall.cs" />
     <Compile Include="Kernel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
