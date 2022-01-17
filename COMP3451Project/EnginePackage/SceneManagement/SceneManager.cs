@@ -13,7 +13,7 @@ namespace COMP3451Project.EnginePackage.SceneManagement
     /// <summary>
     /// Class which manages all entities in the scene
     /// </summary>
-    public class SceneManager : ISceneManager, IUpdatable, IDraw, ISpawn, IDrawCamera
+    public class SceneManager : ISceneManager, IService, IUpdatable, IDraw, ISpawn, IDrawCamera
     {
         #region FIELD VARIABLES
 
@@ -115,8 +115,6 @@ namespace COMP3451Project.EnginePackage.SceneManagement
             (_sceneGraph as IDraw).Draw(spriteBatch);
         }
 
-        #endregion
-
         /// <summary>
         /// When called, draws entity's texture on screen, as well as reposition a a camera object
         /// </summary>
@@ -127,6 +125,9 @@ namespace COMP3451Project.EnginePackage.SceneManagement
             // CALL Draw() on _sceneGraph, passing spriteBatch and camera as parameters:
             (_sceneGraph as IDrawCamera).Draw(spriteBatch, camera);
         }
+
+        #endregion
+        
 
         #region IMPLEMENTATION OF IUPDATABLE
 

@@ -60,7 +60,7 @@ namespace COMP3451Project.EnginePackage.Services
             if (!_serviceDict.ContainsKey(_serviceName))
             {
                 // ADD new service to _serviceDict, with type 'C' name as key, and instance of a type 'C' factory as value:
-                _serviceDict.Add(_serviceName, new C());
+                _serviceDict.Add(_serviceName, _servicefactory.Create<C>());
             }
 
             // RETURN instance of current _serviceName in _serviceDict:
