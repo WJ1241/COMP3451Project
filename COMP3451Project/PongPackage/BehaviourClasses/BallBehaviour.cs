@@ -9,8 +9,8 @@ namespace COMP3451Project.PongPackage.BehaviourClasses
 {
     /// <summary>
     /// Class which defines the behaviour for Ball entities
-    /// Author: Will Smith & Declan Kerby-Collins
-    /// Date: 20/001/2022
+    /// Author: Declan Kerby-Collins & William Smith
+    /// Date: 20/01/2022
     /// </summary>
     class BallBehaviour : PongBehaviour
     {

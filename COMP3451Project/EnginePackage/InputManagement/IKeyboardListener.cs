@@ -4,6 +4,8 @@ namespace COMP3451Project.EnginePackage.InputManagement
 {
     /// <summary>
     /// Interface which allows implementations to listen for Keyboard input
+    /// Author: William Smith & Declan Kerby-Collins
+    /// Date: 20/01/22
     /// </summary>
     public interface IKeyboardListener
     {
@@ -12,8 +14,8 @@ namespace COMP3451Project.EnginePackage.InputManagement
         /// <summary>
         /// Called when Publisher has new Keyboard input information for listening objects
         /// </summary>
-        /// <param name="keyboardState">Holds reference to Keyboard State object</param>
-        void OnKBInput(KeyboardState keyboardState);
+        /// <param name="pKeyboardState"> Holds reference to Keyboard State object </param>
+        void OnKBInput(KeyboardState pKeyboardState);
 
         #endregion
     }
