@@ -19,6 +19,12 @@ namespace COMP3451Project.PongPackage.BehaviourClasses
             
         }
 
+        /*
+        public void OnCollide(object pSorce, CollisionEventArgs)
+        {
+
+        }*/
+
         /// <summary>
         /// Used when an object hits a boundary, possibly to change direction or stop
         /// </summary>

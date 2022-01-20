@@ -96,6 +96,7 @@ namespace COMP3451Project.PongPackage.EntityClasses
                     _direction.Y = 1;
                 }
             }
+
         }
 
         #endregion
@@ -112,11 +113,12 @@ namespace COMP3451Project.PongPackage.EntityClasses
             // ASSIGNMENT, set value of _velocity to _speed mutlipled by _direction:
             _velocity = _speed * _direction;
 
+            /*
             // ADD & ASSIGN _velocity to _position:
             _position += _velocity;
 
             // CALL Boundary():
-            Boundary();
+            Boundary();*/
         }
 
         #endregion

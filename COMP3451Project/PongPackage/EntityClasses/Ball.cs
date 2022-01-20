@@ -93,11 +93,14 @@ namespace COMP3451Project.PongPackage.EntityClasses
         /// <param name="gameTime">holds reference to GameTime object</param>
         public override void Update(GameTime gameTime)
         {
-            // ADD & ASSIGN _velocity to _position:
+            
+
+            
+            /*// ADD & ASSIGN _velocity to _position:
             _position += _velocity;
 
             // CALL Boundary() method:
-            Boundary();
+            Boundary();*/
         }
 
         #endregion

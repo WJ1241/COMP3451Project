@@ -33,6 +33,9 @@ namespace COMP3451Project.PongPackage.BehaviourClasses
         public override void OnUpdate(object pSource, UpdateEventArgs pArgs)
         {
             _entity.Position += (_entity as IVelocity).Velocity;
+
+            // CALL Boundary() method:
+            Boundary();
         }
 
 

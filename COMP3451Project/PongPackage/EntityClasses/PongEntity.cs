@@ -38,10 +38,10 @@ namespace COMP3451Project.PongPackage.EntityClasses
         /// When called, draws entity's texture on screen
         /// </summary>
         /// <param name="spritebatch">Needed to draw entity's texture on screen</param>
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch pSpriteBatch)
         {
             // DRAW given texture, given location, and colour
-            spriteBatch.Draw(_texture, _position, Color.AntiqueWhite);
+            pSpriteBatch.Draw(_texture, _position, Color.AntiqueWhite);
         }
 
         #endregion
@@ -52,8 +52,8 @@ namespace COMP3451Project.PongPackage.EntityClasses
         /// <summary>
         /// Updates object when a frame has been rendered on screen
         /// </summary>
-        /// <param name="gameTime">holds reference to GameTime object</param>
-        public abstract void Update(GameTime gameTime);
+        /// <param name="pGameTime">holds reference to GameTime object</param>
+        public abstract void Update(GameTime pGameTime);
 
         #endregion
 
