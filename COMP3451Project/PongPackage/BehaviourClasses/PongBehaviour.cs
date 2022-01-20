@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using COMP3451Project.EnginePackage.Behaviours;
+using COMP3451Project.EnginePackage.CustomEventArgs;
+using COMP3451Project.EnginePackage.EntityManagement;
 
 namespace COMP3451Project.PongPackage.BehaviourClasses
 {
@@ -17,14 +19,22 @@ namespace COMP3451Project.PongPackage.BehaviourClasses
         #region FIELD VARIABLES
 
         
-
         #endregion
 
 
-
-
-
         #region PROTECTED METHODS
+
+
+        /// <summary>
+        /// Method called when needing to update Behaviour
+        /// </summary>
+        /// <param name="pSource"> Object that is to be updated </param>
+        /// <param name="pArgs"> EventArgs for an Update object </param>
+        public override void OnUpdate(object pSource, UpdateEventArgs pArgs)
+        {
+            _entity.Position += (_entity as IVelocity).Velocity;
+        }
+
 
         /// <summary>
         /// Used when an object hits a boundary, possibly to change direction or stop
