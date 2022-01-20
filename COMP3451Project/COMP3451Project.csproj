@@ -54,13 +54,16 @@
     <Compile Include="EnginePackage\Services\Commands\CommandZeroParam.cs" />
     <Compile Include="EnginePackage\Services\Commands\ICommandOneParam.cs" />
     <Compile Include="EnginePackage\Services\Commands\ICommand.cs" />
+    <Compile Include="EnginePackage\Services\Commands\ICommandScheduler.cs" />
     <Compile Include="EnginePackage\Services\Commands\ICommandSender.cs" />
     <Compile Include="EnginePackage\Services\Commands\ICommandZeroParam.cs" />
     <Compile Include="EnginePackage\CoreInterfaces\IInitialiseRand.cs" />
     <Compile Include="EnginePackage\CoreInterfaces\ILayer.cs" />
     <Compile Include="EnginePackage\EntityManagement\IEntityInternal.cs" />
     <Compile Include="EnginePackage\Services\Commands\IExecuteCommand.cs" />
+    <Compile Include="EnginePackage\Services\Commands\IInitialiseICommandScheduler.cs" />
     <Compile Include="EnginePackage\Services\EngineManager.cs" />
+    <Compile Include="EnginePackage\Services\Factories\IInitialiseIFactory.cs" />
     <Compile Include="EnginePackage\Services\IInitialiseIService.cs" />
     <Compile Include="EnginePackage\Services\IRtnService.cs" />
     <Compile Include="EnginePackage\EntityManagement\ISetBoundary.cs" />
