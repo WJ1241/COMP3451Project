@@ -43,7 +43,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="EnginePackage\Behaviours\Behaviour.cs" />
+    <Compile Include="EnginePackage\Behaviours\ICollisionEventListener.cs" />
+    <Compile Include="EnginePackage\Behaviours\IMouseInputEventListener.cs" />
+    <Compile Include="EnginePackage\Behaviours\IKBInputEventListener.cs" />
     <Compile Include="EnginePackage\Behaviours\IUpdateEventListener.cs" />
+    <Compile Include="EnginePackage\CustomEventArgs\MouseInputEventArgs.cs" />
+    <Compile Include="EnginePackage\CustomEventArgs\KBInputEventArgs.cs" />
+    <Compile Include="EnginePackage\CustomEventArgs\CollisionEventArgs.cs" />
     <Compile Include="EnginePackage\CustomEventArgs\UpdateEventArgs.cs" />
     <Compile Include="EnginePackage\EntityManagement\IInitialiseIEntity.cs" />
     <Compile Include="EnginePackage\Camera\IZoom.cs" />

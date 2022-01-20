@@ -16,14 +16,7 @@ namespace COMP3451Project.PongPackage.BehaviourClasses
     /// </summary>
     public abstract class PongBehaviour : Behaviour
     {
-        #region FIELD VARIABLES
-
-        
-        #endregion
-
-
         #region PROTECTED METHODS
-
 
         /// <summary>
         /// Method called when needing to update Behaviour
@@ -32,6 +25,7 @@ namespace COMP3451Project.PongPackage.BehaviourClasses
         /// <param name="pArgs"> EventArgs for an Update object </param>
         public override void OnUpdate(object pSource, UpdateEventArgs pArgs)
         {
+            // ADD & APPLY _entity's velocity to current position:
             _entity.Position += (_entity as IVelocity).Velocity;
 
             // CALL Boundary() method:
