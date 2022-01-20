@@ -12,7 +12,7 @@ namespace COMP3451Project.EnginePackage.Behaviours
     /// Author(s): William Smith & Declan Kerby-Collins
     /// Date: 17/01/22
     /// </summary>
-    public interface IBehaviour
+    public interface IUpdateEventListener
     {
         #region METHODS
 

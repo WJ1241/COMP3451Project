@@ -13,12 +13,12 @@ namespace COMP3451Project.EnginePackage.Behaviours
     /// Author(s): William Smith & Declan Kerby-Collins
     /// Date: 17/01/22
     /// </summary>
-    public class Behaviour : IBehaviour, IInitialiseIEntity
+    public abstract class Behaviour : IUpdateEventListener, IInitialiseIEntity
     {
         #region FIELD VARIABLES
 
         // DECLARE an IEntity, name it '_entity':
-        private IEntity _entity;
+        protected IEntity _entity;
 
         #endregion
 
@@ -30,10 +30,7 @@ namespace COMP3451Project.EnginePackage.Behaviours
         /// </summary>
         /// <param name="pSource"> Object that is to be updated </param>
         /// <param name="pArgs"> EventArgs for an Update object </param>
-        public void OnUpdate(object pSource, UpdateEventArgs pArgs)
-        {
-
-        }
+        public abstract void OnUpdate(object pSource, UpdateEventArgs pArgs);
 
         #endregion
 
