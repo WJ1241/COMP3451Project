@@ -16,7 +16,6 @@ namespace COMP3451Project.GameCode.GCEntities
     {
 
 
-        Dictionary<int, string> sceneDict;
 
         /// <summary>
         /// Initialises variables
@@ -26,12 +25,6 @@ namespace COMP3451Project.GameCode.GCEntities
 
         }
 
-        public void test()
-        {
-            if ((sceneDict.ContainsValue("Bob")))
-            {
-            }
-        }
 
         /// <summary>
         /// Terminates class
