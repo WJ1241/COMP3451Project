@@ -44,7 +44,7 @@ namespace COMP3451Project.EnginePackage.Services.Commands
         /// <summary>
         /// Property which allows write access to the desired first parameter type
         /// </summary>
-        public T DataType
+        public T Data
         {
             set
             {
@@ -56,7 +56,7 @@ namespace COMP3451Project.EnginePackage.Services.Commands
         /// <summary>
         /// Property which allows write access to a reference of a method with ONE parameter
         /// </summary>
-        public Action<T> Action
+        public Action<T> MethodRef
         {
             set 
             {

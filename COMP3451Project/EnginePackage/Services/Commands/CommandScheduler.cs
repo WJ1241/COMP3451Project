@@ -13,7 +13,7 @@ namespace COMP3451Project.EnginePackage.Services.Commands
     /// Author: William Smith & Declan Kerby-Collins
     /// Date: 16/01/22
     /// </summary>
-    public class CommandScheduler : IService, IExecuteCommand, IUpdatable
+    public class CommandScheduler : IService, ICommandScheduler, IExecuteCommand, IUpdatable
     {
         #region FIELD VARIABLES
 
@@ -32,6 +32,20 @@ namespace COMP3451Project.EnginePackage.Services.Commands
         {
             // INSTANTIATE _commandList as a new List<ICommand>(), made on construction to store initial commands:
             _commandList = new List<ICommand>();
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF ICOMMANDSCHEDULER
+
+        /// <summary>
+        /// Method which schedules a command by adding it to a list containing ICommand objects
+        /// </summary>
+        public void ScheduleCommand(ICommand pCommand)
+        {
+            // ADD pCommand to _commandList:
+            _commandList.Add(pCommand);
         }
 
         #endregion
@@ -60,11 +74,15 @@ namespace COMP3451Project.EnginePackage.Services.Commands
         /// <param name="pGameTime"> Holds reference to GameTime object </param>
         public void Update(GameTime pGameTime)
         {
-            // FOREACH ICommand object stored in _commandList:
-            foreach (ICommand pCommand in _commandList)
+            // IF _commandList contains 1 or more ICommand objects:
+            if (_commandList.Count >= 1)
             {
-                // CALL ExecuteCommand, passing pCommand as a parameter:
-                ExecuteCommand(pCommand);
+                // FOREACH ICommand object stored in _commandList:
+                foreach (ICommand pCommand in _commandList)
+                {
+                    // CALL ExecuteCommand, passing pCommand as a parameter:
+                    ExecuteCommand(pCommand);
+                }
             }
 
             // CALL Clear() on _commandList to remove all previous commands in queue:

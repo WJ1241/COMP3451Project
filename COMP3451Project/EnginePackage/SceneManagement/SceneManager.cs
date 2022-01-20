@@ -7,20 +7,27 @@ using COMP3451Project.EnginePackage.CollisionManagement;
 using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.EntityManagement;
 using COMP3451Project.EnginePackage.Services;
+using COMP3451Project.EnginePackage.Services.Commands;
+using COMP3451Project.EnginePackage.Services.Factories;
 
 namespace COMP3451Project.EnginePackage.SceneManagement
 {
     /// <summary>
     /// Class which manages all entities in the scene
+    /// Author: William Smith & Declan Kerby-Collins
+    /// Date: 20/01/22
     /// </summary>
-    public class SceneManager : ISceneManager, IService, IUpdatable, IDraw, ISpawn, IDrawCamera
+    public class SceneManager : ISceneManager, IInitialiseIFactory<ISceneGraph>, IService, IUpdatable, IDraw, ISpawn, IDrawCamera
     {
         #region FIELD VARIABLES
 
-        // DECLARE an ISceneGraph, call it 'sceneGraph':
+        // DECLARE an IFactory<ISceneGraph>, name it '_sGFactory':
+        private IFactory<ISceneGraph> _sGFactory;
+
+        // DECLARE an ISceneGraph, name it 'sceneGraph':
         private ISceneGraph _sceneGraph;
 
-        // DECLARE an IDictionary<string, IEntity>, call it '_sceneDictionary':
+        // DECLARE an IDictionary<string, IEntity>, name it '_sceneDictionary':
         private IDictionary<string, IEntity> _sceneDictionary;
 
         #endregion
@@ -81,6 +88,21 @@ namespace COMP3451Project.EnginePackage.SceneManagement
         #endregion
 
 
+        #region IMPLEMENTATION OF IINITIALISEIFACTORY<ISCENEGRAPH>
+
+        /// <summary>
+        /// Initialises an object with an IFactory<ISceneGraph> object
+        /// </summary>
+        /// <param name="pFactory"> IFactory<ISceneGraph> object </param>
+        public void Initialise(IFactory<ISceneGraph> pFactory)
+        {
+            // INITIALISE _sGFactory with reference to pFactory:
+            _sGFactory = pFactory;
+        }
+
+        #endregion
+
+
         #region IMPLEMENTATION OF ISPAWN
 
         /// <summary>
@@ -88,16 +110,42 @@ namespace COMP3451Project.EnginePackage.SceneManagement
         /// </summary>
         /// <param name="entity">Reference to an instance of IEntity</param>
         /// <param name="position">Positional values used to place entity</param>
-        public void Spawn(IEntity entity, Vector2 position)
+        public void Spawn(IEntity pEntity, Vector2 pPosition)
         {
-            // ADD entity to Dictionary<string, IEntity>:
-            _sceneDictionary.Add(entity.UName, entity);
+            #region ADD TO DICTIONARY
 
-            // CALL Spawn() on _sceneGraph, passing entity and position as parameters:
-            (_sceneGraph as ISpawn).Spawn(entity, position);
+            // ADD entity to Dictionary<string, IEntity>:
+            _sceneDictionary.Add(pEntity.UName, pEntity);
+
+            #endregion
+
+
+            #region REMOVE COMMAND
+
+            // DECLARE an ICommandOneParam<string>, name it '_removeMe':
+            ICommandOneParam<string> _removeMe = new CommandOneParam<string>();
+
+            // SET MethodRef of _removeMe with RemoveInstance method:
+            _removeMe.MethodRef = RemoveInstance;
+
+            // SET Data of _removeMe with pEntity's UName Property:
+            _removeMe.Data = pEntity.UName;
+
+            // SET RemoveMe property of pEntity with _removeMe Command:
+            (pEntity as IEntityInternal).RemoveMe = _removeMe;
+
+            #endregion
+
+
+            #region SPAWN LOCATION
+
+            // CALL Spawn() on _sceneGraph, passing pEntity and pPosition as parameters:
+            (_sceneGraph as ISpawn).Spawn(pEntity, pPosition);
 
             // WRITE to console, alerting when object has been added to the scene:
-            Console.WriteLine(entity.UName + " ID:" + entity.UID + " has been Spawned on Scene!");
+            Console.WriteLine(pEntity.UName + " ID:" + pEntity.UID + " has been Spawned on Scene!");
+
+            #endregion
         }
 
         #endregion
