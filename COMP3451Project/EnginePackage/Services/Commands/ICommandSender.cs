@@ -16,9 +16,9 @@ namespace COMP3451Project.EnginePackage.Services.Commands
         #region PROPERTIES
 
         /// <summary>
-        /// Property which allows write access to a command scheduling method
+        /// Property which allows read and write access to a command scheduling method
         /// </summary>
-        Action<ICommand> ScheduleCommand { set; }
+        Action<ICommand> ScheduleCommand { get; set; }
 
         #endregion
     }

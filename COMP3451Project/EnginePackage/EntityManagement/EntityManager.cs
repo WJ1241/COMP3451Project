@@ -24,9 +24,6 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         // DECLARE an ICommandScheduler, name it '_commandScheduler':
         private ICommandScheduler _commandScheduler;
 
-        // DECLARE an ISceneManager, call it '_sceneManager':
-        private ISceneManager _sceneManager;
-
         // DECLARE an IKeyboardPublisher, call it '_kbManager':
         private IKeyboardPublisher _kBManager;
 
@@ -58,16 +55,6 @@ namespace COMP3451Project.EnginePackage.EntityManagement
 
 
         #region IMPLEMENTATION OF IENTITYMANAGER
-
-        /// <summary>
-        /// Initialises an object with a reference to an ISceneManager
-        /// </summary>
-        /// <param name="sceneManager">Reference to ISceneManager object</param>
-        public void Initialise(ISceneManager sceneManager)
-        {
-            // ASSIGNMENT, set instance of _sceneManager as sceneManager:
-            _sceneManager = sceneManager;
-        }
 
         /// <summary>
         /// Initialises an object with a reference to an IKeyboardPublisher
@@ -130,17 +117,14 @@ namespace COMP3451Project.EnginePackage.EntityManagement
             #endregion
         }
 
-            /// <summary>
-            /// Terminates an object from entity manager and other managers
-            /// </summary>
-            /// <param name="uName">Reference to object using unique name</param>
-            public void Terminate(string uName)
+        /// <summary>
+        /// Terminates an object from entity manager and other managers
+        /// </summary>
+        /// <param name="uName">Reference to object using unique name</param>
+        public void Terminate(string uName)
         {
             // CALL Terminate(), on ITerminate to dispose of resources:
             (_entityDictionary[uName] as ITerminate).Terminate();
-
-            // CALL RemoveInstance(), on SceneManager to remove 'value' of key 'uName':
-            _sceneManager.RemoveInstance(uName);
 
             // IF _entityDictionary[uName] implements IKeyboardListener:
             if (_entityDictionary[uName] is IKeyboardListener)

@@ -1,20 +1,21 @@
-﻿using COMP3451Project.EnginePackage.CollisionManagement;
-using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.EntityManagement;
-using Microsoft.Xna.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using COMP3451Project.EnginePackage.CollisionManagement;
+using COMP3451Project.EnginePackage.CoreInterfaces;
+using COMP3451Project.EnginePackage.CustomEventArgs;
+using COMP3451Project.EnginePackage.EntityManagement;
 
 namespace COMP3451Project.PongPackage.EntityClasses
 {
 
     /// <summary>
     /// Class which adds a Ball entity on screen
-    /// Authors: Will Smith & Declan Kerby-Collins
-    /// Date: 20/01/2022
+    /// Authors: William Smith & Declan Kerby-Collins
+    /// Date: 21/01/22
     /// </summary>
     public class Ball : PongEntity, IInitialiseRand, IReset, ICollidable, ICollisionListener
     {
@@ -32,6 +33,12 @@ namespace COMP3451Project.PongPackage.EntityClasses
         // DECLARE an float, call it '_rotation':
         private float _rotation;
 
+        // DECLARE an EventHandler<UpdateEventArgs>, name it '_behaviourEvent':
+        private EventHandler<UpdateEventArgs> _behaviourEvent;
+
+        // DECLARE an EventHandler<CollisionEventArgs>, name it '_collisionEvent':
+        private EventHandler<CollisionEventArgs> _collisionEvent;
+
         #endregion
 
 
@@ -42,6 +49,7 @@ namespace COMP3451Project.PongPackage.EntityClasses
         /// </summary>
         public Ball()
         {
+            // EMPTY CONSTRUCTOR
         }
 
         #endregion
@@ -90,17 +98,17 @@ namespace COMP3451Project.PongPackage.EntityClasses
         /// <summary>
         /// Updates object when a frame has been rendered on screen
         /// </summary>
-        /// <param name="gameTime">holds reference to GameTime object</param>
-        public override void Update(GameTime gameTime)
+        /// <param name="pGameTime">holds reference to GameTime object</param>
+        public override void Update(GameTime pGameTime)
         {
-            
+            // DECLARE & INITIALISE an UpdateEventArgs, name it '_tempUpdateEA':
+            UpdateEventArgs _tempUpdateEA = new UpdateEventArgs();
 
-            
-            /*// ADD & ASSIGN _velocity to _position:
-            _position += _velocity;
+            // SET RequiredArg Property's value to pGameTime:
+            _tempUpdateEA.RequiredArg = pGameTime;
 
-            // CALL Boundary() method:
-            Boundary();*/
+            // CALL Invoke on _behaviourEvent, passing this class and _tempUpdateEA as parameters:
+            _behaviourEvent.Invoke(this, _tempUpdateEA);
         }
 
         #endregion
@@ -128,22 +136,17 @@ namespace COMP3451Project.PongPackage.EntityClasses
         /// <summary>
         /// Called by Collision Manager when two entities collide
         /// </summary>
-        /// <param name="scndCollidable">Other entity implementing ICollidable</param>
-        public void OnCollision(ICollidable scndCollidable)
+        /// <param name="pScndCollidable"> Other entity implementing ICollidable </param>
+        public void OnCollision(ICollidable pScndCollidable)
         {
-            if (_velocity.X < 0) // IF moving left
-            {
-                // MINUS & ASSIGN 0.2 multiplied by _scndCollidable's Velocity, to _velocity:
-                _velocity.X -= 0.2f * (scndCollidable as IVelocity).Velocity.Length();
-            }
-            else if (_velocity.X > 0)  // IF moving right
-            {
-                // ADD & ASSIGN 0.2 multiplied by _scndCollidable's Velocity, to _velocity:
-                _velocity.X += 0.2f * (scndCollidable as IVelocity).Velocity.Length();
-            }
+            // DECLARE & INITIALISE an CollisionEventArgs, name it '_tempCollisionEA':
+            CollisionEventArgs _tempCollisionEA = new CollisionEventArgs();
 
-            // REVERSE _velocity.X:
-            _velocity.X *= -1;
+            // SET RequiredArg Property's instance to pScndCollidable:
+            _tempCollisionEA.RequiredArg = pScndCollidable;
+
+            // CALL Invoke on _collisionEvent, passing this class and _tempCollisionEA as parameters:
+            _collisionEvent.Invoke(this, _tempCollisionEA);
         }
 
         #endregion
@@ -165,7 +168,7 @@ namespace COMP3451Project.PongPackage.EntityClasses
         #region IMPLEMENTATION OF IRESET
 
         /// <summary>
-        /// Resets an object's positional values
+        /// Resets an object's initial values
         /// </summary>
         public void Reset()
         {
@@ -181,7 +184,8 @@ namespace COMP3451Project.PongPackage.EntityClasses
             // ASSIGN Random number between 1 and 2, 3 is exclusive:
             _randNum = _rand.Next(1, 3);
 
-            if (_randNum == 2) // IF Random number is 2
+            // IF Random number is 2
+            if (_randNum == 2)
             {
                 // REVERSE velocity.X:
                 _velocity.X *= -1;
@@ -189,28 +193,6 @@ namespace COMP3451Project.PongPackage.EntityClasses
 
             // MULTIPLY & ASSIGN _velocity by _speed:
             _velocity *= _speed;
-        }
-
-        #endregion
-
-
-        #region PROTECTED METHODS
-
-        /// <summary>
-        /// Used when an object hits a boundary, possibly to change direction or stop
-        /// </summary>
-        protected void Boundary()
-        {
-            if (_position.Y <= 0 || _position.Y >= (_windowBorder.Y - _texture.Height)) // IF at top screen edge or bottom screen edge
-            {
-                // REVERSE _velocity.Y:
-                _velocity.Y *= -1;
-            }
-            else if (_position.X <= 0 || _position.X >= (_windowBorder.X - _texture.Width)) // IF at left screen edge or right screen edge
-            {
-                // SET _selfDestruct to true:
-                _selfDestruct = true;
-            }
         }
 
         #endregion

@@ -12,14 +12,14 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         #region PROPERTIES
 
         /// <summary>
-        /// Property which allows write access to a Termination command
+        /// Property which allows read and write access to a Termination command
         /// </summary>
-        ICommand TerminateMe { set; }
+        ICommand TerminateMe { get; set; }
 
         /// <summary>
-        /// Property which allows write access to a Removal command
+        /// Property which allows read and write access to a Removal command
         /// </summary>
-        ICommand RemoveMe { set; }
+        ICommand RemoveMe { get; set; }
 
         #endregion
     }

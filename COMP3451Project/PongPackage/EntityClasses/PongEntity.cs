@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using COMP3451Project.EnginePackage.CoreInterfaces;
+using COMP3451Project.EnginePackage.CustomEventArgs;
 using COMP3451Project.EnginePackage.EntityManagement;
-
 
 namespace COMP3451Project.PongPackage.EntityClasses
 {
     /// <summary>
     /// Abstract class for Pong Entities to inherit from
-    /// Author: William Smith & Declan Kerby-Collins
-    /// Date: 20/01/22
+    /// Authors: William Smith & Declan Kerby-Collins
+    /// Date: 21/01/22
     /// </summary>
     public abstract class PongEntity : Entity, IDraw, IUpdatable, ITexture, IVelocity
     {
@@ -28,6 +28,8 @@ namespace COMP3451Project.PongPackage.EntityClasses
 
         // DECLARE a float, call it 'speed':
         protected float _speed;
+
+
 
         #endregion
 
@@ -91,6 +93,11 @@ namespace COMP3451Project.PongPackage.EntityClasses
             {
                 // RETURN value of _velocity(x,y)
                 return _velocity;
+            }
+            set
+            {
+                // SET value of _velocity to incoming value:
+                _velocity = value;
             }
         }
 

@@ -72,7 +72,7 @@
     <Compile Include="EnginePackage\Services\Factories\IInitialiseIFactory.cs" />
     <Compile Include="EnginePackage\Services\IInitialiseIService.cs" />
     <Compile Include="EnginePackage\Services\IRtnService.cs" />
-    <Compile Include="EnginePackage\EntityManagement\ISetBoundary.cs" />
+    <Compile Include="EnginePackage\EntityManagement\IContainBoundary.cs" />
     <Compile Include="EnginePackage\EntityManagement\ITexture.cs" />
     <Compile Include="EnginePackage\EntityManagement\ITerminate.cs" />
     <Compile Include="EnginePackage\EntityManagement\IVelocity.cs" />

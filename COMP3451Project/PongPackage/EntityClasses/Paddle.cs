@@ -1,20 +1,22 @@
-﻿using COMP3451Project.EnginePackage.CollisionManagement;
-using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.InputManagement;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+using COMP3451Project.EnginePackage.CollisionManagement;
+using COMP3451Project.EnginePackage.CoreInterfaces;
+using COMP3451Project.EnginePackage.CustomEventArgs;
+using COMP3451Project.EnginePackage.InputManagement;
+
 
 namespace COMP3451Project.PongPackage.EntityClasses
 {
     /// <summary>
     /// Class which adds a Paddle entity on screen
-    /// Authors: Will Smith & Declan Kerby-Collins
-    /// Date: 20/01/2022
+    /// Authors: William Smith & Declan Kerby-Collins
+    /// Date: 21/01/22
     /// </summary>
     public class Paddle : PongEntity, IPlayer, ICollidable, IKeyboardListener
     {
@@ -26,6 +28,12 @@ namespace COMP3451Project.PongPackage.EntityClasses
         // DECLARE a PlayerIndex and call it '_playerNum':
         private PlayerIndex _playerNum;
 
+        // DECLARE an IDictionary<string, EventHandler<UpdateEventArgs>>, name it '_behaviourEvents':
+        private IDictionary<string, EventHandler<UpdateEventArgs>> _behaviourEvents;
+
+        // DECLARE a string, name it '_activeBehaviour':
+        private string _activeBehaviour;
+
         #endregion
 
 
@@ -36,7 +44,7 @@ namespace COMP3451Project.PongPackage.EntityClasses
         /// </summary>
         public Paddle()
         {
-
+            // EMPTY CONSTRUCTOR
         }
 
         #endregion
@@ -49,11 +57,17 @@ namespace COMP3451Project.PongPackage.EntityClasses
         /// </summary>
         public override void Initialise()
         {
+            // INSTANTIATE _behaviourEvents as a new Dictionary<string, EventHandler<UpdateEventArgs>>():
+            _behaviourEvents = new Dictionary<string, EventHandler<UpdateEventArgs>>();
+
             // SET _selfDestruct to false:
             _selfDestruct = false;
 
             // ASSIGNMENT, set _speed to 10:
             _speed = 10;
+
+            // ASSIGNMENT, set _activeBehaviour to "stationary":
+            _activeBehaviour = "stationary";
         }
 
         #endregion
@@ -64,39 +78,62 @@ namespace COMP3451Project.PongPackage.EntityClasses
         /// <summary>
         /// Called when Publisher has new Keyboard input information for listening objects
         /// </summary>
-        /// <param name="keyboardState">Holds reference to Keyboard State object</param>
-        public void OnKBInput(KeyboardState keyboardState)
+        /// <param name="pKeyboardState">Holds reference to Keyboard State object</param>
+        public void OnKBInput(KeyboardState pKeyboardState)
         {
-            // INSTANTIATE new Vector2, set as 0 to stop movement:
-            _direction = new Vector2(0);
+            // SET value of _activeBehaviour to "stationary":
+            _activeBehaviour = "stationary";
 
+            // INSTANTIATE new Vector2, set as 0 to stop movement:
+            //_direction = new Vector2(0);
+
+            // IF Player 1:
             if (_playerNum == PlayerIndex.One)
             {
-                if (keyboardState.IsKeyDown(Keys.W))
+                // IF W Key down
+                if (pKeyboardState.IsKeyDown(Keys.W))
                 {
+                    // SET _activeBehaviour to "up":
+                    _activeBehaviour = "up";
+
                     // ASSIGN direction.Y, give value of -1:
-                    _direction.Y = -1;
+                    //_direction.Y = -1;
                 }
-                else if (keyboardState.IsKeyDown(Keys.S))
+
+                // ELSE IF S Key down 
+                else if (pKeyboardState.IsKeyDown(Keys.S))
                 {
+                    // SET _activeBehaviour to "down":
+                    _activeBehaviour = "down";
+
                     // ASSIGN direction.Y, give value of 1:
-                    _direction.Y = 1;
-                }
-            }
-            else if (_playerNum == PlayerIndex.Two)
-            {
-                if (keyboardState.IsKeyDown(Keys.Up))
-                {
-                    // ASSIGN direction.Y, give value of -1:
-                    _direction.Y = -1;
-                }
-                else if (keyboardState.IsKeyDown(Keys.Down))
-                {
-                    // ASSIGN direction.Y, give value of 1:
-                    _direction.Y = 1;
+                    //_direction.Y = 1;
                 }
             }
 
+            // IF Player 2:
+            else if (_playerNum == PlayerIndex.Two)
+            {
+                // IF Up Arrow Key down:
+                if (pKeyboardState.IsKeyDown(Keys.Up))
+                {
+                    // SET _activeBehaviour to "up":
+                    _activeBehaviour = "up";
+
+                    // ASSIGN direction.Y, give value of -1:
+                    //_direction.Y = -1;
+                }
+
+                // ELSE IF Down Arrow Key down:
+                else if (pKeyboardState.IsKeyDown(Keys.Down))
+                {
+                    // SET _activeBehaviour to "down":
+                    _activeBehaviour = "down";
+
+                    // ASSIGN direction.Y, give value of 1:
+                    //_direction.Y = 1;
+                }
+            }
         }
 
         #endregion
@@ -107,11 +144,20 @@ namespace COMP3451Project.PongPackage.EntityClasses
         /// <summary>
         /// Updates object when a frame has been rendered on screen
         /// </summary>
-        /// <param name="gameTime">holds reference to GameTime object</param>
-        public override void Update(GameTime gameTime)
+        /// <param name="pGameTime"> Holds reference to GameTime object </param>
+        public override void Update(GameTime pGameTime)
         {
             // ASSIGNMENT, set value of _velocity to _speed mutlipled by _direction:
             _velocity = _speed * _direction;
+
+            // DECLARE & INITIALISE an UpdateEventArgs, name it '_tempUpdateEA':
+            UpdateEventArgs _tempUpdateEA = new UpdateEventArgs();
+
+            // SET RequiredArg Property's value to pGameTime:
+            _tempUpdateEA.RequiredArg = pGameTime;
+
+            // CALL Invoke on _behaviourEvents[_activeBehaviour], passing this class and _tempUpdateEA as parameters:
+            _behaviourEvents[_activeBehaviour]?.Invoke(this, _tempUpdateEA);
 
             /*
             // ADD & ASSIGN _velocity to _position:
@@ -133,7 +179,7 @@ namespace COMP3451Project.PongPackage.EntityClasses
         {
             set
             {
-                // ASSIGNMENT give _playerNum value of whichever class is modifying value
+                // SET value of _playerNum to incoming value:
                 _playerNum = value;
             }
         }
@@ -169,29 +215,6 @@ namespace COMP3451Project.PongPackage.EntityClasses
         }
 
         #endregion
-
-
-        #region PROTECTED METHODS
-
-        /// <summary>
-        /// Used when an object hits a boundary, possibly to change direction or stop
-        /// </summary>
-        protected void Boundary()
-        {
-            if (_position.Y <= 0) // IF paddle at top of screen
-            {
-                // ASSIGNMENT, set _position.Y to 0:
-                _position.Y = 0; // Keeps at top of screen
-            }
-            else if (_position.Y >= (_windowBorder.Y - _texture.Height)) // IF paddle at bottom of screen
-            {
-                // ASSIGNMENT, set _position.Y to _windowBorder.Y - _texture.Height:
-                _position.Y = _windowBorder.Y - _texture.Height; // Keeps at bottom of screen
-            }
-        }
-
-        #endregion
-
     }
 }
 

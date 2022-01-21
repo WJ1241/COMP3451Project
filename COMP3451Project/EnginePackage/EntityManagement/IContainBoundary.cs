@@ -4,15 +4,17 @@ namespace COMP3451Project.EnginePackage.EntityManagement
 {
     /// <summary>
     /// Interface that allows implementations to have access to Screen Size
+    /// Author: William Smith & Declan Kerby-Collins
+    /// Date: 21/01/22
     /// </summary>
-    interface ISetBoundary
+    public interface IContainBoundary
     {
         #region PROPERTIES
 
         /// <summary>
-        /// Property which can set value of screen window borders
+        /// Property which has read and write access to the value of screen window borders
         /// </summary>
-        Vector2 WindowBorder { set; }
+        Vector2 WindowBorder { get; set; }
 
         #endregion
     }

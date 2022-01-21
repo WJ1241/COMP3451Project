@@ -11,7 +11,7 @@ namespace COMP3451Project.EnginePackage.EntityManagement
     /// Author: William Smith & Declan Kerby-Collins
     /// Date: 06/01/22
     /// </summary>
-    public abstract class Entity : IEntity, IEntityInternal, ICommandSender, ILayer, ISetBoundary, ITerminate
+    public abstract class Entity : IEntity, IEntityInternal, ICommandSender, ILayer, IContainBoundary, ITerminate
     {
         #region FIELD VARIABLES
 
@@ -116,6 +116,11 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         /// </summary>
         public ICommand TerminateMe
         {
+            get
+            {
+                // RETURN value of _terminateMe:
+                return _terminateMe;
+            }
             set
             {
                 // SET value of _terminateMe to incoming value:
@@ -128,6 +133,11 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         /// </summary>
         public ICommand RemoveMe
         {
+            get
+            {
+                // RETURN value of _removeMe:
+                return _removeMe;
+            }
             set
             {
                 // SET value of _removeMe to incoming value:
@@ -145,6 +155,11 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         /// </summary>
         public Action<ICommand> ScheduleCommand
         {
+            get
+            {
+                // RETURN value of _scheduleCommand:
+                return _scheduleCommand;
+            }
             set
             {
                 // SET value of _scheduleCommand to incoming value:
@@ -183,13 +198,18 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         #endregion
 
 
-        #region IMPLEMENTATION OF ISETBOUNDARY
+        #region IMPLEMENTATION OF ICONTAINBOUNDARY
 
         /// <summary>
-        /// Property which can set value of screen window borders
+        /// Property which has read and write access to the value of screen window borders
         /// </summary>
         public Vector2 WindowBorder
         {
+            get
+            {
+                // RETURN _windowBorder:
+                return _windowBorder;
+            }
             set
             {
                 // ASSIGNMENT give _windowBorder value of external class modified value:

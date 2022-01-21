@@ -23,7 +23,7 @@ namespace COMP3451Project.EnginePackage.Behaviours
         #endregion
 
 
-        #region IMPLEMENTATION OF IBEHAVIOUR
+        #region IMPLEMENTATION OF IUPDATEEVENTLISTENER
 
         /// <summary>
         /// Method called when needing to update Behaviour
@@ -40,8 +40,8 @@ namespace COMP3451Project.EnginePackage.Behaviours
         /// <summary>
         /// Initialises an object with an IEntity object
         /// </summary>
-        /// <param name="entity"> IEntity object </param>
-        public void Initialise(IEntity pEntity)
+        /// <param name="pEntity"> IEntity object </param>
+        public virtual void Initialise(IEntity pEntity)
         {
             // INITIALISE _entity with reference to instance of pEntity:
             _entity = pEntity;

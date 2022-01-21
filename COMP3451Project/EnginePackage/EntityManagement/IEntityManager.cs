@@ -12,12 +12,6 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         #region METHODS
 
         /// <summary>
-        /// Initialises an object with a reference to an ISceneManager
-        /// </summary>
-        /// <param name="sceneManager">Reference to ISceneManager object</param>
-        void Initialise(ISceneManager sceneManager);
-
-        /// <summary>
         /// Initialises an object with a reference to an IKeyboardPublisher
         /// </summary>
         /// <param name="kBManager">Reference to IKeyboardPublisher object</param>

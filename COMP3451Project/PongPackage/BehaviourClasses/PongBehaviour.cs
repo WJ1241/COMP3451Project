@@ -11,12 +11,12 @@ namespace COMP3451Project.PongPackage.BehaviourClasses
 {
     /// <summary>
     /// Abstract class for Pong Behaviour classes to inherit from
-    /// Author: William Smith & Declan Kerby-Collins
-    /// Date: 20/01/22
+    /// Authors: William Smith & Declan Kerby-Collins
+    /// Date: 21/01/22
     /// </summary>
     public abstract class PongBehaviour : Behaviour
     {
-        #region PROTECTED METHODS
+        #region IMPLEMENTATION OF IUPDATEEVENTLISTENER
 
         /// <summary>
         /// Method called when needing to update Behaviour
@@ -32,6 +32,10 @@ namespace COMP3451Project.PongPackage.BehaviourClasses
             Boundary();
         }
 
+        #endregion
+
+
+        #region PROTECTED METHODS
 
         /// <summary>
         /// Used when an object hits a boundary, possibly to change direction or stop
