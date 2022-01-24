@@ -60,9 +60,6 @@ namespace COMP3451Project.PongPackage.EntityClasses
             // INSTANTIATE _behaviourEvents as a new Dictionary<string, EventHandler<UpdateEventArgs>>():
             _behaviourEvents = new Dictionary<string, EventHandler<UpdateEventArgs>>();
 
-            // SET _selfDestruct to false:
-            _selfDestruct = false;
-
             // ASSIGNMENT, set _speed to 10:
             _speed = 10;
 

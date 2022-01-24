@@ -15,15 +15,5 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         void Terminate();
 
         #endregion
-
-
-        #region PROPERTIES
-
-        /// <summary>
-        /// Property which allows access to get boolean value to test if object should be terminated
-        /// </summary>
-        bool SelfDestruct {get;}
-
-        #endregion
     }
 }

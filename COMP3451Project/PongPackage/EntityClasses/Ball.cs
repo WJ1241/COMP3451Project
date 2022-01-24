@@ -62,9 +62,6 @@ namespace COMP3451Project.PongPackage.EntityClasses
         /// </summary>
         public override void Initialise()
         {
-            // SET _selfDestruct to false:
-            _selfDestruct = false;
-
             // INSTANTIATE new Vector, value of 1 for both X and Y:
             _direction = new Vector2(1);
 

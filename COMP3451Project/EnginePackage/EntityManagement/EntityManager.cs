@@ -14,7 +14,7 @@ namespace COMP3451Project.EnginePackage.EntityManagement
     /// Author: William Smith & Declan Kerby-Collins
     /// Date: 20/01/22
     /// </summary>
-    public class EntityManager : IEntityManager, IInitialiseICommandScheduler, IInitialiseIFactory<IEntity>, IUpdatable
+    public class EntityManager : IEntityManager, IInitialiseICommandScheduler, IInitialiseIFactory<IEntity>
     {
         #region FIELD VARIABLES
 
@@ -177,33 +177,6 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         {
             // INITIALISE _entityFactory with reference to pFactory:
             _entityFactory = pFactory;
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF IUPDATABLE
-
-        /// <summary>
-        /// Updates object when a frame has been rendered on screen
-        /// </summary>
-        /// <param name="gameTime">holds reference to GameTime object</param>
-        public void Update(GameTime gameTime)
-        {
-            // FOREACH IEntity Value in _entityDictionary, convert to List, prevents modification of dictionary error:
-            foreach (IEntity entity in _entityDictionary.Values.ToList())
-            {
-                // IF entity implements ITerminate:
-                if (entity is ITerminate)
-                {
-                    // IF entity's (cast as ITerminate) SelfDestruct property returns true:
-                    if ((entity as ITerminate).SelfDestruct == true)
-                    {
-                        // CALL Terminate(), passing entity's unique name as a parameter:
-                        Terminate(entity.UName);
-                    }
-                }
-            }
         }
 
         #endregion

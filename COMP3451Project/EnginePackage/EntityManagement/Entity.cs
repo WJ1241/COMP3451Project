@@ -9,7 +9,7 @@ namespace COMP3451Project.EnginePackage.EntityManagement
     /// <summary>
     /// Abstract class for more specific entities to inherit from
     /// Author: William Smith & Declan Kerby-Collins
-    /// Date: 06/01/22
+    /// Date: 24/01/22
     /// </summary>
     public abstract class Entity : IEntity, IEntityInternal, ICommandSender, ILayer, IContainBoundary, ITerminate
     {
@@ -23,9 +23,6 @@ namespace COMP3451Project.EnginePackage.EntityManagement
 
         // DECLARE an string, name it '_uName', used to store unique Name:
         protected string _uName;
-
-        // DECLARE a bool, name it '_selfDestruct', used to check when an entity should be terminated:
-        protected bool _selfDestruct;
 
         // DECLARE a Vector2, name it '_initPosition', needed to store initial location, in the case of resetting game:
         protected Vector2 _initPosition;
@@ -226,18 +223,6 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         /// Disposes resources to the garbage collector
         /// </summary>
         public abstract void Terminate();
-
-        /// <summary>
-        /// Property which allows access to get boolean value to test if object should be terminated
-        /// </summary>
-        public bool SelfDestruct
-        {
-            get
-            {
-                // RETURN value of current _selfDestruct:
-                return _selfDestruct;
-            }
-        }
 
         #endregion
     }

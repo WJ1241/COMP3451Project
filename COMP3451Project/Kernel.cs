@@ -151,9 +151,6 @@ namespace COMP3451Project
             #region OBJECT INITIALISATION
 
             // INITIALISE _entityManager, passing _sceneManager as a parameter:
-            _entityManager.Initialise(_sceneManager);
-
-            // INITIALISE _entityManager, passing _sceneManager as a parameter:
             _entityManager.Initialise(_kBManager);
 
             // INITIALISE _sceneManager, passing _collisionManager as a parameter:
