@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using COMP3451Project.EnginePackage.Services.Commands;
 using COMP3451Project.EnginePackage.CoreInterfaces;
+using COMP3451Project.EnginePackage.Services.Commands;
 
 
 namespace COMP3451Project.EnginePackage.EntityManagement

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using COMP3451Project.EnginePackage.Behaviours;
 using COMP3451Project.EnginePackage.CollisionManagement;
 using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.CustomEventArgs;
@@ -50,6 +47,30 @@ namespace COMP3451Project.PongPackage.EntityClasses
         public Ball()
         {
             // EMPTY CONSTRUCTOR
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEIUPDATEEVENTLISTENER
+
+        /// <summary>
+        /// Initialises an object with an IUpdateEventListener object
+        /// </summary>
+        /// <param name="pUpdateEventListener"> IUpdateEventListener object </param>
+        public override void Initialise(IUpdateEventListener pUpdateEventListener)
+        {
+            // SUBSCRIBE _behaviourEvent to pUpdateEventListener.OnUpdate():
+            _behaviourEvent += pUpdateEventListener.OnUpdate;
+
+            // SUBSCRIBE _behaviourEvent to pUpdateEventListener.OnUpdate():
+            _collisionEvent += (pUpdateEventListener as ICollisionEventListener).OnCollisionEvent;
+
+            // SET value of _pUpdateEventListener's Velocity Property to value of _velocity:
+            (pUpdateEventListener as IVelocity).Velocity = _velocity;
+
+            // INITIALISE pUpdateEventListener with this class:
+            (pUpdateEventListener as IInitialiseIEntity).Initialise(this);
         }
 
         #endregion

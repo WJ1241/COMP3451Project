@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using COMP3451Project.EnginePackage.Behaviours;
 using COMP3451Project.EnginePackage.CollisionManagement;
 using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.CustomEventArgs;
+using COMP3451Project.EnginePackage.EntityManagement;
 using COMP3451Project.EnginePackage.InputManagement;
-
 
 namespace COMP3451Project.PongPackage.EntityClasses
 {
@@ -22,14 +20,17 @@ namespace COMP3451Project.PongPackage.EntityClasses
     {
         #region FIELD VARIABLES
 
+        // DECLARE an IDictionary<string, EventHandler<UpdateEventArgs>>, name it '_behaviourEvents':
+        private IDictionary<string, EventHandler<UpdateEventArgs>> _behaviourEvents;
+
+        // DECLARE an EventHandler<UpdateEventArgs>, name it '_tempBehaviourEvent':
+        private EventHandler<UpdateEventArgs> _tempBehaviourEvent;
+
         // DECLARE a Vector2 and call it '_direction':
         private Vector2 _direction;
 
         // DECLARE a PlayerIndex and call it '_playerNum':
         private PlayerIndex _playerNum;
-
-        // DECLARE an IDictionary<string, EventHandler<UpdateEventArgs>>, name it '_behaviourEvents':
-        private IDictionary<string, EventHandler<UpdateEventArgs>> _behaviourEvents;
 
         // DECLARE a string, name it '_activeBehaviour':
         private string _activeBehaviour;
@@ -65,6 +66,30 @@ namespace COMP3451Project.PongPackage.EntityClasses
 
             // ASSIGNMENT, set _activeBehaviour to "stationary":
             _activeBehaviour = "stationary";
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEIUPDATEEVENTLISTENER
+
+        /// <summary>
+        /// Initialises an object with an IUpdateEventListener object
+        /// </summary>
+        /// <param name="pUpdateEventListener"> IUpdateEventListener object </param>
+        public override void Initialise(IUpdateEventListener pUpdateEventListener)
+        {
+            // SUBSCRIBE _tempBehaviourEvent to pUpdateEventListener.OnUpdate():
+            _tempBehaviourEvent += pUpdateEventListener.OnUpdate;
+
+            // ADD _tempBehaviourEvent to _behaviourEvents as a value, with its Name Property as a key:
+            _behaviourEvents.Add((pUpdateEventListener as IName).Name, pUpdateEventListener.OnUpdate);
+
+            // INITIALISE pUpdateEventListener with this class:
+            (pUpdateEventListener as IInitialiseIEntity).Initialise(this);
+
+            // SET value of _tempBehaviourEvent to null, used because '+=' does not work for temporary variables
+            _tempBehaviourEvent = null;
         }
 
         #endregion
