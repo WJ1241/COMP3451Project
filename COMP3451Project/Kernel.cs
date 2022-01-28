@@ -10,8 +10,8 @@ using COMP3451Project.EnginePackage.EntityManagement;
 using COMP3451Project.EnginePackage.InputManagement;
 using COMP3451Project.EnginePackage.SceneManagement;
 using COMP3451Project.EnginePackage.Services;
-using COMP3451Project.InfirmaryIsolationPackage.Displayables;
-using COMP3451Project.InfirmaryIsolationPackage.Health;
+//using COMP3451Project.InfirmaryIsolationPackage.Displayables;
+//using COMP3451Project.InfirmaryIsolationPackage.Health;
 
 namespace COMP3451Project
 {
