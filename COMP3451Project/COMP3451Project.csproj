@@ -44,9 +44,11 @@
   <ItemGroup>
     <Compile Include="EnginePackage\Behaviours\Behaviour.cs" />
     <Compile Include="EnginePackage\Behaviours\ICollisionEventListener.cs" />
+    <Compile Include="EnginePackage\Behaviours\IInitialiseIUpdateEventListener.cs" />
     <Compile Include="EnginePackage\Behaviours\IMouseInputEventListener.cs" />
     <Compile Include="EnginePackage\Behaviours\IKBInputEventListener.cs" />
     <Compile Include="EnginePackage\Behaviours\IUpdateEventListener.cs" />
+    <Compile Include="EnginePackage\CoreInterfaces\IName.cs" />
     <Compile Include="EnginePackage\CustomEventArgs\MouseInputEventArgs.cs" />
     <Compile Include="EnginePackage\CustomEventArgs\KBInputEventArgs.cs" />
     <Compile Include="EnginePackage\CustomEventArgs\CollisionEventArgs.cs" />
@@ -55,6 +57,7 @@
     <Compile Include="EnginePackage\Camera\IZoom.cs" />
     <Compile Include="EnginePackage\CollisionManagement\CollisionManager.cs" />
     <Compile Include="EnginePackage\CollisionManagement\ICollisionListener.cs" />
+    <Compile Include="EnginePackage\Exceptions\NullInstanceException.cs" />
     <Compile Include="EnginePackage\Services\Commands\CommandOneParam.cs" />
     <Compile Include="EnginePackage\Services\Commands\CommandScheduler.cs" />
     <Compile Include="EnginePackage\Services\Commands\CommandZeroParam.cs" />
@@ -103,6 +106,7 @@
     <Compile Include="EnginePackage\Camera\ICamera.cs" />
     <Compile Include="EnginePackage\Camera\IDrawCamera.cs" />
     <Compile Include="EnginePackage\Services\IService.cs" />
+    <Compile Include="EnginePackage\State\IState.cs" />
     <Compile Include="Kernel.cs" />
     <Compile Include="PongPackage\BehaviourClasses\BallBehaviour.cs" />
     <Compile Include="PongPackage\BehaviourClasses\PaddleBehaviour.cs" />

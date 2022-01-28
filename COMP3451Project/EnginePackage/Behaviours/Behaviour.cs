@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.CustomEventArgs;
 using COMP3451Project.EnginePackage.EntityManagement;
 
@@ -13,12 +14,15 @@ namespace COMP3451Project.EnginePackage.Behaviours
     /// Author(s): William Smith & Declan Kerby-Collins
     /// Date: 17/01/22
     /// </summary>
-    public abstract class Behaviour : IUpdateEventListener, IInitialiseIEntity
+    public abstract class Behaviour : IUpdateEventListener, IInitialiseIEntity, IName
     {
         #region FIELD VARIABLES
 
         // DECLARE an IEntity, name it '_entity':
         protected IEntity _entity;
+
+        // DECLARE a string, name it '_behaviourName':
+        private string _behaviourName;
 
         #endregion
 
@@ -45,6 +49,28 @@ namespace COMP3451Project.EnginePackage.Behaviours
         {
             // INITIALISE _entity with reference to instance of pEntity:
             _entity = pEntity;
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IENTITY
+
+        /// <summary>
+        /// Property which allows read and write access to the value of an object's specific name
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                // RETURN value of _behaviourName:
+                return _behaviourName;
+            }
+            set
+            {
+                // SET value of _behaviourName to incoming value:
+                _behaviourName = value;
+            }
         }
 
         #endregion

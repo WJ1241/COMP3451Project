@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using COMP3451Project.EnginePackage.Behaviours;
 using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.CustomEventArgs;
 using COMP3451Project.EnginePackage.EntityManagement;
 
 namespace COMP3451Project.PongPackage.EntityClasses
@@ -16,7 +16,7 @@ namespace COMP3451Project.PongPackage.EntityClasses
     /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 21/01/22
     /// </summary>
-    public abstract class PongEntity : Entity, IDraw, IUpdatable, ITexture, IVelocity
+    public abstract class PongEntity : Entity, IInitialiseIUpdateEventListener, IDraw, IUpdatable, ITexture, IVelocity
     {
         #region FIELD VARIABLES
 
@@ -29,7 +29,16 @@ namespace COMP3451Project.PongPackage.EntityClasses
         // DECLARE a float, call it 'speed':
         protected float _speed;
 
+        #endregion
 
+
+        #region IMPLEMENTATION OF IINITIALISEIUPDATEEVENTLISTENER
+
+        /// <summary>
+        /// Initialises an object with an IUpdateEventListener object
+        /// </summary>
+        /// <param name="pUpdateEventListener"> IUpdateEventListener object </param>
+        public abstract void Initialise(IUpdateEventListener pUpdateEventListener);
 
         #endregion
 
@@ -49,7 +58,7 @@ namespace COMP3451Project.PongPackage.EntityClasses
         #endregion
 
 
-        #region IMPLEMENTATION OF IUPDATE
+        #region IMPLEMENTATION OF IUPDATABLE
 
         /// <summary>
         /// Updates object when a frame has been rendered on screen

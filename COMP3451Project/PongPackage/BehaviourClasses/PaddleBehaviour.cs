@@ -11,7 +11,7 @@ namespace COMP3451Project.PongPackage.BehaviourClasses
     /// <summary>
     /// Class which defines the behaviour for Paddle entities
     /// Authors: William Smith & Declan Kerby-Collins 
-    /// Date: 21/01/22
+    /// Date: 24/01/22
     /// </summary>
     public class PaddleBehaviour : PongBehaviour
     {
@@ -22,15 +22,18 @@ namespace COMP3451Project.PongPackage.BehaviourClasses
         /// </summary>
         protected override void Boundary()
         {
-            if (_entity.Position.Y <= 0) // IF paddle at top of screen
+            // IF Paddle at top of screen
+            if (_entity.Position.Y <= 0)
             {
-                // ASSIGNMENT, set _position.Y to 0:
-                _entity.Position = new Vector2(_entity.Position.X, 0); // Keeps at top of screen
+                // ASSIGNMENT, set _position.Y to 0, keeps at top of screen:
+                _entity.Position = new Vector2(_entity.Position.X, 0);
             }
-            else if (_entity.Position.Y >= (_entity as IContainBoundary).WindowBorder.Y - (_entity as IContainBoundary).WindowBorder.Y) // IF paddle at bottom of screen
+
+            // ELSE IF Paddle at bottom of screen
+            else if (_entity.Position.Y >= (_entity as IContainBoundary).WindowBorder.Y - (_entity as IContainBoundary).WindowBorder.Y)
             {
-                // ASSIGNMENT, set _position.Y to _windowBorder.Y - _texture.Height:
-                _entity.Position = new Vector2(_entity.Position.X, (_entity as IContainBoundary).WindowBorder.Y - (_entity as IContainBoundary).WindowBorder.Y); // Keeps at bottom of screen
+                // ASSIGNMENT, set _position.Y to _windowBorder.Y - _texture.Height, keeps at bottom of screen:
+                _entity.Position = new Vector2(_entity.Position.X, (_entity as IContainBoundary).WindowBorder.Y - (_entity as IContainBoundary).WindowBorder.Y);
             }
         }
 

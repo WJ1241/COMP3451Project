@@ -18,14 +18,6 @@ namespace COMP3451Project.PongPackage.BehaviourClasses
     /// </summary>
     public class BallBehaviour : PongBehaviour, ICollisionEventListener
     {
-        #region FIELD VARIABLES
-
-        // DECLARE a Vector2, name it '_currentVel':
-        private Vector2 _currentVel;
-
-        #endregion
-
-
         #region INHERITED FROM PONGBEHAVIOUR
 
         /// <summary>
@@ -34,15 +26,15 @@ namespace COMP3451Project.PongPackage.BehaviourClasses
         protected override void Boundary()
         {
             // ASSIGN value of _entity's Velocity to _currentVel:
-            _currentVel = (_entity as IVelocity).Velocity;
-            // IF at top screen edge or bottom screen edge
-            if (_entity.Position.Y <= 0 || _entity.Position.Y >= (_entity as IContainBoundary).WindowBorder.Y - (_entity as ITexture).Texture.Height)
+            _velocity = (_entity as IVelocity).Velocity;
+
+            if (_entity.Position.Y <= 0 || _entity.Position.Y >= (_entity as IContainBoundary).WindowBorder.Y - (_entity as ITexture).Texture.Height) // IF at top screen edge or bottom screen edge
             {
                 // MULTIPLY _currentVel.Y by '-1':
-                _currentVel.Y *= -1;
+                _velocity.Y *= -1;
 
                 // APPLY new Velocity to _entity.Velocity:
-                (_entity as IVelocity).Velocity = _currentVel;
+                (_entity as IVelocity).Velocity = _velocity;
             }
             // IF at left screen edge or right screen edge
             else if (_entity.Position.X <= 0 || _entity.Position.X >= ((_entity as IContainBoundary).WindowBorder.X - (_entity as ITexture).Texture.Width)) 
@@ -70,39 +62,21 @@ namespace COMP3451Project.PongPackage.BehaviourClasses
             // IF moving left
             if ((_entity as IVelocity).Velocity.X < 0) 
             {
-                // MINUS 0.2 multiplied by _RequiredArg's Velocity, from _entity.Velocity:
-                (_entity as IVelocity).Velocity = new Vector2((_entity as IVelocity).Velocity.X - 0.2f * (pArgs.RequiredArg as IVelocity).Velocity.Length(), (_entity as IVelocity).Velocity.Y);
+                // MINUS 0.2 multiplied by _RequiredArg's Velocity, from _velocity:
+                _velocity.X = _velocity.X - 0.2f * (pArgs.RequiredArg as IVelocity).Velocity.Length();
             }
             // IF moving right
             else if ((_entity as IVelocity).Velocity.X > 0)  
             {
-                // ADD 0.2 multiplied by _RequiredArg's Velocity, to _entity.Velocity:
-                (_entity as IVelocity).Velocity = new Vector2((_entity as IVelocity).Velocity.X + 0.2f * (pArgs.RequiredArg as IVelocity).Velocity.Length(), (_entity as IVelocity).Velocity.Y);
+                // ADD 0.2 multiplied by _RequiredArg's Velocity, to _velocity:
+                _velocity.X = _velocity.X + 0.2f * (pArgs.RequiredArg as IVelocity).Velocity.Length();
             }
 
             // MULTIPLY _currentVel.X by '-1':
-            _currentVel.X *= -1;
+            _velocity.X *= -1;
 
             // APPLY new Velocity to _entity.Velocity:
-            (_entity as IVelocity).Velocity = _currentVel;
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF IINITIALISEIENTITY
-
-        /// <summary>
-        /// Initialises an object with an IEntity object
-        /// </summary>
-        /// <param name="pEntity"> IEntity object </param>
-        public override void Initialise(IEntity pEntity)
-        {
-            // INITIALISE _entity with reference to instance of pEntity:
-            _entity = pEntity;
-
-            // ASSIGN value of _entity's Velocity to _currentVel:
-            _currentVel = (_entity as IVelocity).Velocity;
+            (_entity as IVelocity).Velocity = _velocity;
         }
 
         #endregion
