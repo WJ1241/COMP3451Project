@@ -17,7 +17,7 @@ namespace COMP3451Project.EnginePackage.SceneManagement
     /// Author: William Smith & Declan Kerby-Collins
     /// Date: 20/01/22
     /// </summary>
-    public class SceneManager : ISceneManager, IInitialiseIFactory<ISceneGraph>, IService, IUpdatable, IDraw, ISpawn, IDrawCamera
+    public class SceneManager : ISceneManager, IInitialiseParam<IFactory<ISceneGraph>>, IService, IUpdatable, IDraw, ISpawn, IDrawCamera
     {
         #region FIELD VARIABLES
 
@@ -88,7 +88,7 @@ namespace COMP3451Project.EnginePackage.SceneManagement
         #endregion
 
 
-        #region IMPLEMENTATION OF IINITIALISEIFACTORY<ISCENEGRAPH>
+        #region IMPLEMENTATION OF IINITIALISEPARAM<IFACTORY<ISCENEGRAPH>>
 
         /// <summary>
         /// Initialises an object with an IFactory<ISceneGraph> object

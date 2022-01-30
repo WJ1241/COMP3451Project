@@ -9,7 +9,7 @@ namespace COMP3451Project.EnginePackage.Camera
     /// Class which creates a camera to be used by a user based entity
     /// </summary>
     /// <REFERENCE> axlemke (2014) XNA 2D Camera, zoom into player. Available at: https://gamedev.stackexchange.com/questions/68978/xna-2d-camera-zoom-into-player. (Accessed: 20 April 2021). </REFERENCE>
-    public class Camera : IEntity, ICamera, ISetBoundary, IZoom
+    public class Camera : IEntity, ICamera, IContainBoundary, IZoom
     {
         #region FIELD VARIABLES
 
@@ -142,6 +142,11 @@ namespace COMP3451Project.EnginePackage.Camera
         /// </summary>
         public Vector2 WindowBorder
         {
+            get
+            {
+                // RETURN value of _windowSize:
+                return _windowSize;
+            }
             set
             {
                 // SET value of _windowSize to incoming value:

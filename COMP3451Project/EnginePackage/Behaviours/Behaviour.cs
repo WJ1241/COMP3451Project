@@ -11,10 +11,10 @@ namespace COMP3451Project.EnginePackage.Behaviours
 {
     /// <summary>
     /// Class which contains basic variables and methods needed for ALL behaviour classes
-    /// Author(s): William Smith & Declan Kerby-Collins
+    /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 17/01/22
     /// </summary>
-    public abstract class Behaviour : IUpdateEventListener, IInitialiseIEntity, IName
+    public abstract class Behaviour : IUpdateEventListener, IInitialiseParam<IEntity>, IName
     {
         #region FIELD VARIABLES
 
@@ -34,12 +34,12 @@ namespace COMP3451Project.EnginePackage.Behaviours
         /// </summary>
         /// <param name="pSource"> Object that is to be updated </param>
         /// <param name="pArgs"> EventArgs for an Update object </param>
-        public abstract void OnUpdate(object pSource, UpdateEventArgs pArgs);
+        public abstract void OnUpdateEvent(object pSource, UpdateEventArgs pArgs);
 
         #endregion
 
 
-        #region IMPLEMENTATION OF IINITIALISEIENTITY
+        #region IMPLEMENTATION OF IINITIALISEPARAM<IENTITY>
 
         /// <summary>
         /// Initialises an object with an IEntity object
@@ -54,7 +54,7 @@ namespace COMP3451Project.EnginePackage.Behaviours
         #endregion
 
 
-        #region IMPLEMENTATION OF IENTITY
+        #region IMPLEMENTATION OF INAME
 
         /// <summary>
         /// Property which allows read and write access to the value of an object's specific name

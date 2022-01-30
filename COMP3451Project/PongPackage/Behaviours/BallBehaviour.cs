@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using COMP3451Project.EnginePackage.Behaviours;
+using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.CustomEventArgs;
 using COMP3451Project.EnginePackage.EntityManagement;
 using COMP3451Project.EnginePackage.Services.Commands;
 
-namespace COMP3451Project.PongPackage.BehaviourClasses
+namespace COMP3451Project.PongPackage.Behaviours
 {
     /// <summary>
     /// Class which defines the behaviour for Ball entities

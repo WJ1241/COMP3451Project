@@ -6,35 +6,29 @@ using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.CustomEventArgs;
 using COMP3451Project.EnginePackage.EntityManagement;
 
-namespace COMP3451Project.PongPackage.EntityClasses
+namespace COMP3451Project.PongPackage.Entities
 {
 
     /// <summary>
     /// Class which adds a Ball entity on screen
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 21/01/22
+    /// Date: 30/01/22
     /// </summary>
-    public class Ball : PongEntity, IInitialiseRand, IReset, ICollidable, ICollisionListener
+    public class Ball : PongEntity, ICollidable, ICollisionListener, IInitialiseParam<Random>, IReset
     {
         #region FIELD VARIABLES
 
-        // DECLARE a Random, call it '_rand':
+        // DECLARE a Random, name it '_rand':
         private Random _rand;
 
-        // DECLARE an int, call it '_randNum':
+        // DECLARE an int, name it '_randNum':
         private int _randNum;
 
-        // DECLARE a Vector2 and call it 'direction':
+        // DECLARE a Vector2 and name it 'direction':
         private Vector2 _direction;
 
-        // DECLARE an float, call it '_rotation':
+        // DECLARE an float, name it '_rotation':
         private float _rotation;
-
-        // DECLARE an EventHandler<UpdateEventArgs>, name it '_behaviourEvent':
-        private EventHandler<UpdateEventArgs> _behaviourEvent;
-
-        // DECLARE an EventHandler<CollisionEventArgs>, name it '_collisionEvent':
-        private EventHandler<CollisionEventArgs> _collisionEvent;
 
         #endregion
 
@@ -52,7 +46,7 @@ namespace COMP3451Project.PongPackage.EntityClasses
         #endregion
 
 
-        #region IMPLEMENTATION OF IINITIALISEIUPDATEEVENTLISTENER
+        #region IMPLEMENTATION OF IINITIALISEPARAM<IUPDATEEVENTLISTENER>
 
         /// <summary>
         /// Initialises an object with an IUpdateEventListener object
@@ -60,17 +54,14 @@ namespace COMP3451Project.PongPackage.EntityClasses
         /// <param name="pUpdateEventListener"> IUpdateEventListener object </param>
         public override void Initialise(IUpdateEventListener pUpdateEventListener)
         {
-            // SUBSCRIBE _behaviourEvent to pUpdateEventListener.OnUpdate():
-            _behaviourEvent += pUpdateEventListener.OnUpdate;
-
-            // SUBSCRIBE _behaviourEvent to pUpdateEventListener.OnUpdate():
-            _collisionEvent += (pUpdateEventListener as ICollisionEventListener).OnCollisionEvent;
+            // CALL Initialise() on _currentState, passing pUpdateEventListener as a parameter:
+            // (_currentState as IInitialiseIUpdateEventListener).Initialise(pUpdateEventListener);
 
             // SET value of _pUpdateEventListener's Velocity Property to value of _velocity:
             (pUpdateEventListener as IVelocity).Velocity = _velocity;
 
             // INITIALISE pUpdateEventListener with this class:
-            (pUpdateEventListener as IInitialiseIEntity).Initialise(this);
+            (pUpdateEventListener as IInitialiseParam<IEntity>).Initialise(this);
         }
 
         #endregion
@@ -96,7 +87,7 @@ namespace COMP3451Project.PongPackage.EntityClasses
         #endregion
 
 
-        #region IMPLEMENTATION OF IINITIALISERAND
+        #region IMPLEMENTATION OF IINITIALISEPARAM<RAND>
 
         /// <summary>
         /// Initialises an object with a Random object
@@ -111,7 +102,7 @@ namespace COMP3451Project.PongPackage.EntityClasses
         #endregion
 
 
-        #region IMPLEMENTATION OF IUPDATE
+        #region IMPLEMENTATION OF IUPDATABLE
 
         /// <summary>
         /// Updates object when a frame has been rendered on screen
@@ -119,14 +110,8 @@ namespace COMP3451Project.PongPackage.EntityClasses
         /// <param name="pGameTime">holds reference to GameTime object</param>
         public override void Update(GameTime pGameTime)
         {
-            // DECLARE & INITIALISE an UpdateEventArgs, name it '_tempUpdateEA':
-            UpdateEventArgs _tempUpdateEA = new UpdateEventArgs();
-
-            // SET RequiredArg Property's value to pGameTime:
-            _tempUpdateEA.RequiredArg = pGameTime;
-
-            // CALL Invoke on _behaviourEvent, passing this class and _tempUpdateEA as parameters:
-            _behaviourEvent.Invoke(this, _tempUpdateEA);
+            // CALL Update() on _currentState, passing pGameTime as a parameter:
+            (_currentState as IUpdatable).Update(pGameTime);
         }
 
         #endregion
@@ -157,14 +142,8 @@ namespace COMP3451Project.PongPackage.EntityClasses
         /// <param name="pScndCollidable"> Other entity implementing ICollidable </param>
         public void OnCollision(ICollidable pScndCollidable)
         {
-            // DECLARE & INITIALISE an CollisionEventArgs, name it '_tempCollisionEA':
-            CollisionEventArgs _tempCollisionEA = new CollisionEventArgs();
-
-            // SET RequiredArg Property's instance to pScndCollidable:
-            _tempCollisionEA.RequiredArg = pScndCollidable;
-
-            // CALL Invoke on _collisionEvent, passing this class and _tempCollisionEA as parameters:
-            _collisionEvent.Invoke(this, _tempCollisionEA);
+            // CALL OnCollision() on _currentState, passing pScndCollidable as a parameter:
+            (_currentState as ICollisionListener).OnCollision(pScndCollidable);
         }
 
         #endregion

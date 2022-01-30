@@ -16,8 +16,8 @@ namespace COMP3451Project.EnginePackage.Services.Commands
     {
         #region FIELD VARIABLES
 
-        // DECLARE a T, name it '_dataType':
-        private T _dataType;
+        // DECLARE a T, name it '_data':
+        private T _data;
 
         // DECLARE an Action, name it '_action':
         private Action<T> _action;
@@ -32,8 +32,8 @@ namespace COMP3451Project.EnginePackage.Services.Commands
         /// </summary>
         public void ExecuteMethod()
         {
-            // CALL _action(), passing _dataType as a parameter:
-            _action(_dataType);
+            // CALL _action(), passing _data as a parameter:
+            _action(_data);
         }
 
         #endregion
@@ -48,8 +48,8 @@ namespace COMP3451Project.EnginePackage.Services.Commands
         {
             set
             {
-                // SET value of _dataType to incoming value:
-                _dataType = value;
+                // SET value of _data to incoming value:
+                _data = value;
             }
         }
 

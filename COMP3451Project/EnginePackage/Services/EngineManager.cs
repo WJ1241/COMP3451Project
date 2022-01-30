@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.EntityManagement;
 using COMP3451Project.EnginePackage.SceneManagement;
 using COMP3451Project.EnginePackage.Services.Factories;
@@ -14,7 +15,7 @@ namespace COMP3451Project.EnginePackage.Services
     /// Author: William Smith
     /// Date: 19/12/21
     /// </summary>
-    public class EngineManager : IService, IRtnService, IInitialiseIService
+    public class EngineManager : IService, IInitialiseParam<IService>, IRtnService
     {
         #region FIELD VARIABLES
 
@@ -44,6 +45,21 @@ namespace COMP3451Project.EnginePackage.Services
         #endregion
 
 
+        #region IMPLEMENTATION OF IINITIALISEPARAM<ISERVICE>
+
+        /// <summary>
+        /// Initialises an object with a reference to an IService instance
+        /// </summary>
+        /// <param name="pService"> IService instance </param>
+        public void Initialise(IService pService)
+        {
+            // INITIALISE _serviceFactory with pService cast as IFactory<IService>:
+            _servicefactory = pService as IFactory<IService>;
+        }
+
+        #endregion
+
+
         #region IMPLEMENTATION OF IRTNSERVICE
 
         /// <summary>
@@ -65,21 +81,6 @@ namespace COMP3451Project.EnginePackage.Services
 
             // RETURN instance of current _serviceName in _serviceDict:
             return _serviceDict[_serviceName];
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF IINITIALISEISERVICE
-
-        /// <summary>
-        /// Initialises an object with a reference to an IService instance
-        /// </summary>
-        /// <param name="pService"> IService instance </param>
-        public void Initialise(IService pService)
-        {
-            // INITIALISE _serviceFactory with pService cast as IFactory<IService>:
-            _servicefactory = pService as IFactory<IService>;
         }
 
         #endregion

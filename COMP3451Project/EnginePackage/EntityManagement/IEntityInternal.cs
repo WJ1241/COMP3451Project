@@ -1,4 +1,5 @@
 ﻿using COMP3451Project.EnginePackage.Services.Commands;
+using COMP3451Project.EnginePackage.States;
 
 namespace COMP3451Project.EnginePackage.EntityManagement
 {
@@ -10,6 +11,11 @@ namespace COMP3451Project.EnginePackage.EntityManagement
     public interface IEntityInternal
     {
         #region PROPERTIES
+        
+        /// <summary>
+        /// Property which allows write access to an object's in-game state
+        /// </summary>
+        IState State { set; }
 
         /// <summary>
         /// Property which allows read and write access to a Termination command

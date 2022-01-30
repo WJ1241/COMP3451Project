@@ -1,11 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace COMP3451Project.EnginePackage.EntityManagement
+namespace COMP3451Project.EnginePackage.CoreInterfaces
 {
     /// <summary>
     /// Interface that allows implementations to have velocity when displayed on screen
     /// Author: William Smith & Declan Kerby-Collins
-    /// Date: 21/01/22
+    /// Date: 30/01/22
     /// </summary>
     public interface IVelocity
     {
