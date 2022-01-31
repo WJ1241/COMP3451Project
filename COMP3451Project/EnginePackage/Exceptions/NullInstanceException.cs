@@ -4,7 +4,7 @@ namespace COMP3451Project.EnginePackage.Exceptions
 {
     /// <summary>
     /// Exception which is used to test when a class contains a null instance or reference
-    /// Author: William Smith
+    /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 17/12/21
     /// </summary>
     public class NullInstanceException : Exception
