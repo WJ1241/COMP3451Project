@@ -58,6 +58,7 @@
     <Compile Include="EnginePackage\Camera\IZoom.cs" />
     <Compile Include="EnginePackage\CollisionManagement\CollisionManager.cs" />
     <Compile Include="EnginePackage\CollisionManagement\ICollisionListener.cs" />
+    <Compile Include="EnginePackage\Exceptions\NullValueException.cs" />
     <Compile Include="EnginePackage\Exceptions\NullInstanceException.cs" />
     <Compile Include="EnginePackage\Services\Commands\CommandOneParam.cs" />
     <Compile Include="EnginePackage\Services\Commands\CommandScheduler.cs" />
