@@ -13,6 +13,6 @@ namespace COMP3451Project.EnginePackage.Services
     /// </summary>
     public interface IService
     {
-        // EMPTY FOR NOW, MAY BE SOMETHING LATER
+        // EASIER COLLECTION FOR SERVICE RELATED OBJECTS E.G. FACTORIES/ MANAGERS
     }
 }
