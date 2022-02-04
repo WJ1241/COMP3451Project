@@ -42,6 +42,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="EnginePackage\Audio\IPlayAudio.cs" />
+    <Compile Include="EnginePackage\Audio\SFXManager.cs" />
+    <Compile Include="EnginePackage\Audio\SongManager.cs" />
     <Compile Include="EnginePackage\Behaviours\Behaviour.cs" />
     <Compile Include="EnginePackage\Behaviours\ICollisionEventListener.cs" />
     <Compile Include="EnginePackage\Behaviours\IMouseInputEventListener.cs" />
