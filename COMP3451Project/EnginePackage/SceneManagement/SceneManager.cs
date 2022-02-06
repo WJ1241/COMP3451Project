@@ -9,6 +9,7 @@ using COMP3451Project.EnginePackage.EntityManagement;
 using COMP3451Project.EnginePackage.Services;
 using COMP3451Project.EnginePackage.Services.Commands;
 using COMP3451Project.EnginePackage.Services.Factories;
+using COMP3451Project.PongPackage.EntityClasses;
 
 namespace COMP3451Project.EnginePackage.SceneManagement
 {
@@ -29,6 +30,9 @@ namespace COMP3451Project.EnginePackage.SceneManagement
 
         // DECLARE an IDictionary<string, IEntity>, name it '_sceneDictionary':
         private IDictionary<string, IEntity> _sceneDictionary;
+
+        // DECLARE an IMap, name it _map
+        private Map _map;
 
         #endregion
 
@@ -161,6 +165,9 @@ namespace COMP3451Project.EnginePackage.SceneManagement
         {
             // CALL Draw() on _sceneGraph, passing spriteBatch as a parameter:
             (_sceneGraph as IDraw).Draw(spriteBatch);
+
+            // CALL Draw() on _map, passing spriteBatch as a parameter:
+            (_map as IDraw).Draw(spriteBatch);
         }
 
         /// <summary>

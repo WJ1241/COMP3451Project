@@ -10,6 +10,7 @@ using COMP3451Project.EnginePackage.EntityManagement;
 using COMP3451Project.EnginePackage.InputManagement;
 using COMP3451Project.EnginePackage.SceneManagement;
 using COMP3451Project.EnginePackage.Services;
+using COMP3451Project.PongPackage.EntityClasses;
 //using COMP3451Project.InfirmaryIsolationPackage.Displayables;
 //using COMP3451Project.InfirmaryIsolationPackage.Health;
 
@@ -62,6 +63,7 @@ namespace COMP3451Project
 
         #endregion
 
+        Map _map;
 
         #region CONSTRUCTOR
 
@@ -146,6 +148,12 @@ namespace COMP3451Project
             _entityDictionary = _entityManager.GetDictionary;
 
             #endregion
+
+            //----------------------------------------------
+
+            _map = new Map();
+
+            //-----------------------------------------------
 
 
             #region OBJECT INITIALISATION
@@ -551,6 +559,27 @@ namespace COMP3451Project
             // INSTANTIATE _spriteBatch as new SpriteBatch:
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            //------------------------------------------
+            //decs attempt at tile maps mrk1
+
+            Tiles.Content = Content;
+
+            //builds map.... make sure to add png's for tiles and make sure theyre called "Tile1" "Tile2" etc
+            //where there are 1's there should populate with walls
+            _map.BuildWalls(new int[,]
+            {
+                { 1,1,1,1,1,1,1,1,1,1,1 },
+                { 1,0,0,0,0,0,0,0,0,0,1 },
+                { 1,0,0,0,0,0,0,0,0,0,1 },
+                { 1,0,0,0,0,0,0,0,0,0,1 },
+                { 1,0,0,0,0,0,0,0,0,0,1 },
+                { 1,1,1,1,1,1,1,1,1,1,1 }
+
+            }, 50);
+
+
+            //------------------------------------------
+
             #region LAYER 1 - WALLS
 
             #region WALLS
@@ -934,6 +963,9 @@ namespace COMP3451Project
 
             // CALL Draw() method in _sceneManager, passing a SpriteBatch object and a Camera object as parameters:
             (_sceneManager as IDrawCamera).Draw(_spriteBatch, _entityDictionary["camera"] as ICamera);
+
+            // CALL Draw() method in _sceneManager,
+            (_sceneManager as IDraw).Draw(_spriteBatch);
 
             // CALL Draw() method from base class:
             base.Draw(gameTime);

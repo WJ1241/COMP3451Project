@@ -1,4 +1,5 @@
-﻿using COMP3451Project.EnginePackage.CollisionManagement;
+﻿using COMP3451Project.EnginePackage.Behaviours;
+using COMP3451Project.EnginePackage.CollisionManagement;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -81,6 +82,11 @@ namespace COMP3451Project.PongPackage.EntityClasses
         public override void Update(GameTime pGameTime)
         {
 
+        }
+
+        public override void Initialise(IUpdateEventListener pUpdateEventListener)
+        {
+            throw new NotImplementedException();
         }
         #endregion
 
