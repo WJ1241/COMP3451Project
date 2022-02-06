@@ -21,7 +21,7 @@ namespace COMP3451Project.EnginePackage.Behaviours
         /// </summary>
         /// <param name="pSource"> Object that is to be updated </param>
         /// <param name="pArgs"> Identification for Update() Method in EventHandler </param>
-        void OnUpdate(object pSource, UpdateEventArgs pArgs);
+        void OnUpdateEvent(object pSource, UpdateEventArgs pArgs);
 
         #endregion
     }

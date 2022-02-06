@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework;
 using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.InputManagement;
-using COMP3451Project.EnginePackage.SceneManagement;
 using COMP3451Project.EnginePackage.Services.Commands;
 using COMP3451Project.EnginePackage.Services.Factories;
 
@@ -14,7 +11,7 @@ namespace COMP3451Project.EnginePackage.EntityManagement
     /// Author: William Smith & Declan Kerby-Collins
     /// Date: 20/01/22
     /// </summary>
-    public class EntityManager : IEntityManager, IInitialiseICommandScheduler, IInitialiseIFactory<IEntity>
+    public class EntityManager : IEntityManager, IInitialiseParam<ICommandScheduler>, IInitialiseParam<IFactory<IEntity>>
     {
         #region FIELD VARIABLES
 
@@ -152,7 +149,7 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         #endregion
 
 
-        #region IMPLEMENTATION OF IINITIALISEICOMMANDSCHEDULER
+        #region IMPLEMENTATION OF IINITIALISEPARAM<ICOMMANDSCHEDULER>
 
         /// <summary>
         /// Initialises an object with an ICommandScheduler object
@@ -167,7 +164,7 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         #endregion
 
 
-        #region IMPLEMENTATION OF IINITIALISEIFACTORY<IENTITY>
+        #region IMPLEMENTATION OF IINITIALISEPARAM<IFACTORY<IENTITY>>
 
         /// <summary>
         /// Initialises an object with an IFactory<IEntity> object

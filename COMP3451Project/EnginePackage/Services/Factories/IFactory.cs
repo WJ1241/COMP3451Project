@@ -4,7 +4,7 @@ namespace COMP3451Project.EnginePackage.Services.Factories
 {
     /// <summary>
     /// Interface which allows implementations to create a Factory of any type
-    /// Author: William Smith
+    /// Author: William Smith & Declan Kerby-Collins
     /// Date: 19/12/21
     /// </summary>
     /// <typeparam name="A"> Any Class to make a factory for </typeparam>

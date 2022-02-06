@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.Services;
 using COMP3451Project.EnginePackage.Services.Factories;
 
@@ -36,10 +37,10 @@ namespace COMP3451Project
             #region OBJECT INITIALISATION
 
             // INITIALISE _engineManager with _serviceFactory:
-            (_engineManager as IInitialiseIService).Initialise(_serviceFactory as IService);
+            (_engineManager as IInitialiseParam<IService>).Initialise(_serviceFactory as IService);
 
             // INITIALISE _game with _engineManager:
-            (_game as IInitialiseIService).Initialise(_engineManager);
+            (_game as IInitialiseParam<IService>).Initialise(_engineManager);
 
             #endregion
 

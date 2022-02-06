@@ -11,7 +11,6 @@ namespace COMP3451Project.EnginePackage.CollisionManagement
     /// <REFERENCE> Price, M. (2021) ‘Session 16 - Collision Management’, Games Design & Engineering: Sessions. Available at: https://worcesterbb.blackboard.com. (Accessed: 17 February 2021). </REFERENCE>
     public class CollisionManager : ICollisionManager, IUpdatable
     {
-
         #region FIELD VARIABLES
 
         // DECLARE an IReadOnlyDictionary, call it '_entityDictionary', used as CollisionManager should not modify entity Dictionary:
@@ -67,7 +66,7 @@ namespace COMP3451Project.EnginePackage.CollisionManagement
                 if (entity is ICollidable) // IF entity implements ICollidable
                 {
                     // ADD entity to list of ICollidable:
-                    _collidableList.Add((ICollidable) entity);
+                    _collidableList.Add(entity as ICollidable);
                 }
             }
 

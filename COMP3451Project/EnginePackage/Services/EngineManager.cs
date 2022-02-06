@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using COMP3451Project.EnginePackage.EntityManagement;
-using COMP3451Project.EnginePackage.SceneManagement;
+using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.Services.Factories;
 
 namespace COMP3451Project.EnginePackage.Services
@@ -12,17 +11,14 @@ namespace COMP3451Project.EnginePackage.Services
     /// <summary>
     /// Class which manages the game engine, holding all references for any service used to create game entities, level structure etc.
     /// Author: William Smith
-    /// Date: 19/12/21
+    /// Date: 02/01/22
     /// </summary>
-    public class EngineManager : IService, IRtnService, IInitialiseIService
+    public class EngineManager : IService, IInitialiseParam<IFactory<IService>>, IRtnService
     {
         #region FIELD VARIABLES
 
         // DECLARE an IDictionary<string, IService>, name it '_serviceDict':
         private IDictionary<string, IService> _serviceDict;
-
-        // DECLARE an IFactory<IService>, name it '_serviceFactory':
-        private IFactory<IService> _servicefactory;
 
         #endregion
 
@@ -36,9 +32,24 @@ namespace COMP3451Project.EnginePackage.Services
         {
             // INSTANTIATE _serviceDict as a new Dictionary<string, IService>():
             _serviceDict = new Dictionary<string, IService>();
+        }
 
-            // INSTANTIATE _serviceFactory as a new Factory<IService>():
-            _servicefactory = new Factory<IService>();
+        #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEPARAM<IFACTORY<SERVICE>>
+
+        /// <summary>
+        /// Initialises an object with a reference to an IService instance
+        /// </summary>
+        /// <param name="pServiceFactory"> IFactory<IService> instance </param>
+        public void Initialise(IFactory<IService> pServiceFactory)
+        {
+            // DECLARE & INITIALISE a string, name it '_serviceName', give value of incoming class' type:
+            string _serviceName = "" + pServiceFactory.GetType();
+
+            // ADD new service to _serviceDict, with type of pServiceFactory as key, and pServiceFactory as value:
+            _serviceDict.Add(_serviceName, pServiceFactory as IService);
         }
 
         #endregion
@@ -60,26 +71,11 @@ namespace COMP3451Project.EnginePackage.Services
             if (!_serviceDict.ContainsKey(_serviceName))
             {
                 // ADD new service to _serviceDict, with type 'C' name as key, and instance of a type 'C' factory as value:
-                _serviceDict.Add(_serviceName, _servicefactory.Create<C>());
+                _serviceDict.Add(_serviceName, (_serviceDict["Factory<IService>"] as IFactory<IService>).Create<C>());
             }
 
             // RETURN instance of current _serviceName in _serviceDict:
             return _serviceDict[_serviceName];
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF IINITIALISEISERVICE
-
-        /// <summary>
-        /// Initialises an object with a reference to an IService instance
-        /// </summary>
-        /// <param name="pService"> IService instance </param>
-        public void Initialise(IService pService)
-        {
-            // INITIALISE _serviceFactory with pService cast as IFactory<IService>:
-            _servicefactory = pService as IFactory<IService>;
         }
 
         #endregion

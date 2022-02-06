@@ -19,9 +19,9 @@ namespace COMP3451Project
     /// <summary>
     /// This is the main type for your game.
     /// Author: William Smith & Declan Kerby-Collins
-    /// Date: 19/12/21
+    /// Date: 30/01/22
     /// </summary>
-    public class Kernel : Game, IInitialiseIService
+    public class Kernel : Game, IInitialiseParam<IService>
     {
         #region FIELD VARIABLES
 

@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using COMP3451Project.EnginePackage.Behaviours;
+using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.CustomEventArgs;
-using COMP3451Project.EnginePackage.EntityManagement;
 
-namespace COMP3451Project.PongPackage.BehaviourClasses
+namespace COMP3451Project.PongPackage.Behaviours
 {
     /// <summary>
     /// Abstract class for Pong Behaviour classes to inherit from
@@ -32,13 +32,13 @@ namespace COMP3451Project.PongPackage.BehaviourClasses
         /// </summary>
         /// <param name="pSource"> Object that is to be updated </param>
         /// <param name="pArgs"> EventArgs for an Update object </param>
-        public override void OnUpdate(object pSource, UpdateEventArgs pArgs)
+        public override void OnUpdateEvent(object pSource, UpdateEventArgs pArgs)
         {
             // SET value of _entity's Velocity Property to value of _velocity:
             (_entity as IVelocity).Velocity = _velocity;
 
-            // ADD & APPLY _entity's velocity to current position:
-            _entity.Position += (_entity as IVelocity).Velocity;
+            // ADD & APPLY velocity to current position:
+            _entity.Position += _velocity;
 
             // CALL Boundary() method:
             Boundary();

@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.Services.Commands;
-
+using COMP3451Project.EnginePackage.States;
 
 namespace COMP3451Project.EnginePackage.EntityManagement
 {
@@ -11,9 +11,21 @@ namespace COMP3451Project.EnginePackage.EntityManagement
     /// Author: William Smith & Declan Kerby-Collins
     /// Date: 24/01/22
     /// </summary>
-    public abstract class Entity : IEntity, IEntityInternal, ICommandSender, ILayer, IContainBoundary, ITerminate
+    public abstract class Entity : IEntity, IEntityInternal, IInitialiseParam<IState>, ICommandSender, ILayer, IContainBoundary, ITerminate
     {
         #region FIELD VARIABLES
+
+        // DECLARE an IState, name it '_currentState', used for changing behaviour related to current state:
+        protected IState _currentState;
+
+        // DECLARE an ICommand, name it '_terminateMe', used to store termination command:
+        protected ICommand _terminateMe;
+
+        // DECLARE an ICommand, name it '_removeMe', used to store removal command:
+        protected ICommand _removeMe;
+
+        // DECLARE an Action<ICommand>, name it '_scheduleCommand', used to schedule a command:
+        protected Action<ICommand> _scheduleCommand;
 
         // DECLARE an int, name it '_layer', used to determine collision layer:
         protected int _layer;
@@ -32,15 +44,6 @@ namespace COMP3451Project.EnginePackage.EntityManagement
 
         // DECLARE a Vector2, name it '_windowBorder', used for storing screen size:
         protected Vector2 _windowBorder;
-
-        // DECLARE an ICommand, name it '_terminateMe', used to store termination command:
-        protected ICommand _terminateMe;
-
-        // DECLARE an ICommand, name it '_removeMe', used to store removal command:
-        protected ICommand _removeMe;
-
-        // DECLARE an Action<ICommand>, name it '_scheduleCommand', used to schedule a command:
-        protected Action<ICommand> _scheduleCommand;
 
         #endregion
 
@@ -109,6 +112,18 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         #region IMPLEMENTATION OF IENTITYINTERNAL
 
         /// <summary>
+        /// Property which allows write access to an object's in-game state
+        /// </summary>
+        public IState State
+        {
+            set
+            {
+                // SET value of _currentState to incoming value:
+                _currentState = value;
+            }
+        }
+
+        /// <summary>
         /// Property which allows write access to a Termination command
         /// </summary>
         public ICommand TerminateMe
@@ -140,6 +155,21 @@ namespace COMP3451Project.EnginePackage.EntityManagement
                 // SET value of _removeMe to incoming value:
                 _removeMe = value;
             } 
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEPARAM<ISTATE>
+
+        /// <summary>
+        /// Initialises an object with a reference to an IState instance
+        /// </summary>
+        /// <param name="pState"> IState instance </param>
+        public virtual void Initialise(IState pState)
+        {
+            // INITIALISE _currentState with instance of pState:
+            _currentState = pState; 
         }
 
         #endregion

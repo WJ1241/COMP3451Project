@@ -9,14 +9,14 @@ using COMP3451Project.EnginePackage.Behaviours;
 using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.EntityManagement;
 
-namespace COMP3451Project.PongPackage.EntityClasses
+namespace COMP3451Project.PongPackage.Entities
 {
     /// <summary>
     /// Abstract class for Pong Entities to inherit from
     /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 21/01/22
     /// </summary>
-    public abstract class PongEntity : Entity, IInitialiseIUpdateEventListener, IDraw, IUpdatable, ITexture, IVelocity
+    public abstract class PongEntity : Entity, IInitialiseParam<IUpdateEventListener>, IDraw, IUpdatable, ITexture, IVelocity
     {
         #region FIELD VARIABLES
 
@@ -32,7 +32,7 @@ namespace COMP3451Project.PongPackage.EntityClasses
         #endregion
 
 
-        #region IMPLEMENTATION OF IINITIALISEIUPDATEEVENTLISTENER
+        #region IMPLEMENTATION OF IINITIALISEPARAM<IUPDATEEVENTLISTENER>
 
         /// <summary>
         /// Initialises an object with an IUpdateEventListener object

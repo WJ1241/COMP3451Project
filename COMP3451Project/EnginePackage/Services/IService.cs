@@ -8,11 +8,11 @@ namespace COMP3451Project.EnginePackage.Services
 {
     /// <summary>
     /// Interface which allows implementations to be defined as a 'Service' which can be located and used in other systems
-    /// Author: William Smith
+    /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 19/12/21
     /// </summary>
     public interface IService
     {
-        // EMPTY FOR NOW, MAY BE SOMETHING LATER
+        // EASIER COLLECTION FOR SERVICE RELATED OBJECTS E.G. FACTORIES/ MANAGERS
     }
 }

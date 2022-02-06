@@ -8,7 +8,7 @@ namespace COMP3451Project.EnginePackage.Services
 {
     /// <summary>
     /// Interface which allows implementations to return an instance of a service to be used within engine
-    /// Author: William Smith
+    /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 19/12/21
     /// </summary>
     public interface IRtnService
