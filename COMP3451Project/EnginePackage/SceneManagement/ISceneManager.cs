@@ -1,11 +1,14 @@
 ﻿using COMP3451Project.EnginePackage.CollisionManagement;
+using COMP3451Project.EnginePackage.Services;
 
 namespace COMP3451Project.EnginePackage.SceneManagement
 {
     /// <summary>
     /// Interface that allows implementations to manage entities in the scene
+    /// Authors: William Smith & Declan Kerby-Collins
+    /// Date: 07/02/22
     /// </summary>
-    public interface ISceneManager
+    public interface ISceneManager : IService
     {
         #region METHODS
 

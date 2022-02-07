@@ -28,8 +28,8 @@ namespace COMP3451Project
             // DECLARE & INSTANTIATE an IService as a new EngineManager(), name it '_engineManager':
             IService _engineManager = _serviceFactory.Create<EngineManager>();
 
-            // DECLARE & INSTANTIATE a Game as a new Kernel(), name it '_game':
-            Game _game = new Kernel();
+            // DECLARE & INSTANTIATE a Game as a new Kernel(), name it '_kernel':
+            Game _kernel = new Kernel();
 
             #endregion
 
@@ -37,15 +37,15 @@ namespace COMP3451Project
             #region OBJECT INITIALISATION
 
             // INITIALISE _engineManager with _serviceFactory:
-            (_engineManager as IInitialiseParam<IService>).Initialise(_serviceFactory as IService);
+            (_engineManager as IInitialiseParam<IFactory<IService>>).Initialise(_serviceFactory);
 
-            // INITIALISE _game with _engineManager:
-            (_game as IInitialiseParam<IService>).Initialise(_engineManager);
+            // INITIALISE _kernel with _engineManager:
+            (_kernel as IInitialiseParam<IService>).Initialise(_engineManager);
 
             #endregion
 
-            // CALL Run() on _game:
-            _game.Run();
+            // CALL Run() on _kernel:
+            _kernel.Run();
         }
     }
 #endif

@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using COMP3451Project.EnginePackage.InputManagement;
-using COMP3451Project.EnginePackage.SceneManagement;
+using COMP3451Project.EnginePackage.Services;
 
 namespace COMP3451Project.EnginePackage.EntityManagement
 {
     /// <summary>
     /// Interface that allows implementations to store Entities
+    /// Authors: William Smith & Declan Kerby-Collins
+    /// Date: 07/02/22
     /// </summary>
-    public interface IEntityManager
+    public interface IEntityManager : IService
     {
         #region METHODS
 

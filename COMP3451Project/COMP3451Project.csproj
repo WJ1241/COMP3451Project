@@ -75,6 +75,7 @@
     <Compile Include="EnginePackage\EntityManagement\IEntityInternal.cs" />
     <Compile Include="EnginePackage\Services\Commands\IExecuteCommand.cs" />
     <Compile Include="EnginePackage\Services\EngineManager.cs" />
+    <Compile Include="EnginePackage\Services\GenericTypeNameTrimmer.cs" />
     <Compile Include="EnginePackage\Services\IRtnService.cs" />
     <Compile Include="EnginePackage\EntityManagement\IContainBoundary.cs" />
     <Compile Include="EnginePackage\EntityManagement\ITexture.cs" />

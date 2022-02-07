@@ -10,60 +10,39 @@ using COMP3451Project.EnginePackage.EntityManagement;
 using COMP3451Project.EnginePackage.InputManagement;
 using COMP3451Project.EnginePackage.SceneManagement;
 using COMP3451Project.EnginePackage.Services;
-using COMP3451Project.PongPackage.EntityClasses;
-//using COMP3451Project.InfirmaryIsolationPackage.Displayables;
-//using COMP3451Project.InfirmaryIsolationPackage.Health;
+using COMP3451Project.PongPackage.Entities;
 
 namespace COMP3451Project
 {
     /// <summary>
     /// This is the main type for your game.
     /// Author: William Smith & Declan Kerby-Collins
-    /// Date: 30/01/22
+    /// Date: 07/02/22
     /// </summary>
     public class Kernel : Game, IInitialiseParam<IService>
     {
         #region FIELD VARIABLES
 
-        // DECLARE a GraphicsDeviceManager, call it '_graphics':
+        // DECLARE a GraphicsDeviceManager, name it '_graphics':
         private GraphicsDeviceManager _graphics;
 
-        // DECLARE a SpriteBatch, call it '_spriteBatch':
+        // DECLARE a SpriteBatch, name it '_spriteBatch':
         private SpriteBatch _spriteBatch;
 
-        // DECLARE a Random, call it '_rand':
+        // DECLARE a Random, name it '_rand':
         private Random _rand;
 
         // DECLARE an IRtnService, name it '_engineManager':
         private IRtnService _engineManager;
 
-        // DECLARE an IEntityManager, call it '_entityManager':
-        private IEntityManager _entityManager;
-
-        // DECLARE an ISceneManager, call it '_sceneManager':
-        private ISceneManager _sceneManager;
-
-        // DECLARE an ISceneGraph, call it '_sceneGraph':
-        private ISceneGraph _sceneGraph;
-
-        // DECLARE an ICollisionManager, call it '_CollisionManager':
-        private ICollisionManager _collisionManager;
-
-        // DECLARE an IKeyboardPublisher, call it '_kBManager':
-        private IKeyboardPublisher _kBManager;
-
-        // DECLARE an IDictionary, call it '_entityDictionary':
+        // DECLARE an IDictionary, name it '_entityDictionary':
         private IDictionary<string, IEntity> _entityDictionary;
 
-        // DECLARE a Vector2, used to store Screen size, call it 'screenSize':
+        // DECLARE a Vector2, name it 'screenSize':
         private Vector2 _screenSize;
-
-        // DECLARE a float, name it '_viewZoom':
-        private float _viewZoom;
 
         #endregion
 
-        Map _map;
 
         #region CONSTRUCTOR
 
@@ -78,16 +57,14 @@ namespace COMP3451Project
             // SET IsMouseVisible to true:
             IsMouseVisible = true;
 
-            Window.AllowUserResizing = true;
-
             // SET screen width to 1600:
             _graphics.PreferredBackBufferWidth = 1600;
 
             // SET screen height to 900:
             _graphics.PreferredBackBufferHeight = 900;
 
-            // ASSIGNMENT, set value of _viewZoom to 4, to make sprites appear clear:
-            _viewZoom = 4;
+            // INITIALISE _screenSize with Viewport Width and Height:
+            _screenSize = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
         }
 
         #endregion
@@ -118,7 +95,7 @@ namespace COMP3451Project
         /// </summary>
         protected override void Initialize()
         {
-            #region OBJECT INSTANTIATIONS
+            #region OBJECT INSTANTIATIONS & INITIALISATIONS
 
             // Get Screen Width:
             _screenSize.X = GraphicsDevice.Viewport.Width;
@@ -128,6 +105,29 @@ namespace COMP3451Project
 
             // INSTANTIATE _rand as new Random():
             _rand = new Random();
+
+            #region ENTITY MANAGER
+
+            // DECLARE an IEntityManager, name it '_entityManager':
+            IEntityManager _entityManager;
+
+            // INSTANTIATE _engineManager as a new EntityManager():
+            _entityManager = _engineManager.GetService<EntityManager>() as IEntityManager;
+
+
+            //_entityManager.;
+
+            #endregion
+
+
+            #region SCENE MANAGER
+
+            // DECLARE an ISceneManager, name it '_sceneManager':
+            ISceneManager _sceneManager;
+
+            #endregion
+
+
 
             // INSTANTIATE _entityManager as new EntityManager():
             _entityManager = new EntityManager();
@@ -147,17 +147,6 @@ namespace COMP3451Project
             // ASSIGNMENT, set value of '_entityDictionary' the same as _entityManager Dictionary:
             _entityDictionary = _entityManager.GetDictionary;
 
-            #endregion
-
-            //----------------------------------------------
-
-            _map = new Map();
-
-            //-----------------------------------------------
-
-
-            #region OBJECT INITIALISATION
-
             // INITIALISE _entityManager, passing _sceneManager as a parameter:
             _entityManager.Initialise(_kBManager);
 
@@ -172,372 +161,62 @@ namespace COMP3451Project
 
             #region DISPLAYABLE CREATION
 
-            #region LAYER 1 - WALLS
+            #region LAYER 5 - PADDLE / BALL
 
-            #region WALLS
+            #region PADDLES
 
-            // FOR loop used to create all walls, no positioning until texture load, more efficient
-            for (int i = 1; i < 39; i++)
-            {
-                _entityManager.Create<StaticObject>("wall" + i); // INSTANTIATE new StaticObject(), call it '"wall" + i' for iteration
-                _entityDictionary["wall" + i].Initialise(); // INITIALISE '"wall" + i'
-                (_entityDictionary["wall" + i] as ILayer).Layer = 1; // SET layer of '"wall" + i' to 1
-            }
-            
-            #endregion
+            #region PADDLE 1
 
-            #endregion
+            // INSTANTIATE new Paddle():
+            _entityManager.Create<Paddle>("paddle1");
 
+            // SUBSCRIBE "paddle1" to Keyboard Manager:
+            _kBManager.Subscribe(_entityDictionary["paddle1"] as IKeyboardListener);
 
-            #region LAYER 2 - FLOORS
+            // INITIALISE "paddle1":
+            _entityDictionary["paddle1"].Initialise();
 
-            #region FLOORS
+            // SET PlayerIndex of "paddle1" to PlayerIndex.One:
+            (_entityDictionary["paddle1"] as IPlayer).PlayerNum = PlayerIndex.One;
 
-            // INSTANTIATE new StaticObject, name it 'floor':
-            _entityManager.Create<StaticObject>("floor");
-
-            // INITIALISE "floor":
-            _entityDictionary["floor"].Initialise();
-
-            // SET layer of "floor" to 2:
-            (_entityDictionary["floor"] as ILayer).Layer = 2;
-
-            #endregion
+            // SET Layer of "paddle1" to 5:
+            (_entityDictionary["paddle1"] as ILayer).Layer = 5;
 
             #endregion
 
 
-            #region LAYER 3 - STATIC OBSTACLES
+            #region PADDLE 2
 
-            #region CUPBOARDS
+            // INSTANTIATE new Paddle():
+            _entityManager.Create<Paddle>("paddle2");
 
-            /// CUPBOARD 1
+            // SUBSCRIBE "paddle2" to Keyboard Manager:
+            _kBManager.Subscribe(_entityDictionary["paddle1"] as IKeyboardListener);
 
-            // INSTANTIATE new StaticObject, name it 'cupboard1':
-            _entityManager.Create<StaticObject>("cupboard1");
+            // INITIALISE "paddle2":
+            _entityDictionary["paddle1"].Initialise();
 
-            // INITIALISE "cupboard1"
-            _entityDictionary["cupboard1"].Initialise();
+            // SET PlayerIndex of "paddle2" to PlayerIndex.One:
+            (_entityDictionary["paddle1"] as IPlayer).PlayerNum = PlayerIndex.One;
 
-            // SET layer of "cupboard1" to 3:
-            (_entityDictionary["cupboard1"] as ILayer).Layer = 3;
-
-
-            /// CUPBOARD 2
-
-            // INSTANTIATE new StaticObject, name it 'cupboard2':
-            _entityManager.Create<StaticObject>("cupboard2");
-
-            // INITIALISE "cupboard2"
-            _entityDictionary["cupboard2"].Initialise();
-
-            // SET layer of "cupboard2" to 3:
-            (_entityDictionary["cupboard2"] as ILayer).Layer = 3;
-
-
-            /// CUPBOARD 3
-
-            // INSTANTIATE new StaticObject, name it 'cupboard3':
-            _entityManager.Create<StaticObject>("cupboard3");
-
-            // INITIALISE "cupboard3"
-            _entityDictionary["cupboard3"].Initialise();
-
-            // SET layer of "cupboard3" to 3:
-            (_entityDictionary["cupboard3"] as ILayer).Layer = 3;
+            // SET Layer of "paddle2" to 5:
+            (_entityDictionary["paddle1"] as ILayer).Layer = 5;
 
             #endregion
 
 
-            #region BEDS
+            #region BALL
 
-            /// PLAYER SPAWN BED
+            // INSTANTIATE new Ball():
+            _entityManager.Create<Ball>("ball");
 
-            // INSTANTIATE new StaticObject, name it 'playerspawn':
-            _entityManager.Create<StaticObject>("playerspawn");
+            // INITIALISE "ball":
+            _entityDictionary["ball"].Initialise();
 
-            // INITIALISE "playerspawn"
-            _entityDictionary["playerspawn"].Initialise();
-
-            // SET layer of "playerspawn" to 3:
-            (_entityDictionary["playerspawn"] as ILayer).Layer = 3;
-
-
-            /// CELL BED 1
-
-            // INSTANTIATE new StaticObject, name it 'cellbed1':
-            _entityManager.Create<StaticObject>("cellbed1");
-
-            // INITIALISE "cellbed1"
-            _entityDictionary["cellbed1"].Initialise();
-
-            // SET layer of "cellbed1" to 3:
-            (_entityDictionary["cellbed1"] as ILayer).Layer = 3;
-
-
-            /// CELL BED 2
-
-            // INSTANTIATE new StaticObject, name it 'cellbed2':
-            _entityManager.Create<StaticObject>("cellbed2");
-
-            // INITIALISE "cellbed2"
-            _entityDictionary["cellbed2"].Initialise();
-
-            // SET layer of "cellbed2" to 3:
-            (_entityDictionary["cellbed2"] as ILayer).Layer = 3;
-
-
-            /// CELL BED 3
-
-            // INSTANTIATE new StaticObject, name it 'cellbed3':
-            _entityManager.Create<StaticObject>("cellbed3");
-
-            // INITIALISE "cellbed3"
-            _entityDictionary["cellbed3"].Initialise();
-
-            // SET layer of "cellbed3" to 3:
-            (_entityDictionary["cellbed3"] as ILayer).Layer = 3;
-
-
-            /// CELL BED 4
-
-            // INSTANTIATE new StaticObject, name it 'cellbed4':
-            _entityManager.Create<StaticObject>("cellbed4");
-
-            // INITIALISE "cellbed4"
-            _entityDictionary["cellbed4"].Initialise();
-
-            // SET layer of "cellbed4" to 3:
-            (_entityDictionary["cellbed4"] as ILayer).Layer = 3;
+            // SET Layer of "ball" to 5:
+            (_entityDictionary["ball"] as ILayer).Layer = 5;
 
             #endregion
-
-
-            #region TABLES
-
-            /// OFFICE TABLE
-
-            // INSTANTIATE new StaticObject, name it 'officetable':
-            _entityManager.Create<StaticObject>("officetable");
-
-            // INITIALISE "officetable"
-            _entityDictionary["officetable"].Initialise();
-
-            // SET layer of "officetable" to 3:
-            (_entityDictionary["officetable"] as ILayer).Layer = 3;
-
-            #endregion
-
-
-            #region BOOKSHELVES
-
-            /// BOOKSHELF 1
-
-            // INSTANTIATE new StaticObject, name it 'bookshelf1':
-            _entityManager.Create<StaticObject>("bookshelf1");
-
-            // INITIALISE "bookshelf1"
-            _entityDictionary["bookshelf1"].Initialise();
-
-            // SET layer of "bookshelf1" to 3:
-            (_entityDictionary["bookshelf1"] as ILayer).Layer = 3;
-
-
-            /// BOOKSHELF 2
-
-            // INSTANTIATE new StaticObject, name it 'bookshelf2':
-            _entityManager.Create<StaticObject>("bookshelf2");
-
-            // INITIALISE "bookshelf2"
-            _entityDictionary["bookshelf2"].Initialise();
-
-            // SET layer of "bookshelf2" to 3:
-            (_entityDictionary["bookshelf2"] as ILayer).Layer = 3;
-
-
-            /// BOOKSHELF 3
-
-            // INSTANTIATE new StaticObject, name it 'bookshelf3':
-            _entityManager.Create<StaticObject>("bookshelf3");
-
-            // INITIALISE "bookshelf3"
-            _entityDictionary["bookshelf3"].Initialise();
-
-            // SET layer of "bookshelf3" to 3:
-            (_entityDictionary["bookshelf3"] as ILayer).Layer = 3;
-
-            #endregion
-
-            #endregion
-
-
-            #region LAYER 4 - ITEMS
-
-            #region HEALTH PICKUPS
-
-            /// HEALTH PICKUP 1
-
-            // INSTANTIATE new HealthPickup():
-            _entityManager.Create<HealthPickup>("hppickup1");
-
-            // INITIALISE "hppickup1":
-            _entityDictionary["hppickup1"].Initialise();
-
-            // SET Layer of "hppickup1" to 4:
-            (_entityDictionary["hppickup1"] as ILayer).Layer = 4;
-
-
-            /// HEALTH PICKUP 2
-
-            // INSTANTIATE new HealthPickup():
-            _entityManager.Create<HealthPickup>("hppickup2");
-
-            // INITIALISE "hppickup2":
-            _entityDictionary["hppickup2"].Initialise();
-
-            // SET Layer of "hppickup2" to 4:
-            (_entityDictionary["hppickup2"] as ILayer).Layer = 4;
-
-            #endregion
-
-            #endregion
-
-
-            #region LAYER 5 - PLAYER / ENEMY
-
-            #region CAMERA
-
-            /// CAMERA
-
-            // INSTANTIATE new Camera():
-            _entityManager.Create<Camera>("camera");
-
-            // INITIALISE "camera":
-            _entityDictionary["camera"].Initialise();
-
-            // SET boundary size for "camera":
-            (_entityDictionary["camera"] as ISetBoundary).WindowBorder = _screenSize;
-
-            // SET view zoom for "camera":
-            (_entityDictionary["camera"] as IZoom).Zoom = _viewZoom;
-
-            #endregion
-
-
-            #region PLAYER
-
-            /// PLAYER 1
-
-            // INSTANTIATE new Player():
-            _entityManager.Create<Player>("player");
-
-            // SUBSCRIBE "player" to Keyboard Manager:
-            _kBManager.Subscribe(_entityDictionary["player"] as IKeyboardListener);
-
-            // INITIALISE "player":
-            _entityDictionary["player"].Initialise();
-
-            // SET PlayerIndex of "player" to PlayerIndex.One:
-            (_entityDictionary["player"] as IPlayer).PlayerNum = PlayerIndex.One;
-
-            // SET Layer of "player" to 5:
-            (_entityDictionary["player"] as ILayer).Layer = 5;
-
-            // SET view zoom for "player":
-            (_entityDictionary["player"] as IZoom).Zoom = _viewZoom;
-
-            // INITIALISE "player" with an IEntity object:
-            (_entityDictionary["player"] as IInitialiseEntity).Initialise(_entityDictionary["camera"]);
-
-            #endregion
-
-
-            #region ENEMIES
-
-            /// ENEMY 1
-
-            // INSTANTIATE new Enemy():
-            _entityManager.Create<Enemy>("enemy1");
-
-            // INITIALISE "enemy1":
-            _entityDictionary["enemy1"].Initialise();
-
-            // SET Layer of "enemy1" to 5:
-            (_entityDictionary["enemy1"] as ILayer).Layer = 5;
-
-
-            /// ENEMY 2
-
-            // INSTANTIATE new Enemy():
-            _entityManager.Create<Enemy>("enemy2");
-
-            // INITIALISE "enemy2":
-            _entityDictionary["enemy2"].Initialise();
-
-            // SET Layer of "enemy2" to 5:
-            (_entityDictionary["enemy2"] as ILayer).Layer = 5;
-
-
-            /// ENEMY 3
-
-            // INSTANTIATE new Enemy():
-            _entityManager.Create<Enemy>("enemy3");
-
-            // INITIALISE "enemy3":
-            _entityDictionary["enemy3"].Initialise();
-
-            // SET Layer of "enemy3" to 5:
-            (_entityDictionary["enemy3"] as ILayer).Layer = 5;
-
-            #endregion
-
-            #endregion
-
-
-            #region LAYER 6 - GUI
-
-            #region HEALTH BAR
-
-            /// PLAYER HEALTH BAR SHROUD
-
-            // INSTANTIATE new HealthBarShroud():
-            _entityManager.Create<HealthBarShroud>("hpbarshroud");
-
-            // INITIALISE "hpbarshroud":
-            _entityDictionary["hpbarshroud"].Initialise();
-
-            // SET Layer of "hpbarshroud" to 6:
-            (_entityDictionary["hpbarshroud"] as ILayer).Layer = 6;
-
-            // SET boundary size for "hpbarshroud":
-            (_entityDictionary["hpbarshroud"] as ISetBoundary).WindowBorder = _screenSize;
-
-            // SET view zoom for "hpbarshroud":
-            (_entityDictionary["hpbarshroud"] as IZoom).Zoom = _viewZoom;
-
-            // INITIALISE "hpbarshroud" with an IEntity object:
-            (_entityDictionary["hpbarshroud"] as IInitialiseEntity).Initialise(_entityDictionary["camera"]);
-
-
-            /// PLAYER HEALTH BAR
-
-            // INSTANTIATE new HealthBar():
-            _entityManager.Create<HealthBar>("hpbar");
-
-            // INITIALISE "hpbar":
-            _entityDictionary["hpbar"].Initialise();
-
-            // SET Layer of "hpbar" to 6:
-            (_entityDictionary["hpbar"] as ILayer).Layer = 6;
-
-            // INITIALISE "hpbar" with an IEntity object:
-            (_entityDictionary["hpbar"] as IInitialiseEntity).Initialise(_entityDictionary["hpbarshroud"]);
-
-            /// PASSING HEALTH BAR TO HEALTH BEHAVIOUR
-
-            // INITIALISE "player" with an IHealthBar object:
-            (_entityDictionary["player"] as IInitialiseHPBar).Initialise(_entityDictionary["hpbar"] as IHealthBar);
-
 
             #endregion
 
@@ -559,6 +238,8 @@ namespace COMP3451Project
             // INSTANTIATE _spriteBatch as new SpriteBatch:
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            /*
+
             //------------------------------------------
             //decs attempt at tile maps mrk1
 
@@ -579,6 +260,8 @@ namespace COMP3451Project
 
 
             //------------------------------------------
+
+            */
 
             #region LAYER 1 - WALLS
 
@@ -927,12 +610,6 @@ namespace COMP3451Project
             // GET Screen Height:
             _screenSize.Y = GraphicsDevice.Viewport.Height;
 
-            // SET boundary size for "camera":
-            (_entityDictionary["camera"] as ISetBoundary).WindowBorder = _screenSize;
-
-            // SET boundary size for "hpbarshroud":
-            (_entityDictionary["hpbarshroud"] as ISetBoundary).WindowBorder = _screenSize;
-
             // CALL Update() on EntityManager:
             (_entityManager as IUpdatable).Update(gameTime);
 
@@ -945,9 +622,6 @@ namespace COMP3451Project
             // CALL Update() on KeyboardManager:
             (_kBManager as IUpdatable).Update(gameTime);
 
-            // CALL method which checks game's current state:
-            CheckGameState();
-
             // CALL method from base Game class, uses gameTime as parameter:
             base.Update(gameTime);
         }
@@ -959,64 +633,13 @@ namespace COMP3451Project
         protected override void Draw(GameTime gameTime)
         {
             // SET colour of screen background as Black:
-            GraphicsDevice.Clear(Color.Black);
-
-            // CALL Draw() method in _sceneManager, passing a SpriteBatch object and a Camera object as parameters:
-            (_sceneManager as IDrawCamera).Draw(_spriteBatch, _entityDictionary["camera"] as ICamera);
+            GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // CALL Draw() method in _sceneManager,
             (_sceneManager as IDraw).Draw(_spriteBatch);
 
             // CALL Draw() method from base class:
             base.Draw(gameTime);
-        }
-
-        #endregion
-
-
-        #region PRIVATE METHODS
-
-        /// <summary>
-        /// Checks current state of Game
-        /// </summary>
-        private void CheckGameState()
-        {
-            if(!_entityDictionary.ContainsKey("player")) // IF _entityDictionary DOES NOT contain a key named "player"
-            {
-                // CALL DisplayFailScreen():
-                DisplayFailScreen();
-            }
-        }
-
-        /// <summary>
-        /// When called, Displays an image on screen telling the user they have failed
-        /// </summary>
-        private void DisplayFailScreen()
-        {
-            #region LAYER 6 - GUI
-
-            /// FAIL SCREEN
-
-            if (!_entityDictionary.ContainsKey("failscreen")) // IF _entityDictionary DOES NOT contain a key named "failscreen"
-            {
-                // INSTANTIATE StaticObject():
-                _entityManager.Create<StaticObject>("failscreen");
-
-                // INITIALISE "failscreen":
-                _entityDictionary["failscreen"].Initialise();
-
-                // SET Layer of "failscreen" to 6:
-                (_entityDictionary["failscreen"] as ILayer).Layer = 6;
-
-                // LOAD "failscreen" texture to "failscreen":
-                (_entityDictionary["failscreen"] as ITexture).Texture = Content.Load<Texture2D>("failscreen");
-
-                // SPAWN "failscreen" on screen by adding to SceneManager Dictionary:
-                //                                                                            centre of screen                        top left corner
-                (_sceneManager as ISpawn).Spawn(_entityDictionary["failscreen"], _entityDictionary["camera"].Position / _viewZoom - _screenSize / (_viewZoom * 2)); // Requires _zoom * 2 as dividing by zoom finds centre of screen
-            }
-
-            #endregion
         }
 
         #endregion
