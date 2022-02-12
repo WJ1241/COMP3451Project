@@ -4,6 +4,8 @@ namespace COMP3451Project.EnginePackage.CoreInterfaces
 {
     /// <summary>
     /// Interface which allows displayable entities to be seperated on to different layers to identify specific collisions
+    /// Authors: William Smith & Declan Kerby-Collins
+    /// Date: 12/02/22
     /// </summary>
     public interface ILayer
     {

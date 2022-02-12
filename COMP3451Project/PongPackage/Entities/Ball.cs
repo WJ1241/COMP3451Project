@@ -87,16 +87,16 @@ namespace COMP3451Project.PongPackage.Entities
         #endregion
 
 
-        #region IMPLEMENTATION OF IINITIALISEPARAM<RAND>
+        #region IMPLEMENTATION OF IINITIALISEPARAM<RANDOM>
 
         /// <summary>
         /// Initialises an object with a Random object
         /// </summary>
-        /// <param name="rand">holds reference to a Random object</param>
-        public void Initialise(Random rand)
+        /// <param name="pRand"> Random object </param>
+        public void Initialise(Random pRand)
         {
-            // ASSIGNMENT, set instance of _rand the same as rand:
-            _rand = rand;
+            // INITIALISE _rand with reference to pRand:
+            _rand = pRand;
         }
 
         #endregion

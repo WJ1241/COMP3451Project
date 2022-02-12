@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using COMP3451Project.EnginePackage.Camera;
 using COMP3451Project.EnginePackage.CollisionManagement;
 using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.EntityManagement;
 using COMP3451Project.EnginePackage.InputManagement;
 using COMP3451Project.EnginePackage.SceneManagement;
 using COMP3451Project.EnginePackage.Services;
+using COMP3451Project.EnginePackage.Services.Factories;
+using COMP3451Project.EnginePackage.Services.Commands;
 using COMP3451Project.PongPackage.Entities;
 
 namespace COMP3451Project
@@ -17,7 +17,7 @@ namespace COMP3451Project
     /// <summary>
     /// This is the main type for your game.
     /// Author: William Smith & Declan Kerby-Collins
-    /// Date: 07/02/22
+    /// Date: 12/02/22
     /// </summary>
     public class Kernel : Game, IInitialiseParam<IService>
     {
@@ -35,11 +35,12 @@ namespace COMP3451Project
         // DECLARE an IRtnService, name it '_engineManager':
         private IRtnService _engineManager;
 
-        // DECLARE an IDictionary, name it '_entityDictionary':
-        private IDictionary<string, IEntity> _entityDictionary;
+        // DECLARE a Point, name it 'screenSize':
+        private Point _screenSize;
 
-        // DECLARE a Vector2, name it 'screenSize':
-        private Vector2 _screenSize;
+        // DECLARE an int, name it '_ballCount':
+        // USED ONLY TO KEEP VALUE FROM RESETTING
+        private int _ballCount;
 
         #endregion
 
@@ -48,23 +49,23 @@ namespace COMP3451Project
 
         public Kernel()
         {
-            // INSTANTIATE _graphics as new GraphicsDeviceManager, passing Kernel as a parameter:
+            // INSTANTIATE _graphics as a new GraphicsDeviceManager, passing Kernel as a parameter:
             _graphics = new GraphicsDeviceManager(this);
 
-            // SET RootDirectory of Content as "Content":
+            // SET RootDirectory of Content to "Content":
             Content.RootDirectory = "Content";
 
             // SET IsMouseVisible to true:
             IsMouseVisible = true;
 
-            // SET screen width to 1600:
-            _graphics.PreferredBackBufferWidth = 1600;
+            // INSTANTIATE _screenSize as a new Point, with 1600 for X axis, and 900 for Y axis:
+            _screenSize = new Point(1600, 900);
 
-            // SET screen height to 900:
-            _graphics.PreferredBackBufferHeight = 900;
+            // SET screen width to _screenSize.X:
+            _graphics.PreferredBackBufferWidth = _screenSize.X;
 
-            // INITIALISE _screenSize with Viewport Width and Height:
-            _screenSize = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+            // SET screen height to _screenSize.Y:
+            _graphics.PreferredBackBufferHeight = _screenSize.Y;
         }
 
         #endregion
@@ -103,118 +104,103 @@ namespace COMP3451Project
             // GET Screen Height:
             _screenSize.Y = GraphicsDevice.Viewport.Height;
 
+            // INITIALISE _ballCount with value of '0':
+            _ballCount = 0;
+
             // INSTANTIATE _rand as new Random():
             _rand = new Random();
 
             #region ENTITY MANAGER
 
-            // DECLARE an IEntityManager, name it '_entityManager':
-            IEntityManager _entityManager;
+            // DECLARE & GET an instance of EntityManager as an IEntityManager, name it '_entityManager':
+            IEntityManager _entityManager = _engineManager.GetService<EntityManager>() as IEntityManager;
 
-            // INSTANTIATE _engineManager as a new EntityManager():
-            _entityManager = _engineManager.GetService<EntityManager>() as IEntityManager;
+            // INITIALISE _entityManager with a Factory<IEntity> instance from _engineManager:
+            (_entityManager as IInitialiseParam<IFactory<IEntity>>).Initialise(_engineManager.GetService<Factory<IEntity>>() as IFactory<IEntity>);
 
+            // INITIALISE _entityManager with a CommandScheduler instance from _engineManager:
+            (_entityManager as IInitialiseParam<ICommandScheduler>).Initialise(_engineManager.GetService<CommandScheduler>() as ICommandScheduler);
 
-            //_entityManager.;
+            // INITIALISE _entityManager with a KeyboardManager instance from _engineManager:
+            (_entityManager as IInitialiseParam<IKeyboardPublisher>).Initialise(_engineManager.GetService<KeyboardManager>() as IKeyboardPublisher);
 
             #endregion
 
 
             #region SCENE MANAGER
 
-            // DECLARE an ISceneManager, name it '_sceneManager':
-            ISceneManager _sceneManager;
+            // DECLARE & GET an instance of SceneManager as an ISceneManager, name it '_sceneManager':
+            ISceneManager _sceneManager = _engineManager.GetService<SceneManager>() as ISceneManager;
+
+            // INITIALISE _sceneManager with returned Factory<ISceneGraph> instance from _engineManager:
+            (_sceneManager as IInitialiseParam<IFactory<ISceneGraph>>).Initialise(_engineManager.GetService<Factory<ISceneGraph>>() as IFactory<ISceneGraph>);
 
             #endregion
 
 
-
-            // INSTANTIATE _entityManager as new EntityManager():
-            _entityManager = new EntityManager();
-
-            // INSTANTIATE _sceneManager as new SceneManager():
-            _sceneManager = new SceneManager();
-
-            // INSTANTIATE _sceneGraph as new SceneGraph():
-            _sceneGraph = new SceneGraph();
-
-            // INSTANTIATE _collisionManager as new SceneManager():
-            _collisionManager = new CollisionManager();
-
-            // INSTANTIATE _kBManager, call it '_kBManager':
-            _kBManager = new KeyboardManager();
-
-            // ASSIGNMENT, set value of '_entityDictionary' the same as _entityManager Dictionary:
-            _entityDictionary = _entityManager.GetDictionary;
-
-            // INITIALISE _entityManager, passing _sceneManager as a parameter:
-            _entityManager.Initialise(_kBManager);
-
-            // INITIALISE _sceneManager, passing _collisionManager as a parameter:
-            _sceneManager.Initialise(_collisionManager);
-
-            // INITIALISE _sceneManager, passing _sceneGraph as a parameter:
-            _sceneManager.Initialise(_sceneGraph);
-
             #endregion
 
+
+            #region LEVEL 1 CREATION
+
+            // CALL CreateScene() on _sceneManager, passing "Level1" as a parameter:
+            _sceneManager.CreateScene("Level1");
+
+            // INITIALISE _sceneManager with a CollisionManager instance from _engineManager for scene "Level1":
+            _sceneManager.Initialise("Level1", _engineManager.GetService<CollisionManager>() as ICollisionManager);
 
             #region DISPLAYABLE CREATION
 
             #region LAYER 5 - PADDLE / BALL
 
             #region PADDLES
-
+            /*
             #region PADDLE 1
+            
+            // INSTANTIATE new Paddle(), named "paddle1":
+            _entityManager.Create<Paddle>("Paddle1");
 
-            // INSTANTIATE new Paddle():
-            _entityManager.Create<Paddle>("paddle1");
+            // SUBSCRIBE "Paddle1" to returned KeyboardManager from _engineManager:
+            (_engineManager.GetService<KeyboardManager>() as IKeyboardPublisher).Subscribe(_entityManager.GetDictionary()["Paddle1"] as IKeyboardListener);
 
-            // SUBSCRIBE "paddle1" to Keyboard Manager:
-            _kBManager.Subscribe(_entityDictionary["paddle1"] as IKeyboardListener);
+            // INITIALISE "Paddle1":
+            _entityManager.GetDictionary()["Paddle1"].Initialise();
 
-            // INITIALISE "paddle1":
-            _entityDictionary["paddle1"].Initialise();
+            // SET PlayerIndex of "Paddle1" to PlayerIndex.One:
+            (_entityManager.GetDictionary()["Paddle1"] as IPlayer).PlayerNum = PlayerIndex.One;
 
-            // SET PlayerIndex of "paddle1" to PlayerIndex.One:
-            (_entityDictionary["paddle1"] as IPlayer).PlayerNum = PlayerIndex.One;
-
-            // SET Layer of "paddle1" to 5:
-            (_entityDictionary["paddle1"] as ILayer).Layer = 5;
+            // SET Layer of "Paddle1" to 5:
+            (_entityManager.GetDictionary()["Paddle1"] as ILayer).Layer = 5;
 
             #endregion
 
 
             #region PADDLE 2
 
-            // INSTANTIATE new Paddle():
-            _entityManager.Create<Paddle>("paddle2");
+            // INSTANTIATE new Paddle(), named "paddle2":
+            _entityManager.Create<Paddle>("Paddle2");
 
-            // SUBSCRIBE "paddle2" to Keyboard Manager:
-            _kBManager.Subscribe(_entityDictionary["paddle1"] as IKeyboardListener);
+            // SUBSCRIBE "Paddle2" to returned KeyboardManager from _engineManager:
+            (_engineManager.GetService<KeyboardManager>() as IKeyboardPublisher).Subscribe(_entityManager.GetDictionary()["Paddle2"] as IKeyboardListener);
 
-            // INITIALISE "paddle2":
-            _entityDictionary["paddle1"].Initialise();
+            // INITIALISE "Paddle2":
+            _entityManager.GetDictionary()["Paddle2"].Initialise();
 
-            // SET PlayerIndex of "paddle2" to PlayerIndex.One:
-            (_entityDictionary["paddle1"] as IPlayer).PlayerNum = PlayerIndex.One;
+            // SET PlayerIndex of "Paddle2" to PlayerIndex.Two:
+            (_entityManager.GetDictionary()["Paddle2"] as IPlayer).PlayerNum = PlayerIndex.Two;
 
-            // SET Layer of "paddle2" to 5:
-            (_entityDictionary["paddle1"] as ILayer).Layer = 5;
-
+            // SET Layer of "Paddle2" to 5:
+            (_entityManager.GetDictionary()["Paddle1"] as ILayer).Layer = 5;
+            
+            #endregion
+            */
             #endregion
 
 
             #region BALL
 
-            // INSTANTIATE new Ball():
-            _entityManager.Create<Ball>("ball");
-
-            // INITIALISE "ball":
-            _entityDictionary["ball"].Initialise();
-
-            // SET Layer of "ball" to 5:
-            (_entityDictionary["ball"] as ILayer).Layer = 5;
+            // CALL CreateBall():
+            //CreateBall();
 
             #endregion
 
@@ -241,7 +227,7 @@ namespace COMP3451Project
             /*
 
             //------------------------------------------
-            //decs attempt at tile maps mrk1
+            //Dec's attempt at tile maps mrk1
 
             Tiles.Content = Content;
 
@@ -263,323 +249,36 @@ namespace COMP3451Project
 
             */
 
-            #region LAYER 1 - WALLS
+            #region LAYER 5
 
-            #region WALLS
+            #region PADDLES
+            /*
+            /// PADDLE 1
 
-            // CANNOT USE FOR LOOP, INDIVIDUAL TEXTURING & POSITIONING IS REQUIRED
+            // DECLARE & INITIALISE an IEntity with reference to "Paddle1":
+            IEntity _tempEntity = (_engineManager.GetService<EntityManager>() as IEntityManager).GetDictionary()["Paddle1"];
 
-            /// WALLS 1-10
+            // LOAD "paddle" texture to "Paddle1":
+            (_tempEntity as ITexture).Texture = Content.Load<Texture2D>("paddle");
 
-            (_entityDictionary["wall1"] as ITexture).Texture = Content.Load<Texture2D>("Brick_11Y"); // LOAD "Brick_11Y" texture to "wall1"       
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall1"], new Vector2(0, 0)); // SPAWN "wall1" on screen by adding to SceneManager Dictionary
+            // SPAWN "Paddle1" in "Level1" at the far left on the X axis with a gap, and middle on the Y axis:
+            (_engineManager.GetService<SceneManager>() as ISceneManager).Spawn("Level1", _tempEntity, new Vector2(0 + (_tempEntity as ITexture).Texture.Width, (_screenSize.Y / 2) - (_tempEntity as ITexture).Texture.Height / 2));
 
-            (_entityDictionary["wall2"] as ITexture).Texture = Content.Load<Texture2D>("Brick_6X"); // LOAD "Brick_6X" texture to "wall2"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall2"], new Vector2(16, 0)); // SPAWN "wall2" on screen by adding to SceneManager Dictionary
+            /// PADDLE 2
 
-            (_entityDictionary["wall3"] as ITexture).Texture = Content.Load<Texture2D>("Brick_6X"); // LOAD "Brick_6X" texture to "wall3"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall3"], new Vector2(16, 160)); // SPAWN "wall3" on screen by adding to SceneManager Dictionary
+            // INITIALISE _tempEntity with reference to "Paddle2":
+            _tempEntity = (_engineManager.GetService<EntityManager>() as IEntityManager).GetDictionary()["Paddle2"];
 
-            (_entityDictionary["wall4"] as ITexture).Texture = Content.Load<Texture2D>("Brick_3Y"); // LOAD "Brick_3Y" texture to "wall4"       
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall4"], new Vector2(112, 0)); // SPAWN "wall4" on screen by adding to SceneManager Dictionary
+            // LOAD "paddle" texture to "Paddle2":
+            (_tempEntity as ITexture).Texture = Content.Load<Texture2D>("paddle");
 
-            (_entityDictionary["wall5"] as ITexture).Texture = Content.Load<Texture2D>("Brick_6Y"); // LOAD "Brick_6Y" texture to "wall5"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall5"], new Vector2(112, 80)); // SPAWN "wall5" on screen by adding to SceneManager Dictionary
+            // SPAWN "Paddle2" in "Level1" at the far left on the X axis with a gap, and middle on the Y axis:
+            (_engineManager.GetService<SceneManager>() as ISceneManager).Spawn("Level1", _tempEntity, new Vector2(_screenSize.X - ((_tempEntity as ITexture).Texture.Width * 2), (_screenSize.Y / 2) - (_tempEntity as ITexture).Texture.Height / 2));
 
-            (_entityDictionary["wall6"] as ITexture).Texture = Content.Load<Texture2D>("Brick_32X"); // LOAD "Brick_32X" texture to "wall6"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall6"], new Vector2(128, 32)); // SPAWN "wall6" on screen by adding to SceneManager Dictionary
-
-            (_entityDictionary["wall7"] as ITexture).Texture = Content.Load<Texture2D>("Brick_10X"); // LOAD "Brick_10X" texture to "wall7"       
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall7"], new Vector2(128, 80)); // SPAWN "wall7" on screen by adding to SceneManager Dictionary
-
-            (_entityDictionary["wall8"] as ITexture).Texture = Content.Load<Texture2D>("Brick_14Y"); // LOAD "Brick_14Y" texture to "wall8"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall8"], new Vector2(288, 80)); // SPAWN "wall8" on screen by adding to SceneManager Dictionary
-
-            (_entityDictionary["wall9"] as ITexture).Texture = Content.Load<Texture2D>("Brick_4X"); // LOAD "Brick_4X" texture to "wall9"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall9"], new Vector2(304, 80)); // SPAWN "wall9" on screen by adding to SceneManager Dictionary
-
-            (_entityDictionary["wall10"] as ITexture).Texture = Content.Load<Texture2D>("Brick_2Y"); // LOAD "Brick_2Y" texture to "wall10"       
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall10"], new Vector2(368, 80)); // SPAWN "wall10" on screen by adding to SceneManager Dictionary
-
-
-            /// WALLS 11-20
-
-            (_entityDictionary["wall11"] as ITexture).Texture = Content.Load<Texture2D>("Brick_4X"); // LOAD "Brick_4X" texture to "wall11"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall11"], new Vector2(304, 160)); // SPAWN "wall11" on screen by adding to SceneManager Dictionary
-
-            (_entityDictionary["wall12"] as ITexture).Texture = Content.Load<Texture2D>("Brick_3Y"); // LOAD "Brick_3Y" texture to "wall12"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall12"], new Vector2(368, 144)); // SPAWN "wall12" on screen by adding to SceneManager Dictionary
-
-            (_entityDictionary["wall13"] as ITexture).Texture = Content.Load<Texture2D>("Brick_4X"); // LOAD "Brick_4X" texture to "wall13"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall13"], new Vector2(304, 240)); // SPAWN "wall13" on screen by adding to SceneManager Dictionary
-
-            (_entityDictionary["wall14"] as ITexture).Texture = Content.Load<Texture2D>("Brick_2Y"); // LOAD "Brick_2Y" texture to "wall14"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall14"], new Vector2(368, 224)); // SPAWN "wall14" on screen by adding to SceneManager Dictionary
-
-            (_entityDictionary["wall15"] as ITexture).Texture = Content.Load<Texture2D>("Brick_10X"); // LOAD "Brick_10X" texture to "wall15"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall15"], new Vector2(304, 288)); // SPAWN "wall15" on screen by adding to SceneManager Dictionary
-
-            (_entityDictionary["wall16"] as ITexture).Texture = Content.Load<Texture2D>("Brick_14Y"); // LOAD "Brick_14Y" texture to "wall16"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall16"], new Vector2(464, 80)); // SPAWN "wall16" on screen by adding to SceneManager Dictionary
-
-            (_entityDictionary["wall17"] as ITexture).Texture = Content.Load<Texture2D>("Brick_4X"); // LOAD "Brick_4X" texture to "wall17"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall17"], new Vector2(480, 80)); // SPAWN "wall17" on screen by adding to SceneManager Dictionary
-
-            (_entityDictionary["wall18"] as ITexture).Texture = Content.Load<Texture2D>("Brick_2Y"); // LOAD "Brick_2Y" texture to "wall18"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall18"], new Vector2(544, 80)); // SPAWN "wall18" on screen by adding to SceneManager Dictionary
-
-            (_entityDictionary["wall19"] as ITexture).Texture = Content.Load<Texture2D>("Brick_4X"); // LOAD "Brick_4X" texture to "wall19"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall19"], new Vector2(480, 160)); // SPAWN "wall19" on screen by adding to SceneManager Dictionary
-
-            (_entityDictionary["wall20"] as ITexture).Texture = Content.Load<Texture2D>("Brick_3Y"); // LOAD "Brick_3Y" texture to "wall20"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall20"], new Vector2(544, 144)); // SPAWN "wall20" on screen by adding to SceneManager Dictionary
-
-
-            /// WALLS 21-30
-
-            (_entityDictionary["wall21"] as ITexture).Texture = Content.Load<Texture2D>("Brick_4X"); // LOAD "Brick_4X" texture to "wall21"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall21"], new Vector2(480, 240)); // SPAWN "wall21" on screen by adding to SceneManager Dictionary
-
-            (_entityDictionary["wall22"] as ITexture).Texture = Content.Load<Texture2D>("Brick_2Y"); // LOAD "Brick_2Y" texture to "wall22"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall22"], new Vector2(544, 224)); // SPAWN "wall22" on screen by adding to SceneManager Dictionary
-
-            (_entityDictionary["wall23"] as ITexture).Texture = Content.Load<Texture2D>("Brick_7Y"); // LOAD "Brick_7Y" texture to "wall23"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall23"], new Vector2(640, 32)); // SPAWN "wall23" on screen by adding to SceneManager Dictionary
-
-            (_entityDictionary["wall24"] as ITexture).Texture = Content.Load<Texture2D>("Brick_6X"); // LOAD "Brick_6X" texture to "wall24"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall24"], new Vector2(656, 32)); // SPAWN "wall24" on screen by adding to SceneManager Dictionary
-
-            (_entityDictionary["wall25"] as ITexture).Texture = Content.Load<Texture2D>("Brick_17Y"); // LOAD "Brick_17Y" texture to "wall25"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall25"], new Vector2(752, 32)); // SPAWN "wall25" on screen by adding to SceneManager Dictionary
-
-            (_entityDictionary["wall26"] as ITexture).Texture = Content.Load<Texture2D>("Brick_7Y"); // LOAD "Brick_7Y" texture to "wall26"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall26"], new Vector2(640, 192)); // SPAWN "wall26" on screen by adding to SceneManager Dictionary
-
-            (_entityDictionary["wall27"] as ITexture).Texture = Content.Load<Texture2D>("Brick_2X"); // LOAD "Brick_2X" texture to "wall27"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall27"], new Vector2(656, 240)); // SPAWN "wall27" on screen by adding to SceneManager Dictionary
-
-            (_entityDictionary["wall28"] as ITexture).Texture = Content.Load<Texture2D>("Brick_2X"); // LOAD "Brick_2X" texture to "wall28"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall28"], new Vector2(720, 240)); // SPAWN "wall28" on screen by adding to SceneManager Dictionary
-
-            (_entityDictionary["wall29"] as ITexture).Texture = Content.Load<Texture2D>("Brick_6X"); // LOAD "Brick_6X" texture to "wall29"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall29"], new Vector2(656, 288)); // SPAWN "wall29" on screen by adding to SceneManager Dictionary
-
-            (_entityDictionary["wall30"] as ITexture).Texture = Content.Load<Texture2D>("Brick_5X"); // LOAD "Brick_5X" texture to "wall30"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall30"], new Vector2(560, 288)); // SPAWN "wall30" on screen by adding to SceneManager Dictionary
-
-
-            /// WALLS 30-38
-
-            (_entityDictionary["wall31"] as ITexture).Texture = Content.Load<Texture2D>("Brick_4Y"); // LOAD "Brick_4Y" texture to "wall31"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall31"], new Vector2(544, 288)); // SPAWN "wall31" on screen by adding to SceneManager Dictionary
-
-            (_entityDictionary["wall32"] as ITexture).Texture = Content.Load<Texture2D>("Brick_18X"); // LOAD "Brick_18X" texture to "wall32"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall32"], new Vector2(256, 336)); // SPAWN "wall32" on screen by adding to SceneManager Dictionary
-
-            (_entityDictionary["wall33"] as ITexture).Texture = Content.Load<Texture2D>("Brick_2X"); // LOAD "Brick_2X" texture to "wall33"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall33"], new Vector2(256, 288)); // SPAWN "wall33" on screen by adding to SceneManager Dictionary
-
-            (_entityDictionary["wall34"] as ITexture).Texture = Content.Load<Texture2D>("Brick_2Y"); // LOAD "Brick_2Y" texture to "wall34"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall34"], new Vector2(240, 272)); // SPAWN "wall34" on screen by adding to SceneManager Dictionary
-
-            (_entityDictionary["wall35"] as ITexture).Texture = Content.Load<Texture2D>("Brick_6X"); // LOAD "Brick_6X" texture to "wall35"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall35"], new Vector2(144, 272)); // SPAWN "wall35" on screen by adding to SceneManager Dictionary
-
-            (_entityDictionary["wall36"] as ITexture).Texture = Content.Load<Texture2D>("Brick_6Y"); // LOAD "Brick_6Y" texture to "wall36"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall36"], new Vector2(128, 272)); // SPAWN "wall36" on screen by adding to SceneManager Dictionary
-
-            (_entityDictionary["wall37"] as ITexture).Texture = Content.Load<Texture2D>("Brick_6X"); // LOAD "Brick_6X" texture to "wall37"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall37"], new Vector2(144, 352)); // SPAWN "wall37" on screen by adding to SceneManager Dictionary
-
-            (_entityDictionary["wall38"] as ITexture).Texture = Content.Load<Texture2D>("Brick_2Y"); // LOAD "Brick_2Y" texture to "wall38"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["wall38"], new Vector2(240, 336)); // SPAWN "wall38" on screen by adding to SceneManager Dictionary
-
+            */
             #endregion
-
+            
             #endregion
-
-
-            #region LAYER 2 - FLOORS
-
-            #region FLOORS
-
-            /// LEVEL FLOOR
-
-            (_entityDictionary["floor"] as ITexture).Texture = Content.Load<Texture2D>("floor"); // LOAD "floor" texture to "player"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["floor"], new Vector2(16, 16)); // SPAWN "floor" on screen by adding to SceneManager Dictionary
-
-            #endregion
-
-            #endregion
-
-
-            #region LAYER 3 - STATIC OBSTACLES
-
-            #region CUPBOARDS
-
-            /// CUPBOARD 1
-
-            (_entityDictionary["cupboard1"] as ITexture).Texture = Content.Load<Texture2D>("cupboard"); // LOAD "cupboard" texture to "cupboard1"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["cupboard1"], new Vector2(412, 48)); // SPAWN "cupboard1" on screen by adding to SceneManager Dictionary
-
-
-            /// CUPBOARD 2
-
-            (_entityDictionary["cupboard2"] as ITexture).Texture = Content.Load<Texture2D>("cupboard"); // LOAD "cupboard" texture to "cupboard2"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["cupboard2"], new Vector2(692, 48)); // SPAWN "cupboard2" on screen by adding to SceneManager Dictionary
-
-
-            /// CUPBOARD 3
-
-            (_entityDictionary["cupboard3"] as ITexture).Texture = Content.Load<Texture2D>("cupboard"); // LOAD "cupboard" texture to "cupboard3"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["cupboard3"], new Vector2(492, 256)); // SPAWN "cupboard3" on screen by adding to SceneManager Dictionary
-
-            #endregion
-
-
-            #region BEDS
-
-            /// PLAYER SPAWN BED
-
-            (_entityDictionary["playerspawn"] as ITexture).Texture = Content.Load<Texture2D>("playerspawn"); // LOAD "playerspawn" texture to "playerspawn"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["playerspawn"], new Vector2(80, 144)); // SPAWN "playerspawn" on screen by adding to SceneManager Dictionary
-
-
-            /// CELL BED 1
-
-            (_entityDictionary["cellbed1"] as ITexture).Texture = Content.Load<Texture2D>("dfltbed"); // LOAD "dfltbed" texture to "cellbed1"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["cellbed1"], new Vector2(336, 144)); // SPAWN "cellbed1" on screen by adding to SceneManager Dictionary
-
-
-            /// CELL BED 2
-
-            (_entityDictionary["cellbed2"] as ITexture).Texture = Content.Load<Texture2D>("dfltbed"); // LOAD "dfltbed" texture to "cellbed2"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["cellbed2"], new Vector2(336, 224)); // SPAWN "cellbed2" on screen by adding to SceneManager Dictionary
-
-
-            /// CELL BED 3
-
-            (_entityDictionary["cellbed3"] as ITexture).Texture = Content.Load<Texture2D>("dfltbed"); // LOAD "dfltbed" texture to "cellbed3"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["cellbed3"], new Vector2(512, 144)); // SPAWN "cellbed3" on screen by adding to SceneManager Dictionary
-
-
-            /// CELL BED 4
-
-            (_entityDictionary["cellbed4"] as ITexture).Texture = Content.Load<Texture2D>("dfltbed"); // LOAD "dfltbed" texture to "cellbed4"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["cellbed4"], new Vector2(512, 224)); // SPAWN "cellbed4" on screen by adding to SceneManager Dictionary
-
-            #endregion
-
-
-            #region TABLES
-
-            /// OFFICE TABLE
-
-            (_entityDictionary["officetable"] as ITexture).Texture = Content.Load<Texture2D>("chairtable"); // LOAD "chairtable" texture to "officetable"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["officetable"], new Vector2(166, 310)); // SPAWN "officetable" on screen by adding to SceneManager Dictionary
-
-
-            #endregion
-
-
-            #region BOOKSHELVES
-
-            /// CUPBOARD 1
-
-            (_entityDictionary["bookshelf1"] as ITexture).Texture = Content.Load<Texture2D>("bookshelf"); // LOAD "bookshelf" texture to "bookshelf1"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["bookshelf1"], new Vector2(196, 288)); // SPAWN "bookshelf1" on screen by adding to SceneManager Dictionary
-
-
-            /// CUPBOARD 2
-
-            (_entityDictionary["bookshelf2"] as ITexture).Texture = Content.Load<Texture2D>("bookshelf"); // LOAD "bookshelf" texture to "bookshelf2"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["bookshelf2"], new Vector2(196, 344)); // SPAWN "bookshelf2" on screen by adding to SceneManager Dictionary
-
-
-            /// CUPBOARD 3
-
-            (_entityDictionary["bookshelf3"] as ITexture).Texture = Content.Load<Texture2D>("bookshelf"); // LOAD "bookshelf" texture to "bookshelf3"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["bookshelf3"], new Vector2(164, 344)); // SPAWN "bookshelf3" on screen by adding to SceneManager Dictionary
-
-            #endregion
-
-            #endregion
-
-
-            #region LAYER 4 - ITEMS
-
-            #region HEALTH PICKUPS
-
-            /// HEALTH PICKUP 1
-
-            (_entityDictionary["hppickup1"] as ITexture).Texture = Content.Load<Texture2D>("hp"); // LOAD "hp" texture to "hppickup1"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["hppickup1"], new Vector2(304, 96)); // SPAWN "hppickup1" on screen by adding to SceneManager Dictionary
-
-
-            /// HEALTH PICKUP 2
-
-            (_entityDictionary["hppickup2"] as ITexture).Texture = Content.Load<Texture2D>("hp"); // LOAD "hp" texture to "hppickup2"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["hppickup2"], new Vector2(628, 276)); // SPAWN "hppickup2" on screen by adding to SceneManager Dictionary
-
-            #endregion
-
-            #endregion
-
-
-            #region LAYER 5 - PLAYER / ENEMY
-
-            #region PLAYER
-
-            /// PLAYER 1
-
-            (_entityDictionary["player"] as ITexture).Texture = Content.Load<Texture2D>("player"); // LOAD "player" texture to "player"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["player"], new Vector2(64, 112)); // SPAWN "player" on screen by adding to SceneManager Dictionary
-
-            #endregion
-
-
-            #region ENEMIES
-
-            /// ENEMY 1
-
-            (_entityDictionary["enemy1"] as ITexture).Texture = Content.Load<Texture2D>("enemy1"); // LOAD "enemy1" texture to "enemy1"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["enemy1"], new Vector2(506, 60)); // SPAWN "enemy1" on screen by adding to SceneManager Dictionary
-
-
-            /// ENEMY 2
-
-            (_entityDictionary["enemy2"] as ITexture).Texture = Content.Load<Texture2D>("enemy1"); // LOAD "enemy1" texture to "enemy2"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["enemy2"], new Vector2(330, 270)); // SPAWN "enemy2" on screen by adding to SceneManager Dictionary
-
-
-            /// ENEMY 3
-
-            (_entityDictionary["enemy3"] as ITexture).Texture = Content.Load<Texture2D>("enemy1"); // LOAD "enemy1" texture to "enemy3"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["enemy3"], new Vector2(716, 96)); // SPAWN "enemy3" on screen by adding to SceneManager Dictionary
-
-            #endregion
-
-            #endregion
-
-
-            #region LAYER 6 - GUI
-
-            #region HEALTH BAR
-
-            /// PLAYER HEALTH BAR SHROUD
-
-            (_entityDictionary["hpbarshroud"] as ITexture).Texture = Content.Load<Texture2D>("healthbarshroud"); // LOAD "healthbarshroud" texture to "hpbarshroud"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["hpbarshroud"], new Vector2(0, 0)); // SPAWN "hpbarshroud" on screen by adding to SceneManager Dictionary, 0,0 is default position
-
-            /// PLAYER HEALTH BAR
-
-            (_entityDictionary["hpbar"] as ITexture).Texture = Content.Load<Texture2D>("healthbar"); // LOAD "healthbarshroud" texture to "hpbar"
-            (_sceneManager as ISpawn).Spawn(_entityDictionary["hpbar"], new Vector2(0, 0)); // SPAWN "hpbar" on screen by adding to SceneManager Dictionary, 0,0 is default position
-
-            #endregion
-
-            #endregion
-
         }
 
         /// <summary>
@@ -595,8 +294,8 @@ namespace COMP3451Project
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Update(GameTime gameTime)
+        /// <param name="pGameTime">Provides a snapshot of timing values.</param>
+        protected override void Update(GameTime pGameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed
                 || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -610,20 +309,20 @@ namespace COMP3451Project
             // GET Screen Height:
             _screenSize.Y = GraphicsDevice.Viewport.Height;
 
-            // CALL Update() on EntityManager:
-            (_entityManager as IUpdatable).Update(gameTime);
+            // CALL Update() on returned SceneManager instance from _engineManager, passing pGameTime as a parameter:
+            (_engineManager.GetService<SceneManager>() as IUpdatable).Update(pGameTime);
 
-            // CALL Update() on SceneManager:
-            (_sceneManager as IUpdatable).Update(gameTime);
+            // CALL Update() on returned CollisionManager instance from _engineManager, passing pGameTime as a parameter:
+            (_engineManager.GetService<CollisionManager>() as IUpdatable).Update(pGameTime);
 
-            // CALL Update() on CollisionManager:
-            (_collisionManager as IUpdatable).Update(gameTime);
+            // CALL Update() on returned KeyboardManager instance from _engineManager, passing pGameTime as a parameter:
+            (_engineManager.GetService<KeyboardManager>() as IUpdatable).Update(pGameTime);
 
-            // CALL Update() on KeyboardManager:
-            (_kBManager as IUpdatable).Update(gameTime);
+            // CALL Update() on returned CommandScheduler instance from _engineManager, passing pGameTime as a parameter:
+            (_engineManager.GetService<CommandScheduler>() as IUpdatable).Update(pGameTime);
 
-            // CALL method from base Game class, uses gameTime as parameter:
-            base.Update(gameTime);
+            // CALL Update() on base class, passing pGameTime as a parameter:
+            base.Update(pGameTime);
         }
 
         /// <summary>
@@ -635,11 +334,54 @@ namespace COMP3451Project
             // SET colour of screen background as Black:
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // CALL Draw() method in _sceneManager,
-            (_sceneManager as IDraw).Draw(_spriteBatch);
+            // CALL Draw() method on returned SceneManager instance from _engineManager:
+            (_engineManager.GetService<SceneManager>() as IDraw).Draw(_spriteBatch);
 
             // CALL Draw() method from base class:
             base.Draw(gameTime);
+        }
+
+        #endregion
+
+
+        #region PRIVATE METHODS
+
+        /// <summary>
+        /// Creates, initialises, and spawns a Ball object
+        /// </summary>
+        private void CreateBall()
+        {
+            #region CREATION & INITIALISATION
+
+            // DECLARE & GET an instance of EntityManager as an IEntityManager, name it '_entityManager':
+            IEntityManager _entityManager = _engineManager.GetService<EntityManager>() as IEntityManager;
+
+            // INCREMENT _ballCount by '1':
+            _ballCount++;
+
+            // INSTANTIATE new Ball():
+            _entityManager.Create<Ball>("Ball" + _ballCount);
+
+            // INITIALISE ("Ball" + _ballCount):
+            _entityManager.GetDictionary()["Ball" + _ballCount].Initialise();
+
+            // INITIALISE ("Ball" + _ballCount) with _rand:
+            (_entityManager.GetDictionary()["Ball" + _ballCount] as IInitialiseParam<Random>).Initialise(_rand);
+
+            // SET Layer of ("Ball" + _ballCount) to 5:
+            (_entityManager.GetDictionary()["Ball" + _ballCount] as ILayer).Layer = 5;
+
+            // CALL Reset() on ("Ball" + _ballCount):
+            (_entityManager.GetDictionary()["Ball" + _ballCount] as IReset).Reset();
+
+            #endregion
+
+
+            #region SPAWNING
+
+
+
+            #endregion
         }
 
         #endregion
