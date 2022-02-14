@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.CustomEventArgs;
 using COMP3451Project.EnginePackage.Services.Commands;
+using COMP3451Project.EnginePackage.Behaviours;
 
 namespace COMP3451Project.EnginePackage.States
 {
@@ -12,7 +13,7 @@ namespace COMP3451Project.EnginePackage.States
     /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 30/01/22
     /// </summary>
-    public abstract class State : IState, ICommandSender, IName, IUpdatable
+    public abstract class State : IState, ICommandSender, IInitialiseParam<string, ICommand>, IInitialiseParam<IUpdateEventListener>, IName, IUpdatable
     {
         #region FIELD VARIABLES
 
@@ -31,7 +32,7 @@ namespace COMP3451Project.EnginePackage.States
         #endregion
 
 
-        #region PROPERTIES
+        #region IMPLEMENTATION OF ICOMMANDSENDER
 
         /// <summary>
         /// Property which allows read and write access to a command scheduling method
@@ -48,6 +49,37 @@ namespace COMP3451Project.EnginePackage.States
                 // SET value of _scheduleCommand to incoming value:
                 _scheduleCommand = value;
             }
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEPARAM<STRING, ICOMMAND>
+
+        /// <summary>
+        /// Initialises an object with an ICommand object
+        /// </summary>
+        /// <param name="pString"> String Value </param>
+        /// <param name="pCommand"> Reference to an ICommand object </param>
+        public void Initialise(string pString, ICommand pCommand)
+        {
+            // ADD pCommand as a value and pString as a key to _triggerDict:
+            _triggerDict.Add(pString, pCommand);
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEPARAM<IUPDATEEVENTLISTENER>
+
+        /// <summary>
+        /// Initialises an object with an IUpdateEventListener object
+        /// </summary>
+        /// <param name="pUpdateEventListener"> IUpdateEventListener object </param>
+        public virtual void Initialise(IUpdateEventListener pUpdateEventListener)
+        {
+            // SUBSCRIBE _behaviourEvent to pUpdateEventListener.OnUpdateEvent():
+            _behaviourEvent += pUpdateEventListener.OnUpdateEvent;
         }
 
         #endregion

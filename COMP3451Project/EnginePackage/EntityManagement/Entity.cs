@@ -8,7 +8,7 @@ namespace COMP3451Project.EnginePackage.EntityManagement
 {
     /// <summary>
     /// Abstract class for more specific entities to inherit from
-    /// Author: William Smith & Declan Kerby-Collins
+    /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 24/01/22
     /// </summary>
     public abstract class Entity : IEntity, IEntityInternal, IInitialiseParam<IState>, ICommandSender, ILayer, IContainBoundary, ITerminate

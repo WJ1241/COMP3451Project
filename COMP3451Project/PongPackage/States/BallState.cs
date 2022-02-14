@@ -68,7 +68,7 @@ namespace COMP3451Project.EnginePackage.States
         /// Initialises an object with an IUpdateEventListener object
         /// </summary>
         /// <param name="pUpdateEventListener"> IUpdateEventListener object </param>
-        public void Initialise(IUpdateEventListener pUpdateEventListener)
+        public override void Initialise(IUpdateEventListener pUpdateEventListener)
         {
             // SUBSCRIBE _behaviourEvent to pUpdateEventListener.OnUpdateEvent():
             _behaviourEvent += pUpdateEventListener.OnUpdateEvent;

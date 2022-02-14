@@ -25,12 +25,10 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         IDictionary<string, IEntity> GetDictionary();
 
         /// <summary>
-        /// Terminates an object from entity manager and other managers
+        /// Terminates an entity to be removed from memory
         /// </summary>
         /// <param name="uName">Reference to object using unique name</param>
         void Terminate(string uName);
-
-        
 
         #endregion
     }

@@ -49,7 +49,7 @@ namespace COMP3451Project.PongPackage.Entities
         /// When called, draws entity's texture on screen
         /// </summary>
         /// <param name="pSpritebatch"> Needed to draw entity's texture on screen </param>
-        public void Draw(SpriteBatch pSpriteBatch)
+        public virtual void Draw(SpriteBatch pSpriteBatch)
         {
             // DRAW given texture, given location, and colour
             pSpriteBatch.Draw(_texture, _position, Color.AntiqueWhite);

@@ -19,7 +19,7 @@ namespace COMP3451Project.EnginePackage.Tiles
     /// Date: 24/01/22
     /// <REFERENCE> Oyyou (2013) XNA Tutorial 40 - Creating a Tile Map (1/3). Available at: https://www.youtube.com/watch?v=PKlHcxFAEk0. (Accessed: 25 January 2022). </REFERENCE>
     /// </summary>
-    public class Tiles: PongEntity
+    public class Tiles : PongEntity
     {
         // DECLARE ContentManager name it '_content'
         private static ContentManager _content;
@@ -60,7 +60,7 @@ namespace COMP3451Project.EnginePackage.Tiles
         /// hides inherited draw method for unique parram set for the draw rectangle
         /// </summary>
         /// <param name="spritebatch">Needed to draw entity's texture on screen</param>
-        public void Draw(SpriteBatch pSpriteBatch)
+        public override void Draw(SpriteBatch pSpriteBatch)
         {
             // DRAW given texture, given location, and colour
             pSpriteBatch.Draw(_texture, _rect, Color.AntiqueWhite);
