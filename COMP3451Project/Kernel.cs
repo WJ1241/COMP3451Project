@@ -20,7 +20,7 @@ namespace COMP3451Project
     /// <summary>
     /// This is the main type for your game.
     /// Author: William Smith & Declan Kerby-Collins
-    /// Date: 12/02/22
+    /// Date: 14/02/22
     /// </summary>
     public class Kernel : Game, IInitialiseParam<IService>
     {
@@ -179,19 +179,19 @@ namespace COMP3451Project
             // SET Name Property value of _tempStateStationary to "stationary":
             (_tempStateStationary as IName).Name = "stationary";
 
-
+            // SET ScheduleCommand Property of _tempStateStationary to reference of CommandScheduler.ScheduleCommand:
             (_tempStateStationary as ICommandSender).ScheduleCommand = (_engineManager.GetService<CommandScheduler>() as ICommandScheduler).ScheduleCommand;
 
             // SET Name Property value of _tempStateUp to "up":
             (_tempStateUp as IName).Name = "up";
 
-
+            // SET ScheduleCommand Property of _tempStateUp to reference of CommandScheduler.ScheduleCommand:
             (_tempStateUp as ICommandSender).ScheduleCommand = (_engineManager.GetService<CommandScheduler>() as ICommandScheduler).ScheduleCommand;
 
             // SET Name Property value of _tempStateDown to "down":
             (_tempStateDown as IName).Name = "down";
 
-
+            // SET ScheduleCommand Property of _tempStateDown to reference of CommandScheduler.ScheduleCommand:
             (_tempStateDown as ICommandSender).ScheduleCommand = (_engineManager.GetService<CommandScheduler>() as ICommandScheduler).ScheduleCommand;
 
             #endregion
@@ -314,22 +314,22 @@ namespace COMP3451Project
             // SET Data Property value of _stateDownChange to reference of _tempStateDown:
             (_stateDownChange as ICommandOneParam<IState>).Data = _tempStateDown;
 
-            
+            // INITIALISE _tempStateStationary with _tempStateUp.Name and _stateUpChange as parameters:
             (_tempStateStationary as IInitialiseParam<string, ICommand>).Initialise((_tempStateUp as IName).Name, _stateUpChange);
 
-
+            // INITIALISE _tempStateStationary with _tempStateDown.Name and _stateDownChange as parameters:
             (_tempStateStationary as IInitialiseParam<string, ICommand>).Initialise((_tempStateDown as IName).Name, _stateDownChange);
 
-
+            // INITIALISE _tempStateUp with _tempStateStationary.Name and _stateStationaryChange as parameters:
             (_tempStateUp as IInitialiseParam<string, ICommand>).Initialise((_tempStateStationary as IName).Name, _stateStationaryChange);
 
-
+            // INITIALISE _tempStateUp with _tempStateDown.Name and _stateDownChange as parameters:
             (_tempStateUp as IInitialiseParam<string, ICommand>).Initialise((_tempStateDown as IName).Name, _stateDownChange);
 
-
+            // INITIALISE _tempStateDown with _tempStateStationary.Name and _stateStationaryChange as parameters:
             (_tempStateDown as IInitialiseParam<string, ICommand>).Initialise((_tempStateStationary as IName).Name, _stateStationaryChange);
 
-
+            // INITIALISE _tempStateDown with _tempStateUp.Name and _stateUpChange as parameters:
             (_tempStateDown as IInitialiseParam<string, ICommand>).Initialise((_tempStateUp as IName).Name, _stateUpChange);
 
 

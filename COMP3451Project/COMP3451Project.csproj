@@ -41,12 +41,11 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+  </PropertyGroup>
   <ItemGroup>
-    <Compile Include="EnginePackage\Animation\Animation.cs" />
-    <Compile Include="EnginePackage\Animation\AnimationManager.cs" />
-    <Compile Include="EnginePackage\Animation\Input.cs" />
     <Compile Include="EnginePackage\Tiles\Map.cs" />
-    <Compile Include="EnginePackage\Animation\Sprite.cs" />
     <Compile Include="EnginePackage\Tiles\Tiles.cs" />
     <Compile Include="EnginePackage\Tiles\Wall.cs" />
     <Compile Include="EnginePackage\Audio\IPlayAudio.cs" />
