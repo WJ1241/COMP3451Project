@@ -25,8 +25,8 @@ namespace COMP3451Project.EnginePackage.Camera
         // DECLARE a string, name it '_uName':
         private string _uName;
 
-        // DECLARE a Vector2, name it '_windowSize':
-        private Vector2 _windowSize;
+        // DECLARE a Point, name it '_windowSize':
+        private Point _windowSize;
 
         // DECLARE a float, name it '_zoom':
         private float _zoom;
@@ -135,12 +135,12 @@ namespace COMP3451Project.EnginePackage.Camera
         #endregion
 
 
-        #region IMPLEMENTATION OF ISETBOUNDARY
+        #region IMPLEMENTATION OF ICONTAINBOUNDARY
 
         /// <summary>
         /// Property which can set value of screen window borders
         /// </summary>
-        public Vector2 WindowBorder
+        public Point WindowBorder
         {
             get
             {

@@ -269,6 +269,9 @@ namespace COMP3451Project
             // INITIALISE "Paddle1" with _tempStateStationary:
             (_entityManager.GetDictionary()["Paddle1"] as IInitialiseParam<IState>).Initialise(_tempStateStationary);
 
+            // SET WindowBorder of "Paddle1" to value of _screenSize:
+            (_entityManager.GetDictionary()["Paddle1"] as IContainBoundary).WindowBorder = _screenSize;
+
             // SET PlayerIndex of "Paddle1" to PlayerIndex.One:
             (_entityManager.GetDictionary()["Paddle1"] as IPlayer).PlayerNum = PlayerIndex.One;
 
@@ -293,19 +296,25 @@ namespace COMP3451Project
 
             /// INITIALISATION
 
-            // SET MethodRef Property value of _stateStationaryChange to reference of _tempStateStationary:
-            (_stateStationaryChange as ICommandOneParam<IState>).MethodRef = (_entityManager.GetDictionary()["Paddle1"] as IEntityInternal);
+            // SET MethodRef Property value of _stateStationaryChange to reference of "Paddle1"'s SetState() method:
+            (_stateStationaryChange as ICommandOneParam<IState>).MethodRef = (_entityManager.GetDictionary()["Paddle1"] as IEntityInternal).SetState;
 
             // SET Data Property value of _stateStationaryChange to reference of _tempStateStationary:
             (_stateStationaryChange as ICommandOneParam<IState>).Data = _tempStateStationary;
 
+            // SET MethodRef Property value of _stateUpChange to reference of "Paddle1"'s SetState() method:
+            (_stateUpChange as ICommandOneParam<IState>).MethodRef = (_entityManager.GetDictionary()["Paddle1"] as IEntityInternal).SetState;
+
             // SET Data Property value of _stateUpChange to reference of _tempStateUp:
             (_stateUpChange as ICommandOneParam<IState>).Data = _tempStateUp;
+
+            // SET MethodRef Property value of _stateDownChange to reference of "Paddle1"'s SetState() method:
+            (_stateDownChange as ICommandOneParam<IState>).MethodRef = (_entityManager.GetDictionary()["Paddle1"] as IEntityInternal).SetState;
 
             // SET Data Property value of _stateDownChange to reference of _tempStateDown:
             (_stateDownChange as ICommandOneParam<IState>).Data = _tempStateDown;
 
-
+            
             (_tempStateStationary as IInitialiseParam<string, ICommand>).Initialise((_tempStateUp as IName).Name, _stateUpChange);
 
 
@@ -410,6 +419,7 @@ namespace COMP3451Project
 
             // SPAWN "Paddle1" in "Level1" at the far left on the X axis with a gap, and middle on the Y axis:
             (_engineManager.GetService<SceneManager>() as ISceneManager).Spawn("Level1", _tempEntity, new Vector2(0 + (_tempEntity as ITexture).Texture.Width, (_screenSize.Y / 2) - (_tempEntity as ITexture).Texture.Height / 2));
+
             /*
             /// PADDLE 2
 

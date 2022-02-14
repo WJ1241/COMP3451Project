@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
-
-
+using COMP3451Project.EnginePackage.Animation;
 
 namespace COMP3451Project.PongPackage.Sprites
 {
