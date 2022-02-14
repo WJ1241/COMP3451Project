@@ -26,6 +26,9 @@ namespace COMP3451Project.EnginePackage.Animation
         // PROPERTY: Vector2 naem it 'Position'
         public Vector2 Position { get; set; }
 
+        // PROPPERTY: Animation name it 'Anime'
+        public Animation Anime { get; set; }
+
 
         /// <summary>
         /// METHOD: Constructor
@@ -48,8 +51,10 @@ namespace COMP3451Project.EnginePackage.Animation
             // Call: pSpriteBatch's 'Draw' method, passing in the params of '_animation's _texture', Position and a rectangle
             pSpriteBatch.Draw(_animation._texture,
                                 Position,
+                                //sets X position on the spritesheet
                                 new Rectangle(_animation.CurrentFrame * _animation.FrameWidth,
-                                0,
+                                //set Y position on the spritesheet
+                                _animation.CurrentFrame * _animation.Direction,
                                 _animation.FrameWidth,
                                 _animation.FrameHeight),
                                 Color.White);
@@ -82,7 +87,7 @@ namespace COMP3451Project.EnginePackage.Animation
         {
             // ASSIGNMENT: _timer is set to the value of 0
             _timer = 0;
-        }
+        
 
             // ASSIGNMENT: _animation's CurrentFrame parameter is set to the value of 0
             _animation.CurrentFrame = 0;

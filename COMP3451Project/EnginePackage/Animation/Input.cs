@@ -16,17 +16,17 @@ namespace COMP3451Project.EnginePackage.Animation
     /// </summary>
     public class Input
     {
-        // PROPERTY: type Keys name it 'Up'
+        // PROPERTY: type Keys name it 'up' 
         public Keys Up { get; set; }
 
-        // PROPERTY: type Keys name it 'Down'
+        // PROPERTY: type Keys name it 'down' 
         public Keys Down { get; set; }
 
-        // PROPERTY: type Keys name it 'Left'
-        public Keys Left { get; set; }
+        // PROPERTY: type Keys name it 'right'  
+        public Keys Right { get; set; }
 
-        // PROPERTY: type Keys name it 'Right'
-        public Keys Right {get; set;}
+        // PROPERTY: type Keys name it 'left'
+        public Keys Left {get; set;}
 
         
     }

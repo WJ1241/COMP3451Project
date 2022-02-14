@@ -23,8 +23,11 @@ namespace COMP3451Project.EnginePackage.Animation
         // PROPERTY: type int name it 'FrameCount'
         public int FrameCount { get; set; }
 
+        // PROPERTY: type int name it 'Direction'
+        public int Direction { get; set; }
+
         // PROPERTY: type int name it 'FrameHeight'
-        public int FrameHeight { get { return _texture.Height; } }
+        public int FrameHeight { get { return _texture.Height / Direction; } }
 
         // PROPERTY: type int name it 'FrameWidth'
         public int FrameWidth { get { return _texture.Width / FrameCount; } }
@@ -50,14 +53,17 @@ namespace COMP3451Project.EnginePackage.Animation
             // ASSIGNMENT: _texture is set to the value of the parameter texture
             _texture = pTexture;
 
-            // ASSIGNMENT: FrameCount is set to the value of the parameter FrameCount
+            // ASSIGNMENT: FrameCount is set to the value of the parameter FrameCount, used to set X value on sprite sheet
             FrameCount = pFrameCount;
-
+                        
             // ASSIGNMENT: IsLooping is set to true
             IsLooping = true;
 
             // ASSIGNMENT: FrameSpeed is set to 0.2f
             FrameSpeed = 0.2f;
+
+            // ASSIGNMENT: Drection set to
+            Direction = 0;
 
         }
     }

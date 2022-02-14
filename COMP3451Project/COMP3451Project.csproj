@@ -45,8 +45,9 @@
     <Compile Include="EnginePackage\Animation\Animation.cs" />
     <Compile Include="EnginePackage\Animation\AnimationManager.cs" />
     <Compile Include="EnginePackage\Animation\Input.cs" />
-    <Compile Include="EnginePackage\Tiles\Map.cs" />
+    <Compile Include="EnginePackage\Animation\Player.cs" />
     <Compile Include="EnginePackage\Animation\Sprite.cs" />
+    <Compile Include="EnginePackage\Tiles\Map.cs" />
     <Compile Include="EnginePackage\Tiles\Tiles.cs" />
     <Compile Include="EnginePackage\Tiles\Wall.cs" />
     <Compile Include="EnginePackage\Audio\IPlayAudio.cs" />
@@ -118,8 +119,6 @@
     <Compile Include="EnginePackage\States\IState.cs" />
     <Compile Include="EnginePackage\States\State.cs" />
     <Compile Include="Kernel.cs" />
-    <Compile Include="EnginePackage\Animation\Animation.cs" />
-    <Compile Include="EnginePackage\Animation\AnimationManager.cs" />
     <Compile Include="MapPkg\Map.cs" />
     <Compile Include="MapPkg\Tiles.cs" />
     <Compile Include="MapPkg\Wall.cs" />
@@ -129,8 +128,6 @@
     <Compile Include="PongPackage\Entities\Ball.cs" />
     <Compile Include="PongPackage\Entities\Paddle.cs" />
     <Compile Include="PongPackage\Entities\PongEntity.cs" />
-    <Compile Include="EnginePackage\Animation\Input.cs" />
-    <Compile Include="EnginePackage\Animation\Sprite.cs" />
     <Compile Include="PongPackage\States\BallState.cs" />
     <Compile Include="PongPackage\States\PaddleState.cs" />
     <Compile Include="Program.cs" />

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
-using COMP3451Project.PongPackage.Models;
+using COMP3451Project.EnginePackage.Animation;
 
 
 
@@ -68,7 +68,6 @@ namespace COMP3451Project.PongPackage.Sprites
         }
 
 
-        #endregion
 
         /// <summary>
         /// CONSTRUCTOR: Sprite
@@ -148,24 +147,36 @@ namespace COMP3451Project.PongPackage.Sprites
             {
                 //ASSIGNMENT: _velocity's Y is set to -_speed
                 _velocity.Y = -_speed;
+
+                //set animation frame height to walking up, swap '1' with the height of the walking up frames
+                _animationManager.Anime.Direction = 1;
             }
             // ELSE IF: if the down key is pressed
             else if (Keyboard.GetState().IsKeyDown(_input.Down))
             {
                 //ASSIGNMENT: _velocity's Y is set to _speed
                 _velocity.Y = _speed;
+
+                //set animation frame height to walking down, swap '1' with the height of the walking down frames
+                _animationManager.Anime.Direction = 1;
             }
             // ELSE IF: if the down key is pressed
             else if (Keyboard.GetState().IsKeyDown(_input.Left))
             {
                 //ASSIGNMENT: _velocity's X is set to -_speed
                 _velocity.X = -_speed;
+
+                //set animation frame height to walking left, swap '1' with the height of the walking left frames
+                _animationManager.Anime.Direction = 1;
             }
             // ELSE IF: if the down key is pressed
             else if (Keyboard.GetState().IsKeyDown(_input.Right))
             {
                 // ASSIGNMENT: _velocity's X is set to _speed
                 _velocity.X = _speed;
+
+                //set animation frame height to walking right, swap '1' with the height of the walking right frames
+                _animationManager.Anime.Direction = 1;
             }
         }
 
@@ -179,24 +190,33 @@ namespace COMP3451Project.PongPackage.Sprites
             {
                 // ASSIGNTMENT: sets the frame 
                 _animationManager.Play(_animations["walkRight"]);
+
+
             }
             // ELSE IF: _velocity's X value is less than 0
             else if (_velocity.X < 0)
             {
                 // ASSIGNTMENT: sets the frame
                 _animationManager.Play(_animations["walkLeft"]);
+
+                //work out position for Gerald's walk right frames & flip on axisto face left
+
             }
             // ELSE IF: _velocity's Y value is greater than 0
             else if (_velocity.Y > 0)
             {
                 // ASSIGNTMENT: sets the frame
                 _animationManager.Play(_animations["walkDown"]);
+
+                //work out position for Gerald's walk right frames
             }
             // ELSE IF: _velocity's Y value is less than 0
             else if (_velocity.Y < 0)
             {
                 // ASSIGNTMENT: sets the frame
                 _animationManager.Play(_animations["walkUp"]);
+
+                //work out position for Gerald's walk right frames
             }
         }
 
