@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
+using COMP3451Project.PongPackage.Models;
 
 
 
@@ -46,6 +47,7 @@ namespace COMP3451Project.PongPackage.Sprites
 
         // DECLARE: Vector2 name it 'Velocity'
         public Vector2 _velocity;
+        #endregion
 
         // DECLARE: Position
         public Vector2 Position 

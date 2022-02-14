@@ -26,6 +26,7 @@ namespace COMP3451Project.EnginePackage.Animation
         // PROPERTY: Vector2 naem it 'Position'
         public Vector2 Position { get; set; }
 
+
         /// <summary>
         /// METHOD: Constructor
         /// </summary>
@@ -34,6 +35,7 @@ namespace COMP3451Project.EnginePackage.Animation
         {
             // ASSIGNMENT: _animation is given the value of pAnimation
             _animation = pAnimation;
+
         }
 
 
@@ -80,6 +82,7 @@ namespace COMP3451Project.EnginePackage.Animation
         {
             // ASSIGNMENT: _timer is set to the value of 0
             _timer = 0;
+        }
 
             // ASSIGNMENT: _animation's CurrentFrame parameter is set to the value of 0
             _animation.CurrentFrame = 0;
