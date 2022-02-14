@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="EnginePackage\Animation\Animation.cs" />
     <Compile Include="EnginePackage\Animation\AnimationManager.cs" />
+    <Compile Include="EnginePackage\Animation\IAnimation.cs" />
     <Compile Include="EnginePackage\Animation\Input.cs" />
     <Compile Include="EnginePackage\Animation\Player.cs" />
     <Compile Include="EnginePackage\Animation\Sprite.cs" />
