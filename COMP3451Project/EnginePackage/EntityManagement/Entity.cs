@@ -8,8 +8,8 @@ namespace COMP3451Project.EnginePackage.EntityManagement
 {
     /// <summary>
     /// Abstract class for more specific entities to inherit from
-    /// Author: William Smith & Declan Kerby-Collins
-    /// Date: 24/01/22
+    /// Authors: William Smith & Declan Kerby-Collins
+    /// Date: 14/02/22
     /// </summary>
     public abstract class Entity : IEntity, IEntityInternal, IInitialiseParam<IState>, ICommandSender, ILayer, IContainBoundary, ITerminate
     {
@@ -42,8 +42,8 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         // DECLARE a Vector2, name it '_position', stores current location, needed to draw texture when location(x,y) is changed
         protected Vector2 _position;
 
-        // DECLARE a Vector2, name it '_windowBorder', used for storing screen size:
-        protected Vector2 _windowBorder;
+        // DECLARE a Point, name it '_windowBorder', used for storing screen size:
+        protected Point _windowBorder;
 
         #endregion
 
@@ -112,15 +112,16 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         #region IMPLEMENTATION OF IENTITYINTERNAL
 
         /// <summary>
-        /// Property which allows write access to an object's in-game state
+        /// Sets the active state of an Entity
         /// </summary>
-        public IState State
+        /// <param name="pState"> IState instance </param>
+        public void SetState(IState pState)
         {
-            set
-            {
-                // SET value of _currentState to incoming value:
-                _currentState = value;
-            }
+            // SET _currentState to pState:
+            _currentState = pState;
+
+            // PRINT State Update message to console:
+            Console.WriteLine("STATE OF " + _uName + " CHANGED, IT IS NOW: " + (pState as IName).Name);
         }
 
         /// <summary>
@@ -230,7 +231,7 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         /// <summary>
         /// Property which has read and write access to the value of screen window borders
         /// </summary>
-        public Vector2 WindowBorder
+        public Point WindowBorder
         {
             get
             {

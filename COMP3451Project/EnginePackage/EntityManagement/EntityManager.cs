@@ -114,7 +114,7 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         }
 
         /// <summary>
-        /// Terminates an object from entity manager and other managers
+        /// Terminates an entity to be removed from memory
         /// </summary>
         /// <param name="uName">Reference to object using unique name</param>
         public void Terminate(string uName)
@@ -125,15 +125,13 @@ namespace COMP3451Project.EnginePackage.EntityManagement
             // IF _entityDictionary[uName] implements IKeyboardListener:
             if (_entityDictionary[uName] is IKeyboardListener)
             {
-                // CALL Unsubscribe on KeyboardManager, passing uName as a parameter
+                // CALL Unsubscribe on KeyboardManager, passing uName as a parameter:
                 _kBManager.Unsubscribe(uName);
             }
 
             // CALL Remove(), on Dictionary to remove 'value' of key 'uName':
             _entityDictionary.Remove(uName);
         }
-
-        
 
         #endregion
 

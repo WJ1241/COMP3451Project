@@ -54,9 +54,6 @@ namespace COMP3451Project.PongPackage.Entities
         /// <param name="pUpdateEventListener"> IUpdateEventListener object </param>
         public override void Initialise(IUpdateEventListener pUpdateEventListener)
         {
-            // CALL Initialise() on _currentState, passing pUpdateEventListener as a parameter:
-            // (_currentState as IInitialiseIUpdateEventListener).Initialise(pUpdateEventListener);
-
             // SET value of _pUpdateEventListener's Velocity Property to value of _velocity:
             (pUpdateEventListener as IVelocity).Velocity = _velocity;
 

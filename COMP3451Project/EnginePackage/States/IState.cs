@@ -9,7 +9,7 @@ namespace COMP3451Project.EnginePackage.States
     /// <summary>
     /// Interface which allows implementations to contain a 'mind' to control their behaviour
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 24/01/22
+    /// Date: 14/02/22
     /// </summary>
     public interface IState
     {

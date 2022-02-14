@@ -14,7 +14,7 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         /// <summary>
         /// Property which has read and write access to the value of screen window borders
         /// </summary>
-        Vector2 WindowBorder { get; set; }
+        Point WindowBorder { get; set; }
 
         #endregion
     }

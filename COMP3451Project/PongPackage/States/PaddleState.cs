@@ -13,10 +13,10 @@ namespace COMP3451Project.EnginePackage.States
 {
     /// <summary>
     /// Class which contains conditional information for Pong Paddle entities to be modified by another class e.g. PaddleBehaviour
-    /// Author: William Smith & Declan Kerby-Collins
-    /// Date: 30/01/22
+    /// Authors: William Smith & Declan Kerby-Collins
+    /// Date: 14/02/22
     /// </summary>
-    public class PaddleState : State, IInitialiseParam<string, ICommand>, IKeyboardListener, IPlayer
+    public class PaddleState : State, IKeyboardListener, IPlayer
     {
         #region FIELD VARIABLES
 
@@ -43,22 +43,6 @@ namespace COMP3451Project.EnginePackage.States
         #endregion
 
 
-        #region IMPLEMENTATION OF IINITIALISEPARAM<STRING, ICOMMAND>
-
-        /// <summary>
-        /// Initialises an object with an ICommand object
-        /// </summary>
-        /// <param name="pString"> String Value </param>
-        /// <param name="pCommand"> Reference to an ICommand object </param>
-        public void Initialise(string pString, ICommand pCommand)
-        {
-            // ADD pCommand as a value and pString as a key to _triggerDict:
-            _triggerDict.Add(pString, pCommand);
-        }
-
-        #endregion
-
-
         #region IMPLEMENTATION OF IKEYBOARDLISTENER
 
         /// <summary>
@@ -73,14 +57,14 @@ namespace COMP3451Project.EnginePackage.States
             // IF Player 1:
             if (_playerNum == PlayerIndex.One)
             {
-                // IF W Key down
+                // IF W Key down:
                 if (pKeyboardState.IsKeyDown(Keys.W))
                 {
                     // SET _activeBehaviour to "up":
                     _activeBehaviour = "up";
                 }
 
-                // ELSE IF S Key down 
+                // ELSE IF S Key down:
                 else if (pKeyboardState.IsKeyDown(Keys.S))
                 {
                     // SET _activeBehaviour to "down":
@@ -106,8 +90,12 @@ namespace COMP3451Project.EnginePackage.States
                 }
             }
 
-            // CALL _scheduleCommand, passing _triggerDict[_activeBehaviour] as a parameter:
-            _scheduleCommand(_triggerDict[_activeBehaviour]);
+            // IF _activeBehaviour has changed:
+            if (_activeBehaviour != _stateName)
+            {
+                // CALL _scheduleCommand, passing _triggerDict[_activeBehaviour] as a parameter:
+                _scheduleCommand(_triggerDict[_activeBehaviour]);
+            }
         }
 
         #endregion

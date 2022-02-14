@@ -6,16 +6,21 @@ namespace COMP3451Project.EnginePackage.EntityManagement
     /// <summary>
     /// Interface which gives further implementations to IEntity objects
     /// Author: William Smith & Declan Kerby-Collins
-    /// Date: 06/01/22
+    /// Date: 14/02/22
     /// </summary>
     public interface IEntityInternal
     {
-        #region PROPERTIES
-        
+        #region METHODS
+
         /// <summary>
-        /// Property which allows write access to an object's in-game state
+        /// Sets the active state of an Entity
         /// </summary>
-        IState State { set; }
+        /// <param name="pState"> IState instance </param>
+        void SetState(IState pState);
+
+        #endregion
+
+        #region PROPERTIES
 
         /// <summary>
         /// Property which allows read and write access to a Termination command
