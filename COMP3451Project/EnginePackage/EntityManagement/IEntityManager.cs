@@ -17,7 +17,7 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         /// Creates an object of IEntity, using <T> as a generic type
         /// </summary>
         /// <param name="uName">Reference to object using unique name</param>
-        IEntity Create<T>(string uName) where T : IEntity, new();
+        void Create<T>(string uName) where T : IEntity, new();
 
         /// <summary>
         /// Returns an instance of an IDictionary<string, IEntity>
