@@ -48,7 +48,7 @@ namespace COMP3451Project.PongPackage.Entities
         /// <summary>
         /// When called, draws entity's texture on screen
         /// </summary>
-        /// <param name="spritebatch">Needed to draw entity's texture on screen</param>
+        /// <param name="pSpritebatch"> Needed to draw entity's texture on screen </param>
         public void Draw(SpriteBatch pSpriteBatch)
         {
             // DRAW given texture, given location, and colour

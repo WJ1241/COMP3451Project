@@ -42,6 +42,13 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="EnginePackage\Animation\Animation.cs" />
+    <Compile Include="EnginePackage\Animation\AnimationManager.cs" />
+    <Compile Include="EnginePackage\Animation\Input.cs" />
+    <Compile Include="EnginePackage\Tiles\Map.cs" />
+    <Compile Include="EnginePackage\Animation\Sprite.cs" />
+    <Compile Include="EnginePackage\Tiles\Tiles.cs" />
+    <Compile Include="EnginePackage\Tiles\Wall.cs" />
     <Compile Include="EnginePackage\Audio\IPlayAudio.cs" />
     <Compile Include="EnginePackage\Audio\SFXManager.cs" />
     <Compile Include="EnginePackage\Audio\SongManager.cs" />
@@ -75,6 +82,7 @@
     <Compile Include="EnginePackage\EntityManagement\IEntityInternal.cs" />
     <Compile Include="EnginePackage\Services\Commands\IExecuteCommand.cs" />
     <Compile Include="EnginePackage\Services\EngineManager.cs" />
+    <Compile Include="EnginePackage\Services\GenericTypeNameTrimmer.cs" />
     <Compile Include="EnginePackage\Services\IRtnService.cs" />
     <Compile Include="EnginePackage\EntityManagement\IContainBoundary.cs" />
     <Compile Include="EnginePackage\EntityManagement\ITexture.cs" />

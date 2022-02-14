@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace COMP3451Project.EnginePackage.Animation
+namespace COMP3451Project.PongPackage.Models
 {
     /// <summary>
     /// public class AnimationManager

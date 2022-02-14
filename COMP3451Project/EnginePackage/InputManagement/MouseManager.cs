@@ -3,13 +3,16 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.EntityManagement;
+using COMP3451Project.EnginePackage.Services;
 
 namespace COMP3451Project.EnginePackage.InputManagement
 {
     /// <summary>
     /// Class which manages all entities listening for Mouse input
+    /// Authors: William Smith & Declan Kerby-Collins
+    /// Date: 12/02/22
     /// </summary>
-    public class MouseManager : IUpdatable, IMousePublisher
+    public class MouseManager : IUpdatable, IMousePublisher, IService
     {
         #region FIELD VARIABLES
 

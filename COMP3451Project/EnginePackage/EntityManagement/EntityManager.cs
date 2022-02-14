@@ -9,9 +9,9 @@ namespace COMP3451Project.EnginePackage.EntityManagement
     /// <summary>
     /// Class which Stores and Initialises required commands to Entities
     /// Author: William Smith & Declan Kerby-Collins
-    /// Date: 20/01/22
+    /// Date: 12/02/22
     /// </summary>
-    public class EntityManager : IEntityManager, IInitialiseParam<ICommandScheduler>, IInitialiseParam<IFactory<IEntity>>
+    public class EntityManager : IEntityManager, IInitialiseParam<ICommandScheduler>, IInitialiseParam<IKeyboardPublisher>, IInitialiseParam<IFactory<IEntity>>
     {
         #region FIELD VARIABLES
 
@@ -52,16 +52,6 @@ namespace COMP3451Project.EnginePackage.EntityManagement
 
 
         #region IMPLEMENTATION OF IENTITYMANAGER
-
-        /// <summary>
-        /// Initialises an object with a reference to an IKeyboardPublisher
-        /// </summary>
-        /// <param name="kBManager">Reference to IKeyboardPublisher object</param>
-        public void Initialise(IKeyboardPublisher kBManager)
-        {
-            // ASSIGNMENT, set instance of _kBManager as kBManager:
-            _kBManager = kBManager;
-        }
 
         /// <summary>
         /// Creates an object of IEntity, using <T> as a generic type
@@ -115,6 +105,15 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         }
 
         /// <summary>
+        /// Returns an instance of an IDictionary<string, IEntity>
+        /// </summary>
+        public IDictionary<string, IEntity> GetDictionary()
+        {
+            // RETURN instance of _entityDictionary:
+            return _entityDictionary;
+        }
+
+        /// <summary>
         /// Terminates an object from entity manager and other managers
         /// </summary>
         /// <param name="uName">Reference to object using unique name</param>
@@ -134,17 +133,7 @@ namespace COMP3451Project.EnginePackage.EntityManagement
             _entityDictionary.Remove(uName);
         }
 
-        /// <summary>
-        /// Property which can get a reference to an IDictionary<string, IEntity>
-        /// </summary>
-        public IDictionary<string, IEntity> GetDictionary
-        {
-            get 
-            {
-                // RETURN value of current _entityDictionary:
-                return _entityDictionary;
-            }
-        }
+        
 
         #endregion
 
@@ -159,6 +148,21 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         {
             // INITIALISE _commandScheduler with reference to pCommandScheduler:
             _commandScheduler = pCommandScheduler;
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEPARAM<ICOMMANDSCHEDULER>
+
+        /// <summary>
+        /// Initialises an object with an IKeyboardPublisher object
+        /// </summary>
+        /// <param name="kBManager"> IKeyboardPublisher object </param>
+        public void Initialise(IKeyboardPublisher pKBManager)
+        {
+            // INITIALISE _kBManager with reference to pKBManager:
+            _kBManager = pKBManager;
         }
 
         #endregion

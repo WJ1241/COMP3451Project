@@ -99,7 +99,7 @@ namespace COMP3451Project.PongPackage.Entities
             // INITIALISE _currentState with instance of pState:
             _currentState = pState;
 
-            // SET PlayerNum Property of _currentState to value of _playerNum
+            // SET PlayerNum Property of _currentState to value of _playerNum:
             (_currentState as IPlayer).PlayerNum = _playerNum;
         }
 
@@ -109,7 +109,7 @@ namespace COMP3451Project.PongPackage.Entities
         #region IMPLEMENTATION OF IINITIALISEPARAM<IUPDATEEVENTLISTENER>
 
         /// <summary>
-        /// Initialises an object with an IUpdateEventListener object
+        /// Initialises an object with a reference to an IUpdateEventListener instance
         /// </summary>
         /// <param name="pUpdateEventListener"> IUpdateEventListener object </param>
         public override void Initialise(IUpdateEventListener pUpdateEventListener)
