@@ -16,10 +16,10 @@ namespace COMP3451Project.EnginePackage.CollisionManagement
     {
         #region FIELD VARIABLES
 
-        // DECLARE an IReadOnlyDictionary, call it '_entityDictionary', used as CollisionManager should not modify entity Dictionary:
+        // DECLARE an IReadOnlyDictionary, name it '_entityDictionary', used as CollisionManager should not modify entity Dictionary:
         private IReadOnlyDictionary<string, IEntity> _entityDictionary;
 
-        // DECLARE an IList<ICollidable>, call it '_collidableList', used to store objects implementing ICollidable:
+        // DECLARE an IList<ICollidable>, name it '_collidableList', used to store objects implementing ICollidable:
         private IList<ICollidable> _collidableList;
 
         #endregion

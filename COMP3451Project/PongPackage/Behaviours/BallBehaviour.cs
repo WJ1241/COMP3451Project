@@ -30,7 +30,7 @@ namespace COMP3451Project.PongPackage.Behaviours
             _velocity = (_entity as IVelocity).Velocity;
 
             // IF at top screen edge or bottom screen edge:
-            if (_entity.Position.Y <= 0 || _entity.Position.Y >= (_entity as IContainBoundary).WindowBorder.Y - (_entity as ITexture).Texture.Height) 
+            if (_entity.Position.Y <= 0 || _entity.Position.Y >= (_entity as IContainBoundary).WindowBorder.Y - (_entity as ITexture).TextureSize.Y) 
             {
                 // MULTIPLY _currentVel.Y by '-1':
                 _velocity.Y *= -1;
@@ -39,7 +39,7 @@ namespace COMP3451Project.PongPackage.Behaviours
                 (_entity as IVelocity).Velocity = _velocity;
             }
             // IF at left screen edge or right screen edge:
-            else if (_entity.Position.X <= 0 || _entity.Position.X >= ((_entity as IContainBoundary).WindowBorder.X - (_entity as ITexture).Texture.Width)) 
+            else if (_entity.Position.X <= 0 || _entity.Position.X >= (_entity as IContainBoundary).WindowBorder.X - (_entity as ITexture).TextureSize.X)
             {
                 // CALL ScheduleCommand Property, passing RemoveMe Property as a parameter:
                 (_entity as ICommandSender).ScheduleCommand((_entity as IEntityInternal).RemoveMe);

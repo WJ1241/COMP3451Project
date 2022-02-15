@@ -39,11 +39,11 @@ namespace COMP3451Project.PongPackage.Behaviours
                 _entity.Position = new Vector2(_entity.Position.X, 0);
             }
 
-            // ELSE IF Paddle at bottom of screen:
-            else if (_entity.Position.Y >= (_entity as IContainBoundary).WindowBorder.Y - (_entity as ITexture).Texture.Height)
+            // IF Paddle at bottom of screen:
+            else if (_entity.Position.Y >= (_entity as IContainBoundary).WindowBorder.Y - (_entity as ITexture).TextureSize.Y)
             {
                 // ASSIGNMENT, set _position.Y to _windowBorder.Y - _texture.Height, keeps at bottom of screen:
-                _entity.Position = new Vector2(_entity.Position.X, (_entity as IContainBoundary).WindowBorder.Y - (_entity as ITexture).Texture.Height);
+                _entity.Position = new Vector2(_entity.Position.X, (_entity as IContainBoundary).WindowBorder.Y - (_entity as ITexture).TextureSize.Y);
             }
         }
 

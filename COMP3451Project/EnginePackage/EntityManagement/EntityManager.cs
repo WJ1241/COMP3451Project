@@ -21,13 +21,13 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         // DECLARE an ICommandScheduler, name it '_commandScheduler':
         private ICommandScheduler _commandScheduler;
 
-        // DECLARE an IKeyboardPublisher, call it '_kbManager':
+        // DECLARE an IKeyboardPublisher, name it '_kbManager':
         private IKeyboardPublisher _kBManager;
 
-        // DECLARE an IDictionary, call it '_entityDictionary':
+        // DECLARE an IDictionary, name it '_entityDictionary':
         private IDictionary<string, IEntity> _entityDictionary;
 
-        // DECLARE an int, call it 'uIDCount', used to set unique IDs:
+        // DECLARE an int, name it 'uIDCount', used to set unique IDs:
         private int _uIDCount;
 
 
@@ -57,7 +57,7 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         /// Creates an object of IEntity, using <T> as a generic type
         /// </summary>
         /// <param name="uName">Reference to object using unique name</param>
-        public IEntity Create<T>(string uName) where T : IEntity, new()
+        public void Create<T>(string uName) where T : IEntity, new()
         {
             #region CREATION
 
@@ -93,13 +93,10 @@ namespace COMP3451Project.EnginePackage.EntityManagement
             #endregion
 
 
-            #region ENTITY RETURN
+            #region ADDING TO DICTIONARY
 
             // ADD _entity to Dictionary<string, IEntity>:
             _entityDictionary.Add(uName, _entity);
-
-            // RETURN newly created entity:
-            return _entityDictionary[uName];
 
             #endregion
         }
@@ -151,7 +148,7 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         #endregion
 
 
-        #region IMPLEMENTATION OF IINITIALISEPARAM<ICOMMANDSCHEDULER>
+        #region IMPLEMENTATION OF IINITIALISEPARAM<IKEYBOARDPUBLISHER>
 
         /// <summary>
         /// Initialises an object with an IKeyboardPublisher object

@@ -21,7 +21,7 @@ namespace COMP3451Project.PongPackage.Entities
     {
         #region FIELD VARIABLES
 
-        // DECLARE a PlayerIndex and call it '_playerNum':
+        // DECLARE a PlayerIndex and name it '_playerNum':
         private PlayerIndex _playerNum;
 
         #endregion
@@ -50,7 +50,7 @@ namespace COMP3451Project.PongPackage.Entities
             get
             {
                 // RETURN a rectangle, object current X axis location, object current Y axis location, texture width size, texture height size:
-                return new Rectangle((int)_position.X, (int)_position.Y, _texture.Width, _texture.Height);
+                return new Rectangle((int)_position.X, (int)_position.Y, _textureSize.X, _textureSize.Y);
             }
         }
 
@@ -114,8 +114,6 @@ namespace COMP3451Project.PongPackage.Entities
         /// <param name="pUpdateEventListener"> IUpdateEventListener object </param>
         public override void Initialise(IUpdateEventListener pUpdateEventListener)
         {
-            // TODO: GET PADDLE AND STATE WORKING
-
             // INITIALISE pUpdateEventListener with this class:
             (pUpdateEventListener as IInitialiseParam<IEntity>).Initialise(this);
         }
