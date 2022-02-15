@@ -35,10 +35,6 @@ namespace COMP3451Project.PongPackage.Sprites
         // DECLARE: Vector2 name it '_position'
         protected Vector2 _position;
 
-        #endregion
-
-        #region Properties 
-
         // DECLARE: Input name it 'Input'
         public Input _input;
 

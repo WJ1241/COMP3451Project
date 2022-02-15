@@ -14,6 +14,7 @@ using COMP3451Project.EnginePackage.Services.Commands;
 using COMP3451Project.EnginePackage.States;
 using COMP3451Project.PongPackage.Behaviours;
 using COMP3451Project.PongPackage.Entities;
+using COMP3451Project.EnginePackage.Animation;
 
 namespace COMP3451Project
 {
@@ -44,6 +45,17 @@ namespace COMP3451Project
         // DECLARE an int, name it '_ballCount':
         // USED ONLY TO KEEP VALUE FROM RESETTING
         private int _ballCount;
+
+
+
+        private Texture2D _player;
+
+        private Vector2 movement;
+
+        private float movespeed = 5f;
+
+        private Animation _anime;
+
 
         #endregion
 
@@ -245,6 +257,14 @@ namespace COMP3451Project
             #region ENTITY
 
             /// INSTANTIATION
+            /// 
+
+
+            // INSTANTIATE new Paddle(), name it "Paddle1":
+            _entityManager.Create<Animation>("Geoff1");
+
+
+
 
             // INSTANTIATE new Paddle(), name it "Paddle1":
             _entityManager.Create<Paddle>("Paddle1");
@@ -380,6 +400,9 @@ namespace COMP3451Project
             // INSTANTIATE _spriteBatch as new SpriteBatch:
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+
+
+
             /*
 
             //------------------------------------------
@@ -405,10 +428,19 @@ namespace COMP3451Project
 
             */
 
+            IEntity _tempPlayer = (_engineManager.GetService<EntityManager>() as IEntityManager).GetDictionary()["Geoff1"];
+
+            _player = Content.Load<Texture2D>("Geoff");
+
+            _anime = new Animation(_player, 0, 32, 32);
+
+
+
+
             #region LAYER 5
 
             #region PADDLES
-            
+
             /// PADDLE 1
 
             // DECLARE & INITIALISE an IEntity with reference to "Paddle1":
@@ -500,6 +532,8 @@ namespace COMP3451Project
 
             // CALL Draw() method on returned SceneManager instance from _engineManager:
             (_engineManager.GetService<SceneManager>() as IDraw).Draw(_spriteBatch);
+
+
 
             // CALL Draw() method from base class:
             base.Draw(gameTime);

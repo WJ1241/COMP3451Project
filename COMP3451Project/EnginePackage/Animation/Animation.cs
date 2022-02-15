@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using COMP3451Project.EnginePackage.EntityManagement;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace COMP3451Project.EnginePackage.Animation
     /// date: 04/02/2022
     /// <Reference> Oyyou (2017) MonoGame Tutorial 011 - Sprite Animation Avaliable at: https://www.youtube.com/watch?v=OLsiWxgONeM&t=297s Accessed 04/02/2022 </Refference>
     /// </summary>
-    public class Animation: IAnimation
+    public class Animation: IAnimation, IEntity
     {
 
         #region old
@@ -94,6 +95,33 @@ namespace COMP3451Project.EnginePackage.Animation
         // DECLARE: int name it '_frameTime'
         private int _frameTime = 0;
 
+        public Vector2 Position { get; set; }
+        public int UID { get; set; }
+        public string UName { get; set; }
+
+        public int Collumn 
+        { 
+            get { return _collumn;  }
+            set { _collumn = value;  }
+        }
+
+        public int Width
+        {
+            get { return _width; }
+            set { _width = value; }
+        }
+
+        public int Height 
+        {
+            get { return _heigth; }
+            set { _heigth = value; } 
+        }
+
+        public Texture2D SpriteSheet 
+        {
+            get { return _anime; }
+            set { _anime = value; }
+        }
 
         /// <summary>
         /// CONSTRUCTOR: Animation
@@ -102,24 +130,26 @@ namespace COMP3451Project.EnginePackage.Animation
         /// <param name="pCol"></param>
         /// <param name="pWidth"></param>
         /// <param name="pHeight"></param>
-        public Animation(Texture2D pSpriteSheet, int pCol, int pWidth, int pHeight)
+        public Animation()
         {
             // ASSIGNMENT: _anime is set to the value of pSpriteSheet
-            _anime = pSpriteSheet;
+            _anime = SpriteSheet;
 
             // ASSIGNMENT: _collumn is set to the value of pCol
-            _collumn = pCol;
+            _collumn = Collumn;
 
             // ASSIGNMENT: _heigth is set to the value of pHeight
-            _heigth = pHeight;
+            _heigth = Height;
 
             // ASSIGNMENT: _width is set to the value of pWidth
-            _width = pWidth;
+            _width = Width;
 
-            // ASSIGNMENT: _frame is set to the value of _anime
-            _frame = _anime.Height / pHeight;
+            // ASSIGNMENT: _frame is set to the value of _anime height divided by pHeight 
+            _frame = _anime.Height / Height;
 
         }
+
+
 
         /// <summary>
         /// METHOD : Draw
@@ -134,7 +164,7 @@ namespace COMP3451Project.EnginePackage.Animation
             if (_c < _frame)
             {
                 // CALL: call pSpriteBatch's Draw method passing in _width, _heigth and dimensions of 16, 16
-                pSpriteBatch.Draw(_anime, pRect, new Rectangle(_width, _heigth, 16, 16), Color.White);
+                pSpriteBatch.Draw(_anime, pRect, new Rectangle(_width, _heigth, 32, 32), Color.White);
 
                 // ASSIGNMENT: _frameTime has the value of pGameTime's ElapsedGameTime in Milliseconds added to it
                 _frameTime += pGameTime.ElapsedGameTime.Milliseconds;
@@ -158,5 +188,9 @@ namespace COMP3451Project.EnginePackage.Animation
             }
         }
 
+        public void Initialise()
+        {
+            
+        }
     }
 }
