@@ -418,7 +418,7 @@ namespace COMP3451Project
             (_tempEntity as ITexture).Texture = Content.Load<Texture2D>("paddle");
 
             // SPAWN "Paddle1" in "Level1" at the far left on the X axis with a gap, and middle on the Y axis:
-            (_engineManager.GetService<SceneManager>() as ISceneManager).Spawn("Level1", _tempEntity, new Vector2(0 + (_tempEntity as ITexture).Texture.Width, (_screenSize.Y / 2) - (_tempEntity as ITexture).Texture.Height / 2));
+            (_engineManager.GetService<SceneManager>() as ISceneManager).Spawn("Level1", _tempEntity, new Vector2(0 + (_tempEntity as ITexture).TextureSize.X, (_screenSize.Y / 2) - (_tempEntity as ITexture).TextureSize.Y / 2));
 
             /*
             /// PADDLE 2

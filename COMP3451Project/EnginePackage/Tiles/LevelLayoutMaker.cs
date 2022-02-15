@@ -60,7 +60,7 @@ namespace COMP3451Project.EnginePackage.Tiles
                     // FOREACH Tile on Layer 1:
                     foreach (TmxLayerTile pTile in pTileLayer.Tiles)
                     {
-                        pTile.X
+                        //pTile.X
                     }
                 }
             }

@@ -21,13 +21,13 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         // DECLARE an ICommandScheduler, name it '_commandScheduler':
         private ICommandScheduler _commandScheduler;
 
-        // DECLARE an IKeyboardPublisher, call it '_kbManager':
+        // DECLARE an IKeyboardPublisher, name it '_kbManager':
         private IKeyboardPublisher _kBManager;
 
-        // DECLARE an IDictionary, call it '_entityDictionary':
+        // DECLARE an IDictionary, name it '_entityDictionary':
         private IDictionary<string, IEntity> _entityDictionary;
 
-        // DECLARE an int, call it 'uIDCount', used to set unique IDs:
+        // DECLARE an int, name it 'uIDCount', used to set unique IDs:
         private int _uIDCount;
 
 

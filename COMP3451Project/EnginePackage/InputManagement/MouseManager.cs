@@ -16,10 +16,10 @@ namespace COMP3451Project.EnginePackage.InputManagement
     {
         #region FIELD VARIABLES
 
-        // DECLARE an IDictionary<string, IMouseListener>, call it '_mouseListeners':
+        // DECLARE an IDictionary<string, IMouseListener>, name it '_mouseListeners':
         private IDictionary<string, IMouseListener> _mouseListeners;
 
-        // DECLARE a MouseState, call it '_mouseState':
+        // DECLARE a MouseState, name it '_mouseState':
         private MouseState _mouseState;
 
         #endregion

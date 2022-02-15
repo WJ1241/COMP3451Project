@@ -16,10 +16,10 @@ namespace COMP3451Project.EnginePackage.InputManagement
     {
         #region FIELD VARIABLES
 
-        // DECLARE an IDictionary<string, IKeyboardListener>, call it '_kBListeners':
+        // DECLARE an IDictionary<string, IKeyboardListener>, name it '_kBListeners':
         private IDictionary<string, IKeyboardListener> _kBListeners;
 
-        // DECLARE a KeyboardState, call it '_keyboardState':
+        // DECLARE a KeyboardState, name it '_keyboardState':
         private KeyboardState _keyboardState;
 
         #endregion

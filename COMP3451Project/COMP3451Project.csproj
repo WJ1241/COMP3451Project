@@ -48,6 +48,7 @@
     <Compile Include="EnginePackage\Animation\Input.cs" />
     <Compile Include="EnginePackage\Animation\Player.cs" />
     <Compile Include="EnginePackage\Animation\Sprite.cs" />
+    <Compile Include="EnginePackage\CoreInterfaces\IRotation.cs" />
     <Compile Include="EnginePackage\Tiles\ILevelLayoutMaker.cs" />
     <Compile Include="EnginePackage\Tiles\LevelLayoutMaker.cs" />
     <Compile Include="EnginePackage\Tiles\Map.cs" />
@@ -88,8 +89,8 @@
     <Compile Include="EnginePackage\Services\EngineManager.cs" />
     <Compile Include="EnginePackage\Services\GenericTypeNameTrimmer.cs" />
     <Compile Include="EnginePackage\Services\IRtnService.cs" />
-    <Compile Include="EnginePackage\EntityManagement\IContainBoundary.cs" />
-    <Compile Include="EnginePackage\EntityManagement\ITexture.cs" />
+    <Compile Include="EnginePackage\CoreInterfaces\IContainBoundary.cs" />
+    <Compile Include="EnginePackage\CoreInterfaces\ITexture.cs" />
     <Compile Include="EnginePackage\EntityManagement\ITerminate.cs" />
     <Compile Include="EnginePackage\CoreInterfaces\IVelocity.cs" />
     <Compile Include="EnginePackage\Exceptions\ClassDoesNotExistException.cs" />

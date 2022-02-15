@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace COMP3451Project.EnginePackage.EntityManagement
+namespace COMP3451Project.EnginePackage.CoreInterfaces
 {
     /// <summary>
     /// Interface that allows implementations to have access to Screen Size
