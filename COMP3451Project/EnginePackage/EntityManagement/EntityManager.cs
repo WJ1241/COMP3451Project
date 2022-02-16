@@ -2,6 +2,7 @@
 using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.InputManagement;
 using COMP3451Project.EnginePackage.Services.Commands;
+using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
 using COMP3451Project.EnginePackage.Services.Factories;
 
 namespace COMP3451Project.EnginePackage.EntityManagement
@@ -24,8 +25,8 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         // DECLARE an IKeyboardPublisher, name it '_kbManager':
         private IKeyboardPublisher _kBManager;
 
-        // DECLARE an IDictionary, name it '_entityDictionary':
-        private IDictionary<string, IEntity> _entityDictionary;
+        // DECLARE an IDictionary, name it '_entityDict':
+        private IDictionary<string, IEntity> _entityDict;
 
         // DECLARE an int, name it 'uIDCount', used to set unique IDs:
         private int _uIDCount;
@@ -41,8 +42,8 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         /// </summary>
         public EntityManager()
         {
-            // INSTANTIATE _entityDictionary as new Dictionary<string, IEntity>:
-            _entityDictionary = new Dictionary<string, IEntity>();
+            // INSTANTIATE _entityDict as a new Dictionary<string, IEntity>:
+            _entityDict = new Dictionary<string, IEntity>();
 
             // ASSIGNMENT, set value of _uIDCount to 0:
             _uIDCount = 0;
@@ -56,8 +57,8 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         /// <summary>
         /// Creates an object of IEntity, using <T> as a generic type
         /// </summary>
-        /// <param name="uName">Reference to object using unique name</param>
-        public void Create<T>(string uName) where T : IEntity, new()
+        /// <param name="pUName">Reference to object using unique name</param>
+        public IEntity Create<T>(string pUName) where T : IEntity, new()
         {
             #region CREATION
 
@@ -67,8 +68,8 @@ namespace COMP3451Project.EnginePackage.EntityManagement
             // DECLARE & INSTANTIATE an IEntity as a new T, name it '_entity':
             IEntity _entity = _entityFactory.Create<T>();
 
-            // CALL Generate() to initialise uID and uName:
-            Generate(_entity, _uIDCount, uName);
+            // CALL Generate() to initialise uID and pUName:
+            Generate(_entity, _uIDCount, pUName);
 
             #endregion
 
@@ -93,10 +94,13 @@ namespace COMP3451Project.EnginePackage.EntityManagement
             #endregion
 
 
-            #region ADDING TO DICTIONARY
+            #region ADDING TO DICTIONARY & RETURN
 
-            // ADD _entity to Dictionary<string, IEntity>:
-            _entityDictionary.Add(uName, _entity);
+            // ADD pUName as a key and _entity as a value to _entityDict:
+            _entityDict.Add(pUName, _entity);
+
+            // RETURN instance of _entityDict[pUName]:
+            return _entityDict[pUName];
 
             #endregion
         }
@@ -106,28 +110,28 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         /// </summary>
         public IDictionary<string, IEntity> GetDictionary()
         {
-            // RETURN instance of _entityDictionary:
-            return _entityDictionary;
+            // RETURN instance of _entityDict:
+            return _entityDict;
         }
 
         /// <summary>
         /// Terminates an entity to be removed from memory
         /// </summary>
-        /// <param name="uName">Reference to object using unique name</param>
-        public void Terminate(string uName)
+        /// <param name="pUName">Reference to object using unique name</param>
+        public void Terminate(string pUName)
         {
             // CALL Terminate(), on ITerminate to dispose of resources:
-            (_entityDictionary[uName] as ITerminate).Terminate();
+            (_entityDict[pUName] as ITerminate).Terminate();
 
-            // IF _entityDictionary[uName] implements IKeyboardListener:
-            if (_entityDictionary[uName] is IKeyboardListener)
+            // IF _entityDict[pUName] implements IKeyboardListener:
+            if (_entityDict[pUName] is IKeyboardListener)
             {
                 // CALL Unsubscribe on KeyboardManager, passing uName as a parameter:
-                _kBManager.Unsubscribe(uName);
+                _kBManager.Unsubscribe(pUName);
             }
 
-            // CALL Remove(), on Dictionary to remove 'value' of key 'uName':
-            _entityDictionary.Remove(uName);
+            // CALL Remove() on _entityDict to remove value addressed by 'pUName':
+            _entityDict.Remove(pUName);
         }
 
         #endregion
@@ -153,7 +157,7 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         /// <summary>
         /// Initialises an object with an IKeyboardPublisher object
         /// </summary>
-        /// <param name="kBManager"> IKeyboardPublisher object </param>
+        /// <param name="pKBManager"> IKeyboardPublisher object </param>
         public void Initialise(IKeyboardPublisher pKBManager)
         {
             // INITIALISE _kBManager with reference to pKBManager:

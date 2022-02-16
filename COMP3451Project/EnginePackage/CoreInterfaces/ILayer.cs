@@ -13,8 +13,8 @@ namespace COMP3451Project.EnginePackage.CoreInterfaces
 
         /// <summary>
         /// Property which can get and set layer value
-        /// Layer 1: Walls
-        /// Layer 2: Floors
+        /// Layer 1: Floors
+        /// Layer 2: Walls
         /// Layer 3: Static Obstacles
         /// Layer 4: Items
         /// Layer 5: Player/Enemy

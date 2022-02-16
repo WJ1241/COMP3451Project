@@ -40,7 +40,14 @@ namespace COMP3451Project.PongPackage.Entities
         /// </summary>
         public Ball()
         {
-            // EMPTY CONSTRUCTOR
+            // INSTANTIATE new Vector, value of 1 for both X and Y:
+            _direction = new Vector2(1);
+
+            // ASSIGNMENT, set _speed to 8:
+            _speed = 8;
+
+            // ASSIGNMENT, set value of _velocity to _speed mutlipled by _direction:
+            _velocity = _speed * _direction;
         }
 
         #endregion
@@ -59,26 +66,6 @@ namespace COMP3451Project.PongPackage.Entities
 
             // INITIALISE pUpdateEventListener with this class:
             (pUpdateEventListener as IInitialiseParam<IEntity>).Initialise(this);
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF IENTITY
-
-        /// <summary>
-        /// Initialises entity variable values
-        /// </summary>
-        public override void Initialise()
-        {
-            // INSTANTIATE new Vector, value of 1 for both X and Y:
-            _direction = new Vector2(1);
-
-            // ASSIGNMENT, set _speed to 8:
-            _speed = 8;
-
-            // ASSIGNMENT, set value of _velocity to _speed mutlipled by _direction:
-            _velocity = _speed * _direction;
         }
 
         #endregion
@@ -124,7 +111,7 @@ namespace COMP3451Project.PongPackage.Entities
             get
             {
                 // RETURN a rectangle, object current X axis location, object current Y axis location, texture width size, texture height size:
-                return new Rectangle((int)_position.X, (int)_position.Y, _texture.Width, _texture.Height);
+                return new Rectangle((int)_position.X, (int)_position.Y, _textureSize.X, _textureSize.Y);
             }
         }
 

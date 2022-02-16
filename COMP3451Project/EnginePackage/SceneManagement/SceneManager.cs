@@ -110,11 +110,11 @@ namespace COMP3451Project.EnginePackage.SceneManagement
         /// <summary>
         /// When called, draws entity's texture on screen
         /// </summary>
-        /// <param name="spritebatch">Needed to draw entity's texture on screen</param>
-        public void Draw(SpriteBatch spriteBatch)
+        /// <param name="pSpriteBatch"> Needed to draw entity's texture on screen </param>
+        public void Draw(SpriteBatch pSpriteBatch)
         {
             // CALL Draw() on _sGDict[_currentScene], passing spriteBatch as a parameter:
-            (_sGDict[_currentScene] as IDraw).Draw(spriteBatch);
+            (_sGDict[_currentScene] as IDraw).Draw(pSpriteBatch);
 
             // CALL Draw() on _map, passing spriteBatch as a parameter:
             //(_map as IDraw).Draw(spriteBatch);

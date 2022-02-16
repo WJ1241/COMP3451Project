@@ -7,7 +7,7 @@ namespace COMP3451Project.EnginePackage.EntityManagement
     /// <summary>
     /// Interface that allows implementations to store Entities
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 12/02/22
+    /// Date: 15/02/22
     /// </summary>
     public interface IEntityManager : IService
     {
@@ -16,8 +16,8 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         /// <summary>
         /// Creates an object of IEntity, using <T> as a generic type
         /// </summary>
-        /// <param name="uName">Reference to object using unique name</param>
-        void Create<T>(string uName) where T : IEntity, new();
+        /// <param name="pUName">Reference to object using unique name</param>
+        IEntity Create<T>(string pUName) where T : IEntity, new();
 
         /// <summary>
         /// Returns an instance of an IDictionary<string, IEntity>
@@ -27,8 +27,8 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         /// <summary>
         /// Terminates an entity to be removed from memory
         /// </summary>
-        /// <param name="uName">Reference to object using unique name</param>
-        void Terminate(string uName);
+        /// <param name="pUName">Reference to object using unique name</param>
+        void Terminate(string pUName);
 
         #endregion
     }

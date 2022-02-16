@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using COMP3451Project.EnginePackage.Behaviours;
 using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.EntityManagement;
 
@@ -16,15 +15,9 @@ namespace COMP3451Project.PongPackage.Entities
     /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 15/02/22
     /// </summary>
-    public abstract class PongEntity : Entity, IInitialiseParam<IUpdateEventListener>, IDraw, IRotation, ITexture, IUpdatable, IVelocity
+    public abstract class PongEntity : UpdatableEntity, IRotation, IVelocity
     {
         #region FIELD VARIABLES
-
-        // DECLARE a Texture2D, name it '_texture':
-        protected Texture2D _texture;
-
-        // DECLARE a Texture2D, name it '_textureSize':
-        protected Point _textureSize;
 
         // DECLARE a Vector2, name it '_drawOrigin':
         protected Vector2 _drawOrigin;
@@ -41,27 +34,19 @@ namespace COMP3451Project.PongPackage.Entities
         #endregion
 
 
-        #region IMPLEMENTATION OF IINITIALISEPARAM<IUPDATEEVENTLISTENER>
-
-        /// <summary>
-        /// Initialises an object with an IUpdateEventListener object
-        /// </summary>
-        /// <param name="pUpdateEventListener"> IUpdateEventListener object </param>
-        public abstract void Initialise(IUpdateEventListener pUpdateEventListener);
-
-        #endregion
-
-
         #region IMPLEMENTATION OF IDRAW
 
         /// <summary>
         /// When called, draws entity's texture on screen
         /// </summary>
-        /// <param name="pSpritebatch"> Needed to draw entity's texture on screen </param>
-        public virtual void Draw(SpriteBatch pSpriteBatch)
+        /// <param name="pSpriteBatch"> Needed to draw entity's texture on screen </param>
+        public override void Draw(SpriteBatch pSpriteBatch)
         {
             // DRAW given texture, given location, and colour
-            pSpriteBatch.Draw(_texture, _position, Color.AntiqueWhite);
+            pSpriteBatch.Draw(_texture, _position, null, Color.AntiqueWhite, _rotAngle, _drawOrigin, 1f, SpriteEffects.None, 1f);
+
+
+            //(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth);
         }
 
         #endregion
@@ -100,12 +85,13 @@ namespace COMP3451Project.PongPackage.Entities
 
         #endregion
 
+
         #region IMPLEMENTATION OF ITEXTURE
 
         /// <summary>
         /// Property which allows access to get or set value of 'texture'
         /// </summary>
-        public Texture2D Texture
+        public override Texture2D Texture
         {
             get
             {
@@ -124,34 +110,6 @@ namespace COMP3451Project.PongPackage.Entities
                 _drawOrigin = new Vector2(_texture.Width / 2, _texture.Height / 2);
             }
         }
-
-        /// <summary>
-        /// Property which allows read or write access to size of texture
-        /// </summary>
-        public Point TextureSize
-        {  
-            get
-            {
-                // RETURN value of _textureSize:
-                return _textureSize;
-            }
-            set
-            {
-                // SET value of _textureSize to incoming value:
-                _textureSize = value;
-            }
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF IUPDATABLE
-
-        /// <summary>
-        /// Updates object when a frame has been rendered on screen
-        /// </summary>
-        /// <param name="pGameTime">holds reference to GameTime object</param>
-        public abstract void Update(GameTime pGameTime);
 
         #endregion
 

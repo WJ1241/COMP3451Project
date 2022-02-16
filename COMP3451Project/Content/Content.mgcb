@@ -25,6 +25,18 @@
 /processorParam:TextureFormat=Color
 /build:Characters_Pixel.png
 
+#begin ExampleLevel/tileset.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ExampleLevel/tileset.png
+
 #begin Geoff.png
 /importer:TextureImporter
 /processor:TextureProcessor

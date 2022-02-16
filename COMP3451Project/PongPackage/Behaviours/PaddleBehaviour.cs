@@ -6,14 +6,13 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.CustomEventArgs;
-using COMP3451Project.EnginePackage.EntityManagement;
 
 namespace COMP3451Project.PongPackage.Behaviours
 {
     /// <summary>
     /// Class which defines the behaviour for Paddle entities
     /// Authors: William Smith & Declan Kerby-Collins 
-    /// Date: 30/01/22
+    /// Date: 15/02/22
     /// </summary>
     public class PaddleBehaviour : PongBehaviour, IDirection
     {
@@ -33,17 +32,17 @@ namespace COMP3451Project.PongPackage.Behaviours
         protected override void Boundary()
         {
             // IF Paddle at top of screen:
-            if (_entity.Position.Y <= 0)
+            if (_entity.Position.Y - (_entity as IRotation).DrawOrigin.Y <= 0)
             {
-                // ASSIGNMENT, set _position.Y to 0, keeps at top of screen:
-                _entity.Position = new Vector2(_entity.Position.X, 0);
+                // ASSIGNMENT, set _position.Y to _entity's Origin Point, keeps at top of screen:
+                _entity.Position = new Vector2(_entity.Position.X, (_entity as IRotation).DrawOrigin.Y);
             }
 
             // IF Paddle at bottom of screen:
-            else if (_entity.Position.Y >= (_entity as IContainBoundary).WindowBorder.Y - (_entity as ITexture).TextureSize.Y)
+            else if (_entity.Position.Y + (_entity as IRotation).DrawOrigin.Y >= (_entity as IContainBoundary).WindowBorder.Y)
             {
-                // ASSIGNMENT, set _position.Y to _windowBorder.Y - _texture.Height, keeps at bottom of screen:
-                _entity.Position = new Vector2(_entity.Position.X, (_entity as IContainBoundary).WindowBorder.Y - (_entity as ITexture).TextureSize.Y);
+                // ASSIGNMENT, set _position.Y to _windowBorder.Y - _textureSize.Y, keeps at bottom of screen:
+                _entity.Position = new Vector2(_entity.Position.X, (_entity as IContainBoundary).WindowBorder.Y - (_entity as IRotation).DrawOrigin.Y);
             }
         }
 
