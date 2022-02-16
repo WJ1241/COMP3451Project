@@ -1,4 +1,5 @@
-﻿using COMP3451Project.EnginePackage.EntityManagement;
+﻿using COMP3451Project.EnginePackage.CoreInterfaces;
+using COMP3451Project.EnginePackage.EntityManagement;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -13,184 +14,164 @@ namespace COMP3451Project.EnginePackage.Animation
     /// public class Animation
     /// contains code for Animation
     /// Authors: Declan Kerby-Collins & William Smith
-    /// date: 04/02/2022
-    /// <Reference> Oyyou (2017) MonoGame Tutorial 011 - Sprite Animation Avaliable at: https://www.youtube.com/watch?v=OLsiWxgONeM&t=297s Accessed 04/02/2022 </Refference>
+    /// date: 16/02/2022
     /// </summary>
-    public class Animation: IAnimation, IEntity
+    public class Animation : IAnimation, IInitialiseParam<Texture2D>
     {
+        // DECLARE: 
+        private Texture2D _spriteSheet;
 
-        #region old
-        /*
-        #region properties
-        // PROPERTY: type int name it 'CurrentFrame'
-        public int CurrentFrame { get; set; }
-
-        // PROPERTY: type int name it 'FrameCount'
-        public int FrameCount { get; set; }
-
-        // PROPERTY: type int name it 'Direction'
-        public int Direction { get; set; }
-
-        // PROPERTY: type int name it 'FrameHeight'
-        public int FrameHeight { get { return _texture.Height / Direction; } }
-
-        // PROPERTY: type int name it 'FrameWidth'
-        public int FrameWidth { get { return _texture.Width / FrameCount; } }
-
-        // PROPERTY: type Keys name it 'FrameSpeed'
-        public float FrameSpeed { get; set; }
-
-        // PROPERTY: type bool name it 'IsLooping'
-        public bool IsLooping { get; set; }
-
-        // PROPERTY: type Texture2D name it '_texture'
-        public Texture2D _texture { get; private set; }
-
-        #endregion
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="pTexture"></param> sprite texture
-        /// <param name="pFrameCount"></param> current FrameCount
-        public Animation(Texture2D pTexture, int pFrameCount)
-        {
-            // ASSIGNMENT: _texture is set to the value of the parameter texture
-            _texture = pTexture;
-
-            // ASSIGNMENT: FrameCount is set to the value of the parameter FrameCount, used to set X value on sprite sheet
-            FrameCount = pFrameCount;
-                        
-            // ASSIGNMENT: IsLooping is set to true
-            IsLooping = true;
-
-            // ASSIGNMENT: FrameSpeed is set to 0.2f
-            FrameSpeed = 0.2f;
-
-            // ASSIGNMENT: Drection set to
-            Direction = 0;
-
-        }
-        */
-        #endregion
-
-        // DECLARE:
-        private Texture2D _anime;
-
-        // DECLARE: int name it '_collumn'
-        private int _collumn;
-
-        // DECLARE: int name it '_heigth'
-        private int _heigth;
+        // DECLARE: int name it '_height'
+        private int _height;
 
         // DECLARE: int name it '_width'
         private int _width;
 
-        // DECLARE: int name it '_frame'
-        private int _frame;
+        // DECLARE: int name it '_frameCount'
+        private int _frameCount;
 
-        // DECLARE: int name it '_c' (its a counter)
-        private int _c = 0;
+        // DECLARE: int name it '_frameShift'
+        private int _frameShift;
 
-        // DECLARE: int name it '_frameTime'
-        private int _frameTime = 0;
+        // DECLARE: int name it '_input'
+        private string _input;
 
-        public Vector2 Position { get; set; }
-        public int UID { get; set; }
-        public string UName { get; set; }
+        // DECLARE: Vector2 name it '_position'
+        private Vector2 _position;
 
-        public int Collumn 
-        { 
-            get { return _collumn;  }
-            set { _collumn = value;  }
-        }
+        // DECLARE: Rectangle name it '_frame'
+        private Rectangle _frame;
 
-        public int Width
-        {
-            get { return _width; }
-            set { _width = value; }
-        }
+        // PROPPERTY: int name it 'Height'
+        public int Height { get { return _height; } set { _height = value; } }
 
-        public int Height 
-        {
-            get { return _heigth; }
-            set { _heigth = value; } 
-        }
+        // PROPPERTY: int name it 'Width'
+        public int Width { get { return _width; } set { _width = value; } }
 
-        public Texture2D SpriteSheet 
-        {
-            get { return _anime; }
-            set { _anime = value; }
-        }
+        // PROPPERTY: Texture2D name it 'SpriteSheet'
+        public Texture2D SpriteSheet { get { return _spriteSheet; } set { _spriteSheet = value; } }
+
+
 
         /// <summary>
         /// CONSTRUCTOR: Animation
         /// </summary>
-        /// <param name="pSpriteSheet"></param>
-        /// <param name="pCol"></param>
-        /// <param name="pWidth"></param>
-        /// <param name="pHeight"></param>
         public Animation()
         {
-            // ASSIGNMENT: _anime is set to the value of pSpriteSheet
-            _anime = SpriteSheet;
-
-            // ASSIGNMENT: _collumn is set to the value of pCol
-            _collumn = Collumn;
-
-            // ASSIGNMENT: _heigth is set to the value of pHeight
-            _heigth = Height;
-
-            // ASSIGNMENT: _width is set to the value of pWidth
-            _width = Width;
-
-            // ASSIGNMENT: _frame is set to the value of _anime height divided by pHeight 
-            _frame = _anime.Height / Height;
-
+            // empty constructor
         }
 
+        /// <summary>
+        /// METHOD: Initialise
+        /// </summary>
+        /// <param name="pSpriteSheet"></param>
+        public void Initialise(Texture2D pSpriteSheet)
+        {
+            // ASSIGNMENT: _spriteSheet is set to the value of pSpriteSheet;
+            _spriteSheet = pSpriteSheet;
 
+            // ASSIGNMENT: _frameShift is set to the value of 500;
+            _frameShift = 500;
+        }
 
         /// <summary>
-        /// METHOD : Draw
+        /// METHOD: Input
         /// </summary>
-        /// <param name="pSpriteBatch"></param>
-        /// <param name="pRect"></param>
-        /// <param name="pGameTime"></param>
-        /// <param name="pMillisecPerFrame"></param>
-        public void Draw(SpriteBatch pSpriteBatch, Rectangle pRect, GameTime pGameTime, int pMillisecPerFrame = 500)
+        /// <param name="pInput"></param>
+        public void Input (string pInput)
         {
-            // IF: if _c is less than _frame
-            if (_c < _frame)
+            #region _height for game spritesheets
+
+            //if (pInput == "W")
+            //{
+            //    //_height = Y coordinate of the walking up frames
+            //    _height = 96;
+            //}
+            //else if (pInput == "S")
+            //{
+            //    //_height = Y coordinate of the walking down frames
+            //    _height = 64;
+            //}
+            //else if (pInput == "A")
+            //{
+            //    //_height = Y coordinate of the walking left frames
+            //    _height = 32;
+            //}
+            //else if (pInput == "D")
+            //{
+            //    //_height = Y coordinate of the walking right frames, which thanks to our assets will be the same as the lft just rotate flipped 180
+            //    _height = 0;                               
+            //}
+            #endregion
+
+
+            // IF: pInput is "W"
+            if (pInput == "W")
             {
-                // CALL: call pSpriteBatch's Draw method passing in _width, _heigth and dimensions of 16, 16
-                pSpriteBatch.Draw(_anime, pRect, new Rectangle(_width, _heigth, 32, 32), Color.White);
+                // ASSIGNMENT: _height = Y coordinate of the Paddle
+                _height = 0;
+            }
+            // ELSE IF: pInput is "S"
+            else if (pInput == "S")
+            {
+                // ASSIGNMENT: _height is set to the value of 150, determines the Y coordinate of the Paddle
+                _height = 150;
+            }
+            // ELSE IF: pInput is null
+            else if (pInput == null)
+            {
+                // ASSIGNMENT: _width is set to the value of 0, determines the X coordinate of the Paddle
+                _width = 0;
+            }
 
-                // ASSIGNMENT: _frameTime has the value of pGameTime's ElapsedGameTime in Milliseconds added to it
-                _frameTime += pGameTime.ElapsedGameTime.Milliseconds;
+            // ASSIGNMENT: _input is set to the value of pInput
+            _input = pInput;
+        }
 
-                // IF: if _frameTime is greater than pMillisecPerFrame
-                if (_frameTime > pMillisecPerFrame)
+        /// <summary>
+        /// METHOD: Update
+        /// </summary>
+        /// <param name="pGameTime"></param>
+        public void Update(GameTime pGameTime)
+        {
+
+            // IF: _input is not null
+            if (_input != null)
+            {
+                // ASSIGNMENT: 
+                _frameCount += (int)pGameTime.ElapsedGameTime.TotalMilliseconds;
+
+                if(_frameCount >= _frameShift)
                 {
-                    // ASSIGNMENT: _frameTime has the value of pMillisecPerFrame subtracted from it
-                    _frameTime -= pMillisecPerFrame;
-
-                    // ASSIGNMENT: _c is incremented
-                    _c++;
-
-                    // IF: if _c is equal to _frame
-                    if (_c == _frame)
+                    if (_width < _spriteSheet.Width)
                     {
-                        // ASSIGNMENT: _c is set to 0
-                        _c = 0;
+                        // ASSIGNMENT: 
+                        _width += 50;
+                    }
+                    else if (_width >= _spriteSheet.Width)
+                    {
+                        // ASSIGNMENT: 
+                        _width = 50;
                     }
                 }
             }
+            else if (_input == null)
+            {
+                _width = 0;
+            }
+
+            //frame for paddle animation, height and width pick the piont of 
+            _frame = new Rectangle(_height, _width, 50, 150);
+
         }
 
-        public void Initialise()
+
+        public void Draw(SpriteBatch pSpriteBatch)
         {
-            
+
+            pSpriteBatch.Draw(_spriteSheet, _position, _frame, Color.White);
+
         }
+
     }
 }

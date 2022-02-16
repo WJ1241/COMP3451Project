@@ -15,9 +15,10 @@ namespace COMP3451Project.EnginePackage.Animation
 
         // DECLARE: IAnimation name it '_playerAnimation'
         private IAnimation[] _playerAnime;
-
-        // DECLARE: InputManager name it '_input'
+        
         private Input _input;
+
+        
 
         public Player(Texture2D pAnime)
         {
@@ -26,9 +27,17 @@ namespace COMP3451Project.EnginePackage.Animation
             _playerAnimation = pAnime;
 
             _playerAnime[0] = new Animation(_playerAnimation, 0, 32, 32);
+            _playerAnime[1] = new Animation(_playerAnimation, 0, 32, 32);
+            _playerAnime[2] = new Animation(_playerAnimation, 0, 32, 32);
 
 
         }
+
+        public void Update()
+        {
+            
+        }
+
 
         public void PlayerDraw(SpriteBatch pSpriteBatch, Vector2 pMove, GameTime pGameTime)
         {

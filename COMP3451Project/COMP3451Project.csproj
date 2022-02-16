@@ -50,6 +50,7 @@
     <Compile Include="EnginePackage\Animation\AnimationManager.cs" />
     <Compile Include="EnginePackage\Animation\IAnimation.cs" />
     <Compile Include="EnginePackage\Animation\Input.cs" />
+    <Compile Include="EnginePackage\Animation\Player.cs" />
     <Compile Include="EnginePackage\Tiles\Map.cs" />
     <Compile Include="EnginePackage\Animation\Sprite.cs" />
     <Compile Include="EnginePackage\CoreInterfaces\IRotation.cs" />
