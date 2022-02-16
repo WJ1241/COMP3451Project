@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using TiledSharp;
 using COMP3451Project.EnginePackage.Behaviours;
 using COMP3451Project.EnginePackage.CollisionManagement;
 using COMP3451Project.EnginePackage.CoreInterfaces;
@@ -14,14 +16,15 @@ using COMP3451Project.EnginePackage.Services.Commands;
 using COMP3451Project.EnginePackage.States;
 using COMP3451Project.PongPackage.Behaviours;
 using COMP3451Project.PongPackage.Entities;
-using COMP3451Project.EnginePackage.Animation;
+using COMP3451Project.EnginePackage.Tiles;
+using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
 
 namespace COMP3451Project
 {
     /// <summary>
     /// This is the main type for your game.
     /// Author: William Smith & Declan Kerby-Collins
-    /// Date: 12/02/22
+    /// Date: 15/02/22
     /// </summary>
     public class Kernel : Game, IInitialiseParam<IService>
     {
@@ -45,17 +48,6 @@ namespace COMP3451Project
         // DECLARE an int, name it '_ballCount':
         // USED ONLY TO KEEP VALUE FROM RESETTING
         private int _ballCount;
-
-
-
-        private Texture2D _player;
-
-        private Vector2 movement;
-
-        private float movespeed = 5f;
-
-        private Animation _anime;
-
 
         #endregion
 
@@ -167,6 +159,49 @@ namespace COMP3451Project
 
             #region DISPLAYABLE CREATION
 
+            #region LAYER 2
+
+            #region WALLS
+
+            #region COMMANDS
+
+            // DECLARE & INSTANTIATE an IFuncCommand<IEntity> as a new FuncCommandOneParam<string, IEntity>(), name it '_createWall':
+            IFuncCommand<IEntity> _createWall = new FuncCommandOneParam<string, IEntity>();
+
+            // INITIALISE _createFloor's MethodRef Property with EntityManager.Create<Wall>:
+            (_createWall as IFuncCommandOneParam<string, IEntity>).MethodRef = (_engineManager.GetService<EntityManager>() as IEntityManager).Create<Wall>;
+
+            // DECLARE & INSTANTIATE an IFuncCommand<IEntity> as a new FuncCommandOneParam<string, IEntity>(), name it '_createFloor':
+            IFuncCommand<IEntity> _createFloor = new FuncCommandOneParam<string, IEntity>();
+
+            // INITIALISE _createFloor's MethodRef Property with EntityManager.Create<DrawableRectangleEntity>:
+            (_createFloor as IFuncCommandOneParam<string, IEntity>).MethodRef = (_engineManager.GetService<EntityManager>() as IEntityManager).Create<DrawableRectangleEntity>;
+
+            #endregion
+
+            // DECLARE & INSTANTIATE an ILevelLayoutMaker as a new LevelLayoutMaker(), name it '_levelLM':
+            ILevelLayoutMaker _levelLM = _engineManager.GetService<LevelLayoutMaker>() as ILevelLayoutMaker;
+
+            // INITIALISE _levelLM with "Wall" and _createWall as parameters:
+            (_levelLM as IInitialiseParam<string, IFuncCommand<IEntity>>).Initialise("Wall", _createWall);
+
+            // INITIALISE _levelLM with "Floor" and _createFloor as parameters:
+            (_levelLM as IInitialiseParam<string, IFuncCommand<IEntity>>).Initialise("Floor", _createFloor);
+
+            // DECLARE & INSTANTIATE a new TmxMap(), name it '_map', passing a .tmx file as a parameter:
+            TmxMap _map = new TmxMap("..\\..\\..\\..\\Content\\ExampleLevel\\ExampleLevel.tmx");
+
+            // DECLARE & INITIALISE a Texture2D, name it '_tilesetTex', give value of _map's TileSet on Layer 0's name:
+            Texture2D _tilesetTex = Content.Load<Texture2D>("ExampleLevel\\" + _map.Tilesets[0].Name);
+
+            // CALL CreateLevelLayout() on _levelLM, passing "ExampleLevel", _map and _tilesetTex as parameters:
+            _levelLM.CreateLevelLayout("ExampleLevel", _map, _tilesetTex);
+
+            #endregion
+
+            #endregion
+
+
             #region LAYER 5
 
             #region PADDLES
@@ -257,14 +292,6 @@ namespace COMP3451Project
             #region ENTITY
 
             /// INSTANTIATION
-            /// 
-
-
-            // INSTANTIATE new Paddle(), name it "Paddle1":
-            _entityManager.Create<Animation>("Geoff1");
-
-
-
 
             // INSTANTIATE new Paddle(), name it "Paddle1":
             _entityManager.Create<Paddle>("Paddle1");
@@ -282,9 +309,6 @@ namespace COMP3451Project
             (_behaviourDown as IInitialiseParam<IEntity>).Initialise(_entityManager.GetDictionary()["Paddle1"]);
 
             /// INITIALISATION
-
-            // INITIALISE "Paddle1":
-            _entityManager.GetDictionary()["Paddle1"].Initialise();
 
             // INITIALISE "Paddle1" with _tempStateStationary:
             (_entityManager.GetDictionary()["Paddle1"] as IInitialiseParam<IState>).Initialise(_tempStateStationary);
@@ -397,10 +421,35 @@ namespace COMP3451Project
         /// </summary>
         protected override void LoadContent()
         {
-            // INSTANTIATE _spriteBatch as new SpriteBatch:
+            // INSTANTIATE _spriteBatch as new SpriteBatch(), passing GraphicsDevice as a parameter:
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
 
+            #region TILES
+
+            #region LAYER 1 & 2
+
+            #region FLOORS & WALLS
+
+            // DECLARE & INITIALISE an IDictionary<string, IEntity>, name it '_tempEntityDict', give return value of EntityManager.GetDictionary():
+            IDictionary<string, IEntity> _tempEntityDict = (_engineManager.GetService<EntityManager>() as IEntityManager).GetDictionary();
+
+            // FOREACH IEntity in _tempEntityDict.Values:
+            foreach (IEntity pEntity in _tempEntityDict.Values)
+            {
+                // IF pEntity is on Layer 1 or Layer 2:
+                if ((pEntity as ILayer).Layer == 1 || (pEntity as ILayer).Layer == 2)
+                {
+                    // SPAWN pEntity in "Level1" at their specified DestinationRectangle:
+                    (_engineManager.GetService<SceneManager>() as ISceneManager).Spawn("Level1", pEntity, new Vector2((pEntity as IDrawRectangle).DestinationRectangle.X, (pEntity as IDrawRectangle).DestinationRectangle.Y));
+                }
+            }
+
+            #endregion
+
+            #endregion
+
+            #endregion
 
 
             /*
@@ -428,11 +477,6 @@ namespace COMP3451Project
 
             */
 
-            IEntity _tempPlayer = (_engineManager.GetService<EntityManager>() as IEntityManager).GetDictionary()["Geoff1"];
-
-            _player = Content.Load<Texture2D>("Geoff");
-
-            _anime = new Animation(_player, 0, 32, 32);
 
 
 
@@ -450,7 +494,7 @@ namespace COMP3451Project
             (_tempEntity as ITexture).Texture = Content.Load<Texture2D>("paddle");
 
             // SPAWN "Paddle1" in "Level1" at the far left on the X axis with a gap, and middle on the Y axis:
-            (_engineManager.GetService<SceneManager>() as ISceneManager).Spawn("Level1", _tempEntity, new Vector2(0 + (_tempEntity as ITexture).TextureSize.X, (_screenSize.Y / 2) - (_tempEntity as ITexture).TextureSize.Y / 2));
+            (_engineManager.GetService<SceneManager>() as ISceneManager).Spawn("Level1", _tempEntity, new Vector2(0 + (_tempEntity as ITexture).TextureSize.X, _screenSize.Y / 2));
 
             /*
             /// PADDLE 2
@@ -462,7 +506,7 @@ namespace COMP3451Project
             (_tempEntity as ITexture).Texture = Content.Load<Texture2D>("paddle");
 
             // SPAWN "Paddle2" in "Level1" at the far left on the X axis with a gap, and middle on the Y axis:
-            (_engineManager.GetService<SceneManager>() as ISceneManager).Spawn("Level1", _tempEntity, new Vector2(_screenSize.X - ((_tempEntity as ITexture).Texture.Width * 2), (_screenSize.Y / 2) - (_tempEntity as ITexture).Texture.Height / 2));
+            (_engineManager.GetService<SceneManager>() as ISceneManager).Spawn("Level1", _tempEntity, new Vector2(_screenSize.X - ((_tempEntity as ITexture).Texture.Width * 2), (_screenSize.Y / 2) - (_tempEntity as ITexture).#ght / 2));
             */
             #endregion
             
@@ -524,8 +568,8 @@ namespace COMP3451Project
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Draw(GameTime gameTime)
+        /// <param name="pGameTime">Provides a snapshot of timing values.</param>
+        protected override void Draw(GameTime pGameTime)
         {
             // SET colour of screen background as Black:
             GraphicsDevice.Clear(Color.CornflowerBlue);
@@ -533,10 +577,8 @@ namespace COMP3451Project
             // CALL Draw() method on returned SceneManager instance from _engineManager:
             (_engineManager.GetService<SceneManager>() as IDraw).Draw(_spriteBatch);
 
-
-
             // CALL Draw() method from base class:
-            base.Draw(gameTime);
+            base.Draw(pGameTime);
         }
 
         #endregion
@@ -559,9 +601,6 @@ namespace COMP3451Project
 
             // INSTANTIATE new Ball():
             _entityManager.Create<Ball>("Ball" + _ballCount);
-
-            // INITIALISE ("Ball" + _ballCount):
-            _entityManager.GetDictionary()["Ball" + _ballCount].Initialise();
 
             // INITIALISE ("Ball" + _ballCount) with _rand:
             (_entityManager.GetDictionary()["Ball" + _ballCount] as IInitialiseParam<Random>).Initialise(_rand);

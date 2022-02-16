@@ -4,15 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace COMP3451Project.EnginePackage.Services.Commands
+namespace COMP3451Project.EnginePackage.Services.Commands.Interfaces
 {
     /// <summary>
-    /// Interface which allows implementations to contain a method with ONE parameter
+    /// Interface which allows implementations to contain a type 'R' return method with ONE parameter
     /// Author: William Smith & Declan Kerby-Collins
-    /// Date: 20/01/22
+    /// Date: 16/02/22
     /// </summary>
     /// <typeparam name="T"> Any Type, 'T' for 'T'ype </typeparam>
-    public interface ICommandOneParam<T> : ICommand
+    /// <typeparam name="R"> 'R'eturn Value Type </typeparam>
+    public interface IFuncCommandOneParam<T, R> : IFuncCommand<R>
     {
         #region PROPERTIES
 
@@ -22,9 +23,9 @@ namespace COMP3451Project.EnginePackage.Services.Commands
         T Data { set; }
 
         /// <summary>
-        /// Property which allows write access to a reference of a method with ONE parameter
+        /// Property which allows write access to a reference of a type 'R' return method with ONE parameter
         /// </summary>
-        Action<T> MethodRef { set; }
+        Func<T, R> MethodRef { set; }
 
         #endregion
     }

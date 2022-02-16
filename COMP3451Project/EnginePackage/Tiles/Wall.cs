@@ -1,36 +1,28 @@
-﻿using COMP3451Project.EnginePackage.CollisionManagement;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
+using COMP3451Project.EnginePackage.CollisionManagement;
+using COMP3451Project.EnginePackage.EntityManagement;
 
 namespace COMP3451Project.EnginePackage.Tiles
 {
     /// <summary>
-    /// Class Wall
-    /// specifically a wall tile, child of Tiles
-    /// Author: Declan Kerby-Collins & William Smith
-    /// Date: 24/01/22
-    /// <REFERENCE> Oyyou (2013) XNA Tutorial 40 - Creating a Tile Map (1/3). Available at: https://www.youtube.com/watch?v=PKlHcxFAEk0. (Accessed: 25 January 2022). </REFERENCE>
+    /// Class which spawns a Wall on screen
+    /// Authors: William Smith & Declan Kerby-Collins
+    /// Date: 15/02/22
     /// </summary>
-    public class Wall: Tiles, ICollidable
+    public class Wall : DrawableRectangleEntity, ICollidable
     {
-        /// <summary>
-        /// spesifies the type of tile used for creation of collidable tiles
-        /// </summary>
-        /// <param name="i"></param>
-        /// <param name="pRect"></param>
-        public Wall(int i, Rectangle pRect)
-        {
-            // ASSIGNMENT: _texture is set to the value of the tile + i
-            _texture = Content.Load<Texture2D>("Tile" + i);
+        #region CONSTRUCTOR
 
-            // ASSIGNMENT: this.Rect is set to the value of pRect
-            this.Rect = pRect;
+        /// <summary>
+        /// Constructor for objects of Wall
+        /// </summary>
+        public Wall()
+        {
+            // EMPTY CONSTRUCTOR
         }
+
+        #endregion
+
 
         #region IMPLEMENTATION OF ICOLLIDABLE
 
@@ -39,11 +31,11 @@ namespace COMP3451Project.EnginePackage.Tiles
         /// </summary>
         public Rectangle HitBox
         {
-            get
-            {
-                // RETURN a rectangle, object current X axis location, object current Y axis location, texture width size, texture height size:
-                return new Rectangle((int)_position.X, (int)_position.Y, _texture.Width, _texture.Height);
-            }
+           get
+           {
+                // RETURN value of _destinationRect:
+                return _destinationRect;
+           }
         }
 
         #endregion

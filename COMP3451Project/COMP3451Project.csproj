@@ -47,17 +47,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="EnginePackage\Animation\Animation.cs" />
-    <Compile Include="EnginePackage\Animation\AnimationManager.cs" />
     <Compile Include="EnginePackage\Animation\IAnimation.cs" />
-    <Compile Include="EnginePackage\Animation\Input.cs" />
-    <Compile Include="EnginePackage\Animation\Player.cs" />
-    <Compile Include="EnginePackage\Tiles\Map.cs" />
-    <Compile Include="EnginePackage\Animation\Sprite.cs" />
     <Compile Include="EnginePackage\CoreInterfaces\IRotation.cs" />
+    <Compile Include="EnginePackage\EntityManagement\DrawableRectangleEntity.cs" />
+    <Compile Include="EnginePackage\EntityManagement\UpdatableEntity.cs" />
+    <Compile Include="EnginePackage\Services\Commands\FuncCommandZeroParam.cs" />
+    <Compile Include="EnginePackage\Services\Commands\FuncCommandOneParam.cs" />
+    <Compile Include="EnginePackage\Services\Commands\Interfaces\IFuncCommandOneParam.cs" />
+    <Compile Include="EnginePackage\Services\Commands\Interfaces\IFuncCommandZeroParam.cs" />
+    <Compile Include="EnginePackage\Services\Commands\Interfaces\IFuncCommand.cs" />
     <Compile Include="EnginePackage\Tiles\ILevelLayoutMaker.cs" />
+    <Compile Include="EnginePackage\CoreInterfaces\IDrawRectangle.cs" />
     <Compile Include="EnginePackage\Tiles\LevelLayoutMaker.cs" />
-    <Compile Include="EnginePackage\Tiles\Map.cs" />
-    <Compile Include="EnginePackage\Tiles\Tiles.cs" />
+    <Compile Include="EnginePackage\EntityManagement\DrawableEntity.cs" />
     <Compile Include="EnginePackage\Tiles\Wall.cs" />
     <Compile Include="EnginePackage\Audio\IPlayAudio.cs" />
     <Compile Include="EnginePackage\Audio\SFXManager.cs" />
@@ -83,14 +85,14 @@
     <Compile Include="EnginePackage\Services\Commands\CommandOneParam.cs" />
     <Compile Include="EnginePackage\Services\Commands\CommandScheduler.cs" />
     <Compile Include="EnginePackage\Services\Commands\CommandZeroParam.cs" />
-    <Compile Include="EnginePackage\Services\Commands\ICommandOneParam.cs" />
-    <Compile Include="EnginePackage\Services\Commands\ICommand.cs" />
-    <Compile Include="EnginePackage\Services\Commands\ICommandScheduler.cs" />
-    <Compile Include="EnginePackage\Services\Commands\ICommandSender.cs" />
-    <Compile Include="EnginePackage\Services\Commands\ICommandZeroParam.cs" />
+    <Compile Include="EnginePackage\Services\Commands\Interfaces\ICommandOneParam.cs" />
+    <Compile Include="EnginePackage\Services\Commands\Interfaces\ICommand.cs" />
+    <Compile Include="EnginePackage\Services\Commands\Interfaces\ICommandScheduler.cs" />
+    <Compile Include="EnginePackage\Services\Commands\Interfaces\ICommandSender.cs" />
+    <Compile Include="EnginePackage\Services\Commands\Interfaces\ICommandZeroParam.cs" />
     <Compile Include="EnginePackage\CoreInterfaces\ILayer.cs" />
     <Compile Include="EnginePackage\EntityManagement\IEntityInternal.cs" />
-    <Compile Include="EnginePackage\Services\Commands\IExecuteCommand.cs" />
+    <Compile Include="EnginePackage\Services\Commands\Interfaces\IExecuteCommand.cs" />
     <Compile Include="EnginePackage\Services\EngineManager.cs" />
     <Compile Include="EnginePackage\Services\GenericTypeNameTrimmer.cs" />
     <Compile Include="EnginePackage\Services\IRtnService.cs" />
@@ -146,6 +148,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="TiledSharp, Version=0.15.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\TiledSharp.1.0.1\lib\netstandard2.0\TiledSharp.dll</HintPath>
     </Reference>

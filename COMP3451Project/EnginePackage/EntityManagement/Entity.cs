@@ -3,13 +3,14 @@ using Microsoft.Xna.Framework;
 using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.Services.Commands;
 using COMP3451Project.EnginePackage.States;
+using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
 
 namespace COMP3451Project.EnginePackage.EntityManagement
 {
     /// <summary>
     /// Abstract class for more specific entities to inherit from
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 14/02/22
+    /// Date: 15/02/22
     /// </summary>
     public abstract class Entity : IEntity, IEntityInternal, IInitialiseParam<IState>, ICommandSender, ILayer, IContainBoundary, ITerminate
     {
@@ -49,11 +50,6 @@ namespace COMP3451Project.EnginePackage.EntityManagement
 
 
         #region IMPLEMENTATION OF IENTITY
-
-        /// <summary>
-        /// Initialises entity variable values
-        /// </summary>
-        public abstract void Initialise();
 
         /// <summary>
         /// Property which can get and set value of an entity's position
@@ -202,8 +198,8 @@ namespace COMP3451Project.EnginePackage.EntityManagement
 
         /// <summary>
         /// Property which can get and set layer value
-        /// Layer 1: Walls
-        /// Layer 2: Floors
+        /// Layer 1: Floors
+        /// Layer 2: Walls
         /// Layer 3: Static Obstacles
         /// Layer 4: Items
         /// Layer 5: Player/Enemy

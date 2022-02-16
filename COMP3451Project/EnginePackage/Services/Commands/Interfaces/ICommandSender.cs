@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace COMP3451Project.EnginePackage.Services.Commands
+namespace COMP3451Project.EnginePackage.Services.Commands.Interfaces
 {
     /// <summary>
     /// Interface which allows implementations send commands to another class

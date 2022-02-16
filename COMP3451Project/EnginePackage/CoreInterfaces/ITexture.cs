@@ -18,7 +18,7 @@ namespace COMP3451Project.EnginePackage.CoreInterfaces
         Texture2D Texture { get; set; }
 
         /// <summary>
-        /// Property which allows read or write access to size of texture
+        /// Property which allows read or write access to size of texture, mostly used for testing
         /// </summary>
         Point TextureSize { get; set; }
 

@@ -4,19 +4,11 @@ namespace COMP3451Project.EnginePackage.EntityManagement
 {
     /// <summary>
     /// Interface that allows implementations to be an on-screen Entity
+    /// Authors: William Smith & Declan Kerby-Collins
+    /// Date: 15/02/22
     /// </summary>
     public interface IEntity
     {
-        #region METHODS
-
-        /// <summary>
-        /// Initialises entity variable values
-        /// </summary>
-        void Initialise();
-
-        #endregion
-
-
         #region PROPERTIES
 
         /// <summary>

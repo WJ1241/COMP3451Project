@@ -34,7 +34,8 @@ namespace COMP3451Project.PongPackage.Entities
         /// </summary>
         public Paddle()
         {
-            // EMPTY CONSTRUCTOR
+            // ASSIGNMENT, set _speed to 10:
+            _speed = 10;
         }
 
         #endregion
@@ -52,20 +53,6 @@ namespace COMP3451Project.PongPackage.Entities
                 // RETURN a rectangle, object current X axis location, object current Y axis location, texture width size, texture height size:
                 return new Rectangle((int)_position.X, (int)_position.Y, _textureSize.X, _textureSize.Y);
             }
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF IENTITY
-
-        /// <summary>
-        /// Initialises entity variable values
-        /// </summary>
-        public override void Initialise()
-        {
-            // ASSIGNMENT, set _speed to 10:
-            _speed = 10;
         }
 
         #endregion

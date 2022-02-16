@@ -7,13 +7,14 @@ using COMP3451Project.EnginePackage.CollisionManagement;
 using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.EntityManagement;
 using COMP3451Project.EnginePackage.Services.Commands;
+using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
 
 namespace COMP3451Project.EnginePackage.SceneManagement
 {
     /// <summary>
     /// Class which holds reference to list in Scene Manager, Draws and Updates entities
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 12/02/22
+    /// Date: 15/02/22
     /// </summary>
     /// <REFERENCE> Abuhakmeh, K. (2009) XNA 2D Camera Engine That Follows Sprite. Available at: https://stackoverflow.com/questions/712296/xna-2d-camera-engine-that-follows-sprite. (Accessed: 20 April 2021). </REFERENCE>
     public class SceneGraph : ISceneGraph, IDraw, ISpawn, IDrawCamera, IUpdatable
@@ -118,21 +119,21 @@ namespace COMP3451Project.EnginePackage.SceneManagement
         /// <summary>
         /// When called, draws entity's texture on screen
         /// </summary>
-        /// <param name="spriteBatch">Needed to draw entity's texture on screen</param>
-        public void Draw(SpriteBatch spriteBatch)
+        /// <param name="pSpriteBatch"> Needed to draw entity's texture on screen </param>
+        public void Draw(SpriteBatch pSpriteBatch)
         {
             // BEGIN creation of displayable objects:
-            spriteBatch.Begin();
+            pSpriteBatch.Begin();
 
             // FOREACH any entity implementing IDraw:
             foreach (IDraw entity in _sceneEntDict.Values)
             {
                 // CALL Draw method on all entities in _entityDictionary:
-                entity.Draw(spriteBatch);
+                entity.Draw(pSpriteBatch);
             }
 
             // END creation of displayable objects:
-            spriteBatch.End();
+            pSpriteBatch.End();
         }
 
         #endregion
@@ -141,25 +142,25 @@ namespace COMP3451Project.EnginePackage.SceneManagement
         #region IMPLEMENTATION OF IDRAWCAMERA
 
         /// <summary>
-        /// When called, draws entity's texture on screen, as well as reposition a a camera object
+        /// When called, draws entity's texture on screen, as well as reposition of a camera object
         /// </summary>
-        /// <param name="spriteBatch">Needed to draw entity's texture on screen</param>
-        /// <param name="camera">Needed to move camera position on screen</param>
+        /// <param name="pSpriteBatch"> Needed to draw entity's texture on screen </param>
+        /// <param name="pCamera"> Needed to move camera position on screen </param>
         /// <CITATION> (Abuhakmeh, 2009) </CITATION>
-        public void Draw(SpriteBatch spriteBatch, ICamera camera)
+        public void Draw(SpriteBatch pSpriteBatch, ICamera pCamera)
         {
             // BEGIN creation of displayable objects:
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, camera.ChngCamPos());
+            pSpriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, pCamera.ChngCamPos());
 
             // FOREACH any entity implementing IDraw:
             foreach (IDraw entity in _sceneEntDict.Values)
             {
                 // CALL Draw method on all entities in _entityDictionary:
-                entity.Draw(spriteBatch);
+                entity.Draw(pSpriteBatch);
             }
 
             // END creation of displayable objects:
-            spriteBatch.End();
+            pSpriteBatch.End();
         }
 
         #endregion

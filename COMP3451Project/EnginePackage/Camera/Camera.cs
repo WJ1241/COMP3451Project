@@ -43,21 +43,14 @@ namespace COMP3451Project.EnginePackage.Camera
         /// </summary>
         public Camera()
         {
+            // ASSIGNMENT, set value of _position to '0' on both X and Y axis:
+            _position = Vector2.Zero;
         }
 
         #endregion
 
 
         #region IMPLEMENTATION OF IENTITY
-
-        /// <summary>
-        /// Initialises entity variable values
-        /// </summary>
-        public void Initialise()
-        {
-            // ASSIGNMENT, set value of _position to '0' on both X and Y axis:
-            _position = Vector2.Zero;
-        }
 
         /// <summary>
         /// Property which can get and set value of an entity's position
