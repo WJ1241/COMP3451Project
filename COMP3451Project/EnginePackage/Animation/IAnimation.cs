@@ -1,53 +1,42 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace COMP3451Project.EnginePackage.Animation
 {
     /// <summary>
     /// Interface which allows implementations to run animations
-    /// Authors:  Declan Kerby-Collins & William Smith
+    /// Authors: Declan Kerby-Collins & William Smith
     /// Date: 17/02/22
     /// </summary>
     public interface IAnimation
     {
-        // PROPERTY: int Row
-        int Row { get; set; }
-
-        // PROPERTY: Vector2 Position
-        Vector2 Position { get; set; }
-
-        // PROPERTY: Point SpriteSize
-        Point SpriteSize { get; set; }
-
-        /// <summary>
-        /// METHOD: Initialise gives access to the Initialise class and passes in pSpriteSheet
-        /// </summary>
-        /// <param name="pSpriteSheet"></param>
-        void Initialise(Texture2D pSpriteSheet);
+        #region METHODS
 
         /// <summary>
         /// METHOD: Input gives access to the Input class and passes in pString
         /// </summary>
-        /// <param name="pString"></param>
-        void Input(string pString);
+        /// <param name="pInput"> Key Name </param>
+        void Input(string pInput);
+
+        #endregion
+
+
+        #region PROPERTIES
 
         /// <summary>
-        /// METHOD: Draw gives access to the Draw class and passes in pSpriteBatch
+        /// PROPERTY: int Row
         /// </summary>
-        /// <param name="pSpriteBatch"></param>
-        void Draw(SpriteBatch pSpriteBatch);
+        int Row { get; set; }
 
         /// <summary>
-        /// METHOD: Update gives access to the Update class and passes in game time 
+        /// PROPERTY: Vector2 Destination
         /// </summary>
-        /// <param name="pGameTime"></param>
-        void Update(GameTime pGameTime);
+        Vector2 Destination { get; set; }
 
+        /// <summary>
+        /// PROPERTY: Point SpriteSize
+        /// </summary>
+        Point SpriteSize { get; set; }
 
+        #endregion
     }
 }

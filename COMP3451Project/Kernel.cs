@@ -24,7 +24,7 @@ namespace COMP3451Project
     /// <summary>
     /// This is the main type for your game.
     /// Author: William Smith & Declan Kerby-Collins
-    /// Date: 15/02/22
+    /// Date: 16/02/22
     /// </summary>
     public class Kernel : Game, IInitialiseParam<IService>
     {
@@ -450,35 +450,6 @@ namespace COMP3451Project
             #endregion
 
             #endregion
-
-
-            /*
-
-            //------------------------------------------
-            //Dec's attempt at tile maps mrk1
-
-            Tiles.Content = Content;
-
-            //builds map.... make sure to add png's for tiles and make sure theyre called "Tile1" "Tile2" etc
-            //where there are 1's there should populate with walls
-            _map.BuildWalls(new int[,]
-            {
-                { 1,1,1,1,1,1,1,1,1,1,1 },
-                { 1,0,0,0,0,0,0,0,0,0,1 },
-                { 1,0,0,0,0,0,0,0,0,0,1 },
-                { 1,0,0,0,0,0,0,0,0,0,1 },
-                { 1,0,0,0,0,0,0,0,0,0,1 },
-                { 1,1,1,1,1,1,1,1,1,1,1 }
-
-            }, 50);
-
-
-            //------------------------------------------
-
-            */
-
-
-
 
 
             #region LAYER 5

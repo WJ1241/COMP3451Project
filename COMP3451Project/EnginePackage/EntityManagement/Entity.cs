@@ -28,15 +28,6 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         // DECLARE an Action<ICommand>, name it '_scheduleCommand', used to schedule a command:
         protected Action<ICommand> _scheduleCommand;
 
-        // DECLARE an int, name it '_layer', used to determine collision layer:
-        protected int _layer;
-
-        // DECLARE an int, name it '_uID', used to store unique ID:
-        protected int _uID;
-
-        // DECLARE an string, name it '_uName', used to store unique Name:
-        protected string _uName;
-
         // DECLARE a Vector2, name it '_initPosition', needed to store initial location, in the case of resetting game:
         protected Vector2 _initPosition;
 
@@ -45,6 +36,15 @@ namespace COMP3451Project.EnginePackage.EntityManagement
 
         // DECLARE a Point, name it '_windowBorder', used for storing screen size:
         protected Point _windowBorder;
+
+        // DECLARE an int, name it '_layer', used to determine collision layer:
+        protected int _layer;
+
+        // DECLARE an int, name it '_uID', used to store unique ID:
+        protected int _uID;
+
+        // DECLARE an string, name it '_uName', used to store unique Name:
+        protected string _uName;
 
         #endregion
 
