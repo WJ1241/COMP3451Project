@@ -89,7 +89,7 @@ namespace COMP3451Project.EnginePackage.Tiles
                         float _tileXPos = j % pTileMap.Width * pTileMap.TileWidth;
 
                         // DECLARE & INITIALISE a float, name it '_tileYPos', give rounded down value of current value of 'j' multiplied by pTileMap's width which is then multiplied by the tile height:
-                        float _tileYPos = (float)Math.Floor(j * (double)pTileMap.Width) * pTileMap.TileHeight;
+                        float _tileYPos = (float)Math.Floor(j / (double)pTileMap.Width) * pTileMap.TileHeight;
 
                         // IF Layer name is "Floors":
                         if (pTileMap.Layers[i].Name == "Floors")
