@@ -8,20 +8,45 @@ using System.Threading.Tasks;
 
 namespace COMP3451Project.EnginePackage.Animation
 {
-    interface IAnimation
+    /// <summary>
+    /// Interface which allows implementations to run animations
+    /// Authors:  Declan Kerby-Collins & William Smith
+    /// Date: 17/02/22
+    /// </summary>
+    public interface IAnimation
     {
-        int Height { get; set; }
+        // PROPERTY: int Row
+        int Row { get; set; }
 
-        int Width { get; set; }
+        // PROPERTY: Vector2 Position
+        Vector2 Position { get; set; }
 
-        Texture2D SpriteSheet { get; set; }
+        // PROPERTY: Point SpriteSize
+        Point SpriteSize { get; set; }
 
+        /// <summary>
+        /// METHOD: Initialise gives access to the Initialise class and passes in pSpriteSheet
+        /// </summary>
+        /// <param name="pSpriteSheet"></param>
+        void Initialise(Texture2D pSpriteSheet);
+
+        /// <summary>
+        /// METHOD: Input gives access to the Input class and passes in pString
+        /// </summary>
+        /// <param name="pString"></param>
         void Input(string pString);
 
-        void Update(GameTime pGameTime);
-
+        /// <summary>
+        /// METHOD: Draw gives access to the Draw class and passes in pSpriteBatch
+        /// </summary>
+        /// <param name="pSpriteBatch"></param>
         void Draw(SpriteBatch pSpriteBatch);
 
+        /// <summary>
+        /// METHOD: Update gives access to the Update class and passes in game time 
+        /// </summary>
+        /// <param name="pGameTime"></param>
+        void Update(GameTime pGameTime);
 
 
     }

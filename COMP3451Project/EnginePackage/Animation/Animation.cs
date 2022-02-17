@@ -14,21 +14,22 @@ namespace COMP3451Project.EnginePackage.Animation
     /// public class Animation
     /// contains code for Animation
     /// Authors: Declan Kerby-Collins & William Smith
-    /// date: 16/02/2022
+    /// date: 17/02/2022
     /// </summary>
-    public class Animation : IAnimation, IInitialiseParam<Texture2D>
+    public class Animation : IAnimation, IInitialiseParam<Texture2D>, IDraw
     {
-        // DECLARE: 
+
+        // DECLARE: Texture2D name it '_spriteSheet'
         private Texture2D _spriteSheet;
 
-        // DECLARE: int name it '_height'
-        private int _height;
+        // DECLARE: int name it '_row'
+        private int _row;
 
-        // DECLARE: int name it '_width'
-        private int _width;
+        // DECLARE: point name it '_spriteSheet'
+        private Point _spriteSize;
 
         // DECLARE: int name it '_frameCount'
-        private int _frameCount;
+        private double _frameCount;
 
         // DECLARE: int name it '_frameShift'
         private int _frameShift;
@@ -42,16 +43,58 @@ namespace COMP3451Project.EnginePackage.Animation
         // DECLARE: Rectangle name it '_frame'
         private Rectangle _frame;
 
-        // PROPPERTY: int name it 'Height'
-        public int Height { get { return _height; } set { _height = value; } }
 
-        // PROPPERTY: int name it 'Width'
-        public int Width { get { return _width; } set { _width = value; } }
 
         // PROPPERTY: Texture2D name it 'SpriteSheet'
-        public Texture2D SpriteSheet { get { return _spriteSheet; } set { _spriteSheet = value; } }
+        public Texture2D SpriteSheet 
+        { get 
+            { 
+                return _spriteSheet; 
+            }
+            set 
+            { 
+                _spriteSheet = value; 
+            } 
+        }
 
+        // PROPPERTY: Vector2 name it 'Position'
+        public Vector2 Position 
+        { 
+            get 
+            { 
+                return _position; 
+            } 
+            set 
+            { 
+                _position = value; 
+            } 
+        }
 
+        // PROPPERTY: int name it 'Row'
+        public int Row 
+        { 
+            get 
+            { 
+                return _row; 
+            } 
+            set 
+            { 
+                _row = value; 
+            } 
+        }
+
+        // PROPPERTY: point name it 'SpriteSheet'
+        public Point SpriteSize 
+        { 
+            get 
+            {
+                return _spriteSize; 
+            } 
+            set 
+            { 
+                _spriteSize = value; 
+            } 
+        }
 
         /// <summary>
         /// CONSTRUCTOR: Animation
@@ -71,57 +114,35 @@ namespace COMP3451Project.EnginePackage.Animation
             _spriteSheet = pSpriteSheet;
 
             // ASSIGNMENT: _frameShift is set to the value of 500;
-            _frameShift = 500;
+            _frameShift = 300;
         }
 
         /// <summary>
         /// METHOD: Input
         /// </summary>
         /// <param name="pInput"></param>
-        public void Input (string pInput)
+        public void Input(string pInput)
         {
-            #region _height for game spritesheets
 
-            //if (pInput == "W")
-            //{
-            //    //_height = Y coordinate of the walking up frames
-            //    _height = 96;
-            //}
-            //else if (pInput == "S")
-            //{
-            //    //_height = Y coordinate of the walking down frames
-            //    _height = 64;
-            //}
-            //else if (pInput == "A")
-            //{
-            //    //_height = Y coordinate of the walking left frames
-            //    _height = 32;
-            //}
-            //else if (pInput == "D")
-            //{
-            //    //_height = Y coordinate of the walking right frames, which thanks to our assets will be the same as the lft just rotate flipped 180
-            //    _height = 0;                               
-            //}
-            #endregion
 
 
             // IF: pInput is "W"
             if (pInput == "W")
             {
                 // ASSIGNMENT: _height = Y coordinate of the Paddle
-                _height = 0;
+                _spriteSize.Y = 0;
             }
             // ELSE IF: pInput is "S"
             else if (pInput == "S")
             {
                 // ASSIGNMENT: _height is set to the value of 150, determines the Y coordinate of the Paddle
-                _height = 150;
+                _spriteSize.Y = _spriteSheet.Height / 2;
             }
             // ELSE IF: pInput is null
             else if (pInput == null)
             {
                 // ASSIGNMENT: _width is set to the value of 0, determines the X coordinate of the Paddle
-                _width = 0;
+                _spriteSize.X = _spriteSheet.Width;
             }
 
             // ASSIGNMENT: _input is set to the value of pInput
@@ -138,40 +159,57 @@ namespace COMP3451Project.EnginePackage.Animation
             // IF: _input is not null
             if (_input != null)
             {
-                // ASSIGNMENT: 
-                _frameCount += (int)pGameTime.ElapsedGameTime.TotalMilliseconds;
+                // ASSIGNMENT: _frameCount has the value of pGameTime in milliseconds added to it
+                _frameCount += pGameTime.ElapsedGameTime.TotalMilliseconds;
 
-                if(_frameCount >= _frameShift)
+                // IF: _frameCount is greater than  to _frameShift
+                if (_frameCount > _frameShift)
                 {
-                    if (_width < _spriteSheet.Width)
+
+                    // IF: _width is less than _spriteSheet's Width
+                    if (_spriteSize.X < _spriteSheet.Width)
                     {
-                        // ASSIGNMENT: 
-                        _width += 50;
+                        // ASSIGNMENT: _width has the value of 50 added to it
+                        _spriteSize.X += (_spriteSheet.Width / 3);
+
                     }
-                    else if (_width >= _spriteSheet.Width)
+                    else
                     {
-                        // ASSIGNMENT: 
-                        _width = 50;
+                        // ASSIGNMENT: _width is set to the value of 50
+                        _spriteSize.X = (_spriteSheet.Width / 3);
+
                     }
+
+                    // ASSSIGNMENT: _farme count is set to 0
+                    _frameCount = 0;
                 }
+
+
             }
-            else if (_input == null)
+            // ELSE IF: _input is null 
+            else
             {
-                _width = 0;
+                // ASSIGNMENT: _width is set to the value of 0
+                _spriteSize.X = 0;
             }
 
+            // ASSIGNMENT: _frame is assigned to 
             //frame for paddle animation, height and width pick the piont of 
-            _frame = new Rectangle(_height, _width, 50, 150);
+            _frame = new Rectangle(_spriteSize.X, _spriteSize.Y, _spriteSheet.Width / 3, _spriteSheet.Height / 2);
 
         }
 
-
+        /// <summary>
+        /// METHOD: Draw 
+        /// </summary>
+        /// <param name="pSpriteBatch"></param>
         public void Draw(SpriteBatch pSpriteBatch)
         {
-
+            // CALL: pSpriteBatch's Draw method passing in the animation parameters
             pSpriteBatch.Draw(_spriteSheet, _position, _frame, Color.White);
 
         }
 
+        
     }
 }
