@@ -8,13 +8,14 @@ using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
 using COMP3451Project.EnginePackage.SceneManagement.Interfaces;
 using COMP3451Project.EnginePackage.Services.Interfaces;
 using COMP3451Project.EnginePackage.Services.Factories.Interfaces;
+using COMP3451Project.EnginePackage.Exceptions;
 
 namespace COMP3451Project.EnginePackage.SceneManagement
 {
     /// <summary>
     /// Class which manages all entities in the scene
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 12/02/22
+    /// Date: 18/02/22
     /// </summary>
     public class SceneManager : ISceneManager, IDraw, IDrawCamera, IInitialiseParam<IFactory<ISceneGraph>>, IService, IUpdatable
     {
@@ -28,9 +29,6 @@ namespace COMP3451Project.EnginePackage.SceneManagement
 
         // DECLARE a string, name it '_currentScene':
         private string _currentScene;
-
-        // DECLARE an IMap, name it _map:
-        //private Map _map;
 
         #endregion
 
@@ -71,8 +69,28 @@ namespace COMP3451Project.EnginePackage.SceneManagement
         /// <param name="pCollisionManager"> ICollisionManager object </param>
         public void Initialise(string pSceneName, ICollisionManager pCollisionManager) 
         {
-            // INITIALISE _sGDict[pSceneName] with pCollisionManager:
-            _sGDict[pSceneName].Initialise(pCollisionManager);
+            // TRY checking if Initialise() throws a NullInstanceException:
+            try
+            {
+                // IF _sgDict DOES contain pSceneName as a key already:
+                if (_sGDict.ContainsKey(pSceneName))
+                {
+                    // INITIALISE _sGDict[pSceneName] with pCollisionManager:
+                    _sGDict[pSceneName].Initialise(pCollisionManager);
+                }
+                // IF _sgDict DOES NOT contain pSceneName as a key:
+                else
+                {
+                    // THROW a new NullValueException(), with corresponding message:
+                    throw new NullValueException("ERROR: _sgDict does not contain" + pSceneName + "as a key!");
+                }
+            }
+            // CATCH NullInstanceException from Initialise():
+            catch (NullInstanceException e)
+            {
+                // THROW a new NullInstanceException, with corrsponding message:
+                throw new NullInstanceException(e.Message);
+            }
         }
 
         /// <summary>
@@ -98,8 +116,18 @@ namespace COMP3451Project.EnginePackage.SceneManagement
         /// <param name="pFactory"> IFactory<ISsceneGraph> object </param>
         public void Initialise(IFactory<ISceneGraph> pFactory)
         {
-            // INITIALISE _sGFactory with reference to pFactory:
-            _sGFactory = pFactory;
+            // IF pFactory DOES HAVE an active instance:
+            if (pFactory != null)
+            {
+                // INITIALISE _sGFactory with reference to pFactory:
+                _sGFactory = pFactory;
+            }
+            // IF pFactory DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pFactory does not have an active instance!");
+            }
         }
 
         #endregion
@@ -115,9 +143,6 @@ namespace COMP3451Project.EnginePackage.SceneManagement
         {
             // CALL Draw() on _sGDict[_currentScene], passing spriteBatch as a parameter:
             (_sGDict[_currentScene] as IDraw).Draw(pSpriteBatch);
-
-            // CALL Draw() on _map, passing spriteBatch as a parameter:
-            //(_map as IDraw).Draw(spriteBatch);
         }
 
         #endregion

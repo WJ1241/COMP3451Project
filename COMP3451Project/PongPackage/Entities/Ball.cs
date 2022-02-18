@@ -4,6 +4,7 @@ using COMP3451Project.EnginePackage.Behaviours.Interfaces;
 using COMP3451Project.EnginePackage.CollisionManagement.Interfaces;
 using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
+using COMP3451Project.EnginePackage.Exceptions;
 
 namespace COMP3451Project.PongPackage.Entities
 {
@@ -59,11 +60,21 @@ namespace COMP3451Project.PongPackage.Entities
         /// <param name="pUpdateEventListener"> IUpdateEventListener object </param>
         public override void Initialise(IUpdateEventListener pUpdateEventListener)
         {
-            // SET value of _pUpdateEventListener's Velocity Property to value of _velocity:
-            (pUpdateEventListener as IVelocity).Velocity = _velocity;
+            // IF pUpdateEventListener DOES HAVE an active instance:
+            if (pUpdateEventListener != null)
+            {
+                // SET value of _pUpdateEventListener's Velocity Property to value of _velocity:
+                (pUpdateEventListener as IVelocity).Velocity = _velocity;
 
-            // INITIALISE pUpdateEventListener with this class:
-            (pUpdateEventListener as IInitialiseParam<IEntity>).Initialise(this);
+                // INITIALISE pUpdateEventListener with this class:
+                (pUpdateEventListener as IInitialiseParam<IEntity>).Initialise(this);
+            }
+            // IF pUpdateEventListener DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pUpdateEventListener does not have an active instance");
+            }
         }
 
         #endregion
@@ -77,8 +88,18 @@ namespace COMP3451Project.PongPackage.Entities
         /// <param name="pRand"> Random object </param>
         public void Initialise(Random pRand)
         {
-            // INITIALISE _rand with reference to pRand:
-            _rand = pRand;
+            // IF pRand DOES HAVE an active instance:
+            if (pRand != null)
+            {
+                // INITIALISE _rand with reference to pRand:
+                _rand = pRand;
+            }
+            // IF pRand DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("pRand does not have an active instance!");
+            }
         }
 
         #endregion

@@ -8,6 +8,7 @@ using COMP3451Project.EnginePackage.Behaviours.Interfaces;
 using COMP3451Project.EnginePackage.CollisionManagement;
 using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.EntityManagement;
+using COMP3451Project.EnginePackage.Exceptions;
 using COMP3451Project.EnginePackage.InputManagement;
 using COMP3451Project.EnginePackage.InputManagement.Interfaces;
 using COMP3451Project.EnginePackage.SceneManagement;
@@ -25,6 +26,8 @@ using COMP3451Project.EnginePackage.Services.Factories.Interfaces;
 using COMP3451Project.EnginePackage.States.Interfaces;
 using COMP3451Project.PongPackage.Behaviours;
 using COMP3451Project.PongPackage.Entities;
+using COMP3451Project.EnginePackage.Animation.Interfaces;
+using COMP3451Project.EnginePackage.Animation;
 
 namespace COMP3451Project
 {
@@ -124,299 +127,326 @@ namespace COMP3451Project
             // INSTANTIATE _rand as new Random():
             _rand = new Random();
 
+            // TRY checking if all engine creational classes as well as entity setup throw any exceptions:
+            try
+            {
+                #region ENTITY MANAGER
 
-            #region ENTITY MANAGER
+                // DECLARE & GET an instance of EntityManager as an IEntityManager, name it '_entityManager':
+                IEntityManager _entityManager = _engineManager.GetService<EntityManager>() as IEntityManager;
 
-            // DECLARE & GET an instance of EntityManager as an IEntityManager, name it '_entityManager':
-            IEntityManager _entityManager = _engineManager.GetService<EntityManager>() as IEntityManager;
+                // INITIALISE _entityManager with a Factory<IEntity> instance from _engineManager:
+                (_entityManager as IInitialiseParam<IFactory<IEntity>>).Initialise(_engineManager.GetService<Factory<IEntity>>() as IFactory<IEntity>);
 
-            // INITIALISE _entityManager with a Factory<IEntity> instance from _engineManager:
-            (_entityManager as IInitialiseParam<IFactory<IEntity>>).Initialise(_engineManager.GetService<Factory<IEntity>>() as IFactory<IEntity>);
+                // INITIALISE _entityManager with a CommandScheduler instance from _engineManager:
+                (_entityManager as IInitialiseParam<ICommandScheduler>).Initialise(_engineManager.GetService<CommandScheduler>() as ICommandScheduler);
 
-            // INITIALISE _entityManager with a CommandScheduler instance from _engineManager:
-            (_entityManager as IInitialiseParam<ICommandScheduler>).Initialise(_engineManager.GetService<CommandScheduler>() as ICommandScheduler);
+                // INITIALISE _entityManager with a KeyboardManager instance from _engineManager:
+                (_entityManager as IInitialiseParam<IKeyboardPublisher>).Initialise(_engineManager.GetService<KeyboardManager>() as IKeyboardPublisher);
 
-            // INITIALISE _entityManager with a KeyboardManager instance from _engineManager:
-            (_entityManager as IInitialiseParam<IKeyboardPublisher>).Initialise(_engineManager.GetService<KeyboardManager>() as IKeyboardPublisher);
+                #endregion
 
-            #endregion
 
+                #region SCENE MANAGER
 
-            #region SCENE MANAGER
+                // DECLARE & GET an instance of SceneManager as an ISceneManager, name it '_sceneManager':
+                ISceneManager _sceneManager = _engineManager.GetService<SceneManager>() as ISceneManager;
 
-            // DECLARE & GET an instance of SceneManager as an ISceneManager, name it '_sceneManager':
-            ISceneManager _sceneManager = _engineManager.GetService<SceneManager>() as ISceneManager;
+                // INITIALISE _sceneManager with returned Factory<ISceneGraph> instance from _engineManager:
+                (_sceneManager as IInitialiseParam<IFactory<ISceneGraph>>).Initialise(_engineManager.GetService<Factory<ISceneGraph>>() as IFactory<ISceneGraph>);
 
-            // INITIALISE _sceneManager with returned Factory<ISceneGraph> instance from _engineManager:
-            (_sceneManager as IInitialiseParam<IFactory<ISceneGraph>>).Initialise(_engineManager.GetService<Factory<ISceneGraph>>() as IFactory<ISceneGraph>);
+                #endregion
 
-            #endregion
+                #endregion
 
-            #endregion
 
+                #region LEVEL 1 CREATION
 
-            #region LEVEL 1 CREATION
+                // CALL CreateScene() on _sceneManager, passing "Level1" as a parameter:
+                _sceneManager.CreateScene("Level1");
 
-            // CALL CreateScene() on _sceneManager, passing "Level1" as a parameter:
-            _sceneManager.CreateScene("Level1");
+                // INITIALISE _sceneManager with a CollisionManager instance from _engineManager for scene "Level1":
+                _sceneManager.Initialise("Level1", _engineManager.GetService<CollisionManager>() as ICollisionManager);
 
-            // INITIALISE _sceneManager with a CollisionManager instance from _engineManager for scene "Level1":
-            _sceneManager.Initialise("Level1", _engineManager.GetService<CollisionManager>() as ICollisionManager);
 
+                #region DISPLAYABLE CREATION
 
-            #region DISPLAYABLE CREATION
+                #region LAYER 2
 
-            #region LAYER 2
+                #region WALLS
 
-            #region WALLS
+                #region COMMANDS
 
-            #region COMMANDS
+                // DECLARE & INSTANTIATE an IFuncCommand<IEntity> as a new FuncCommandOneParam<string, IEntity>(), name it '_createWall':
+                IFuncCommand<IEntity> _createWall = new FuncCommandOneParam<string, IEntity>();
 
-            // DECLARE & INSTANTIATE an IFuncCommand<IEntity> as a new FuncCommandOneParam<string, IEntity>(), name it '_createWall':
-            IFuncCommand<IEntity> _createWall = new FuncCommandOneParam<string, IEntity>();
+                // INITIALISE _createFloor's MethodRef Property with EntityManager.Create<Wall>:
+                (_createWall as IFuncCommandOneParam<string, IEntity>).MethodRef = (_engineManager.GetService<EntityManager>() as IEntityManager).Create<Wall>;
 
-            // INITIALISE _createFloor's MethodRef Property with EntityManager.Create<Wall>:
-            (_createWall as IFuncCommandOneParam<string, IEntity>).MethodRef = (_engineManager.GetService<EntityManager>() as IEntityManager).Create<Wall>;
+                // DECLARE & INSTANTIATE an IFuncCommand<IEntity> as a new FuncCommandOneParam<string, IEntity>(), name it '_createFloor':
+                IFuncCommand<IEntity> _createFloor = new FuncCommandOneParam<string, IEntity>();
 
-            // DECLARE & INSTANTIATE an IFuncCommand<IEntity> as a new FuncCommandOneParam<string, IEntity>(), name it '_createFloor':
-            IFuncCommand<IEntity> _createFloor = new FuncCommandOneParam<string, IEntity>();
+                // INITIALISE _createFloor's MethodRef Property with EntityManager.Create<DrawableRectangleEntity>:
+                (_createFloor as IFuncCommandOneParam<string, IEntity>).MethodRef = (_engineManager.GetService<EntityManager>() as IEntityManager).Create<DrawableRectangleEntity>;
 
-            // INITIALISE _createFloor's MethodRef Property with EntityManager.Create<DrawableRectangleEntity>:
-            (_createFloor as IFuncCommandOneParam<string, IEntity>).MethodRef = (_engineManager.GetService<EntityManager>() as IEntityManager).Create<DrawableRectangleEntity>;
+                #endregion
 
-            #endregion
+                // DECLARE & INSTANTIATE an ILevelLayoutMaker as a new LevelLayoutMaker(), name it '_levelLM':
+                ILevelLayoutMaker _levelLM = _engineManager.GetService<LevelLayoutMaker>() as ILevelLayoutMaker;
 
-            // DECLARE & INSTANTIATE an ILevelLayoutMaker as a new LevelLayoutMaker(), name it '_levelLM':
-            ILevelLayoutMaker _levelLM = _engineManager.GetService<LevelLayoutMaker>() as ILevelLayoutMaker;
+                // INITIALISE _levelLM with "Wall" and _createWall as parameters:
+                (_levelLM as IInitialiseParam<string, IFuncCommand<IEntity>>).Initialise("Wall", _createWall);
 
-            // INITIALISE _levelLM with "Wall" and _createWall as parameters:
-            (_levelLM as IInitialiseParam<string, IFuncCommand<IEntity>>).Initialise("Wall", _createWall);
+                // INITIALISE _levelLM with "Floor" and _createFloor as parameters:
+                (_levelLM as IInitialiseParam<string, IFuncCommand<IEntity>>).Initialise("Floor", _createFloor);
 
-            // INITIALISE _levelLM with "Floor" and _createFloor as parameters:
-            (_levelLM as IInitialiseParam<string, IFuncCommand<IEntity>>).Initialise("Floor", _createFloor);
+                // DECLARE & INSTANTIATE a new TmxMap(), name it '_map', passing a .tmx file as a parameter:
+                TmxMap _map = new TmxMap("..\\..\\..\\..\\Content\\ExampleLevel\\ExampleLevel.tmx");
 
-            // DECLARE & INSTANTIATE a new TmxMap(), name it '_map', passing a .tmx file as a parameter:
-            TmxMap _map = new TmxMap("..\\..\\..\\..\\Content\\ExampleLevel\\ExampleLevel.tmx");
+                // DECLARE & INITIALISE a Texture2D, name it '_tilesetTex', give value of _map's TileSet on Layer 0's name:
+                Texture2D _tilesetTex = Content.Load<Texture2D>("ExampleLevel\\" + _map.Tilesets[0].Name);
 
-            // DECLARE & INITIALISE a Texture2D, name it '_tilesetTex', give value of _map's TileSet on Layer 0's name:
-            Texture2D _tilesetTex = Content.Load<Texture2D>("ExampleLevel\\" + _map.Tilesets[0].Name);
+                // CALL CreateLevelLayout() on _levelLM, passing "ExampleLevel", _map and _tilesetTex as parameters:
+                _levelLM.CreateLevelLayout("ExampleLevel", _map, _tilesetTex);
 
-            // CALL CreateLevelLayout() on _levelLM, passing "ExampleLevel", _map and _tilesetTex as parameters:
-            _levelLM.CreateLevelLayout("ExampleLevel", _map, _tilesetTex);
+                #endregion
 
-            #endregion
+                #endregion
 
-            #endregion
 
+                #region LAYER 5
 
-            #region LAYER 5
+                #region PADDLES
 
-            #region PADDLES
+                #region PADDLE 1
 
-            #region PADDLE 1
+                #region STATES
 
-            #region STATES
+                /// INSTANTIATION
 
-            /// INSTANTIATION
+                // DECLARE & INSTANTIATE an IState as a new PaddleState(), name it '_tempStateStationary':
+                IState _tempStateStationary = (_engineManager.GetService<Factory<IState>>() as IFactory<IState>).Create<PaddleState>();
 
-            // DECLARE & INSTANTIATE an IState as a new PaddleState(), name it '_tempStateStationary':
-            IState _tempStateStationary = (_engineManager.GetService<Factory<IState>>() as IFactory<IState>).Create<PaddleState>();
+                // DECLARE & INSTANTIATE an IState as a new PaddleState(), name it '_tempStateUp':
+                IState _tempStateUp = (_engineManager.GetService<Factory<IState>>() as IFactory<IState>).Create<PaddleState>();
 
-            // DECLARE & INSTANTIATE an IState as a new PaddleState(), name it '_tempStateUp':
-            IState _tempStateUp = (_engineManager.GetService<Factory<IState>>() as IFactory<IState>).Create<PaddleState>();
+                // DECLARE & INSTANTIATE an IState as a new PaddleState(), name it '_tempStateDown':
+                IState _tempStateDown = (_engineManager.GetService<Factory<IState>>() as IFactory<IState>).Create<PaddleState>();
 
-            // DECLARE & INSTANTIATE an IState as a new PaddleState(), name it '_tempStateDown':
-            IState _tempStateDown = (_engineManager.GetService<Factory<IState>>() as IFactory<IState>).Create<PaddleState>();
+                /// INITIALISATION
 
-            /// INITIALISATION
+                // SET Name Property value of _tempStateStationary to "stationary":
+                (_tempStateStationary as IName).Name = "stationary";
 
-            // SET Name Property value of _tempStateStationary to "stationary":
-            (_tempStateStationary as IName).Name = "stationary";
+                // SET ScheduleCommand Property of _tempStateStationary to reference of CommandScheduler.ScheduleCommand:
+                (_tempStateStationary as ICommandSender).ScheduleCommand = (_engineManager.GetService<CommandScheduler>() as ICommandScheduler).ScheduleCommand;
 
-            // SET ScheduleCommand Property of _tempStateStationary to reference of CommandScheduler.ScheduleCommand:
-            (_tempStateStationary as ICommandSender).ScheduleCommand = (_engineManager.GetService<CommandScheduler>() as ICommandScheduler).ScheduleCommand;
+                // SET Name Property value of _tempStateUp to "up":
+                (_tempStateUp as IName).Name = "up";
 
-            // SET Name Property value of _tempStateUp to "up":
-            (_tempStateUp as IName).Name = "up";
+                // SET ScheduleCommand Property of _tempStateUp to reference of CommandScheduler.ScheduleCommand:
+                (_tempStateUp as ICommandSender).ScheduleCommand = (_engineManager.GetService<CommandScheduler>() as ICommandScheduler).ScheduleCommand;
 
-            // SET ScheduleCommand Property of _tempStateUp to reference of CommandScheduler.ScheduleCommand:
-            (_tempStateUp as ICommandSender).ScheduleCommand = (_engineManager.GetService<CommandScheduler>() as ICommandScheduler).ScheduleCommand;
+                // SET Name Property value of _tempStateDown to "down":
+                (_tempStateDown as IName).Name = "down";
 
-            // SET Name Property value of _tempStateDown to "down":
-            (_tempStateDown as IName).Name = "down";
+                // SET ScheduleCommand Property of _tempStateDown to reference of CommandScheduler.ScheduleCommand:
+                (_tempStateDown as ICommandSender).ScheduleCommand = (_engineManager.GetService<CommandScheduler>() as ICommandScheduler).ScheduleCommand;
 
-            // SET ScheduleCommand Property of _tempStateDown to reference of CommandScheduler.ScheduleCommand:
-            (_tempStateDown as ICommandSender).ScheduleCommand = (_engineManager.GetService<CommandScheduler>() as ICommandScheduler).ScheduleCommand;
+                #endregion
 
-            #endregion
 
+                #region BEHAVIOURS
 
-            #region BEHAVIOURS
+                /// INSTANTIATION
 
-            /// INSTANTIATION
+                // DECLARE & INSTANTIATE an IUpdateEventListener as a new PaddleBehaviour(), name it '_behaviourStationary':
+                IUpdateEventListener _behaviourStationary = (_engineManager.GetService<Factory<IUpdateEventListener>>() as IFactory<IUpdateEventListener>).Create<PaddleBehaviour>();
 
-            // DECLARE & INSTANTIATE an IUpdateEventListener as a new PaddleBehaviour(), name it '_behaviourStationary':
-            IUpdateEventListener _behaviourStationary = (_engineManager.GetService<Factory<IUpdateEventListener>>() as IFactory<IUpdateEventListener>).Create<PaddleBehaviour>();
+                // DECLARE & INSTANTIATE an IUpdateEventListener as a new PaddleBehaviour(), name it '_behaviourUp':
+                IUpdateEventListener _behaviourUp = (_engineManager.GetService<Factory<IUpdateEventListener>>() as IFactory<IUpdateEventListener>).Create<PaddleBehaviour>();
 
-            // DECLARE & INSTANTIATE an IUpdateEventListener as a new PaddleBehaviour(), name it '_behaviourUp':
-            IUpdateEventListener _behaviourUp = (_engineManager.GetService<Factory<IUpdateEventListener>>() as IFactory<IUpdateEventListener>).Create<PaddleBehaviour>();
+                // DECLARE & INSTANTIATE an IUpdateEventListener as a new PaddleBehaviour(), name it '_behaviourDown':
+                IUpdateEventListener _behaviourDown = (_engineManager.GetService<Factory<IUpdateEventListener>>() as IFactory<IUpdateEventListener>).Create<PaddleBehaviour>();
 
-            // DECLARE & INSTANTIATE an IUpdateEventListener as a new PaddleBehaviour(), name it '_behaviourDown':
-            IUpdateEventListener _behaviourDown = (_engineManager.GetService<Factory<IUpdateEventListener>>() as IFactory<IUpdateEventListener>).Create<PaddleBehaviour>();
+                /// ANIMATION
 
-            /// INITIALISATION
+                IAnimation _tempAnimationUp = (_engineManager.GetService<Factory<IAnimation>>() as IFactory<IAnimation>).Create<Animation>();
+                IAnimation _tempAnimationDown = (_engineManager.GetService<Factory<IAnimation>>() as IFactory<IAnimation>).Create<Animation>();
+                IAnimation _tempAnimationStationary = (_engineManager.GetService<Factory<IAnimation>>() as IFactory<IAnimation>).Create<Animation>();
 
-            // SET Name Property value of _behaviourStationary to "stationary":
-            (_behaviourStationary as IName).Name = "stationary";
+                // subcribe to animation
+                //(_tempAnimationUp as IInitialiseParam<IUpdateEventListener>).Initialise();
 
-            // SET Direction Property value of _behaviourStationary to '0':
-            (_behaviourStationary as IDirection).Direction = new Vector2(0);
 
-            // SET Name Property value of _behaviourUp to "up":
-            (_behaviourUp as IName).Name = "up";
+                /// INITIALISATION
 
-            // SET Direction Property value of _behaviourUp to '0, -1':
-            (_behaviourUp as IDirection).Direction = new Vector2(0, -1);
+                // SET Direction Property value of _behaviourStationary to '0':
+                (_behaviourStationary as IDirection).Direction = new Vector2(0);
 
-            // SET Name Property value of _behaviourDown to "down":
-            (_behaviourDown as IName).Name = "down";
+                // SET Direction Property value of _behaviourUp to '0, -1':
+                (_behaviourUp as IDirection).Direction = new Vector2(0, -1);
 
-            // SET Direction Property value of _behaviourDown to '0, 1':
-            (_behaviourDown as IDirection).Direction = new Vector2(0, 1);
+                // SET Direction Property value of _behaviourDown to '0, 1':
+                (_behaviourDown as IDirection).Direction = new Vector2(0, 1);
 
-            // INITIALISE _tempStateStationary with reference to _behaviourStationary:
-            (_tempStateStationary as IInitialiseParam<IUpdateEventListener>).Initialise(_behaviourStationary);
+                // INITIALISE _tempStateStationary with reference to _behaviourStationary:
+                (_tempStateStationary as IInitialiseParam<IUpdateEventListener>).Initialise(_behaviourStationary);
 
-            // INITIALISE _tempStateUp with reference to _behaviourUp:
-            (_tempStateUp as IInitialiseParam<IUpdateEventListener>).Initialise(_behaviourUp);
+                // INITIALISE _tempStateUp with reference to _behaviourUp:
+                (_tempStateUp as IInitialiseParam<IUpdateEventListener>).Initialise(_behaviourUp);
 
-            // INITIALISE _tempStateDown with reference to _behaviourDown:
-            (_tempStateDown as IInitialiseParam<IUpdateEventListener>).Initialise(_behaviourDown);
+                // INITIALISE _tempStateDown with reference to _behaviourDown:
+                (_tempStateDown as IInitialiseParam<IUpdateEventListener>).Initialise(_behaviourDown);
 
-            #endregion
+                #endregion
 
 
-            #region ENTITY
+                #region ENTITY
 
-            /// INSTANTIATION
+                /// INSTANTIATION
 
-            // INSTANTIATE new Paddle(), name it "Paddle1":
-            _entityManager.Create<Paddle>("Paddle1");
+                // INSTANTIATE new Paddle(), name it "Paddle1":
+                _entityManager.Create<Paddle>("Paddle1");
 
-            // SUBSCRIBE "Paddle1" to returned KeyboardManager from _engineManager:
-            (_engineManager.GetService<KeyboardManager>() as IKeyboardPublisher).Subscribe(_entityManager.GetDictionary()["Paddle1"] as IKeyboardListener);
+                // SUBSCRIBE "Paddle1" to returned KeyboardManager from _engineManager:
+                (_engineManager.GetService<KeyboardManager>() as IKeyboardPublisher).Subscribe(_entityManager.GetDictionary()["Paddle1"] as IKeyboardListener);
 
-            // INITIALISE _behaviourStationary with reference to "Paddle1":
-            (_behaviourStationary as IInitialiseParam<IEntity>).Initialise(_entityManager.GetDictionary()["Paddle1"]);
+                // INITIALISE _behaviourStationary with reference to "Paddle1":
+                (_behaviourStationary as IInitialiseParam<IEntity>).Initialise(_entityManager.GetDictionary()["Paddle1"]);
 
-            // INITIALISE _behaviourup with reference to "Paddle1":
-            (_behaviourUp as IInitialiseParam<IEntity>).Initialise(_entityManager.GetDictionary()["Paddle1"]);
+                // INITIALISE _behaviourup with reference to "Paddle1":
+                (_behaviourUp as IInitialiseParam<IEntity>).Initialise(_entityManager.GetDictionary()["Paddle1"]);
 
-            // INITIALISE _behaviourDown with reference to "Paddle1":
-            (_behaviourDown as IInitialiseParam<IEntity>).Initialise(_entityManager.GetDictionary()["Paddle1"]);
+                // INITIALISE _behaviourDown with reference to "Paddle1":
+                (_behaviourDown as IInitialiseParam<IEntity>).Initialise(_entityManager.GetDictionary()["Paddle1"]);
 
-            /// INITIALISATION
+                /// INITIALISATION
 
-            // INITIALISE "Paddle1" with _tempStateStationary:
-            (_entityManager.GetDictionary()["Paddle1"] as IInitialiseParam<IState>).Initialise(_tempStateStationary);
+                // INITIALISE "Paddle1" with _tempStateStationary:
+                (_entityManager.GetDictionary()["Paddle1"] as IInitialiseParam<IState>).Initialise(_tempStateStationary);
 
-            // SET WindowBorder of "Paddle1" to value of _screenSize:
-            (_entityManager.GetDictionary()["Paddle1"] as IContainBoundary).WindowBorder = _screenSize;
+                // SET WindowBorder of "Paddle1" to value of _screenSize:
+                (_entityManager.GetDictionary()["Paddle1"] as IContainBoundary).WindowBorder = _screenSize;
 
-            // SET PlayerIndex of "Paddle1" to PlayerIndex.One:
-            (_entityManager.GetDictionary()["Paddle1"] as IPlayer).PlayerNum = PlayerIndex.One;
+                // SET PlayerIndex of "Paddle1" to PlayerIndex.One:
+                (_entityManager.GetDictionary()["Paddle1"] as IPlayer).PlayerNum = PlayerIndex.One;
 
-            // SET Layer of "Paddle1" to 5:
-            (_entityManager.GetDictionary()["Paddle1"] as ILayer).Layer = 5;
+                // SET Layer of "Paddle1" to 5:
+                (_entityManager.GetDictionary()["Paddle1"] as ILayer).Layer = 5;
 
-            #endregion
+                #endregion
 
 
-            #region COMMANDS
+                #region COMMANDS
 
-            /// INSTANTIATION
+                /// INSTANTIATION
 
-            // DECLARE & INSTANTIATE an ICommand as a new CommandOneParam(), name it '_stateStationaryChange':
-            ICommand _stateStationaryChange = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandOneParam<IState>>();
+                // DECLARE & INSTANTIATE an ICommand as a new CommandOneParam(), name it '_stateStationaryChange':
+                ICommand _stateStationaryChange = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandOneParam<IState>>();
 
-            // DECLARE & INSTANTIATE an ICommand as a new CommandOneParam(), name it '_stateUpChange':
-            ICommand _stateUpChange = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandOneParam<IState>>();
+                // DECLARE & INSTANTIATE an ICommand as a new CommandOneParam(), name it '_stateUpChange':
+                ICommand _stateUpChange = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandOneParam<IState>>();
 
-            // DECLARE & INSTANTIATE an ICommand as a new CommandOneParam(), name it '_stateDownChange':
-            ICommand _stateDownChange = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandOneParam<IState>>();
+                // DECLARE & INSTANTIATE an ICommand as a new CommandOneParam(), name it '_stateDownChange':
+                ICommand _stateDownChange = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandOneParam<IState>>();
 
-            /// INITIALISATION
+                /// INITIALISATION
 
-            // SET MethodRef Property value of _stateStationaryChange to reference of "Paddle1"'s SetState() method:
-            (_stateStationaryChange as ICommandOneParam<IState>).MethodRef = (_entityManager.GetDictionary()["Paddle1"] as IEntityInternal).SetState;
+                // SET MethodRef Property value of _stateStationaryChange to reference of "Paddle1"'s SetState() method:
+                (_stateStationaryChange as ICommandOneParam<IState>).MethodRef = (_entityManager.GetDictionary()["Paddle1"] as IEntityInternal).SetState;
 
-            // SET Data Property value of _stateStationaryChange to reference of _tempStateStationary:
-            (_stateStationaryChange as ICommandOneParam<IState>).Data = _tempStateStationary;
+                // SET Data Property value of _stateStationaryChange to reference of _tempStateStationary:
+                (_stateStationaryChange as ICommandOneParam<IState>).Data = _tempStateStationary;
 
-            // SET MethodRef Property value of _stateUpChange to reference of "Paddle1"'s SetState() method:
-            (_stateUpChange as ICommandOneParam<IState>).MethodRef = (_entityManager.GetDictionary()["Paddle1"] as IEntityInternal).SetState;
+                // SET MethodRef Property value of _stateUpChange to reference of "Paddle1"'s SetState() method:
+                (_stateUpChange as ICommandOneParam<IState>).MethodRef = (_entityManager.GetDictionary()["Paddle1"] as IEntityInternal).SetState;
 
-            // SET Data Property value of _stateUpChange to reference of _tempStateUp:
-            (_stateUpChange as ICommandOneParam<IState>).Data = _tempStateUp;
+                // SET Data Property value of _stateUpChange to reference of _tempStateUp:
+                (_stateUpChange as ICommandOneParam<IState>).Data = _tempStateUp;
 
-            // SET MethodRef Property value of _stateDownChange to reference of "Paddle1"'s SetState() method:
-            (_stateDownChange as ICommandOneParam<IState>).MethodRef = (_entityManager.GetDictionary()["Paddle1"] as IEntityInternal).SetState;
+                // SET MethodRef Property value of _stateDownChange to reference of "Paddle1"'s SetState() method:
+                (_stateDownChange as ICommandOneParam<IState>).MethodRef = (_entityManager.GetDictionary()["Paddle1"] as IEntityInternal).SetState;
 
-            // SET Data Property value of _stateDownChange to reference of _tempStateDown:
-            (_stateDownChange as ICommandOneParam<IState>).Data = _tempStateDown;
+                // SET Data Property value of _stateDownChange to reference of _tempStateDown:
+                (_stateDownChange as ICommandOneParam<IState>).Data = _tempStateDown;
 
-            // INITIALISE _tempStateStationary with _tempStateUp.Name and _stateUpChange as parameters:
-            (_tempStateStationary as IInitialiseParam<string, ICommand>).Initialise((_tempStateUp as IName).Name, _stateUpChange);
+                // INITIALISE _tempStateStationary with _tempStateUp.Name and _stateUpChange as parameters:
+                (_tempStateStationary as IInitialiseParam<string, ICommand>).Initialise((_tempStateUp as IName).Name, _stateUpChange);
 
-            // INITIALISE _tempStateStationary with _tempStateDown.Name and _stateDownChange as parameters:
-            (_tempStateStationary as IInitialiseParam<string, ICommand>).Initialise((_tempStateDown as IName).Name, _stateDownChange);
+                // INITIALISE _tempStateStationary with _tempStateDown.Name and _stateDownChange as parameters:
+                (_tempStateStationary as IInitialiseParam<string, ICommand>).Initialise((_tempStateDown as IName).Name, _stateDownChange);
 
-            // INITIALISE _tempStateUp with _tempStateStationary.Name and _stateStationaryChange as parameters:
-            (_tempStateUp as IInitialiseParam<string, ICommand>).Initialise((_tempStateStationary as IName).Name, _stateStationaryChange);
+                // INITIALISE _tempStateUp with _tempStateStationary.Name and _stateStationaryChange as parameters:
+                (_tempStateUp as IInitialiseParam<string, ICommand>).Initialise((_tempStateStationary as IName).Name, _stateStationaryChange);
 
-            // INITIALISE _tempStateUp with _tempStateDown.Name and _stateDownChange as parameters:
-            (_tempStateUp as IInitialiseParam<string, ICommand>).Initialise((_tempStateDown as IName).Name, _stateDownChange);
+                // INITIALISE _tempStateUp with _tempStateDown.Name and _stateDownChange as parameters:
+                (_tempStateUp as IInitialiseParam<string, ICommand>).Initialise((_tempStateDown as IName).Name, _stateDownChange);
 
-            // INITIALISE _tempStateDown with _tempStateStationary.Name and _stateStationaryChange as parameters:
-            (_tempStateDown as IInitialiseParam<string, ICommand>).Initialise((_tempStateStationary as IName).Name, _stateStationaryChange);
+                // INITIALISE _tempStateDown with _tempStateStationary.Name and _stateStationaryChange as parameters:
+                (_tempStateDown as IInitialiseParam<string, ICommand>).Initialise((_tempStateStationary as IName).Name, _stateStationaryChange);
 
-            // INITIALISE _tempStateDown with _tempStateUp.Name and _stateUpChange as parameters:
-            (_tempStateDown as IInitialiseParam<string, ICommand>).Initialise((_tempStateUp as IName).Name, _stateUpChange);
+                // INITIALISE _tempStateDown with _tempStateUp.Name and _stateUpChange as parameters:
+                (_tempStateDown as IInitialiseParam<string, ICommand>).Initialise((_tempStateUp as IName).Name, _stateUpChange);
 
 
-            #endregion
+                #endregion
 
-            #endregion
+                #endregion
 
-            #endregion
+                #endregion
 
-            #endregion
+                #endregion
 
-            /*
-            #region PADDLE 2
+                /*
+                #region PADDLE 2
 
-            // INSTANTIATE new Paddle(), name it "paddle2":
-            _entityManager.Create<Paddle>("Paddle2");
+                // INSTANTIATE new Paddle(), name it "paddle2":
+                _entityManager.Create<Paddle>("Paddle2");
 
-            // SUBSCRIBE "Paddle2" to returned KeyboardManager from _engineManager:
-            (_engineManager.GetService<KeyboardManager>() as IKeyboardPublisher).Subscribe(_entityManager.GetDictionary()["Paddle2"] as IKeyboardListener);
+                // SUBSCRIBE "Paddle2" to returned KeyboardManager from _engineManager:
+                (_engineManager.GetService<KeyboardManager>() as IKeyboardPublisher).Subscribe(_entityManager.GetDictionary()["Paddle2"] as IKeyboardListener);
 
-            // INITIALISE "Paddle2":
-            _entityManager.GetDictionary()["Paddle2"].Initialise();
+                // INITIALISE "Paddle2":
+                _entityManager.GetDictionary()["Paddle2"].Initialise();
 
-            // SET PlayerIndex of "Paddle2" to PlayerIndex.Two:
-            (_entityManager.GetDictionary()["Paddle2"] as IPlayer).PlayerNum = PlayerIndex.Two;
+                // SET PlayerIndex of "Paddle2" to PlayerIndex.Two:
+                (_entityManager.GetDictionary()["Paddle2"] as IPlayer).PlayerNum = PlayerIndex.Two;
 
-            // SET Layer of "Paddle2" to 5:
-            (_entityManager.GetDictionary()["Paddle1"] as ILayer).Layer = 5;
-            
-            #endregion
-            */
+                // SET Layer of "Paddle2" to 5:
+                (_entityManager.GetDictionary()["Paddle1"] as ILayer).Layer = 5;
 
-            #endregion
+                #endregion
+                */
 
-            #endregion
+                #endregion
 
+                #endregion
+            }
+            // CATCH ClassDoesNotExistException from Create():
+            catch (ClassDoesNotExistException e)
+            {
+                // PRINT exception message to console:
+                Console.WriteLine(e.Message);
+            }
+            // CATCH ClassDoesNotExistException from Create():
+            catch (NullInstanceException e)
+            {
+                // PRINT exception message to console:
+                Console.WriteLine(e.Message);
+            }
+            // CATCH ClassDoesNotExistException from Create():
+            catch (NullValueException e)
+            {
+                // PRINT exception message to console:
+                Console.WriteLine(e.Message);
+            }
+            // CATCH ValueAlreadyStoredException from Create():
+            catch (ValueAlreadyStoredException e)
+            {
+                // PRINT exception message to console:
+                Console.WriteLine(e.Message);
+            }
 
             // INITIALISE base class:
             base.Initialize();

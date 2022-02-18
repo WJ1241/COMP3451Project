@@ -51,6 +51,7 @@
     <Compile Include="EnginePackage\CoreInterfaces\IRotation.cs" />
     <Compile Include="EnginePackage\EntityManagement\DrawableRectangleEntity.cs" />
     <Compile Include="EnginePackage\EntityManagement\UpdatableEntity.cs" />
+    <Compile Include="EnginePackage\Exceptions\ValueAlreadyStoredException.cs" />
     <Compile Include="EnginePackage\Services\Commands\FuncCommandZeroParam.cs" />
     <Compile Include="EnginePackage\Services\Commands\FuncCommandOneParam.cs" />
     <Compile Include="EnginePackage\Services\Commands\Interfaces\IFuncCommandOneParam.cs" />

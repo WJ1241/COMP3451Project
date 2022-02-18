@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
+using COMP3451Project.EnginePackage.Exceptions;
 using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
 using COMP3451Project.EnginePackage.States.Interfaces;
 
@@ -165,8 +166,18 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         /// <param name="pState"> IState instance </param>
         public virtual void Initialise(IState pState)
         {
-            // INITIALISE _currentState with instance of pState:
-            _currentState = pState; 
+            // IF pState DOES HAVE an active instance:
+            if (pState != null)
+            {
+                // INITIALISE _currentState with instance of pState:
+                _currentState = pState;
+            }
+            // IF pState DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pState does not have an active instance!");
+            }
         }
 
         #endregion

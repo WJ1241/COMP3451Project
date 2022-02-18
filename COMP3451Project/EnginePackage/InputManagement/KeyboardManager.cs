@@ -11,7 +11,7 @@ namespace COMP3451Project.EnginePackage.InputManagement
     /// <summary>
     /// Class which manages all entities listening for Keyboard input
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 12/02/22
+    /// Date: 18/02/22
     /// </summary>
     public class KeyboardManager : IUpdatable, IKeyboardPublisher, IService
     {
@@ -45,11 +45,11 @@ namespace COMP3451Project.EnginePackage.InputManagement
         /// <summary>
         /// Subscribes a Keyboard listening object to be stored in a list/dictionary
         /// </summary>
-        /// <param name="KeyboardListener">Reference to an object implementing IKeyboardListener</param>
-        public void Subscribe(IKeyboardListener keyboardListener)
+        /// <param name="pKeyboardListener"> Reference to an object implementing IKeyboardListener </param>
+        public void Subscribe(IKeyboardListener pKeyboardListener)
         {
             // ADD KeyboardListener to Dictionary<string, IKeyboardListener>:
-            _kBListeners.Add((keyboardListener as IEntity).UName, keyboardListener);
+            _kBListeners.Add((pKeyboardListener as IEntity).UName, pKeyboardListener);
         }
 
         /// <summary>
@@ -70,16 +70,17 @@ namespace COMP3451Project.EnginePackage.InputManagement
         /// <summary>
         /// Updates object when a frame has been rendered on screen
         /// </summary>
-        /// <param name="gameTime">holds reference to GameTime object</param>
-        public void Update(GameTime gameTime)
+        /// <param name="pGameTime"> Holds reference to GameTime object </param>
+        public void Update(GameTime pGameTime)
         {
             // ASSIGNMENT, use GetState() to get what keys have been activated:
             _keyboardState = Keyboard.GetState();
 
-            foreach (IKeyboardListener keyboardListener in _kBListeners.Values) // FOREACH IKeyboardListener objects in _kBListeners
+            // FOREACH IKeyboardListener objects in _kBListeners:
+            foreach (IKeyboardListener pKeyboardListener in _kBListeners.Values)
             {
-                // CALL 'OnKBInput()' passing an KeyboardState as a parameter, used to get Keyboard input:
-                keyboardListener.OnKBInput(_keyboardState);
+                // CALL 'OnKBInput()' passing a KeyboardState as a parameter, used to get Keyboard input:
+                pKeyboardListener.OnKBInput(_keyboardState);
             }
         }
 

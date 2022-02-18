@@ -11,7 +11,7 @@ namespace COMP3451Project.EnginePackage.InputManagement
     /// <summary>
     /// Class which manages all entities listening for Mouse input
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 12/02/22
+    /// Date: 18/02/22
     /// </summary>
     public class MouseManager : IUpdatable, IMousePublisher, IService
     {
@@ -76,10 +76,11 @@ namespace COMP3451Project.EnginePackage.InputManagement
             // ASSIGNMENT, use GetState() to get what keys have been activated:
             _mouseState = Mouse.GetState();
 
-            foreach (IMouseListener mouseListener in _mouseListeners.Values) // FOREACH IMouseListener objects in _mouseListeners
+            // FOREACH IMouseListener objects in _mouseListeners:
+            foreach (IMouseListener pMouseListener in _mouseListeners.Values)
             {
                 // CALL 'OnMouseInput()' passing an MouseState as a parameter, used to get Mouse input:
-                mouseListener.OnMouseInput(_mouseState);
+                pMouseListener.OnMouseInput(_mouseState);
             }
         }
 

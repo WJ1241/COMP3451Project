@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using COMP3451Project.EnginePackage.CollisionManagement.Interfaces;
 using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
+using COMP3451Project.EnginePackage.Exceptions;
 using COMP3451Project.EnginePackage.Services.Interfaces;
 
 namespace COMP3451Project.EnginePackage.CollisionManagement
@@ -10,7 +11,7 @@ namespace COMP3451Project.EnginePackage.CollisionManagement
     /// <summary>
     /// Class which stores references to entities that can collide with other entities
     /// Authors: William Smith, Declan Kerby-Collins & Marc Price
-    /// Date: 12/02/22
+    /// Date: 18/02/22
     /// </summary>
     /// <REFERENCE> Price, M. (2021) ‘Session 16 - Collision Management’, Games Design & Engineering: Sessions. Available at: https://worcesterbb.blackboard.com. (Accessed: 17 February 2021). </REFERENCE>
     public class CollisionManager : ICollisionManager, IUpdatable, IService
@@ -29,10 +30,11 @@ namespace COMP3451Project.EnginePackage.CollisionManagement
         #region CONSTRUCTOR
 
         /// <summary>
-        /// Constructor for objects of CollsionManager
+        /// Constructor for objects of CollisionManager
         /// </summary>
         public CollisionManager() 
         {
+            // EMPTY CONSTRUCTOR
         }
 
         #endregion
@@ -41,13 +43,23 @@ namespace COMP3451Project.EnginePackage.CollisionManagement
         #region IMPLEMENTATION OF ICOLLISIONMANAGER
 
         /// <summary>
-        /// Initialises object with a IReadOnlyDictionary<string, IEntity>
+        /// Initialises object with an IReadOnlyDictionary<string, IEntity>
         /// </summary>
-        /// <param name="entityDictionary">holds reference to 'IReadOnlyDictionary<string, IEntity>'</param>
-        public void Initialise(IReadOnlyDictionary<string, IEntity> entityDictionary)
+        /// <param name="pEntityDictionary">holds reference to 'IReadOnlyDictionary<string, IEntity>'</param>
+        public void Initialise(IReadOnlyDictionary<string, IEntity> pEntityDictionary)
         {
-            // ASSIGNMENT, set value of '_entityDictionary' as the same instance as 'entityDictionary'
-            _entityDictionary = entityDictionary;
+            // IF pEntityDictionary DOES HAVE an active instance:
+            if (pEntityDictionary != null)
+            {
+                // ASSIGNMENT, set value of '_entityDictionary' as the same instance as 'entityDictionary'
+                _entityDictionary = pEntityDictionary;
+            }
+            // IF pEntityDictionary DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pEntity does not have an active instance!");
+            }
         }
 
         #endregion
@@ -65,18 +77,22 @@ namespace COMP3451Project.EnginePackage.CollisionManagement
             // INSTANTIATE a new List<ICollidable>, newly created instance on update, allows for changes from entity Dictionary:
             _collidableList = new List<ICollidable>();
 
-            foreach (IEntity entity in _entityDictionary.Values) // FOREACH IEntity object in _entityDictionary
+            // FOREACH IEntity in _entityDictionary.values:
+            foreach (IEntity pEntity in _entityDictionary.Values)
             {
-                if (entity is ICollidable) // IF entity implements ICollidable
+                // IF pEntity implements ICollidable:
+                if (pEntity is ICollidable)
                 {
-                    // ADD entity to list of ICollidable:
-                    _collidableList.Add(entity as ICollidable);
+                    // ADD pEntity to _collidableList:
+                    _collidableList.Add(pEntity as ICollidable);
                 }
             }
 
-            for (int i = 0; i < (_collidableList.Count - 1); i++) // List.Count - 1, so that object cannot collide with itself
+            // FORLOOP, _collidableList.Count - 1, so that object cannot collide with itself:
+            for (int i = 0; i < (_collidableList.Count - 1); i++)
             {
-                for (int j = i + 1; j < _collidableList.Count; j++) // j = i + 1, so that object cannot collide with itself
+                // FORLOOP, j = i + 1, so that object cannot collide with itself:
+                for (int j = i + 1; j < _collidableList.Count; j++)
                 {
                     // CALL 'CollideResponse()' passing two ICollidables as parameters, used to determine which ICollidable objects change on Collision:
                     CollideResponse(_collidableList[i], _collidableList[j]);
@@ -97,14 +113,17 @@ namespace COMP3451Project.EnginePackage.CollisionManagement
         /// <CITATION> (Price, 2021) </CITATION>
         private void CollideResponse(ICollidable frstEntity, ICollidable scndEntity)
         {
-            if (frstEntity.HitBox.Intersects(scndEntity.HitBox)) // IF both hitboxes have collided
+            // IF both hitboxes have collided:
+            if (frstEntity.HitBox.Intersects(scndEntity.HitBox))
             {
-                if (frstEntity is ICollisionListener) // IF frstEntity implements ICollisionListener
+                // IF frstEntity implements ICollisionListener:
+                if (frstEntity is ICollisionListener)
                 {
                     // CALL 'OnCollision()' passing an ICollidable as a parameter, used to modify entity depending on what type of collision:
                     (frstEntity as ICollisionListener).OnCollision(scndEntity);
                 }
-                else if (scndEntity is ICollisionListener) // IF scndEntity implements ICollisionListener
+                // IF scndEntity implements ICollisionListener:
+                else if (scndEntity is ICollisionListener)
                 {
                     // CALL 'OnCollision()' passing an ICollidable as a parameter, used to modify entity depending on what type of collision:
                     (scndEntity as ICollisionListener).OnCollision(frstEntity);

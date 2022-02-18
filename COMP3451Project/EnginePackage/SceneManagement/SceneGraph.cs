@@ -6,6 +6,7 @@ using COMP3451Project.EnginePackage.Camera.Interfaces;
 using COMP3451Project.EnginePackage.CollisionManagement.Interfaces;
 using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
+using COMP3451Project.EnginePackage.Exceptions;
 using COMP3451Project.EnginePackage.SceneManagement.Interfaces;
 using COMP3451Project.EnginePackage.Services.Commands;
 using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
@@ -50,8 +51,18 @@ namespace COMP3451Project.EnginePackage.SceneManagement
         /// <param name="pCollisionManager"> ICollisionManager object </param>
         public void Initialise(ICollisionManager pCollisionManager)
         {
-            // INITIALISE pCollisionManager with _sceneEntDict:
-            pCollisionManager.Initialise(_sceneEntDict as IReadOnlyDictionary<string, IEntity>);
+            // IF pCollisionManager DOES HAVE an active instance:
+            if (pCollisionManager != null)
+            {
+                // INITIALISE pCollisionManager with _sceneEntDict:
+                pCollisionManager.Initialise(_sceneEntDict as IReadOnlyDictionary<string, IEntity>);
+            }
+            // IF pCollisionManager DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pCollisionManager does not have an active instance!");
+            }
         }
 
         /// <summary>
@@ -126,7 +137,7 @@ namespace COMP3451Project.EnginePackage.SceneManagement
             // BEGIN creation of displayable objects:
             pSpriteBatch.Begin();
 
-            // FOREACH any entity implementing IDraw:
+            // FOREACH IDraw in _sceneEntDict.Values:
             foreach (IDraw entity in _sceneEntDict.Values)
             {
                 // CALL Draw method on all entities in _entityDictionary:
@@ -153,11 +164,11 @@ namespace COMP3451Project.EnginePackage.SceneManagement
             // BEGIN creation of displayable objects:
             pSpriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, pCamera.ChngCamPos());
 
-            // FOREACH any entity implementing IDraw:
-            foreach (IDraw entity in _sceneEntDict.Values)
+            // FOREACH IDraw in _sceneEntDict.Values:
+            foreach (IDraw pEntity in _sceneEntDict.Values)
             {
                 // CALL Draw method on all entities in _entityDictionary:
-                entity.Draw(pSpriteBatch);
+                pEntity.Draw(pSpriteBatch);
             }
 
             // END creation of displayable objects:
@@ -175,13 +186,14 @@ namespace COMP3451Project.EnginePackage.SceneManagement
         /// <param name="pGameTime"> GameTime object </param>
         public void Update(GameTime pGameTime)
         {
-            // FOREACH any entity implementing IUpdatable:
-            foreach (IEntity entity in _sceneEntDict.Values)
+            // FOREACH IEntity in _sceneEntDict.Values:
+            foreach (IEntity pEntity in _sceneEntDict.Values)
             {
-                if (entity is IUpdatable) // IF entity implements IUpdatable
+                // IF entity implements IUpdatable:
+                if (pEntity is IUpdatable)
                 {
                     // CALL Update() on pEntity, passing pGameTime as a parameter:
-                    (entity as IUpdatable).Update(pGameTime);
+                    (pEntity as IUpdatable).Update(pGameTime);
                 }
             }
         }

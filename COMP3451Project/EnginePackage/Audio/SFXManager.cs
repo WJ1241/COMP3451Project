@@ -2,13 +2,14 @@
 using Microsoft.Xna.Framework.Audio;
 using COMP3451Project.EnginePackage.Audio.Interfaces;
 using COMP3451Project.EnginePackage.CoreInterfaces;
+using COMP3451Project.EnginePackage.Exceptions;
 
 namespace COMP3451Project.EnginePackage.Audio
 {
     /// <summary>
     /// Class which stores sound effects and plays a requested sound effect when needed
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 04/02/22
+    /// Date: 18/02/22
     /// </summary>
     public class SFXManager : IInitialiseParam<string, SoundEffect>, IPlayAudio
     {
@@ -43,8 +44,27 @@ namespace COMP3451Project.EnginePackage.Audio
         /// <param name="pSFXFile"> Sound Effect File </param>
         public void Initialise(string pSFXName, SoundEffect pSFXFile)
         {
-            // ADD pSFXName as a key, and pSFXFile as a value to _sfxDict:
-            _sfxDict.Add(pSFXName, pSFXFile);
+            // IF pSFXFile DOES NOT HAVE an active instance:
+            if (pSFXFile != null)
+            {
+                // IF _sfxDict DOES NOT contain pSFXName as a key:
+                if (!_sfxDict.ContainsKey(pSFXName))
+                {
+                    // ADD pSFXName as a key, and pSFXFile as a value to _sfxDict:
+                    _sfxDict.Add(pSFXName, pSFXFile);
+                }
+                // IF _sfxDict DOES contain value of pSFXName already:
+                else
+                {
+                    // THROW a new ValueAlreadyStoredException(), with corresponding message:
+                    throw new ValueAlreadyStoredException("ERROR: pSFXName already stored in _sfxDict!");
+                }
+            }
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pSFXFile does not have an active instance!");
+            }
         }
 
         #endregion

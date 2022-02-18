@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
+using COMP3451Project.EnginePackage.Exceptions;
 using COMP3451Project.EnginePackage.InputManagement.Interfaces;
 using COMP3451Project.EnginePackage.Services.Commands;
 using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
@@ -11,7 +12,7 @@ namespace COMP3451Project.EnginePackage.EntityManagement
     /// <summary>
     /// Class which Stores and Initialises required commands to Entities
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 12/02/22
+    /// Date: 18/02/22
     /// </summary>
     public class EntityManager : IEntityManager, IInitialiseParam<ICommandScheduler>, IInitialiseParam<IKeyboardPublisher>, IInitialiseParam<IFactory<IEntity>>
     {
@@ -31,7 +32,6 @@ namespace COMP3451Project.EnginePackage.EntityManagement
 
         // DECLARE an int, name it 'uIDCount', used to set unique IDs:
         private int _uIDCount;
-
 
         #endregion
 
@@ -146,8 +146,18 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         /// <param name="pCommandScheduler"> ICommandScheduler object </param>
         public void Initialise(ICommandScheduler pCommandScheduler)
         {
-            // INITIALISE _commandScheduler with reference to pCommandScheduler:
-            _commandScheduler = pCommandScheduler;
+            // IF pCommandScheduler DOES HAVE an active instance:
+            if (pCommandScheduler != null)
+            {
+                // INITIALISE _commandScheduler with reference to pCommandScheduler:
+                _commandScheduler = pCommandScheduler;
+            }
+            // IF pCommandScheduler DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pCommandScheduler does not have an active instance!");
+            }
         }
 
         #endregion
@@ -161,8 +171,18 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         /// <param name="pKBManager"> IKeyboardPublisher object </param>
         public void Initialise(IKeyboardPublisher pKBManager)
         {
-            // INITIALISE _kBManager with reference to pKBManager:
-            _kBManager = pKBManager;
+            // IF pKBManager DOES HAVE an active instance:
+            if (pKBManager != null)
+            {
+                // INITIALISE _kBManager with reference to pKBManager:
+                _kBManager = pKBManager;
+            }
+            // IF pKBManager DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pKBManager does not have an active instance!");
+            }
         }
 
         #endregion
@@ -176,8 +196,18 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         /// <param name="pFactory"> IFactory<IEntity> object </param>
         public void Initialise(IFactory<IEntity> pFactory)
         {
-            // INITIALISE _entityFactory with reference to pFactory:
-            _entityFactory = pFactory;
+            // IF pFactory DOES HAVE an active instance:
+            if (pFactory != null)
+            {
+                // INITIALISE _entityFactory with reference to pFactory:
+                _entityFactory = pFactory;
+            }
+            // IF pFactory DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pFactory does not have an active instance!");
+            }
         }
 
         #endregion
@@ -202,6 +232,5 @@ namespace COMP3451Project.EnginePackage.EntityManagement
         }
 
         #endregion
-
     }
 }

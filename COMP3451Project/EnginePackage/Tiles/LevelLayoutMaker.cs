@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using TiledSharp;
 using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
+using COMP3451Project.EnginePackage.Exceptions;
 using COMP3451Project.EnginePackage.Services.Interfaces;
 using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
 using COMP3451Project.EnginePackage.Tiles.Interfaces;
@@ -53,84 +54,116 @@ namespace COMP3451Project.EnginePackage.Tiles
         /// <CITATION> ('Teemu' et al., 2016) </CITATION>
         public void CreateLevelLayout(string pLevelName, TmxMap pTileMap, Texture2D pTexture)
         {
-            // DECLARE & INSTANTIATE a new Point(), name it '_tileSize', passing pTileMap's TileWidth and TileHeight as parameters:
-            Point _tileSize = new Point(pTileMap.Tilesets[0].TileWidth, pTileMap.Tilesets[0].TileHeight);
-
-            // DECLARE & INSTANTIATE a new Point(), name it '_tilesetSize', passing pTexture / _tileSize as parameters:
-            Point _tilesetSize = new Point(pTexture.Width / _tileSize.X, pTexture.Height / _tileSize.Y);
-
-            // DECLARE an IEntity, name it '_tempEntity':
-            IEntity _tempEntity;
-
-            // FORLOOP, iterate until 'i' exceeds count of TileMap Layers:
-            for (int i = 0; i < pTileMap.Layers.Count; i++)
+            // IF pTileMap DOES HAVE an active instance:
+            if (pTileMap != null)
             {
-                // FORLOOP, iterate until 'j' exceeds count of tiles in chosen layer:
-                for (int j = 0; j < pTileMap.Layers[i].Tiles.Count; j++)
+                // IF pTileMap DOES NOT HAVE an active instance:
+                if (pTexture != null)
                 {
-                    // SET _tempEntity to null, prevents issue where an entity can be addressed twice:
-                    _tempEntity = null;
+                    // DECLARE & INSTANTIATE a new Point(), name it '_tileSize', passing pTileMap's TileWidth and TileHeight as parameters:
+                    Point _tileSize = new Point(pTileMap.Tilesets[0].TileWidth, pTileMap.Tilesets[0].TileHeight);
 
-                    int _gid = pTileMap.Layers[i].Tiles[j].Gid;
+                    // DECLARE & INSTANTIATE a new Point(), name it '_tilesetSize', passing pTexture / _tileSize as parameters:
+                    Point _tilesetSize = new Point(pTexture.Width / _tileSize.X, pTexture.Height / _tileSize.Y);
 
-                    // IF current tile is not empty:
-                    if (_gid != 0)
+                    // DECLARE an IEntity, name it '_tempEntity':
+                    IEntity _tempEntity;
+
+                    // FORLOOP, iterate until 'i' exceeds count of TileMap Layers:
+                    for (int i = 0; i < pTileMap.Layers.Count; i++)
                     {
-                        // DECLARE & INITIALISE an int, name it '_tileFrame', give value of _gid - 1:
-                        // _gid - 1 reverts to first slot in tileset
-                        int _tileFrame = _gid - 1;
-
-                        // DECLARE & INITIALISE an int, name it '_column', give remainder value of _tileFrame divided by _tilesetSize.X:
-                        int _column = _tileFrame % _tilesetSize.X;
-
-                        // DECLARE & INITIALISE an int, name it '_row', give rounded down value of _tileFrame / _tilesetSize width:
-                        int _row = (int)Math.Floor((double)(_tileFrame / _tilesetSize.X));
-
-                        // DECLARE & INITIALISE a float, name it '_tileXPos', give value of j / pTileMap's width's remainder value multiplied by pTileMap's tile width:
-                        float _tileXPos = j % pTileMap.Width * pTileMap.TileWidth;
-
-                        // DECLARE & INITIALISE a float, name it '_tileYPos', give rounded down value of current value of 'j' multiplied by pTileMap's width which is then multiplied by the tile height:
-                        float _tileYPos = (float)Math.Floor(j / (double)pTileMap.Width) * pTileMap.TileHeight;
-
-                        // IF Layer name is "Floors":
-                        if (pTileMap.Layers[i].Name == "Floors")
+                        // FORLOOP, iterate until 'j' exceeds count of tiles in chosen layer:
+                        for (int j = 0; j < pTileMap.Layers[i].Tiles.Count; j++)
                         {
-                            // SET Data of _createEntDict["Floor"] to "Floor" + j:
-                            (_createEntDict["Floor"] as IFuncCommandOneParam<string, IEntity>).Data = "Floor" + j;
+                            // SET _tempEntity to null, prevents issue where an entity can be addressed twice:
+                            _tempEntity = null;
 
-                            // INITIALISE _tempEntity with return value from _createEntDict["Floor"].ExecuteMethod():
-                            _tempEntity = _createEntDict["Floor"].ExecuteMethod();
+                            // DECLARE an int, name it '_gid' give value of whether tile is being used and what tile of tileset its using:
+                            int _gid = pTileMap.Layers[i].Tiles[j].Gid;
 
-                            // SET Layer Property value of _tempEntity to 1:
-                            (_tempEntity as ILayer).Layer = 1;
-                        }
-                        // IF Layer name is "Walls":
-                        else if (pTileMap.Layers[i].Name == "Walls")
-                        {
-                            // SET Data of _createEntDict["Wall"] to "Wall" + j:
-                            (_createEntDict["Wall"] as IFuncCommandOneParam<string, IEntity>).Data = "Wall" + j;
+                            // IF current tile is not empty:
+                            if (_gid != 0)
+                            {
+                                // DECLARE & INITIALISE an int, name it '_tileFrame', give value of _gid - 1:
+                                // _gid - 1 reverts to first slot in tileset
+                                int _tileFrame = _gid - 1;
 
-                            // INITIALISE _tempEntity with return value from _createEntDict["Wall"].ExecuteMethod():
-                            _tempEntity = _createEntDict["Wall"].ExecuteMethod();
+                                // DECLARE & INITIALISE an int, name it '_column', give remainder value of _tileFrame divided by _tilesetSize.X:
+                                int _column = _tileFrame % _tilesetSize.X;
 
-                            // SET Layer Property value of _tempEntity to 2:
-                            (_tempEntity as ILayer).Layer = 2;
-                        }
+                                // DECLARE & INITIALISE an int, name it '_row', give rounded down value of _tileFrame / _tilesetSize width:
+                                int _row = (int)Math.Floor((double)(_tileFrame / _tilesetSize.X));
 
-                        // _tempEntity DOES have an active instance:
-                        if (_tempEntity != null)
-                        {
-                            // SET Texture Property value of _tempEntity to same as pTexture:
-                            (_tempEntity as ITexture).Texture = pTexture;
+                                // DECLARE & INITIALISE a float, name it '_tileXPos', give value of j / pTileMap's width's remainder value multiplied by pTileMap's tile width:
+                                float _tileXPos = j % pTileMap.Width * pTileMap.TileWidth;
 
-                            // SET SourceRectangle Property value of _tempEntity to a new Rectangle() with drawn positions based on its column and row, as well as the size of the drawn rectangle: 
-                            (_tempEntity as IDrawRectangle).SourceRectangle = new Rectangle(_tileSize.X * _column, _tileSize.Y * _row, _tileSize.X, _tileSize.Y);
+                                // DECLARE & INITIALISE a float, name it '_tileYPos', give rounded down value of current value of 'j' multiplied by pTileMap's width which is then multiplied by the tile height:
+                                float _tileYPos = (float)Math.Floor(j / (double)pTileMap.Width) * pTileMap.TileHeight;
 
-                            // SET SourceRectangle Property value of _tempEntity to a new Rectangle() with drawn positions based on its column and row, as well as the size of the drawn rectangle: 
-                            (_tempEntity as IDrawRectangle).DestinationRectangle = new Rectangle((int)_tileXPos, (int)_tileYPos, _tileSize.X, _tileSize.Y);
+
+                                // TRY checking if ExecuteMethod() throws a ClassDoesNotExistException:
+                                try
+                                {
+                                    // IF Layer name is "Floors":
+                                    if (pTileMap.Layers[i].Name == "Floors")
+                                    {
+                                        // SET Data of _createEntDict["Floor"] to "Floor" + j:
+                                        (_createEntDict["Floor"] as IFuncCommandOneParam<string, IEntity>).Data = "Floor" + j;
+
+                                        // INITIALISE _tempEntity with return value from _createEntDict["Floor"].ExecuteMethod():
+                                        _tempEntity = _createEntDict["Floor"].ExecuteMethod();
+
+                                        // SET Layer Property value of _tempEntity to 1:
+                                        (_tempEntity as ILayer).Layer = 1;
+                                    }
+                                    // IF Layer name is "Walls":
+                                    else if (pTileMap.Layers[i].Name == "Walls")
+                                    {
+                                        // SET Data of _createEntDict["Wall"] to "Wall" + j:
+                                        (_createEntDict["Wall"] as IFuncCommandOneParam<string, IEntity>).Data = "Wall" + j;
+
+                                        // INITIALISE _tempEntity with return value from _createEntDict["Wall"].ExecuteMethod():
+                                        _tempEntity = _createEntDict["Wall"].ExecuteMethod();
+
+                                        // SET Layer Property value of _tempEntity to 2:
+                                        (_tempEntity as ILayer).Layer = 2;
+                                    }
+
+                                    // _tempEntity DOES have an active instance:
+                                    if (_tempEntity != null)
+                                    {
+                                        // SET Texture Property value of _tempEntity to same as pTexture:
+                                        (_tempEntity as ITexture).Texture = pTexture;
+
+                                        // SET SourceRectangle Property value of _tempEntity to a new Rectangle() with drawn positions based on its column and row, as well as the size of the drawn rectangle: 
+                                        (_tempEntity as IDrawRectangle).SourceRectangle = new Rectangle(_tileSize.X * _column, _tileSize.Y * _row, _tileSize.X, _tileSize.Y);
+
+                                        // SET SourceRectangle Property value of _tempEntity to a new Rectangle() with drawn positions based on its column and row, as well as the size of the drawn rectangle: 
+                                        (_tempEntity as IDrawRectangle).DestinationRectangle = new Rectangle((int)_tileXPos, (int)_tileYPos, _tileSize.X, _tileSize.Y);
+                                    }
+                                }
+                                // CATCH ClassDoesNotExistException from ExecuteMethod():
+                                catch (ClassDoesNotExistException e)
+                                {
+                                    // THROW a new ClassDoesNotExistException(), with corresponding message:
+                                    throw new ClassDoesNotExistException(e.Message);
+                                }
+                            }
                         }
                     }
                 }
+                // IF pTexture DOES NOT HAVE an active instance:
+                else
+                {
+                    // THROW a new NullInstanceException(), with corresponding message:
+                    throw new NullInstanceException("ERROR: pTexture does not have an active instance!");
+                }
+            }
+            // IF pTileMap DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pTileMap does not have an active instance!");
             }
         }
 
@@ -146,8 +179,28 @@ namespace COMP3451Project.EnginePackage.Tiles
         /// <param name="pFuncCommand"> IFuncCommand<IEntity> object </param>
         public void Initialise(string pFuncCommandName, IFuncCommand<IEntity> pFuncCommand)
         {
-            // ADD pFuncCommandName as a key, and pFuncCommand as a value to _createEntDict:
-            _createEntDict.Add(pFuncCommandName, pFuncCommand);
+            // IF pFuncCommand DOES HAVE an active instance:
+            if (pFuncCommand != null)
+            {
+                // IF _createEntDict DOES NOT    contain pFuncCommandName as a key:
+                if (!_createEntDict.ContainsKey(pFuncCommandName))
+                {
+                    // ADD pFuncCommandName as a key, and pFuncCommand as a value to _createEntDict:
+                    _createEntDict.Add(pFuncCommandName, pFuncCommand);
+                }
+                // IF _createEntDict DOES contain pFuncCommandName as a key:
+                else
+                {
+                    // THROW a new ValueAlreadyStoredException(), with corresponding message:
+                    throw new ValueAlreadyStoredException("ERROR: " + pFuncCommandName + " already stored in _createEntDict!");
+                }
+            }
+            // IF pFuncCommand DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException, with corresponding message:
+                throw new NullInstanceException("ERROR: pFuncCommand does not have an active instance!");
+            }
         }
 
         #endregion

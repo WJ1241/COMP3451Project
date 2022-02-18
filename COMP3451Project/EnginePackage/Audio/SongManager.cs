@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Media;
 using COMP3451Project.EnginePackage.Audio.Interfaces;
 using COMP3451Project.EnginePackage.CoreInterfaces;
+using COMP3451Project.EnginePackage.Exceptions;
 
 namespace COMP3451Project.EnginePackage.Audio
 {
@@ -43,8 +44,28 @@ namespace COMP3451Project.EnginePackage.Audio
         /// <param name="pSongFile"> Song File </param>
         public void Initialise(string pSongName, Song pSongFile)
         {
-            // ADD pSongName as a key, and pSongFile as a value to _sfxDict:
-            _songDict.Add(pSongName, pSongFile);
+            // IF pSongFile DOES HAVE an active instance:
+            if (pSongFile != null)
+            {
+                // IF _songDict DOES NOT contain pSongName as a key:
+                if (!_songDict.ContainsKey(pSongName))
+                {
+                    // ADD pSongName as a key, and pSongFile as a value to _sfxDict:
+                    _songDict.Add(pSongName, pSongFile);
+                }
+                // IF _songDict DOES contain value of pSFXName already:
+                else
+                {
+                    // THROW a new ValueAlreadyStoredException(), with corresponding message:
+                    throw new ValueAlreadyStoredException("ERROR: pSongName already stored in _sfxDict!");
+                }
+            }
+            // IF pSongFile DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pSongFile does not have an active instance!");
+            }
         }
 
         #endregion
@@ -58,6 +79,9 @@ namespace COMP3451Project.EnginePackage.Audio
         /// <param name="pSoundFile"> Name of the Audio File to play </param>
         public void PlayAudio(string pSoundFile)
         {
+            // SET volume of audio to 0.5f, as it starts VERY loud:
+            MediaPlayer.Volume = 0.5f;
+
             // PLAY song addressed as pSoundFile in _songDict using MediaPlayer:
             MediaPlayer.Play(_songDict[pSoundFile]);
         }
