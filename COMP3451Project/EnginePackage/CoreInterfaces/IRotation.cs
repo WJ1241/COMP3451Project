@@ -4,7 +4,7 @@ namespace COMP3451Project.EnginePackage.CoreInterfaces
 {
     /// <summary>
     /// Interface which allows implementations to be rotated via an origin point and a specified angle
-    /// Authors: William Smith
+    /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 15/02/22
     /// </summary>
     public interface IRotation

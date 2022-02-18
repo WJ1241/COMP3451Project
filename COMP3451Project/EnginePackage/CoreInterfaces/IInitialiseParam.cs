@@ -56,6 +56,7 @@ namespace COMP3451Project.EnginePackage.CoreInterfaces
 
     /// <summary>
     /// Interface that allows implementations to store Values/Objects of type 'T', 'U' and 'V'
+    /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 30/01/22
     /// </summary>
     /// <typeparam name="T"> Any Type, 'T' for First Param </typeparam>

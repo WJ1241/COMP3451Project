@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using COMP3451Project.EnginePackage.CollisionManagement;
+using COMP3451Project.EnginePackage.CollisionManagement.Interfaces;
 using COMP3451Project.EnginePackage.EntityManagement;
 
 namespace COMP3451Project.EnginePackage.Tiles

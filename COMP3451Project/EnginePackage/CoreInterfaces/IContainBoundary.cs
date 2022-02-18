@@ -4,7 +4,7 @@ namespace COMP3451Project.EnginePackage.CoreInterfaces
 {
     /// <summary>
     /// Interface that allows implementations to have access to Screen Size
-    /// Author: William Smith & Declan Kerby-Collins
+    /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 21/01/22
     /// </summary>
     public interface IContainBoundary

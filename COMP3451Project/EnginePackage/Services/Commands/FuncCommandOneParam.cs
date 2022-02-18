@@ -5,7 +5,7 @@ namespace COMP3451Project.EnginePackage.Services.Commands
 {
     /// <summary>
     /// Class which contains a Func with ONE Parameter
-    /// Author: William Smith & Declan Kerby-Collins
+    /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 16/02/22
     /// </summary>
     /// <typeparam name="T"> Any Type, 'T' for 'T'ype </typeparam>

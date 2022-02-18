@@ -1,13 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
+using COMP3451Project.EnginePackage.Camera.Interfaces;
 using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.EntityManagement;
-
+using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
 
 namespace COMP3451Project.EnginePackage.Camera
 {
     /// <summary>
     /// Class which creates a camera to be used by a user based entity
-    /// Authors: William Smith & Declan Kerby-Collins
+    /// Authors: William Smith, Declan Kerby-Collins & 'axlemke'
     /// Date: 15/02/22
     /// </summary>
     /// <REFERENCE> axlemke (2014) XNA 2D Camera, zoom into player. Available at: https://gamedev.stackexchange.com/questions/68978/xna-2d-camera-zoom-into-player. (Accessed: 20 April 2021). </REFERENCE>

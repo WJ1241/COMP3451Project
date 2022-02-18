@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.EntityManagement;
-using COMP3451Project.EnginePackage.Services;
-using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using TiledSharp;
+using COMP3451Project.EnginePackage.CoreInterfaces;
+using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
+using COMP3451Project.EnginePackage.Services.Interfaces;
+using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
+using COMP3451Project.EnginePackage.Tiles.Interfaces;
 
 namespace COMP3451Project.EnginePackage.Tiles
 {
     /// <summary>
     /// Class which makes a Level Layout using a tilemap built in Tiled
-    /// Authors: William Smith & Declan Kerby-Collins
+    /// Authors: William Smith, Declan Kerby-Collins, 'Teemu', Díaz, D. & Gricci, S.
     /// Date: 16/02/22
     /// </summary>
-    /// <IMPORTANT> WHEN MAKING A TILEMAP IN TILED, FOLLOW LAYER NUMBERS DECLARED IN 'ILAYER' INTERFACE TO PREVENT ISSUES</IMPORTANT>
+    /// <IMPORTANT> WHEN MAKING A TILEMAP IN TILED, FOLLOW LAYER NUMBERS DECLARED IN 'ILAYER' INTERFACE TO PREVENT ISSUES </IMPORTANT>
     /// <REFERENCE> 'Teemu', Díaz, D., Gricci, S. (2016) TiledSharp-MonoGame-Example. Available at: https://github.com/Temeez/TiledSharp-MonoGame-Example. (Accessed: 16/02/22).
     public class LevelLayoutMaker : ILevelLayoutMaker, IInitialiseParam<string, IFuncCommand<IEntity>>, IService
     {

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace COMP3451Project.EnginePackage.Services.Commands.Interfaces
 {
     /// <summary>
     /// Interface which allows implementations to execute commands
-    /// Author: William Smith & Declan Kerby-Collins
+    /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 06/01/22
     /// </summary>
     public interface IExecuteCommand

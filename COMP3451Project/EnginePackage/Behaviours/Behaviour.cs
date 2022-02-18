@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using COMP3451Project.EnginePackage.Behaviours.Interfaces;
 using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.CustomEventArgs;
-using COMP3451Project.EnginePackage.EntityManagement;
+using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
 
 namespace COMP3451Project.EnginePackage.Behaviours
 {

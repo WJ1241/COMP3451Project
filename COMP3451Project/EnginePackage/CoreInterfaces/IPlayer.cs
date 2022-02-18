@@ -4,6 +4,8 @@ namespace COMP3451Project.EnginePackage.CoreInterfaces
 {
     /// <summary>
     /// Interface that allows implementations to store a PlayerIndex value
+    /// Authors: William Smith & Declan Kerby-Collins
+    /// Date: 18/02/22
     /// </summary>
     public interface IPlayer
     {

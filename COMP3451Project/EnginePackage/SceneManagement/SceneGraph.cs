@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using COMP3451Project.EnginePackage.Camera;
-using COMP3451Project.EnginePackage.CollisionManagement;
+using COMP3451Project.EnginePackage.Camera.Interfaces;
+using COMP3451Project.EnginePackage.CollisionManagement.Interfaces;
 using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.EntityManagement;
+using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
+using COMP3451Project.EnginePackage.SceneManagement.Interfaces;
 using COMP3451Project.EnginePackage.Services.Commands;
 using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
 

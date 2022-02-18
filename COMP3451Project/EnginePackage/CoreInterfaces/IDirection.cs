@@ -4,7 +4,7 @@ namespace COMP3451Project.EnginePackage.CoreInterfaces
 {
     /// <summary>
     /// Interface that allows implementations to have X&Y axis Direction when displayed on screen
-    /// Author: William Smith & Declan Kerby-Collins
+    /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 30/01/22
     /// </summary>
     public interface IDirection

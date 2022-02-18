@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace COMP3451Project.EnginePackage.Services.Commands.Interfaces
 {
     /// <summary>
     /// Interface which allows implementations to contain a type 'R' return method with ZERO parameters
-    /// Author: William Smith & Declan Kerby-Collins
+    /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 16/02/22
     /// </summary>
     /// <typeparam name="R"> 'R'eturn Value Type </typeparam>

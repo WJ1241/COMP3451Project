@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using COMP3451Project.EnginePackage.Exceptions;
+﻿using COMP3451Project.EnginePackage.Exceptions;
+using COMP3451Project.EnginePackage.Services.Factories.Interfaces;
+using COMP3451Project.EnginePackage.Services.Interfaces;
 
 namespace COMP3451Project.EnginePackage.Services.Factories
 {
     /// <summary>
     /// Class which creates and returns an object of any type specified as replacement of generics
-    /// Author: William Smith
+    /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 19/12/21
     /// </summary>
     public class Factory<A> : IFactory<A>, IService

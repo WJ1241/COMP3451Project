@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using COMP3451Project.EnginePackage.Behaviours;
-using COMP3451Project.EnginePackage.CollisionManagement;
+using COMP3451Project.EnginePackage.Behaviours.Interfaces;
+using COMP3451Project.EnginePackage.CollisionManagement.Interfaces;
 using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.CustomEventArgs;
-using COMP3451Project.EnginePackage.Services.Commands;
 using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
 
 namespace COMP3451Project.EnginePackage.States

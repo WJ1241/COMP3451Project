@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.Services.Commands;
-using COMP3451Project.EnginePackage.States;
+using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
 using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
+using COMP3451Project.EnginePackage.States.Interfaces;
 
 namespace COMP3451Project.EnginePackage.EntityManagement
 {

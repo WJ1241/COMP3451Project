@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using COMP3451Project.EnginePackage.Behaviours;
-using COMP3451Project.EnginePackage.CollisionManagement;
+using COMP3451Project.EnginePackage.Behaviours.Interfaces;
+using COMP3451Project.EnginePackage.CollisionManagement.Interfaces;
 using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.CustomEventArgs;
-using COMP3451Project.EnginePackage.EntityManagement;
-using COMP3451Project.EnginePackage.InputManagement;
-using COMP3451Project.EnginePackage.States;
+using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
+using COMP3451Project.EnginePackage.InputManagement.Interfaces;
+using COMP3451Project.EnginePackage.States.Interfaces;
 
 namespace COMP3451Project.PongPackage.Entities
 {

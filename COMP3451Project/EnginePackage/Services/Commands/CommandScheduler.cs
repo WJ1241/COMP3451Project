@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
+using COMP3451Project.EnginePackage.Services.Interfaces;
 
 namespace COMP3451Project.EnginePackage.Services.Commands
 {
     /// <summary>
     /// Class which schedules commands at a specific point in a runtime loop
-    /// Author: William Smith & Declan Kerby-Collins
+    /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 16/01/22
     /// </summary>
     public class CommandScheduler : IService, ICommandScheduler, IExecuteCommand, IUpdatable

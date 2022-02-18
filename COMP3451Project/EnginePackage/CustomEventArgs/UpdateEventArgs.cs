@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
 namespace COMP3451Project.EnginePackage.CustomEventArgs
 {
     /// <summary>
     /// Class which acts as an EventArgs object for an 'Update' event
-    /// Author: William Smith & Declan Kerby-Collins
+    /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 17/01/22
     /// </summary>
     public class UpdateEventArgs : EventArgs

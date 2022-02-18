@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.Services.Factories;
+using COMP3451Project.EnginePackage.Services.Factories.Interfaces;
+using COMP3451Project.EnginePackage.Services.Interfaces;
 
 namespace COMP3451Project.EnginePackage.Services
 {
     /// <summary>
     /// Class which manages the game engine, holding all references for any service used to create game entities, level structure etc.
-    /// Author: William Smith
+    /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 02/01/22
     /// </summary>
     public class EngineManager : IService, IInitialiseParam<IFactory<IService>>, IRtnService

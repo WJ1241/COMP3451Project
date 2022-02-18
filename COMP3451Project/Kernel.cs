@@ -4,20 +4,27 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using TiledSharp;
-using COMP3451Project.EnginePackage.Behaviours;
+using COMP3451Project.EnginePackage.Behaviours.Interfaces;
 using COMP3451Project.EnginePackage.CollisionManagement;
 using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.EntityManagement;
 using COMP3451Project.EnginePackage.InputManagement;
+using COMP3451Project.EnginePackage.InputManagement.Interfaces;
 using COMP3451Project.EnginePackage.SceneManagement;
-using COMP3451Project.EnginePackage.Services;
+using COMP3451Project.EnginePackage.Services.Interfaces;
 using COMP3451Project.EnginePackage.Services.Factories;
 using COMP3451Project.EnginePackage.Services.Commands;
 using COMP3451Project.EnginePackage.States;
-using COMP3451Project.PongPackage.Behaviours;
-using COMP3451Project.PongPackage.Entities;
 using COMP3451Project.EnginePackage.Tiles;
 using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
+using COMP3451Project.EnginePackage.CollisionManagement.Interfaces;
+using COMP3451Project.EnginePackage.Tiles.Interfaces;
+using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
+using COMP3451Project.EnginePackage.SceneManagement.Interfaces;
+using COMP3451Project.EnginePackage.Services.Factories.Interfaces;
+using COMP3451Project.EnginePackage.States.Interfaces;
+using COMP3451Project.PongPackage.Behaviours;
+using COMP3451Project.PongPackage.Entities;
 
 namespace COMP3451Project
 {

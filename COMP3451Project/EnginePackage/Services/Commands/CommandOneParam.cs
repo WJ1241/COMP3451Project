@@ -1,15 +1,11 @@
-﻿using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
 
 namespace COMP3451Project.EnginePackage.Services.Commands
 {
     /// <summary>
     /// Class which contains an Action with ONE Parameter
-    /// Author: William Smith & Declan Kerby-Collins
+    /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 06/01/22
     /// </summary>
     /// <typeparam name="T"> Any Type, 'T' for 'T'ype </typeparam>

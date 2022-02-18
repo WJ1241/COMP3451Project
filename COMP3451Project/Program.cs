@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework;
 using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.Services;
 using COMP3451Project.EnginePackage.Services.Factories;
+using COMP3451Project.EnginePackage.Services.Factories.Interfaces;
+using COMP3451Project.EnginePackage.Services.Interfaces;
 
 namespace COMP3451Project
 {

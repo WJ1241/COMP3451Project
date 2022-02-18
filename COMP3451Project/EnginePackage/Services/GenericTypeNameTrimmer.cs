@@ -4,7 +4,7 @@ namespace COMP3451Project.EnginePackage.Services
 {
     /// <summary>
     /// Static Class which trims Generics Arity information to allow tidier naming and easier addressing
-    /// Author: William Smith, 'LukeH', Declan Kerby-Collins
+    /// Author: William Smith, Declan Kerby-Collins & 'LukeH'
     /// Date: 07/02/22
     /// </summary>
     /// <REFERENCE> LukeH (2010) C# Get Generic Type Name. Available at: https://stackoverflow.com/questions/4185521/c-sharp-get-generic-type-name. (Accessed: 7 February 2022) </REFERENCE>

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework.Media;
+using COMP3451Project.EnginePackage.Audio.Interfaces;
 using COMP3451Project.EnginePackage.CoreInterfaces;
 
 namespace COMP3451Project.EnginePackage.Audio

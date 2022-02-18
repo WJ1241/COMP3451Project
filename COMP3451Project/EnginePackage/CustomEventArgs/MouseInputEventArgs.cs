@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
 
 namespace COMP3451Project.EnginePackage.CustomEventArgs
 {
     /// <summary>
     /// Class which acts as an EventArgs object for an 'MouseInput' event
-    /// Author: William Smith & Declan Kerby-Collins
+    /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 20/01/22
     /// </summary>
     public class MouseInputEventArgs : EventArgs

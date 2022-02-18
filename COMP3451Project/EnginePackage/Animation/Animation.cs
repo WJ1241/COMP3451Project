@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using COMP3451Project.EnginePackage.Animation.Interfaces;
 using COMP3451Project.EnginePackage.CoreInterfaces;
 
 namespace COMP3451Project.EnginePackage.Animation

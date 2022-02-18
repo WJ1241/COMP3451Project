@@ -1,14 +1,12 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using COMP3451Project.EnginePackage.Behaviours;
-using COMP3451Project.EnginePackage.CollisionManagement;
+using COMP3451Project.EnginePackage.Behaviours.Interfaces;
+using COMP3451Project.EnginePackage.CollisionManagement.Interfaces;
 using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.CustomEventArgs;
-using COMP3451Project.EnginePackage.EntityManagement;
+using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
 
 namespace COMP3451Project.PongPackage.Entities
 {
-
     /// <summary>
     /// Class which adds a Ball entity on screen
     /// Authors: William Smith & Declan Kerby-Collins

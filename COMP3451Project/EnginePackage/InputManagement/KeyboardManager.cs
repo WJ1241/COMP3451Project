@@ -2,8 +2,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.EntityManagement;
-using COMP3451Project.EnginePackage.Services;
+using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
+using COMP3451Project.EnginePackage.InputManagement.Interfaces;
+using COMP3451Project.EnginePackage.Services.Interfaces;
 
 namespace COMP3451Project.EnginePackage.InputManagement
 {

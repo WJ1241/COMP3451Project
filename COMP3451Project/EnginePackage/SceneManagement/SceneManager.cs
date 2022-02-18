@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using COMP3451Project.EnginePackage.Camera;
-using COMP3451Project.EnginePackage.CollisionManagement;
+using COMP3451Project.EnginePackage.Camera.Interfaces;
+using COMP3451Project.EnginePackage.CollisionManagement.Interfaces;
 using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.EntityManagement;
-using COMP3451Project.EnginePackage.Services;
-using COMP3451Project.EnginePackage.Services.Factories;
+using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
+using COMP3451Project.EnginePackage.SceneManagement.Interfaces;
+using COMP3451Project.EnginePackage.Services.Interfaces;
+using COMP3451Project.EnginePackage.Services.Factories.Interfaces;
 
 namespace COMP3451Project.EnginePackage.SceneManagement
 {
     /// <summary>
     /// Class which manages all entities in the scene
-    /// Author: William Smith & Declan Kerby-Collins
+    /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 12/02/22
     /// </summary>
     public class SceneManager : ISceneManager, IDraw, IDrawCamera, IInitialiseParam<IFactory<ISceneGraph>>, IService, IUpdatable

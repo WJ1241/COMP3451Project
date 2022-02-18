@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.InputManagement;
+using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
+using COMP3451Project.EnginePackage.InputManagement.Interfaces;
 using COMP3451Project.EnginePackage.Services.Commands;
 using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
-using COMP3451Project.EnginePackage.Services.Factories;
+using COMP3451Project.EnginePackage.Services.Factories.Interfaces;
 
 namespace COMP3451Project.EnginePackage.EntityManagement
 {
     /// <summary>
     /// Class which Stores and Initialises required commands to Entities
-    /// Author: William Smith & Declan Kerby-Collins
+    /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 12/02/22
     /// </summary>
     public class EntityManager : IEntityManager, IInitialiseParam<ICommandScheduler>, IInitialiseParam<IKeyboardPublisher>, IInitialiseParam<IFactory<IEntity>>
