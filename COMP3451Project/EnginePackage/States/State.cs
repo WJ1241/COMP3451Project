@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using COMP3451Project.EnginePackage.Behaviours.Interfaces;
 using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.CustomEventArgs;
+using COMP3451Project.EnginePackage.Exceptions;
 using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
 using COMP3451Project.EnginePackage.States.Interfaces;
 
@@ -12,7 +13,7 @@ namespace COMP3451Project.EnginePackage.States
     /// <summary>
     /// Class which contains conditional information for entities to be modified by another class e.g. Behaviour
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 30/01/22
+    /// Date: 18/02/22
     /// </summary>
     public abstract class State : IState, ICommandSender, IInitialiseParam<string, ICommand>, IInitialiseParam<IUpdateEventListener>, IName, IUpdatable
     {
@@ -60,12 +61,31 @@ namespace COMP3451Project.EnginePackage.States
         /// <summary>
         /// Initialises an object with an ICommand object
         /// </summary>
-        /// <param name="pString"> String Value </param>
+        /// <param name="pCommandName"> String Value </param>
         /// <param name="pCommand"> Reference to an ICommand object </param>
-        public void Initialise(string pString, ICommand pCommand)
+        public void Initialise(string pCommandName, ICommand pCommand)
         {
-            // ADD pCommand as a value and pString as a key to _triggerDict:
-            _triggerDict.Add(pString, pCommand);
+            // IF pCommandName DOES NOT HAVE an active instance:
+            if (pCommandName != null)
+            {
+                // IF _triggerDict DOES NOT contain pCommandName as a key:
+                if (!_triggerDict.ContainsKey(pCommandName))
+                {
+                    // ADD pCommandName as a key, and pCommand as a value to _sfxDict:
+                    _triggerDict.Add(pCommandName, pCommand);
+                }
+                // IF _triggerDict DOES contain value of pSFXName already:
+                else
+                {
+                    // THROW a new ValueAlreadyStoredException(), with corresponding message:
+                    throw new ValueAlreadyStoredException("ERROR: pCommandName already stored in _sfxDict!");
+                }
+            }
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pCommand does not have an active instance!");
+            }
         }
 
         #endregion
@@ -79,8 +99,18 @@ namespace COMP3451Project.EnginePackage.States
         /// <param name="pUpdateEventListener"> IUpdateEventListener object </param>
         public virtual void Initialise(IUpdateEventListener pUpdateEventListener)
         {
-            // SUBSCRIBE _behaviourEvent to pUpdateEventListener.OnUpdateEvent():
-            _behaviourEvent += pUpdateEventListener.OnUpdateEvent;
+            // IF pUpdateEventListener DOES HAVE an active instance:
+            if (pUpdateEventListener != null)
+            {
+                // SUBSCRIBE _behaviourEvent to pUpdateEventListener.OnUpdateEvent():
+                _behaviourEvent += pUpdateEventListener.OnUpdateEvent;
+            }
+            // IF pUpdateEventListener DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pUpdateEventListener does not have an active instance!");
+            }
         }
 
         #endregion

@@ -61,6 +61,12 @@
 /processorParam:TextureFormat=Color
 /build:Gerald.png
 
+#begin Naruto Theme - The Raising Fighting Spirit.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Naruto Theme - The Raising Fighting Spirit.wav
+
 #begin paddle.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -72,6 +78,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:paddle.png
+
+#begin S_PL_clash_01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:S_PL_clash_01.wav
 
 #begin square.png
 /importer:TextureImporter

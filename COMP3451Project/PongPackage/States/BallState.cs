@@ -4,6 +4,7 @@ using COMP3451Project.EnginePackage.Behaviours.Interfaces;
 using COMP3451Project.EnginePackage.CollisionManagement.Interfaces;
 using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.CustomEventArgs;
+using COMP3451Project.EnginePackage.Exceptions;
 using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
 
 namespace COMP3451Project.EnginePackage.States
@@ -66,11 +67,21 @@ namespace COMP3451Project.EnginePackage.States
         /// <param name="pUpdateEventListener"> IUpdateEventListener object </param>
         public override void Initialise(IUpdateEventListener pUpdateEventListener)
         {
-            // SUBSCRIBE _behaviourEvent to pUpdateEventListener.OnUpdateEvent():
-            _behaviourEvent += pUpdateEventListener.OnUpdateEvent;
+            // IF pUpdateEventListener DOES HAVE an active instance:
+            if (pUpdateEventListener != null)
+            {
+                // SUBSCRIBE _behaviourEvent to pUpdateEventListener.OnUpdateEvent():
+                _behaviourEvent += pUpdateEventListener.OnUpdateEvent;
 
-            // SUBSCRIBE _collisionEvent to pUpdateEventListener.OnCollisionEvent():
-            _collisionEvent += (pUpdateEventListener as ICollisionEventListener).OnCollisionEvent;
+                // SUBSCRIBE _collisionEvent to pUpdateEventListener.OnCollisionEvent():
+                _collisionEvent += (pUpdateEventListener as ICollisionEventListener).OnCollisionEvent;
+            }
+            // IF pUpdateEventListener DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pUpdateEventListener does not have an active instance");
+            }
         }
 
         #endregion

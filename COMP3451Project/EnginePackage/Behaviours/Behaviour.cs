@@ -2,15 +2,16 @@
 using COMP3451Project.EnginePackage.CoreInterfaces;
 using COMP3451Project.EnginePackage.CustomEventArgs;
 using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
+using COMP3451Project.EnginePackage.Exceptions;
 
 namespace COMP3451Project.EnginePackage.Behaviours
 {
     /// <summary>
     /// Class which contains basic variables and methods needed for ALL behaviour classes
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 17/01/22
+    /// Date: 18/02/22
     /// </summary>
-    public abstract class Behaviour : IUpdateEventListener, IInitialiseParam<IEntity>, IName
+    public abstract class Behaviour : IUpdateEventListener, IInitialiseParam<IEntity>
     {
         #region FIELD VARIABLES
 
@@ -43,29 +44,17 @@ namespace COMP3451Project.EnginePackage.Behaviours
         /// <param name="pEntity"> IEntity object </param>
         public virtual void Initialise(IEntity pEntity)
         {
-            // INITIALISE _entity with reference to instance of pEntity:
-            _entity = pEntity;
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF INAME
-
-        /// <summary>
-        /// Property which allows read and write access to the value of an object's specific name
-        /// </summary>
-        public string Name
-        {
-            get
+            // IF pEntity DOES HAVE an active instance:
+            if (pEntity != null)
             {
-                // RETURN value of _behaviourName:
-                return _behaviourName;
+                // INITIALISE _entity with reference to instance of pEntity:
+                _entity = pEntity;
             }
-            set
+            // IF pEntity DOES NOT HAVE an active instance:
+            else
             {
-                // SET value of _behaviourName to incoming value:
-                _behaviourName = value;
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pEntity does not have an active instance!");
             }
         }
 

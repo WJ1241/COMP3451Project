@@ -1,9 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using COMP3451Project.EnginePackage.Behaviours.Interfaces;
 using COMP3451Project.EnginePackage.CollisionManagement.Interfaces;
 using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
+using COMP3451Project.EnginePackage.Exceptions;
 using COMP3451Project.EnginePackage.InputManagement.Interfaces;
 using COMP3451Project.EnginePackage.States.Interfaces;
 
@@ -64,7 +63,7 @@ namespace COMP3451Project.PongPackage.Entities
         {
             get
             {
-                // RETURN value of speed;
+                // RETURN value of speed:
                 return _speed;
             }
         }
@@ -80,26 +79,21 @@ namespace COMP3451Project.PongPackage.Entities
         /// <param name="pState"> IState instance </param>
         public override void Initialise(IState pState)
         {
-            // INITIALISE _currentState with instance of pState:
-            _currentState = pState;
+            // IF pState DOES HAVE an active instance:
+            if (pState != null)
+            {
+                // INITIALISE _currentState with instance of pState:
+                _currentState = pState;
 
-            // SET PlayerNum Property of _currentState to value of _playerNum:
-            (_currentState as IPlayer).PlayerNum = _playerNum;
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF IINITIALISEPARAM<IUPDATEEVENTLISTENER>
-
-        /// <summary>
-        /// Initialises an object with a reference to an IUpdateEventListener instance
-        /// </summary>
-        /// <param name="pUpdateEventListener"> IUpdateEventListener object </param>
-        public override void Initialise(IUpdateEventListener pUpdateEventListener)
-        {
-            // INITIALISE pUpdateEventListener with this class:
-            (pUpdateEventListener as IInitialiseParam<IEntity>).Initialise(this);
+                // SET PlayerNum Property of _currentState to value of _playerNum:
+                (_currentState as IPlayer).PlayerNum = _playerNum;
+            }
+            // IF pState DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pState does not have an active instance!");
+            }
         }
 
         #endregion

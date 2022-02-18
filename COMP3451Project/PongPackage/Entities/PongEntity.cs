@@ -39,9 +39,6 @@ namespace COMP3451Project.PongPackage.Entities
         {
             // DRAW given texture, given location, and colour
             pSpriteBatch.Draw(_texture, _position, null, Color.AntiqueWhite, _rotAngle, _drawOrigin, 1f, SpriteEffects.None, 1f);
-
-
-            //(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth);
         }
 
         #endregion

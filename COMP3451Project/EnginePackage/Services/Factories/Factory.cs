@@ -31,7 +31,7 @@ namespace COMP3451Project.EnginePackage.Services.Factories
             }
             else
             {
-                // THROW new ClassDoesNotExistException, with corresponding message:
+                // THROW a new ClassDoesNotExistException(), with corresponding message:
                 throw new ClassDoesNotExistException("ERROR: Class or Interface passed in placement for generic does not exist in program");
             }
         }
