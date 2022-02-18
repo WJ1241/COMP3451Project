@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using COMP3451Project.EnginePackage.Animation.Interfaces;
+using COMP3451Project.EnginePackage.Behaviours.Interfaces;
 using COMP3451Project.EnginePackage.CoreInterfaces;
+using COMP3451Project.EnginePackage.CustomEventArgs;
 
 namespace COMP3451Project.EnginePackage.Animation
 {
@@ -10,7 +12,7 @@ namespace COMP3451Project.EnginePackage.Animation
     /// Authors: Declan Kerby-Collins & William Smith
     /// Date: 17/02/22
     /// </summary>
-    public class Animation : IAnimation, IDraw, IInitialiseParam<Texture2D>, IUpdatable
+    public class Animation : IAnimation, IDraw, IInitialiseParam<Texture2D>, IUpdateEventListener
     {
         #region FIELD VARIABLES
 
@@ -23,11 +25,8 @@ namespace COMP3451Project.EnginePackage.Animation
         // DECLARE: point name it '_spriteSheet':
         private Point _spriteSize;
 
-        // DECLARE: Rectangle name it '_frame':
-        private Rectangle _frame;
-
         // DECLARE: int name it '_frameCount':
-        private double _frameCount;
+        private int _frameCount;
 
         // DECLARE: int name it '_row':
         private int _row;
@@ -35,55 +34,19 @@ namespace COMP3451Project.EnginePackage.Animation
         // DECLARE: int name it '_frameShift':
         private int _frameShift;
 
-        // DECLARE: int name it '_input':
-        private string _input;
+        // DECLARE: int name it '_height'
+        private int _height;
+
+        // DECLAR: int name it '_width'
+        private int _width;
+
+        // DECLAR: double name it '_time'
+        private double _time;
+
+        // DECLAR: double name it '_gamerTime'
+        private double _gamerTime = 200;
 
         #endregion
-
-
-        #region CONSTRUCTOR
-
-        /// <summary>
-        /// Constructor for objects of Animation
-        /// </summary>
-        public Animation()
-        {
-            // empty constructor
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF IANIMATION
-
-        /// <summary>
-        /// METHOD: Input gives access to the Input class and passes in pString
-        /// </summary>
-        /// <param name="pInput"> Key Name </param>
-        public void Input(string pInput)
-        {
-            // IF: pInput is "W"
-            if (pInput == "W")
-            {
-                // ASSIGNMENT: _height = Y coordinate of the Paddle:
-                _spriteSize.Y = 0;
-            }
-            // ELSE IF: pInput is "S"
-            else if (pInput == "S")
-            {
-                // ASSIGNMENT: _height is set to the value of 150, determines the Y coordinate of the Paddle:
-                _spriteSize.Y = _spriteSheet.Height / 2;
-            }
-            // ELSE IF: pInput is null
-            else if (pInput == null)
-            {
-                // ASSIGNMENT: _width is set to the value of 0, determines the X coordinate of the Paddle
-                _spriteSize.X = _spriteSheet.Width;
-            }
-
-            // ASSIGNMENT: _input is set to the value of pInput:
-            _input = pInput;
-        }
 
         /// <summary>
         /// PROPERTY: int Row
@@ -103,6 +66,35 @@ namespace COMP3451Project.EnginePackage.Animation
         }
 
         /// <summary>
+        /// PROPERTY: Height
+        /// </summary>
+        public int Height
+        { 
+            get 
+            { 
+                return _height; 
+            } 
+            set 
+            { 
+                _height = value; 
+            } 
+        }
+
+        /// <summary>
+        /// PROPERTY: Width
+        /// </summary>
+        public int Width
+        {
+            get 
+            { 
+                return _width; 
+            }
+            set
+            {
+                _width = value;
+            }
+        }
+        /// <summary>
         /// PROPERTY: Vector2 Destination
         /// </summary>
         public Vector2 Destination
@@ -118,7 +110,6 @@ namespace COMP3451Project.EnginePackage.Animation
                 _destination = value;
             }
         }
-
 
         /// <summary>
         /// PROPERTY: Point SpriteSize
@@ -137,7 +128,19 @@ namespace COMP3451Project.EnginePackage.Animation
             }
         }
 
+        #region CONSTRUCTOR
+
+        /// <summary>
+        /// Constructor for objects of Animation
+        /// </summary>
+        public Animation()
+        {
+            // empty constructor
+        }
+
         #endregion
+
+
 
 
         #region IMPLEMENTATION OF IDRAW
@@ -148,8 +151,30 @@ namespace COMP3451Project.EnginePackage.Animation
         /// <param name="pSpriteBatch"> Needed to draw entity's texture on screen </param>
         public void Draw(SpriteBatch pSpriteBatch)
         {
-            // CALL: pSpriteBatch's Draw method passing in the animation parameters:
-            pSpriteBatch.Draw(_spriteSheet, _destination, _frame, Color.White);
+            // IF: _frameCount is less than _frameShift
+            if (_frameCount < _frameShift)
+            {
+                // CALL: pSpriteBatch's Draw method passing in the animation parameters: _width is multiplied by fremecount to establish the frame to be drawn, the _height is multiplied by _row to determine the series of frames to be animated
+                pSpriteBatch.Draw(_spriteSheet, _destination, new Rectangle(_width * _frameCount, _height * _row, _spriteSize.X, _spriteSize.Y), Color.White);
+
+                //IF: if time is greater than gamerTime, _time is , _gamertime is the game time ellapsed in milliseconds
+                if (_time > _gamerTime)
+                {
+                    // ASSIGNMENT: _time has the value of _gamerTime subtracted from it
+                    _time -= _gamerTime;
+
+                    // ASSIGNMENT: _frameCount incriments
+                    _frameCount++;
+
+                    // IF: _frameCount is equel to _frameShift
+                    if(_frameCount == _frameShift)
+                    {
+                        // ASSIGNMENT: _frameShift is set to 0
+                        _frameShift = 0;
+                    }
+                }
+            }
+            
         }
 
         #endregion
@@ -166,8 +191,8 @@ namespace COMP3451Project.EnginePackage.Animation
             // ASSIGNMENT: _spriteSheet is set to the value of pSpriteSheet:
             _spriteSheet = pSpriteSheet;
 
-            // ASSIGNMENT: _frameShift is set to the value of 500:
-            _frameShift = 300;
+            // ASSIGNMENT: _frameShift is set to the value of _spriteSize.X divided by _width:
+            _frameShift = _spriteSize.X / _width;
         }
 
         #endregion
@@ -176,49 +201,15 @@ namespace COMP3451Project.EnginePackage.Animation
         #region IMPLEMENTATION OF IUPDATABLE
 
         /// <summary>
-        /// Updates object when a frame has been rendered on screen
+        /// Method called when needing to update Behaviour
         /// </summary>
-        /// <param name="pGameTime"> GameTime object </param>
-        public void Update(GameTime pGameTime)
+        /// <param name="pSource"> Object that is to be updated </param>
+        /// <param name="pArgs"> Identification for Update() Method in EventHandler </param>
+        public void OnUpdateEvent(object pSource, UpdateEventArgs pArgs)
         {
-            // IF: _input is not null:
-            if (_input != null)
-            {
-                // ASSIGNMENT: _frameCount has the value of pGameTime in milliseconds added to it:
-                _frameCount += pGameTime.ElapsedGameTime.TotalMilliseconds;
+            // ASSIGNMENT: _time has the value of pArgs in milliseconds added to it:
+            _time += pArgs.RequiredArg.ElapsedGameTime.TotalMilliseconds;
 
-                // IF: _frameCount is greater than  to _frameShift:
-                if (_frameCount > _frameShift)
-                {
-
-                    // IF: _width is less than _spriteSheet's Width:
-                    if (_spriteSize.X < _spriteSheet.Width)
-                    {
-                        // ASSIGNMENT: _width has the value of 50 added to it:
-                        _spriteSize.X += (_spriteSheet.Width / 3);
-
-                    }
-                    else
-                    {
-                        // ASSIGNMENT: _width is set to the value of 50:
-                        _spriteSize.X = (_spriteSheet.Width / 3);
-
-                    }
-
-                    // ASSSIGNMENT: _farme count is set to 0:
-                    _frameCount = 0;
-                }
-            }
-            // ELSE IF: _input is null:
-            else
-            {
-                // ASSIGNMENT: _width is set to the value of 0:
-                _spriteSize.X = 0;
-            }
-
-            // ASSIGNMENT: _frame is assigned to 
-            //frame for paddle animation, height and width pick the point of 
-            _frame = new Rectangle(_spriteSize.X, _spriteSize.Y, _spriteSheet.Width / 3, _spriteSheet.Height / 2);
         }
 
         #endregion

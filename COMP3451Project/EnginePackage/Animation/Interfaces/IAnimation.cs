@@ -11,11 +11,6 @@ namespace COMP3451Project.EnginePackage.Animation.Interfaces
     {
         #region METHODS
 
-        /// <summary>
-        /// METHOD: Input gives access to the Input class and passes in pString
-        /// </summary>
-        /// <param name="pInput"> Key Name </param>
-        void Input(string pInput);
 
         #endregion
 
@@ -26,6 +21,16 @@ namespace COMP3451Project.EnginePackage.Animation.Interfaces
         /// PROPERTY: int Row
         /// </summary>
         int Row { get; set; }
+
+        /// <summary>
+        /// PROPERTY: int Width
+        /// </summary>
+        int Width { get; set; }
+
+        /// <summary>
+        /// PROPERTY: int Height
+        /// </summary>
+        int Height { get; set; }
 
         /// <summary>
         /// PROPERTY: Vector2 Destination
