@@ -9,8 +9,8 @@
     <ProjectGuid>{64FB38AE-F8D9-4513-8FD8-1028BF541D31}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>COMP3451Project</RootNamespace>
-    <AssemblyName>COMP3451Project</AssemblyName>
+    <RootNamespace>Game</RootNamespace>
+    <AssemblyName>Game</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>Windows</MonoGamePlatform>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -46,8 +46,9 @@
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="EnginePackage\Animation\Animation.cs" />
-    <Compile Include="EnginePackage\Animation\Interfaces\IAnimation.cs" />
+    <Compile Include="EnginePackage\Behaviours\Animation\Animation.cs" />
+    <Compile Include="EnginePackage\Behaviours\Animation\Interfaces\IAnimation.cs" />
+    <Compile Include="EnginePackage\CoreInterfaces\IDrawSourceRectangle.cs" />
     <Compile Include="EnginePackage\CoreInterfaces\IRotation.cs" />
     <Compile Include="EnginePackage\EntityManagement\DrawableRectangleEntity.cs" />
     <Compile Include="EnginePackage\EntityManagement\UpdatableEntity.cs" />
@@ -58,7 +59,7 @@
     <Compile Include="EnginePackage\Services\Commands\Interfaces\IFuncCommandZeroParam.cs" />
     <Compile Include="EnginePackage\Services\Commands\Interfaces\IFuncCommand.cs" />
     <Compile Include="EnginePackage\Tiles\Interfaces\ILevelLayoutMaker.cs" />
-    <Compile Include="EnginePackage\CoreInterfaces\IDrawRectangle.cs" />
+    <Compile Include="EnginePackage\CoreInterfaces\IDrawDestinationRectangle.cs" />
     <Compile Include="EnginePackage\Tiles\LevelLayoutMaker.cs" />
     <Compile Include="EnginePackage\EntityManagement\DrawableEntity.cs" />
     <Compile Include="EnginePackage\Tiles\Wall.cs" />

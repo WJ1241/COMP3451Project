@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B7823477-4E7D-4F84-8D31-B86449F8247C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Engine</RootNamespace>
+    <AssemblyName>Engine</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Audio\Interfaces\IPlayAudio.cs" />
+    <Compile Include="Audio\SFXManager.cs" />
+    <Compile Include="Audio\SongManager.cs" />
+    <Compile Include="Behaviours\Animation\Animation.cs" />
+    <Compile Include="Behaviours\Animation\Interfaces\IAnimation.cs" />
+    <Compile Include="Behaviours\Behaviour.cs" />
+    <Compile Include="Behaviours\Interfaces\ICollisionEventListener.cs" />
+    <Compile Include="Behaviours\Interfaces\IKBInputEventListener.cs" />
+    <Compile Include="Behaviours\Interfaces\IMouseInputEventListener.cs" />
+    <Compile Include="Behaviours\Interfaces\IUpdateEventListener.cs" />
+    <Compile Include="Camera\Camera.cs" />
+    <Compile Include="Camera\Interfaces\ICamera.cs" />
+    <Compile Include="Camera\Interfaces\IDrawCamera.cs" />
+    <Compile Include="Camera\Interfaces\IZoom.cs" />
+    <Compile Include="CollisionManagement\CollisionManager.cs" />
+    <Compile Include="CollisionManagement\Interfaces\ICollidable.cs" />
+    <Compile Include="CollisionManagement\Interfaces\ICollisionListener.cs" />
+    <Compile Include="CollisionManagement\Interfaces\ICollisionManager.cs" />
+    <Compile Include="CoreInterfaces\IContainBoundary.cs" />
+    <Compile Include="CoreInterfaces\IDirection.cs" />
+    <Compile Include="CoreInterfaces\IDraw.cs" />
+    <Compile Include="CoreInterfaces\IDrawDestinationRectangle.cs" />
+    <Compile Include="CoreInterfaces\IDrawSourceRectangle.cs" />
+    <Compile Include="CoreInterfaces\IGetSpeed.cs" />
+    <Compile Include="CoreInterfaces\IInitialiseParam.cs" />
+    <Compile Include="CoreInterfaces\ILayer.cs" />
+    <Compile Include="CoreInterfaces\IName.cs" />
+    <Compile Include="CoreInterfaces\IPlayer.cs" />
+    <Compile Include="CoreInterfaces\IReset.cs" />
+    <Compile Include="CoreInterfaces\IRotation.cs" />
+    <Compile Include="CoreInterfaces\ITexture.cs" />
+    <Compile Include="CoreInterfaces\IUpdatable.cs" />
+    <Compile Include="CoreInterfaces\IVelocity.cs" />
+    <Compile Include="CustomEventArgs\CollisionEventArgs.cs" />
+    <Compile Include="CustomEventArgs\KBInputEventArgs.cs" />
+    <Compile Include="CustomEventArgs\MouseInputEventArgs.cs" />
+    <Compile Include="CustomEventArgs\UpdateEventArgs.cs" />
+    <Compile Include="EntityManagement\DrawableEntity.cs" />
+    <Compile Include="EntityManagement\DrawableRectangleEntity.cs" />
+    <Compile Include="EntityManagement\Entity.cs" />
+    <Compile Include="EntityManagement\EntityManager.cs" />
+    <Compile Include="EntityManagement\Interfaces\IEntity.cs" />
+    <Compile Include="EntityManagement\Interfaces\IEntityInternal.cs" />
+    <Compile Include="EntityManagement\Interfaces\IEntityManager.cs" />
+    <Compile Include="EntityManagement\Interfaces\ITerminate.cs" />
+    <Compile Include="EntityManagement\UpdatableEntity.cs" />
+    <Compile Include="Exceptions\ClassDoesNotExistException.cs" />
+    <Compile Include="Exceptions\NullInstanceException.cs" />
+    <Compile Include="Exceptions\NullValueException.cs" />
+    <Compile Include="Exceptions\ValueAlreadyStoredException.cs" />
+    <Compile Include="InputManagement\Interfaces\IKeyboardListener.cs" />
+    <Compile Include="InputManagement\Interfaces\IKeyboardPublisher.cs" />
+    <Compile Include="InputManagement\Interfaces\IMouseListener.cs" />
+    <Compile Include="InputManagement\Interfaces\IMousePublisher.cs" />
+    <Compile Include="InputManagement\KeyboardManager.cs" />
+    <Compile Include="InputManagement\MouseManager.cs" />
+    <Compile Include="PongPackage\Behaviours\BallBehaviour.cs" />
+    <Compile Include="PongPackage\Behaviours\PaddleBehaviour.cs" />
+    <Compile Include="PongPackage\Behaviours\PongBehaviour.cs" />
+    <Compile Include="PongPackage\Entities\Ball.cs" />
+    <Compile Include="PongPackage\Entities\Paddle.cs" />
+    <Compile Include="PongPackage\Entities\PongEntity.cs" />
+    <Compile Include="PongPackage\States\BallState.cs" />
+    <Compile Include="PongPackage\States\PaddleState.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SceneManagement\Interfaces\ISceneGraph.cs" />
+    <Compile Include="SceneManagement\Interfaces\ISceneManager.cs" />
+    <Compile Include="SceneManagement\Interfaces\ISpawn.cs" />
+    <Compile Include="SceneManagement\SceneGraph.cs" />
+    <Compile Include="SceneManagement\SceneManager.cs" />
+    <Compile Include="Services\Commands\CommandOneParam.cs" />
+    <Compile Include="Services\Commands\CommandScheduler.cs" />
+    <Compile Include="Services\Commands\CommandZeroParam.cs" />
+    <Compile Include="Services\Commands\FuncCommandOneParam.cs" />
+    <Compile Include="Services\Commands\FuncCommandZeroParam.cs" />
+    <Compile Include="Services\Commands\Interfaces\ICommand.cs" />
+    <Compile Include="Services\Commands\Interfaces\ICommandOneParam.cs" />
+    <Compile Include="Services\Commands\Interfaces\ICommandScheduler.cs" />
+    <Compile Include="Services\Commands\Interfaces\ICommandSender.cs" />
+    <Compile Include="Services\Commands\Interfaces\ICommandZeroParam.cs" />
+    <Compile Include="Services\Commands\Interfaces\IExecuteCommand.cs" />
+    <Compile Include="Services\Commands\Interfaces\IFuncCommand.cs" />
+    <Compile Include="Services\Commands\Interfaces\IFuncCommandOneParam.cs" />
+    <Compile Include="Services\Commands\Interfaces\IFuncCommandZeroParam.cs" />
+    <Compile Include="Services\EngineManager.cs" />
+    <Compile Include="Services\Factories\Factory.cs" />
+    <Compile Include="Services\Factories\Interfaces\IFactory.cs" />
+    <Compile Include="Services\GenericTypeNameTrimmer.cs" />
+    <Compile Include="Services\Interfaces\IRtnService.cs" />
+    <Compile Include="Services\Interfaces\IService.cs" />
+    <Compile Include="States\Interfaces\IState.cs" />
+    <Compile Include="States\State.cs" />
+    <Compile Include="Tiles\Interfaces\ILevelLayoutMaker.cs" />
+    <Compile Include="Tiles\LevelLayoutMaker.cs" />
+    <Compile Include="Tiles\Wall.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

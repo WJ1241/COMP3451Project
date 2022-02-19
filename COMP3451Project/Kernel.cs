@@ -34,7 +34,7 @@ namespace COMP3451Project
     /// <summary>
     /// This is the main type for your game.
     /// Author: William Smith & Declan Kerby-Collins
-    /// Date: 16/02/22
+    /// Date: 19/02/22
     /// </summary>
     public class Kernel : Game, IInitialiseParam<IService>
     {
@@ -258,7 +258,7 @@ namespace COMP3451Project
 
                 #region BEHAVIOURS
 
-                /// INSTANTIATION
+                #region INSTANTIATIONS
 
                 // DECLARE & INSTANTIATE an IUpdateEventListener as a new PaddleBehaviour(), name it '_behaviourStationary':
                 IUpdateEventListener _behaviourStationary = (_engineManager.GetService<Factory<IUpdateEventListener>>() as IFactory<IUpdateEventListener>).Create<PaddleBehaviour>();
@@ -269,17 +269,21 @@ namespace COMP3451Project
                 // DECLARE & INSTANTIATE an IUpdateEventListener as a new PaddleBehaviour(), name it '_behaviourDown':
                 IUpdateEventListener _behaviourDown = (_engineManager.GetService<Factory<IUpdateEventListener>>() as IFactory<IUpdateEventListener>).Create<PaddleBehaviour>();
 
-                /// ANIMATION
+                // DECLARE & INSTANTIATE an IUpdateEventListener as a new Animation(), name it '_animationStationary':
+                IAnimation _animationStationary = (_engineManager.GetService<Factory<IAnimation>>() as IFactory<IAnimation>).Create<Animation>();
 
-                IAnimation _tempAnimationUp = (_engineManager.GetService<Factory<IAnimation>>() as IFactory<IAnimation>).Create<Animation>();
-                IAnimation _tempAnimationDown = (_engineManager.GetService<Factory<IAnimation>>() as IFactory<IAnimation>).Create<Animation>();
-                IAnimation _tempAnimationStationary = (_engineManager.GetService<Factory<IAnimation>>() as IFactory<IAnimation>).Create<Animation>();
+                // DECLARE & INSTANTIATE an IUpdateEventListener as a new Animation(), name it '_animationUp':
+                IAnimation _animationUp = (_engineManager.GetService<Factory<IAnimation>>() as IFactory<IAnimation>).Create<Animation>();
 
-                // subcribe to animation
-                //(_tempAnimationUp as IInitialiseParam<IUpdateEventListener>).Initialise();
+                // DECLARE & INSTANTIATE an IUpdateEventListener as a new Animation(), name it '_animationDown':
+                IAnimation _animationDown = (_engineManager.GetService<Factory<IAnimation>>() as IFactory<IAnimation>).Create<Animation>();
+
+                #endregion
 
 
-                /// INITIALISATION
+                #region INITIALISATION
+
+                #region BEHAVIOURS
 
                 // SET Direction Property value of _behaviourStationary to '0':
                 (_behaviourStationary as IDirection).Direction = new Vector2(0);
@@ -290,21 +294,92 @@ namespace COMP3451Project
                 // SET Direction Property value of _behaviourDown to '0, 1':
                 (_behaviourDown as IDirection).Direction = new Vector2(0, 1);
 
+                #endregion
+
+
+                #region ANIMATIONS
+
+                /// STATIONARY
+
+                // SET Texture Property value of _animationStationary to "paddleSpriteSheet":
+                (_animationStationary as ITexture).Texture = Content.Load<Texture2D>("ExampleLevel/paddleSpriteSheet");
+
+                // SET Row Property value of _animationStationary to '50, 150':
+                _animationStationary.SpriteSize = new Point(50, 150);
+
+                // SET Row Property value of _animationStationary to '0':
+                _animationStationary.Row = 0;
+
+                // SET MsPerFrame Property value of _animationStationary to '200':
+                _animationStationary.MsPerFrame = 200;
+
+                /// UP
+
+                // SET Texture Property value of _animationUp to "paddleSpriteSheet":
+                (_animationUp as ITexture).Texture = Content.Load<Texture2D>("ExampleLevel/paddleSpriteSheet");
+
+                // SET Row Property value of _animationUp to '50, 150':
+                _animationUp.SpriteSize = new Point(50, 150);
+
+                // SET Row Property value of _animationUp to '1':
+                _animationUp.Row = 1;
+
+                // SET MsPerFrame Property value of _animationUp to '200':
+                _animationUp.MsPerFrame = 200;
+
+                /// DOWN
+
+                // SET Texture Property value of _animationDown to "paddleSpriteSheet":
+                (_animationDown as ITexture).Texture = Content.Load<Texture2D>("ExampleLevel/paddleSpriteSheet");
+
+                // SET Row Property value of _animationDown to '50, 150':
+                _animationDown.SpriteSize = new Point(50, 150);
+
+                // SET Row Property value of _animationDown to '2':
+                _animationDown.Row = 2;
+
+                // SET MsPerFrame Property value of _animationDown to '200':
+                _animationDown.MsPerFrame = 200;
+
+                #endregion
+
+
+                #region STATE
+
+                /// STATIONARY
+
                 // INITIALISE _tempStateStationary with reference to _behaviourStationary:
                 (_tempStateStationary as IInitialiseParam<IUpdateEventListener>).Initialise(_behaviourStationary);
+
+                // INITIALISE _tempStateStationary with reference to _animationStationary:
+                (_tempStateStationary as IInitialiseParam<IUpdateEventListener>).Initialise(_animationStationary as IUpdateEventListener);
+
+                /// UP
 
                 // INITIALISE _tempStateUp with reference to _behaviourUp:
                 (_tempStateUp as IInitialiseParam<IUpdateEventListener>).Initialise(_behaviourUp);
 
+                // INITIALISE _tempStateUp with reference to _animationUp:
+                (_tempStateUp as IInitialiseParam<IUpdateEventListener>).Initialise(_animationUp as IUpdateEventListener);
+
+                /// DOWN
+
                 // INITIALISE _tempStateDown with reference to _behaviourDown:
                 (_tempStateDown as IInitialiseParam<IUpdateEventListener>).Initialise(_behaviourDown);
+
+                // INITIALISE _tempStateDown with reference to _animationDown:
+                (_tempStateDown as IInitialiseParam<IUpdateEventListener>).Initialise(_animationDown as IUpdateEventListener);
+
+                #endregion
+
+                #endregion
 
                 #endregion
 
 
                 #region ENTITY
 
-                /// INSTANTIATION
+                #region INSTANTIATION
 
                 // INSTANTIATE new Paddle(), name it "Paddle1":
                 _entityManager.Create<Paddle>("Paddle1");
@@ -312,19 +387,42 @@ namespace COMP3451Project
                 // SUBSCRIBE "Paddle1" to returned KeyboardManager from _engineManager:
                 (_engineManager.GetService<KeyboardManager>() as IKeyboardPublisher).Subscribe(_entityManager.GetDictionary()["Paddle1"] as IKeyboardListener);
 
-                // INITIALISE _behaviourStationary with reference to "Paddle1":
-                (_behaviourStationary as IInitialiseParam<IEntity>).Initialise(_entityManager.GetDictionary()["Paddle1"]);
+                #endregion
 
-                // INITIALISE _behaviourup with reference to "Paddle1":
-                (_behaviourUp as IInitialiseParam<IEntity>).Initialise(_entityManager.GetDictionary()["Paddle1"]);
 
-                // INITIALISE _behaviourDown with reference to "Paddle1":
-                (_behaviourDown as IInitialiseParam<IEntity>).Initialise(_entityManager.GetDictionary()["Paddle1"]);
-
-                /// INITIALISATION
+                #region INITIALISATION
+                
+                /// STATIONARY
 
                 // INITIALISE "Paddle1" with _tempStateStationary:
                 (_entityManager.GetDictionary()["Paddle1"] as IInitialiseParam<IState>).Initialise(_tempStateStationary);
+
+                // INITIALISE "Paddle1" with reference to _behaviourStationary:
+                (_entityManager.GetDictionary()["Paddle1"] as IInitialiseParam<IUpdateEventListener>).Initialise(_behaviourStationary);
+
+                // INITIALISE "Paddle1" with reference to _animationStationary:
+                (_entityManager.GetDictionary()["Paddle1"] as IInitialiseParam<IUpdateEventListener>).Initialise(_animationStationary as IUpdateEventListener);
+
+                /// UP
+
+                // INITIALISE "Paddle1" with reference to _behaviourUp:
+                (_entityManager.GetDictionary()["Paddle1"] as IInitialiseParam<IUpdateEventListener>).Initialise(_behaviourUp);
+
+                // INITIALISE "Paddle1" with reference to _animationUp:
+                (_entityManager.GetDictionary()["Paddle1"] as IInitialiseParam<IUpdateEventListener>).Initialise(_animationUp as IUpdateEventListener);
+
+                /// DOWN
+                
+                // INITIALISE "Paddle1" with reference to _behaviourDown:
+                (_entityManager.GetDictionary()["Paddle1"] as IInitialiseParam<IUpdateEventListener>).Initialise(_behaviourDown);
+
+                // INITIALISE "Paddle1" with reference to _animationDown:
+                (_entityManager.GetDictionary()["Paddle1"] as IInitialiseParam<IUpdateEventListener>).Initialise(_animationDown as IUpdateEventListener);
+
+                /// OTHER VALUES
+
+                // SET DrawOrigin of "Paddle1" to value of centre of _animation.SpriteSize.X / 2:
+                (_entityManager.GetDictionary()["Paddle1"] as IRotation).DrawOrigin = new Vector2(_animationStationary.SpriteSize.X / 2, _animationStationary.SpriteSize.Y / 2);
 
                 // SET WindowBorder of "Paddle1" to value of _screenSize:
                 (_entityManager.GetDictionary()["Paddle1"] as IContainBoundary).WindowBorder = _screenSize;
@@ -334,6 +432,8 @@ namespace COMP3451Project
 
                 // SET Layer of "Paddle1" to 5:
                 (_entityManager.GetDictionary()["Paddle1"] as ILayer).Layer = 5;
+
+                #endregion
 
                 #endregion
 
@@ -478,7 +578,7 @@ namespace COMP3451Project
                 if ((pEntity as ILayer).Layer == 1 || (pEntity as ILayer).Layer == 2)
                 {
                     // SPAWN pEntity in "Level1" at their specified DestinationRectangle:
-                    (_engineManager.GetService<SceneManager>() as ISceneManager).Spawn("Level1", pEntity, new Vector2((pEntity as IDrawRectangle).DestinationRectangle.X, (pEntity as IDrawRectangle).DestinationRectangle.Y));
+                    (_engineManager.GetService<SceneManager>() as ISceneManager).Spawn("Level1", pEntity, new Vector2((pEntity as IDrawDestinationRectangle).DestinationRectangle.X, (pEntity as IDrawDestinationRectangle).DestinationRectangle.Y));
                 }
             }
 
@@ -499,10 +599,10 @@ namespace COMP3451Project
             IEntity _tempEntity = (_engineManager.GetService<EntityManager>() as IEntityManager).GetDictionary()["Paddle1"];
 
             // LOAD "paddle" texture to "Paddle1":
-            (_tempEntity as ITexture).Texture = Content.Load<Texture2D>("paddle");
+            (_tempEntity as ITexture).Texture = Content.Load<Texture2D>("ExampleLevel/paddleSpriteSheet");
 
             // SPAWN "Paddle1" in "Level1" at the far left on the X axis with a gap, and middle on the Y axis:
-            (_engineManager.GetService<SceneManager>() as ISceneManager).Spawn("Level1", _tempEntity, new Vector2(0 + (_tempEntity as ITexture).TextureSize.X, _screenSize.Y / 2));
+            (_engineManager.GetService<SceneManager>() as ISceneManager).Spawn("Level1", _tempEntity, new Vector2(0 + (_tempEntity as IRotation).DrawOrigin.X, _screenSize.Y / 2));
 
             /*
             /// PADDLE 2
