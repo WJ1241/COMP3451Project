@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
-using COMP3451Project.EnginePackage.Camera.Interfaces;
-using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
+using OrbitalEngine.Camera.Interfaces;
+using OrbitalEngine.CoreInterfaces;
+using OrbitalEngine.EntityManagement.Interfaces;
 
-namespace COMP3451Project.EnginePackage.Camera
+namespace OrbitalEngine.Camera
 {
     /// <summary>
     /// Class which creates a camera to be used by a user based entity

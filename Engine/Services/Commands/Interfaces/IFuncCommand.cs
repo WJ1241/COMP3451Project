@@ -1,6 +1,6 @@
 ﻿
 
-namespace COMP3451Project.EnginePackage.Services.Commands.Interfaces
+namespace OrbitalEngine.Services.Commands.Interfaces
 {
     /// <summary>
     /// Interface which allows implementations to execute a type 'R' return method

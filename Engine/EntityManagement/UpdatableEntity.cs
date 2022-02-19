@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
-using COMP3451Project.EnginePackage.Behaviours.Interfaces;
-using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
-using COMP3451Project.EnginePackage.Exceptions;
+using OrbitalEngine.Behaviours.Interfaces;
+using OrbitalEngine.CoreInterfaces;
+using OrbitalEngine.EntityManagement.Interfaces;
+using OrbitalEngine.Exceptions;
 
-namespace COMP3451Project.EnginePackage.EntityManagement
+namespace OrbitalEngine.EntityManagement
 {
     /// <summary>
     /// Abstract Class which contains logic for a game loop for dynamic entities

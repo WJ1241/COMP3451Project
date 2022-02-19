@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace COMP3451Project.EnginePackage.EntityManagement.Interfaces
+namespace OrbitalEngine.EntityManagement.Interfaces
 {
     /// <summary>
     /// Interface that allows implementations to be an on-screen Entity

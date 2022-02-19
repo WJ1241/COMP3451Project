@@ -1,6 +1,6 @@
 ﻿
 
-namespace COMP3451Project.EnginePackage.CoreInterfaces
+namespace OrbitalEngine.CoreInterfaces
 {
     /// <summary>
     /// Interface that allows implementations to Reset positional values

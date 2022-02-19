@@ -1,10 +1,10 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using COMP3451Project.EnginePackage.Behaviours.Interfaces;
-using COMP3451Project.EnginePackage.CollisionManagement.Interfaces;
-using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
-using COMP3451Project.EnginePackage.Exceptions;
+using OrbitalEngine.Behaviours.Interfaces;
+using OrbitalEngine.CollisionManagement.Interfaces;
+using OrbitalEngine.CoreInterfaces;
+using OrbitalEngine.EntityManagement.Interfaces;
+using OrbitalEngine.Exceptions;
 
 namespace COMP3451Project.PongPackage.Entities
 {

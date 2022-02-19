@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace COMP3451Project.EnginePackage.Exceptions
+namespace OrbitalEngine.Exceptions
 {
     /// <summary>
     /// Exception which is used to test when an object already contains a value

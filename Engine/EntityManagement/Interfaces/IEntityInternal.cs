@@ -1,7 +1,7 @@
-﻿using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
-using COMP3451Project.EnginePackage.States.Interfaces;
+﻿using OrbitalEngine.Services.Commands.Interfaces;
+using OrbitalEngine.States.Interfaces;
 
-namespace COMP3451Project.EnginePackage.EntityManagement.Interfaces
+namespace OrbitalEngine.EntityManagement.Interfaces
 {
     /// <summary>
     /// Interface which gives further implementations to IEntity objects

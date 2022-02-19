@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using COMP3451Project.EnginePackage.Behaviours.Interfaces;
-using COMP3451Project.EnginePackage.CollisionManagement.Interfaces;
-using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.CustomEventArgs;
-using COMP3451Project.EnginePackage.Exceptions;
-using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
+using OrbitalEngine.Behaviours.Interfaces;
+using OrbitalEngine.CollisionManagement.Interfaces;
+using OrbitalEngine.CoreInterfaces;
+using OrbitalEngine.CustomEventArgs;
+using OrbitalEngine.Exceptions;
+using OrbitalEngine.Services.Commands.Interfaces;
 
-namespace COMP3451Project.EnginePackage.States
+namespace OrbitalEngine.States
 {
     /// <summary>
     /// Class which contains conditional information for Pong Ball entities to be modified by another class e.g. BallBehaviour

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using COMP3451Project.EnginePackage.Services.Interfaces;
+using OrbitalEngine.Services.Interfaces;
 
-namespace COMP3451Project.EnginePackage.EntityManagement.Interfaces
+namespace OrbitalEngine.EntityManagement.Interfaces
 {
     /// <summary>
     /// Interface that allows implementations to store Entities

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 
-namespace COMP3451Project.EnginePackage.CoreInterfaces
+namespace OrbitalEngine.CoreInterfaces
 {
     /// <summary>
     /// Interface that allows implementations to draw an object on screen

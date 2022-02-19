@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace COMP3451Project.EnginePackage.CoreInterfaces
+namespace OrbitalEngine.CoreInterfaces
 {
     /// <summary>
     /// Interface that allows implementations to have a texture

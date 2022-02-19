@@ -1,8 +1,8 @@
-﻿using COMP3451Project.EnginePackage.Behaviours.Interfaces;
-using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.CustomEventArgs;
-using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
-using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
+﻿using OrbitalEngine.Behaviours.Interfaces;
+using OrbitalEngine.CoreInterfaces;
+using OrbitalEngine.CustomEventArgs;
+using OrbitalEngine.EntityManagement.Interfaces;
+using OrbitalEngine.Services.Commands.Interfaces;
 
 namespace COMP3451Project.PongPackage.Behaviours
 {

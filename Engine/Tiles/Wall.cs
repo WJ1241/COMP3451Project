@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using COMP3451Project.EnginePackage.CollisionManagement.Interfaces;
-using COMP3451Project.EnginePackage.EntityManagement;
+using OrbitalEngine.CollisionManagement.Interfaces;
+using OrbitalEngine.EntityManagement;
 
-namespace COMP3451Project.EnginePackage.Tiles
+namespace OrbitalEngine.Tiles
 {
     /// <summary>
     /// Class which spawns a Wall on screen

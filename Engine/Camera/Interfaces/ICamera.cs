@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace COMP3451Project.EnginePackage.Camera.Interfaces
+namespace OrbitalEngine.Camera.Interfaces
 {
     /// <summary>
     /// Interface which allows implementations to change position of a camera

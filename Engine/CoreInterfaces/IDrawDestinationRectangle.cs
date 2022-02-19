@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace COMP3451Project.EnginePackage.CoreInterfaces
+namespace OrbitalEngine.CoreInterfaces
 {
     /// <summary>
     /// Interface which allows implementations to contain Tile properties to work with TiledSharp

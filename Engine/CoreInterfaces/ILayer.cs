@@ -1,6 +1,6 @@
 ﻿
 
-namespace COMP3451Project.EnginePackage.CoreInterfaces
+namespace OrbitalEngine.CoreInterfaces
 {
     /// <summary>
     /// Interface which allows displayable entities to be seperated on to different layers to identify specific collisions

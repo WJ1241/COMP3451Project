@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using COMP3451Project.EnginePackage.CoreInterfaces;
+using OrbitalEngine.CoreInterfaces;
 
-namespace COMP3451Project.EnginePackage.EntityManagement
+namespace OrbitalEngine.EntityManagement
 {
     /// <summary>
     /// Abstract Class which details drawing logic for more specific entities

@@ -1,6 +1,6 @@
-﻿using COMP3451Project.EnginePackage.CustomEventArgs;
+﻿using OrbitalEngine.CustomEventArgs;
 
-namespace COMP3451Project.EnginePackage.Behaviours.Interfaces
+namespace OrbitalEngine.Behaviours.Interfaces
 {
     /// <summary>
     /// Interface which allows implementations to listen for Collisions between objects

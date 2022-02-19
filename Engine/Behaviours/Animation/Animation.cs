@@ -1,11 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
-using COMP3451Project.EnginePackage.Animation.Interfaces;
-using COMP3451Project.EnginePackage.Behaviours;
-using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.CustomEventArgs;
 using Microsoft.Xna.Framework.Graphics;
+using OrbitalEngine.Animation.Interfaces;
+using OrbitalEngine.Behaviours;
+using OrbitalEngine.CoreInterfaces;
+using OrbitalEngine.CustomEventArgs;
 
-namespace COMP3451Project.EnginePackage.Animation
+
+namespace OrbitalEngine.Animation
 {
     /// <summary>
     /// Class which contains the code relative to changing source rectangles for animated sprites

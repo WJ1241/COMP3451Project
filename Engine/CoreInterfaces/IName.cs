@@ -1,6 +1,6 @@
 ﻿
 
-namespace COMP3451Project.EnginePackage.CoreInterfaces
+namespace OrbitalEngine.CoreInterfaces
 {
     /// <summary>
     /// Interface which allows implementations to be given specific names if there is a need for containing objects of the same type

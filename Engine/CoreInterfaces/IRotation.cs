@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace COMP3451Project.EnginePackage.CoreInterfaces
+namespace OrbitalEngine.CoreInterfaces
 {
     /// <summary>
     /// Interface which allows implementations to be rotated via an origin point and a specified angle

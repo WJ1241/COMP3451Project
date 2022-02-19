@@ -1,10 +1,10 @@
-﻿using COMP3451Project.EnginePackage.Behaviours.Interfaces;
-using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.CustomEventArgs;
-using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
-using COMP3451Project.EnginePackage.Exceptions;
+﻿using OrbitalEngine.Behaviours.Interfaces;
+using OrbitalEngine.CoreInterfaces;
+using OrbitalEngine.CustomEventArgs;
+using OrbitalEngine.EntityManagement.Interfaces;
+using OrbitalEngine.Exceptions;
 
-namespace COMP3451Project.EnginePackage.Behaviours
+namespace OrbitalEngine.Behaviours
 {
     /// <summary>
     /// Class which contains basic variables and methods needed for ALL behaviour classes

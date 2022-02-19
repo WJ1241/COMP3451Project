@@ -1,10 +1,10 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.Services;
-using COMP3451Project.EnginePackage.Services.Factories;
-using COMP3451Project.EnginePackage.Services.Factories.Interfaces;
-using COMP3451Project.EnginePackage.Services.Interfaces;
+using OrbitalEngine.CoreInterfaces;
+using OrbitalEngine.Services;
+using OrbitalEngine.Services.Factories;
+using OrbitalEngine.Services.Factories.Interfaces;
+using OrbitalEngine.Services.Interfaces;
 
 namespace COMP3451Project
 {

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using TiledSharp;
-using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
-using COMP3451Project.EnginePackage.Exceptions;
-using COMP3451Project.EnginePackage.Services.Interfaces;
-using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
-using COMP3451Project.EnginePackage.Tiles.Interfaces;
+using OrbitalEngine.CoreInterfaces;
+using OrbitalEngine.EntityManagement.Interfaces;
+using OrbitalEngine.Exceptions;
+using OrbitalEngine.Services.Interfaces;
+using OrbitalEngine.Services.Commands.Interfaces;
+using OrbitalEngine.Tiles.Interfaces;
 
-namespace COMP3451Project.EnginePackage.Tiles
+namespace OrbitalEngine.Tiles
 {
     /// <summary>
     /// Class which makes a Level Layout using a tilemap built in Tiled

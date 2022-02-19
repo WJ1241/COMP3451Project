@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
-using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
+using OrbitalEngine.EntityManagement.Interfaces;
 
-namespace COMP3451Project.EnginePackage.SceneManagement.Interfaces
+namespace OrbitalEngine.SceneManagement.Interfaces
 {
     /// <summary>
     /// Interface that allows implementations to be spawned on screen

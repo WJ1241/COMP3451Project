@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 
-namespace COMP3451Project.EnginePackage.Camera.Interfaces
+namespace OrbitalEngine.Camera.Interfaces
 {
     /// <summary>
     /// Interface which allows implementations to draw displayable objects operating with a camera

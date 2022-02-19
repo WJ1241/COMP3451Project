@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
-using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
-using COMP3451Project.EnginePackage.Exceptions;
-using COMP3451Project.EnginePackage.InputManagement.Interfaces;
-using COMP3451Project.EnginePackage.Services.Commands;
-using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
-using COMP3451Project.EnginePackage.Services.Factories.Interfaces;
+using OrbitalEngine.CoreInterfaces;
+using OrbitalEngine.EntityManagement.Interfaces;
+using OrbitalEngine.Exceptions;
+using OrbitalEngine.InputManagement.Interfaces;
+using OrbitalEngine.Services.Commands;
+using OrbitalEngine.Services.Commands.Interfaces;
+using OrbitalEngine.Services.Factories.Interfaces;
 
-namespace COMP3451Project.EnginePackage.EntityManagement
+namespace OrbitalEngine.EntityManagement
 {
     /// <summary>
     /// Class which Stores and Initialises required commands to Entities

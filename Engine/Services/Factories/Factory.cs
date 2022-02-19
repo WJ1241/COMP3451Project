@@ -1,8 +1,8 @@
-﻿using COMP3451Project.EnginePackage.Exceptions;
-using COMP3451Project.EnginePackage.Services.Factories.Interfaces;
-using COMP3451Project.EnginePackage.Services.Interfaces;
+﻿using OrbitalEngine.Exceptions;
+using OrbitalEngine.Services.Factories.Interfaces;
+using OrbitalEngine.Services.Interfaces;
 
-namespace COMP3451Project.EnginePackage.Services.Factories
+namespace OrbitalEngine.Services.Factories
 {
     /// <summary>
     /// Class which creates and returns an object of any type specified as replacement of generics

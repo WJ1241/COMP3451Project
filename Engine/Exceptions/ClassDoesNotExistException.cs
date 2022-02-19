@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace COMP3451Project.EnginePackage.Exceptions
+namespace OrbitalEngine.Exceptions
 {
     /// <summary>
     /// Exception which is used to test when a class does not exist in the program

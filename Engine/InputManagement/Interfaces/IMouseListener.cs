@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Input;
 
-namespace COMP3451Project.EnginePackage.InputManagement.Interfaces
+namespace OrbitalEngine.InputManagement.Interfaces
 {
     /// <summary>
     /// Interface which allows implementations to listen for Mouse input

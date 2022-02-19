@@ -1,6 +1,6 @@
 ﻿
 
-namespace COMP3451Project.EnginePackage.Services.Factories.Interfaces
+namespace OrbitalEngine.Services.Factories.Interfaces
 {
     /// <summary>
     /// Interface which allows implementations to create a Factory of any type

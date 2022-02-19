@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using TiledSharp;
 
-namespace COMP3451Project.EnginePackage.Tiles.Interfaces
+namespace OrbitalEngine.Tiles.Interfaces
 {
     /// <summary>
     /// Interface which allows implementations to create a Layout for a Game Level

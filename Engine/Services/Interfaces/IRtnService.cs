@@ -1,6 +1,6 @@
 ﻿
 
-namespace COMP3451Project.EnginePackage.Services.Interfaces
+namespace OrbitalEngine.Services.Interfaces
 {
     /// <summary>
     /// Interface which allows implementations to return an instance of a service to be used within engine

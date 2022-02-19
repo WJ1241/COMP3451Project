@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
-using COMP3451Project.EnginePackage.CollisionManagement.Interfaces;
-using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
-using COMP3451Project.EnginePackage.Services.Interfaces;
+using OrbitalEngine.CollisionManagement.Interfaces;
+using OrbitalEngine.EntityManagement.Interfaces;
+using OrbitalEngine.Services.Interfaces;
 
-namespace COMP3451Project.EnginePackage.SceneManagement.Interfaces
+namespace OrbitalEngine.SceneManagement.Interfaces
 {
     /// <summary>
     /// Interface that allows implementations to manage entities in the scene

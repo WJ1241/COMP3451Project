@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using COMP3451Project.EnginePackage.Camera.Interfaces;
-using COMP3451Project.EnginePackage.CollisionManagement.Interfaces;
-using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
-using COMP3451Project.EnginePackage.SceneManagement.Interfaces;
-using COMP3451Project.EnginePackage.Services.Interfaces;
-using COMP3451Project.EnginePackage.Services.Factories.Interfaces;
-using COMP3451Project.EnginePackage.Exceptions;
+using OrbitalEngine.Camera.Interfaces;
+using OrbitalEngine.CollisionManagement.Interfaces;
+using OrbitalEngine.CoreInterfaces;
+using OrbitalEngine.EntityManagement.Interfaces;
+using OrbitalEngine.SceneManagement.Interfaces;
+using OrbitalEngine.Services.Interfaces;
+using OrbitalEngine.Services.Factories.Interfaces;
+using OrbitalEngine.Exceptions;
 
-namespace COMP3451Project.EnginePackage.SceneManagement
+namespace OrbitalEngine.SceneManagement
 {
     /// <summary>
     /// Class which manages all entities in the scene

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.EntityManagement;
+using OrbitalEngine.CoreInterfaces;
+using OrbitalEngine.EntityManagement;
 
 namespace COMP3451Project.PongPackage.Entities
 {

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
-using COMP3451Project.EnginePackage.Services.Interfaces;
+using OrbitalEngine.CoreInterfaces;
+using OrbitalEngine.Services.Commands.Interfaces;
+using OrbitalEngine.Services.Interfaces;
 
-namespace COMP3451Project.EnginePackage.Services.Commands
+namespace OrbitalEngine.Services.Commands
 {
     /// <summary>
     /// Class which schedules commands at a specific point in a runtime loop

@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using COMP3451Project.EnginePackage.Camera.Interfaces;
-using COMP3451Project.EnginePackage.CollisionManagement.Interfaces;
-using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
-using COMP3451Project.EnginePackage.Exceptions;
-using COMP3451Project.EnginePackage.SceneManagement.Interfaces;
-using COMP3451Project.EnginePackage.Services.Commands;
-using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
+using OrbitalEngine.Camera.Interfaces;
+using OrbitalEngine.CollisionManagement.Interfaces;
+using OrbitalEngine.CoreInterfaces;
+using OrbitalEngine.EntityManagement.Interfaces;
+using OrbitalEngine.Exceptions;
+using OrbitalEngine.SceneManagement.Interfaces;
+using OrbitalEngine.Services.Commands;
+using OrbitalEngine.Services.Commands.Interfaces;
 
-namespace COMP3451Project.EnginePackage.SceneManagement
+namespace OrbitalEngine.SceneManagement
 {
     /// <summary>
     /// Class which holds reference to list in Scene Manager, Draws and Updates entities

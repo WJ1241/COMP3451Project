@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using COMP3451Project.EnginePackage.CollisionManagement.Interfaces;
-using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
-using COMP3451Project.EnginePackage.Exceptions;
-using COMP3451Project.EnginePackage.Services.Interfaces;
+using OrbitalEngine.CollisionManagement.Interfaces;
+using OrbitalEngine.CoreInterfaces;
+using OrbitalEngine.EntityManagement.Interfaces;
+using OrbitalEngine.Exceptions;
+using OrbitalEngine.Services.Interfaces;
 
-namespace COMP3451Project.EnginePackage.CollisionManagement
+namespace OrbitalEngine.CollisionManagement
 {
     /// <summary>
     /// Class which stores references to entities that can collide with other entities
@@ -72,7 +72,7 @@ namespace COMP3451Project.EnginePackage.CollisionManagement
         /// </summary>
         /// <param name="pGameTime">holds reference to GameTime object</param>
         /// <CITATION> (Price, 2021) </CITATION>
-        public void Update(GameTime GameTime)
+        public void Update(GameTime pGameTime)
         {
             // INSTANTIATE a new List<ICollidable>, newly created instance on update, allows for changes from entity Dictionary:
             _collidableList = new List<ICollidable>();

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace COMP3451Project.EnginePackage.Animation.Interfaces
+namespace OrbitalEngine.Animation.Interfaces
 {
     /// <summary>
     /// Interface which allows implementations to run animations

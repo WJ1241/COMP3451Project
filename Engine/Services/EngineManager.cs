@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.Exceptions;
-using COMP3451Project.EnginePackage.Services.Factories.Interfaces;
-using COMP3451Project.EnginePackage.Services.Interfaces;
+using OrbitalEngine.CoreInterfaces;
+using OrbitalEngine.Exceptions;
+using OrbitalEngine.Services.Factories.Interfaces;
+using OrbitalEngine.Services.Interfaces;
 
-namespace COMP3451Project.EnginePackage.Services
+namespace OrbitalEngine.Services
 {
     /// <summary>
     /// Class which manages the game engine, holding all references for any service used to create game entities, level structure etc.

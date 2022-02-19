@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
-using COMP3451Project.EnginePackage.InputManagement.Interfaces;
-using COMP3451Project.EnginePackage.Services.Interfaces;
+using OrbitalEngine.CoreInterfaces;
+using OrbitalEngine.EntityManagement.Interfaces;
+using OrbitalEngine.InputManagement.Interfaces;
+using OrbitalEngine.Services.Interfaces;
 
-namespace COMP3451Project.EnginePackage.InputManagement
+namespace OrbitalEngine.InputManagement
 {
     /// <summary>
     /// Class which manages all entities listening for Keyboard input

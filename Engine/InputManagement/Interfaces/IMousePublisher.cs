@@ -1,6 +1,6 @@
 ﻿
 
-namespace COMP3451Project.EnginePackage.InputManagement.Interfaces
+namespace OrbitalEngine.InputManagement.Interfaces
 {
     /// <summary>
     /// Interface which allows implementations to publish Mouse input to listeners

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework.Input;
 
-namespace COMP3451Project.EnginePackage.CustomEventArgs
+namespace OrbitalEngine.CustomEventArgs
 {
     /// <summary>
     /// Class which acts as an EventArgs object for an 'MouseInput' event

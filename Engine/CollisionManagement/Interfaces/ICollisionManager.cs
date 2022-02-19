@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
+using OrbitalEngine.EntityManagement.Interfaces;
 
-namespace COMP3451Project.EnginePackage.CollisionManagement.Interfaces
+namespace OrbitalEngine.CollisionManagement.Interfaces
 {
     /// <summary>
     /// Interface that allows implementations to store objects which can collide with other objects

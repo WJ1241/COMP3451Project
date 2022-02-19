@@ -32,14 +32,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MonoGame.Framework, Version=3.7.1.189, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="TiledSharp, Version=0.15.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TiledSharp.1.0.1\lib\netstandard2.0\TiledSharp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Audio\Interfaces\IPlayAudio.cs" />
@@ -98,14 +98,6 @@
     <Compile Include="InputManagement\Interfaces\IMousePublisher.cs" />
     <Compile Include="InputManagement\KeyboardManager.cs" />
     <Compile Include="InputManagement\MouseManager.cs" />
-    <Compile Include="PongPackage\Behaviours\BallBehaviour.cs" />
-    <Compile Include="PongPackage\Behaviours\PaddleBehaviour.cs" />
-    <Compile Include="PongPackage\Behaviours\PongBehaviour.cs" />
-    <Compile Include="PongPackage\Entities\Ball.cs" />
-    <Compile Include="PongPackage\Entities\Paddle.cs" />
-    <Compile Include="PongPackage\Entities\PongEntity.cs" />
-    <Compile Include="PongPackage\States\BallState.cs" />
-    <Compile Include="PongPackage\States\PaddleState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SceneManagement\Interfaces\ISceneGraph.cs" />
     <Compile Include="SceneManagement\Interfaces\ISceneManager.cs" />
@@ -137,6 +129,9 @@
     <Compile Include="Tiles\Interfaces\ILevelLayoutMaker.cs" />
     <Compile Include="Tiles\LevelLayoutMaker.cs" />
     <Compile Include="Tiles\Wall.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

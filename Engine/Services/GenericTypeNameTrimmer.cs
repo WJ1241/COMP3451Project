@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace COMP3451Project.EnginePackage.Services
+namespace OrbitalEngine.Services
 {
     /// <summary>
     /// Static Class which trims Generics Arity information to allow tidier naming and easier addressing

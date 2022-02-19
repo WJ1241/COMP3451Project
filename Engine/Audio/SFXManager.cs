@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework.Audio;
-using COMP3451Project.EnginePackage.Audio.Interfaces;
-using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.Exceptions;
+using OrbitalEngine.Audio.Interfaces;
+using OrbitalEngine.CoreInterfaces;
+using OrbitalEngine.Exceptions;
 
-namespace COMP3451Project.EnginePackage.Audio
+namespace OrbitalEngine.Audio
 {
     /// <summary>
     /// Class which stores sound effects and plays a requested sound effect when needed

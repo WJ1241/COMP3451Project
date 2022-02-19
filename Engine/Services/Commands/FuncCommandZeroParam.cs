@@ -1,7 +1,7 @@
 ﻿using System;
-using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
+using OrbitalEngine.Services.Commands.Interfaces;
 
-namespace COMP3451Project.EnginePackage.Services.Commands
+namespace OrbitalEngine.Services.Commands
 {
     /// <summary>
     /// Class which contains a Func with ZERO Parameters

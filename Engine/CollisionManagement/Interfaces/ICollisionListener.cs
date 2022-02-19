@@ -1,6 +1,6 @@
 ﻿
 
-namespace COMP3451Project.EnginePackage.CollisionManagement.Interfaces
+namespace OrbitalEngine.CollisionManagement.Interfaces
 {
     /// <summary>
     /// Interface that allows implementations to listen for collisions with other objects

@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using COMP3451Project.EnginePackage.Animation.Interfaces;
-using COMP3451Project.EnginePackage.Behaviours.Interfaces;
-using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.CustomEventArgs;
-using COMP3451Project.EnginePackage.Exceptions;
-using COMP3451Project.EnginePackage.InputManagement.Interfaces;
-using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
+using OrbitalEngine.Animation.Interfaces;
+using OrbitalEngine.Behaviours.Interfaces;
+using OrbitalEngine.CoreInterfaces;
+using OrbitalEngine.CustomEventArgs;
+using OrbitalEngine.Exceptions;
+using OrbitalEngine.InputManagement.Interfaces;
+using OrbitalEngine.Services.Commands.Interfaces;
 
-namespace COMP3451Project.EnginePackage.States
+namespace OrbitalEngine.States
 {
     /// <summary>
     /// Class which contains conditional information for Pong Paddle entities to be modified by another class e.g. PaddleBehaviour

@@ -1,6 +1,6 @@
-﻿using COMP3451Project.EnginePackage.CollisionManagement.Interfaces;
+﻿using OrbitalEngine.CollisionManagement.Interfaces;
 
-namespace COMP3451Project.EnginePackage.SceneManagement.Interfaces
+namespace OrbitalEngine.SceneManagement.Interfaces
 {
     /// <summary>
     /// Interface that allows implementations to remove an Entity from current scene

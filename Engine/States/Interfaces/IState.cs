@@ -1,6 +1,6 @@
 ﻿
 
-namespace COMP3451Project.EnginePackage.States.Interfaces
+namespace OrbitalEngine.States.Interfaces
 {
     /// <summary>
     /// Interface which allows implementations to contain a 'mind' to control their behaviour

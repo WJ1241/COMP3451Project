@@ -1,6 +1,6 @@
 ﻿
 
-namespace COMP3451Project.EnginePackage.Audio.Interfaces
+namespace OrbitalEngine.Audio.Interfaces
 {
     /// <summary>
     /// Interface which allows implementations to play audio when given a specified string

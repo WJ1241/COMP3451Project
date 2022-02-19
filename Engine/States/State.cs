@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using COMP3451Project.EnginePackage.Behaviours.Interfaces;
-using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.CustomEventArgs;
-using COMP3451Project.EnginePackage.Exceptions;
-using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
-using COMP3451Project.EnginePackage.States.Interfaces;
+using OrbitalEngine.Behaviours.Interfaces;
+using OrbitalEngine.CoreInterfaces;
+using OrbitalEngine.CustomEventArgs;
+using OrbitalEngine.Exceptions;
+using OrbitalEngine.Services.Commands.Interfaces;
+using OrbitalEngine.States.Interfaces;
 
-namespace COMP3451Project.EnginePackage.States
+namespace OrbitalEngine.States
 {
     /// <summary>
     /// Class which contains conditional information for entities to be modified by another class e.g. Behaviour

@@ -1,12 +1,12 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.EntityManagement.Interfaces;
-using COMP3451Project.EnginePackage.Exceptions;
-using COMP3451Project.EnginePackage.Services.Commands.Interfaces;
-using COMP3451Project.EnginePackage.States.Interfaces;
+using OrbitalEngine.CoreInterfaces;
+using OrbitalEngine.EntityManagement.Interfaces;
+using OrbitalEngine.Exceptions;
+using OrbitalEngine.Services.Commands.Interfaces;
+using OrbitalEngine.States.Interfaces;
 
-namespace COMP3451Project.EnginePackage.EntityManagement
+namespace OrbitalEngine.EntityManagement
 {
     /// <summary>
     /// Abstract class for more specific entities to inherit from

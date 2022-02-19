@@ -1,7 +1,7 @@
 ﻿using System;
-using COMP3451Project.EnginePackage.CollisionManagement.Interfaces;
+using OrbitalEngine.CollisionManagement.Interfaces;
 
-namespace COMP3451Project.EnginePackage.CustomEventArgs
+namespace OrbitalEngine.CustomEventArgs
 {
     /// <summary>
     /// Class which acts as an EventArgs object for an 'Collision' event

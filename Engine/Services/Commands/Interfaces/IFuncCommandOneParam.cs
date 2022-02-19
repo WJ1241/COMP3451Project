@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace COMP3451Project.EnginePackage.Services.Commands.Interfaces
+namespace OrbitalEngine.Services.Commands.Interfaces
 {
     /// <summary>
     /// Interface which allows implementations to contain a type 'R' return method with ONE parameter

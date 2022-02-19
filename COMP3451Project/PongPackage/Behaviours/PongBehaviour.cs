@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
-using COMP3451Project.EnginePackage.Behaviours;
-using COMP3451Project.EnginePackage.CoreInterfaces;
-using COMP3451Project.EnginePackage.CustomEventArgs;
+using OrbitalEngine.Behaviours;
+using OrbitalEngine.CoreInterfaces;
+using OrbitalEngine.CustomEventArgs;
 
 namespace COMP3451Project.PongPackage.Behaviours
 {
