@@ -1,33 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using TiledSharp;
+using OrbitalEngine.Animation;
+using OrbitalEngine.Animation.Interfaces;
+using OrbitalEngine.Audio;
+using OrbitalEngine.Audio.Interfaces;
 using OrbitalEngine.Behaviours.Interfaces;
 using OrbitalEngine.CollisionManagement;
+using OrbitalEngine.CollisionManagement.Interfaces;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.EntityManagement;
+using OrbitalEngine.EntityManagement.Interfaces;
 using OrbitalEngine.Exceptions;
 using OrbitalEngine.InputManagement;
 using OrbitalEngine.InputManagement.Interfaces;
 using OrbitalEngine.SceneManagement;
+using OrbitalEngine.SceneManagement.Interfaces;
+using OrbitalEngine.Services.Commands;
+using OrbitalEngine.Services.Commands.Interfaces;
 using OrbitalEngine.Services.Interfaces;
 using OrbitalEngine.Services.Factories;
-using OrbitalEngine.Services.Commands;
-using OrbitalEngine.States;
-using OrbitalEngine.Tiles;
-using OrbitalEngine.Services.Commands.Interfaces;
-using OrbitalEngine.CollisionManagement.Interfaces;
-using OrbitalEngine.Tiles.Interfaces;
-using OrbitalEngine.EntityManagement.Interfaces;
-using OrbitalEngine.SceneManagement.Interfaces;
 using OrbitalEngine.Services.Factories.Interfaces;
 using OrbitalEngine.States.Interfaces;
-using OrbitalEngine.Animation.Interfaces;
-using OrbitalEngine.Animation;
+using OrbitalEngine.States;
+using OrbitalEngine.Tiles;
+using OrbitalEngine.Tiles.Interfaces;
+using COMP3451Project.PongPackage;
 using COMP3451Project.PongPackage.Behaviours;
+using COMP3451Project.PongPackage.Behaviours.Interfaces;
 using COMP3451Project.PongPackage.Entities;
+using COMP3451Project.PongPackage.Interfaces;
 
 namespace COMP3451Project
 {
@@ -160,11 +167,27 @@ namespace COMP3451Project
 
                 #region LEVEL 1 CREATION
 
+                /// SCENE
+
                 // CALL CreateScene() on _sceneManager, passing "Level1" as a parameter:
                 _sceneManager.CreateScene("Level1");
 
                 // INITIALISE _sceneManager with a CollisionManager instance from _engineManager for scene "Level1":
                 _sceneManager.Initialise("Level1", _engineManager.GetService<CollisionManager>() as ICollisionManager);
+
+                /// REFEREE
+
+                // DECLARE & INSTANTIATE an IPongReferee as a new PongReferee(), name it '_referee':
+                IPongReferee _referee = _engineManager.GetService<PongReferee>() as IPongReferee;
+
+                // DECLARE & INSTANTIATE an ICommand as a new CommandZeroParam(), name it '_respawnBall':
+                ICommand _respawnBall = (_engineManager.GetService<Factory<ICommandZeroParam>>() as IFactory<ICommandZeroParam>).Create<CommandZeroParam>();
+
+                // SET MethodRef Property value of _respawnBall to reference of CreateBall():
+                (_respawnBall as ICommandZeroParam).MethodRef = CreateBall;
+
+                // SET ScheduleCommand Property of _referee to reference of _respawnBall:
+                _referee.RespawnBall = _respawnBall;
 
 
                 #region DISPLAYABLE CREATION
@@ -855,6 +878,35 @@ namespace COMP3451Project
             // INSTANTIATE _spriteBatch as new SpriteBatch(), passing GraphicsDevice as a parameter:
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            #region SOUND MANAGER
+
+            /// SONG MANAGER
+
+            // DECLARE & INSTANTIATE an IPlayAudio as a new SongManager(), name it '_songMgr':
+            IPlayAudio _songMgr = _engineManager.GetService<SongManager>() as IPlayAudio;
+
+            // INITIALISE _songMgr with "MainTrack" and a Song named "MainTrack":
+            (_songMgr as IInitialiseParam<string, Song>).Initialise("MainTrack", Content.Load<Song>("ExampleLevel/MainTrack"));
+
+            // CALL PlayAudio on _songMgr to play "MainTrack":
+            _songMgr.PlayAudio("MainTrack");
+
+            /// SFX MANAGER
+
+            // DECLARE & INSTANTIATE an IPlayAudio as a new SFXManager(), name it '_sfxMgr':
+            IPlayAudio _sfxMgr = _engineManager.GetService<SFXManager>() as IPlayAudio;
+
+            // INITIALISE _sfxMgr with "WallHit" and a SoundEffect named "WallHit":
+            (_sfxMgr as IInitialiseParam<string, SoundEffect>).Initialise("WallHit", Content.Load<SoundEffect>("ExampleLevel/WallHit"));
+
+            // INITIALISE _sfxMgr with "Score" and a SoundEffect named "Score":
+            (_sfxMgr as IInitialiseParam<string, SoundEffect>).Initialise("Score", Content.Load<SoundEffect>("ExampleLevel/Score"));
+
+            // INITIALISE _sfxMgr with "PaddleHit" and a SoundEffect named "PaddleHit":
+            (_sfxMgr as IInitialiseParam<string, SoundEffect>).Initialise("PaddleHit", Content.Load<SoundEffect>("ExampleLevel/PaddleHit"));
+
+            #endregion
+
 
             #region TILES
 
@@ -1011,6 +1063,28 @@ namespace COMP3451Project
                 // INITIALISE _ballState with reference to _ballBehaviour:
                 (_ballState as IInitialiseParam<IUpdateEventListener>).Initialise(_ballBehaviour);
 
+                /// SCORE COMMAND
+
+                // DECLARE & INSTANTIATE an ICommand as a new CommandOneParam<int>(), name it '_tempCommand':
+                ICommand _tempCommand = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandOneParam<int>>();
+
+                // SET MethodRef Property of _tempCommand to reference of PongReferee.CheckWhoScored():
+                (_tempCommand as ICommandOneParam<int>).MethodRef = (_engineManager.GetService<PongReferee>() as IPongReferee).CheckWhoScored;
+
+                // SET ScoreGoal Property of _ballBehaviour to reference of _tempCommand:
+                (_ballBehaviour as IScoreGoal).ScoreGoal = _tempCommand;
+
+                /// AUDIO COMMAND
+
+                // INSTANTIATE _tempCommand as a new CommandOneParam<string>():
+                _tempCommand = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandOneParam<string>>();
+
+                // SET MethodRef Property of _tempCommand to reference of SFXManager.PlayAudio():
+                (_tempCommand as ICommandOneParam<string>).MethodRef = (_engineManager.GetService<SFXManager>() as IPlayAudio).PlayAudio;
+
+                // SET AudioCommand Property of _ballBehaviour to reference of _tempCommand:
+                (_ballBehaviour as IAudioCommand).AudioCommand = _tempCommand;
+
                 #endregion
 
 
@@ -1059,7 +1133,7 @@ namespace COMP3451Project
                 #region SPAWNING
 
                 // LOAD "square" texture to '"Ball" + _ballCount':
-                (_entityManager.GetDictionary()["Ball" + _ballCount] as ITexture).Texture = Content.Load<Texture2D>("square");
+                (_entityManager.GetDictionary()["Ball" + _ballCount] as ITexture).Texture = Content.Load<Texture2D>("ExampleLevel/square");
 
                 // SPAWN "Ball" + _ballCount in "Level1" in the centre of screen:
                 (_engineManager.GetService<SceneManager>() as ISceneManager).Spawn("Level1", _entityManager.GetDictionary()["Ball" + _ballCount], new Vector2(_screenSize.X / 2, _screenSize.Y / 2));

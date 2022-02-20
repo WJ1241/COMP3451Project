@@ -42,6 +42,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Audio\Interfaces\IAudioCommand.cs" />
     <Compile Include="Audio\Interfaces\IPlayAudio.cs" />
     <Compile Include="Audio\SFXManager.cs" />
     <Compile Include="Audio\SongManager.cs" />

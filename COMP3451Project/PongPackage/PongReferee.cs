@@ -10,7 +10,7 @@ namespace COMP3451Project.PongPackage
     /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 20/02/22
     /// </summary>
-    public class PongReferee : IPongReferee, ICommandSender, IService
+    public class PongReferee : IPongReferee, IService
     {
         #region FIELD VARIABLES
 
@@ -56,6 +56,9 @@ namespace COMP3451Project.PongPackage
                 // INCREMENT _p1Score by '1':
                 _p1Score++;
 
+                // SET Console Text Colour to Red:
+                Console.ForegroundColor = ConsoleColor.Red;
+
                 // IF Player 1 score IS currently 1:
                 if (_p1Score == 1)
                 {
@@ -75,6 +78,9 @@ namespace COMP3451Project.PongPackage
                 // INCREMENT _p2Score by '1':
                 _p2Score++;
 
+                // SET Console Text Colour to Blue:
+                Console.ForegroundColor = ConsoleColor.Blue;
+
                 // IF Player 2 score IS currently 1:
                 if (_p2Score == 1)
                 {
@@ -89,8 +95,13 @@ namespace COMP3451Project.PongPackage
                 }
             }
 
-            // SCHEDULE _respawnBall to be executed:
-            _scheduleCommand(_respawnBall);
+            // SET Console Text Colour to White:
+            Console.ForegroundColor = ConsoleColor.White;
+
+            // CALL _respawnBall():
+            // ATTEMPT WAS MADE TO SCHEDULE THIS,
+            // BUT FOUND ERROR WHEN SCHEDULING A METHOD TO BE SCHEDULED, WHICH MODIFIES COMMANDLIST WHEN ALREADY ITERATING
+            _respawnBall.ExecuteMethod();
         }
 
         /// <summary>
@@ -102,28 +113,6 @@ namespace COMP3451Project.PongPackage
             {
                 // SET value of _respawnBall to incoming value:
                 _respawnBall = value;
-            }
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF ICOMMANDSENDER
-
-        /// <summary>
-        /// Property which allows read and write access to a command scheduling method
-        /// </summary>
-        public Action<ICommand> ScheduleCommand
-        {
-            get
-            {
-                // RETURN value of _scheduleCommand:
-                return _scheduleCommand;
-            }
-            set
-            {
-                // SET value of _scheduleCommand to incoming value:
-                _scheduleCommand = value;
             }
         }
 

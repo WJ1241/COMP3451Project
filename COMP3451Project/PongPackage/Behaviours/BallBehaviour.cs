@@ -1,4 +1,5 @@
-﻿using OrbitalEngine.Behaviours.Interfaces;
+﻿using OrbitalEngine.Audio.Interfaces;
+using OrbitalEngine.Behaviours.Interfaces;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.CustomEventArgs;
 using OrbitalEngine.EntityManagement.Interfaces;
@@ -12,7 +13,7 @@ namespace COMP3451Project.PongPackage.Behaviours
     /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 20/02/22
     /// </summary>
-    public class BallBehaviour : PongBehaviour, ICollisionEventListener, IScoreGoal
+    public class BallBehaviour : PongBehaviour, IAudioCommand, ICollisionEventListener, IScoreGoal
     {
         #region FIELD VARIABLES
 
@@ -58,10 +59,10 @@ namespace COMP3451Project.PongPackage.Behaviours
                 (_entity as IVelocity).Velocity = _velocity;
 
                 // SET Data Property value of _sfxCommand to "WallHit":
-                //(_sfxCommand as ICommandOneParam<string>).Data = "WallHit";
+                (_sfxCommand as ICommandOneParam<string>).Data = "WallHit";
 
                 // SCHEDULE _sfxCommand to be executed:
-                //(_entity as ICommandSender).ScheduleCommand(_sfxCommand;);
+                (_entity as ICommandSender).ScheduleCommand(_sfxCommand);
             }
             // IF at left screen edge or right screen edge:
             else if (_entity.Position.X <= 0 || _entity.Position.X >= (_entity as IContainBoundary).WindowBorder.X - (_entity as ITexture).TextureSize.X)
@@ -82,17 +83,34 @@ namespace COMP3451Project.PongPackage.Behaviours
                 // SCHEDULE _scoreGoal to be executed:
                 (_entity as ICommandSender).ScheduleCommand(_scoreGoal);
 
-                // SET Data Property value of _sfxCommand to "Cheer":
-                //(_sfxCommand as ICommandOneParam<string>).Data = "Cheer";
+                // SET Data Property value of _sfxCommand to "Score":
+                (_sfxCommand as ICommandOneParam<string>).Data = "Score";
 
                 // SCHEDULE _sfxCommand to be executed:
-                //(_entity as ICommandSender).ScheduleCommand(_sfxCommand);
+                (_entity as ICommandSender).ScheduleCommand(_sfxCommand);
 
                 // SCHEDULE RemoveMe to be executed:
                 (_entity as ICommandSender).ScheduleCommand((_entity as IEntityInternal).RemoveMe);
 
                 // SCHEDULE TerminateMe to be executed:
                 (_entity as ICommandSender).ScheduleCommand((_entity as IEntityInternal).TerminateMe);
+            }
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IAUDIOCOMMAND
+
+        /// <summary>
+        /// Property which allows only write access to an ICommand which plays audio
+        /// </summary>
+        public ICommand AudioCommand
+        {
+            set
+            {
+                // SET value of _sfxCommand to incoming value:
+                _sfxCommand = value;
             }
         }
 
@@ -122,10 +140,10 @@ namespace COMP3451Project.PongPackage.Behaviours
             }
 
             // SET Data Property value of _sfxCommand to "PaddleHit":
-            //(_sfxCommand as ICommandOneParam<string>).Data = "PaddleHit";
+            (_sfxCommand as ICommandOneParam<string>).Data = "PaddleHit";
 
             // SCHEDULE _sfxCommand SFX to be executed:
-            //(_entity as ICommandSender).ScheduleCommand(_sfxCommand);
+            (_entity as ICommandSender).ScheduleCommand(_sfxCommand);
 
             // MULTIPLY _currentVel.X by '-1':
             _velocity.X *= -1;

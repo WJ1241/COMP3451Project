@@ -3,15 +3,16 @@ using Microsoft.Xna.Framework.Media;
 using OrbitalEngine.Audio.Interfaces;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.Exceptions;
+using OrbitalEngine.Services.Interfaces;
 
 namespace OrbitalEngine.Audio
 {
     /// <summary>
     /// Class which stores songs and plays a requested song when needed
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 04/02/22
+    /// Date: 20/02/22
     /// </summary>
-    public class SongManager : IInitialiseParam<string, Song>, IPlayAudio
+    public class SongManager : IInitialiseParam<string, Song>, IPlayAudio, IService
     {
         #region FIELD VARIABLES
 
@@ -81,6 +82,9 @@ namespace OrbitalEngine.Audio
         {
             // SET volume of audio to 0.5f, as it starts VERY loud:
             MediaPlayer.Volume = 0.5f;
+
+            // SET MediaPlayer to put track on loop:
+            MediaPlayer.IsRepeating = true;
 
             // PLAY song addressed as pSoundFile in _songDict using MediaPlayer:
             MediaPlayer.Play(_songDict[pSoundFile]);

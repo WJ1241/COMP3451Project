@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Audio;
 using OrbitalEngine.Audio.Interfaces;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.Exceptions;
+using OrbitalEngine.Services.Interfaces;
 
 namespace OrbitalEngine.Audio
 {
@@ -11,7 +12,7 @@ namespace OrbitalEngine.Audio
     /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 18/02/22
     /// </summary>
-    public class SFXManager : IInitialiseParam<string, SoundEffect>, IPlayAudio
+    public class SFXManager : IInitialiseParam<string, SoundEffect>, IPlayAudio, IService
     {
         #region FIELD VARIABLES
 
