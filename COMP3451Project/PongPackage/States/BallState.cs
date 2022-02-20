@@ -12,9 +12,9 @@ namespace OrbitalEngine.States
     /// <summary>
     /// Class which contains conditional information for Pong Ball entities to be modified by another class e.g. BallBehaviour
     /// Author: William Smith & Declan Kerby-Collins
-    /// Date: 30/01/22
+    /// Date: 20/02/22
     /// </summary>
-    public class BallState : State, ICollisionListener, IInitialiseParam<IUpdateEventListener>
+    public class BallState : State, ICollisionListener
     {
         #region FIELD VARIABLES
 

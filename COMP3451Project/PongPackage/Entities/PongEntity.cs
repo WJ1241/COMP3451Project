@@ -10,7 +10,7 @@ namespace COMP3451Project.PongPackage.Entities
     /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 19/02/22
     /// </summary>
-    public abstract class PongEntity : UpdatableEntity, IDrawSourceRectangle, IRotation, IVelocity
+    public abstract class PongEntity : UpdatableEntity, IRotation, IVelocity
     {
         #region FIELD VARIABLES
 
@@ -40,30 +40,8 @@ namespace COMP3451Project.PongPackage.Entities
         /// <param name="pSpriteBatch"> Needed to draw entity's texture on screen </param>
         public override void Draw(SpriteBatch pSpriteBatch)
         {
-            // DRAW given texture, given location, and colour
-            pSpriteBatch.Draw(_texture, _position, _sourceRectangle, Color.AntiqueWhite, _rotAngle, _drawOrigin, 1f, SpriteEffects.None, 1f);
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF IDRAWSOURCERECTANGLE
-
-        /// <summary>
-        /// Property which allows read and write access to a Draw Position Rectangle
-        /// </summary>
-        public Rectangle SourceRectangle
-        {
-            get
-            {
-                // RETURN value of _sourceRectangle:
-                return _sourceRectangle;
-            }
-            set
-            {
-                // SET value of _sourceRectangle to incoming value:
-                _sourceRectangle = value;
-            }
+            // DRAW given texture, given location, colour, rotation angle, origin point, scale, effects and draw layer:
+            pSpriteBatch.Draw(_texture, _position, null, Color.AntiqueWhite, _rotAngle, _drawOrigin, 1f, SpriteEffects.None, 1f);
         }
 
         #endregion
@@ -102,31 +80,6 @@ namespace COMP3451Project.PongPackage.Entities
             {
                 // SET value of _rotAngle to incoming value:
                 _rotAngle = value;
-            }
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF ITEXTURE
-
-        /// <summary>
-        /// Property which allows access to get or set value of 'texture'
-        /// </summary>
-        public override Texture2D Texture
-        {
-            get
-            {
-                // RETURN value of current texture:
-                return _texture;
-            }
-            set
-            {
-                // INITIALISE _texture with incoming value:
-                _texture = value;
-
-                // INSTANTIATE _textureSize as a new Point, using _texture's dimensions as parameters:
-                _textureSize = new Point(_texture.Width, _texture.Height);
             }
         }
 

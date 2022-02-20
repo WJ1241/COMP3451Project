@@ -9,8 +9,8 @@
     <ProjectGuid>{64FB38AE-F8D9-4513-8FD8-1028BF541D31}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Game</RootNamespace>
-    <AssemblyName>Game</AssemblyName>
+    <RootNamespace>COMP3451Project</RootNamespace>
+    <AssemblyName>COMP3451Project</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>Windows</MonoGamePlatform>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -48,11 +48,14 @@
   <ItemGroup>
     <Compile Include="Kernel.cs" />
     <Compile Include="PongPackage\Behaviours\BallBehaviour.cs" />
+    <Compile Include="PongPackage\Behaviours\Interfaces\IScoreGoal.cs" />
     <Compile Include="PongPackage\Behaviours\PaddleBehaviour.cs" />
     <Compile Include="PongPackage\Behaviours\PongBehaviour.cs" />
     <Compile Include="PongPackage\Entities\Ball.cs" />
     <Compile Include="PongPackage\Entities\Paddle.cs" />
     <Compile Include="PongPackage\Entities\PongEntity.cs" />
+    <Compile Include="PongPackage\Interfaces\IPongReferee.cs" />
+    <Compile Include="PongPackage\PongReferee.cs" />
     <Compile Include="PongPackage\States\BallState.cs" />
     <Compile Include="PongPackage\States\PaddleState.cs" />
     <Compile Include="Program.cs" />
@@ -79,9 +82,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Engine\Engine.csproj">
+    <ProjectReference Include="..\Engine\OrbitalEngine.csproj">
       <Project>{b7823477-4e7d-4f84-8d31-b86449f8247c}</Project>
-      <Name>Engine</Name>
+      <Name>OrbitalEngine</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -3,16 +3,41 @@ using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.CustomEventArgs;
 using OrbitalEngine.EntityManagement.Interfaces;
 using OrbitalEngine.Services.Commands.Interfaces;
+using COMP3451Project.PongPackage.Behaviours.Interfaces;
 
 namespace COMP3451Project.PongPackage.Behaviours
 {
     /// <summary>
     /// Class which defines the behaviour for Ball entities
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 21/01/22
+    /// Date: 20/02/22
     /// </summary>
-    public class BallBehaviour : PongBehaviour, ICollisionEventListener
+    public class BallBehaviour : PongBehaviour, ICollisionEventListener, IScoreGoal
     {
+        #region FIELD VARIABLES
+
+        // DECLARE an ICommand, name it '_sfxCommand':
+        private ICommand _sfxCommand;
+
+        // DECLARE an ICommand, name it '_scoreGoal':
+        private ICommand _scoreGoal;
+
+        #endregion
+
+
+        #region CONSTRUCTOR
+
+        /// <summary>
+        /// Constructor for objects of BallBehaviour
+        /// </summary>
+        public BallBehaviour()
+        {
+            // EMPTY CONSTRUCTOR
+        }
+
+        #endregion
+
+
         #region INHERITED FROM PONGBEHAVIOUR
 
         /// <summary>
@@ -31,14 +56,42 @@ namespace COMP3451Project.PongPackage.Behaviours
 
                 // APPLY new Velocity to _entity.Velocity:
                 (_entity as IVelocity).Velocity = _velocity;
+
+                // SET Data Property value of _sfxCommand to "WallHit":
+                //(_sfxCommand as ICommandOneParam<string>).Data = "WallHit";
+
+                // SCHEDULE _sfxCommand to be executed:
+                //(_entity as ICommandSender).ScheduleCommand(_sfxCommand;);
             }
             // IF at left screen edge or right screen edge:
             else if (_entity.Position.X <= 0 || _entity.Position.X >= (_entity as IContainBoundary).WindowBorder.X - (_entity as ITexture).TextureSize.X)
             {
-                // CALL ScheduleCommand Property, passing RemoveMe Property as a parameter:
+                // IF at left screen edge:
+                if (_entity.Position.X <= 0)
+                {
+                    // SET Data Property value of _scoreGoal to '2':
+                    (_scoreGoal as ICommandOneParam<int>).Data = 2;
+                }
+                // IF at right screen edge:
+                else if (_entity.Position.X >= (_entity as IContainBoundary).WindowBorder.X - (_entity as ITexture).TextureSize.X)
+                {
+                    // SET Data Property value of _scoreGoal to '1':
+                    (_scoreGoal as ICommandOneParam<int>).Data = 1;
+                }
+
+                // SCHEDULE _scoreGoal to be executed:
+                (_entity as ICommandSender).ScheduleCommand(_scoreGoal);
+
+                // SET Data Property value of _sfxCommand to "Cheer":
+                //(_sfxCommand as ICommandOneParam<string>).Data = "Cheer";
+
+                // SCHEDULE _sfxCommand to be executed:
+                //(_entity as ICommandSender).ScheduleCommand(_sfxCommand);
+
+                // SCHEDULE RemoveMe to be executed:
                 (_entity as ICommandSender).ScheduleCommand((_entity as IEntityInternal).RemoveMe);
 
-                // CALL ScheduleCommand Property, passing TerminateMe Property as a parameter:
+                // SCHEDULE TerminateMe to be executed:
                 (_entity as ICommandSender).ScheduleCommand((_entity as IEntityInternal).TerminateMe);
             }
         }
@@ -68,11 +121,34 @@ namespace COMP3451Project.PongPackage.Behaviours
                 _velocity.X = _velocity.X + 0.2f * (pArgs.RequiredArg as IVelocity).Velocity.Length();
             }
 
+            // SET Data Property value of _sfxCommand to "PaddleHit":
+            //(_sfxCommand as ICommandOneParam<string>).Data = "PaddleHit";
+
+            // SCHEDULE _sfxCommand SFX to be executed:
+            //(_entity as ICommandSender).ScheduleCommand(_sfxCommand);
+
             // MULTIPLY _currentVel.X by '-1':
             _velocity.X *= -1;
 
             // APPLY new Velocity to _entity.Velocity:
             (_entity as IVelocity).Velocity = _velocity;
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF ISCOREGOAL
+
+        /// <summary>
+        /// Property which allows only write access to ScoreGoal ICommand
+        /// </summary>
+        public ICommand ScoreGoal
+        {
+            set
+            {
+                // SET value of _scoreGoal to incoming value:
+                _scoreGoal = value;
+            }
         }
 
         #endregion

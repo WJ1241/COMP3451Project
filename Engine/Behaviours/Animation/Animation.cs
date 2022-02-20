@@ -5,7 +5,6 @@ using OrbitalEngine.Behaviours;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.CustomEventArgs;
 
-
 namespace OrbitalEngine.Animation
 {
     /// <summary>
@@ -13,6 +12,7 @@ namespace OrbitalEngine.Animation
     /// Authors: Declan Kerby-Collins & William Smith
     /// Date: 19/02/22
     /// </summary>
+    /// <REFERENCE> Lioncat Dev Studio (2021) Player Animation - Making a RPG in monogame. Available at: https://www.youtube.com/watch?v=i2ef5vfWO0w. (Accessed: 16 February 2022).</REFERENCE>
     public class Animation : Behaviour, IAnimation, ITexture
     {
         #region FIELD VARIABLES
@@ -129,7 +129,7 @@ namespace OrbitalEngine.Animation
         }
 
         /// <summary>
-        /// Property which allows read or write access to size of texture, mostly used for testing
+        /// /// Property which allows read or write access to size of texture, mostly used for testing, as well as setting hitbox
         /// </summary>
         public Point TextureSize
         {

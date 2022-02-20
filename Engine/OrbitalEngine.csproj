@@ -7,8 +7,8 @@
     <ProjectGuid>{B7823477-4E7D-4F84-8D31-B86449F8247C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Engine</RootNamespace>
-    <AssemblyName>Engine</AssemblyName>
+    <RootNamespace>OrbitalEngine</RootNamespace>
+    <AssemblyName>OrbitalEngine</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

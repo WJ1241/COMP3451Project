@@ -68,13 +68,17 @@ namespace OrbitalEngine.EntityManagement
                 // INITIALISE _texture with incoming value:
                 _texture = value;
 
-                // INSTANTIATE _textureSize as a new Point, using _texture's dimensions as parameters:
-                _textureSize = new Point(_texture.Width, _texture.Height);
+                // IF _textureSize HAS NOT been set already:
+                if (_textureSize.X == 0 && _textureSize.Y == 0)
+                {
+                    // INSTANTIATE _textureSize as a new Point, using _texture's dimensions as parameters:
+                    _textureSize = new Point(_texture.Width, _texture.Height);
+                }
             }
         }
 
         /// <summary>
-        /// Property which allows read or write access to size of texture, mostly used for testing
+        /// /// Property which allows read or write access to size of texture, mostly used for testing, as well as setting hitbox
         /// </summary>
         public Point TextureSize
         {

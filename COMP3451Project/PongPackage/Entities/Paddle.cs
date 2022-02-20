@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using OrbitalEngine.CollisionManagement.Interfaces;
 using OrbitalEngine.CoreInterfaces;
@@ -11,9 +12,9 @@ namespace COMP3451Project.PongPackage.Entities
     /// <summary>
     /// Class which adds a Paddle entity on screen
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 19/02/22
+    /// Date: 20/02/22
     /// </summary>
-    public class Paddle : PongEntity, IPlayer, ICollidable, IGetSpeed, IKeyboardListener
+    public class Paddle : PongEntity, IPlayer, ICollidable, IDrawSourceRectangle, IGetSpeed, IKeyboardListener
     {
         #region FIELD VARIABLES
 
@@ -46,8 +47,44 @@ namespace COMP3451Project.PongPackage.Entities
         {
             get
             {
+                // RETURN new Rectangle() using _position and _textureSize as parameters:
+                return new Rectangle((int)_position.X - (int)_drawOrigin.X, (int)_position.Y - (int)_drawOrigin.Y, _textureSize.X, _textureSize.Y);
+            }
+        }
+
+        #endregion
+
+        #region IMPLEMENTATION OF IDRAW
+
+        /// <summary>
+        /// When called, draws entity's texture on screen
+        /// </summary>
+        /// <param name="pSpriteBatch"> Needed to draw entity's texture on screen </param>
+        public override void Draw(SpriteBatch pSpriteBatch)
+        {
+            // DRAW given texture, given location, _sourceRectangle, colour, rotation angle, origin point, scale, effects and draw layer:
+            pSpriteBatch.Draw(_texture, _position, _sourceRectangle, Color.AntiqueWhite, _rotAngle, _drawOrigin, 1f, SpriteEffects.None, 1f);
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IDRAWSOURCERECTANGLE
+
+        /// <summary>
+        /// Property which allows read and write access to a Draw Position Rectangle
+        /// </summary>
+        public Rectangle SourceRectangle
+        {
+            get
+            {
                 // RETURN value of _sourceRectangle:
                 return _sourceRectangle;
+            }
+            set
+            {
+                // SET value of _sourceRectangle to incoming value:
+                _sourceRectangle = value;
             }
         }
 

@@ -6,7 +6,7 @@ namespace OrbitalEngine.CoreInterfaces
     /// <summary>
     /// Interface that allows implementations to have a texture
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 15/02/22
+    /// Date: 20/02/22
     /// </summary>
     public interface ITexture
     {
@@ -18,7 +18,7 @@ namespace OrbitalEngine.CoreInterfaces
         Texture2D Texture { get; set; }
 
         /// <summary>
-        /// Property which allows read or write access to size of texture, mostly used for testing
+        /// Property which allows read or write access to size of texture, mostly used for testing, as well as setting hitbox
         /// </summary>
         Point TextureSize { get; set; }
 

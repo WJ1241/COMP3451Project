@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COMP3451Project", "COMP3451Project\COMP3451Project.csproj", "{64FB38AE-F8D9-4513-8FD8-1028BF541D31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "Engine\Engine.csproj", "{B7823477-4E7D-4F84-8D31-B86449F8247C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrbitalEngine", "Engine\OrbitalEngine.csproj", "{B7823477-4E7D-4F84-8D31-B86449F8247C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrbitalEngineTest", "EngineTest\OrbitalEngineTest.csproj", "{DE9EC1C2-407B-45B2-8DE8-2EEB471C3A45}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,14 @@ Global
 		{B7823477-4E7D-4F84-8D31-B86449F8247C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B7823477-4E7D-4F84-8D31-B86449F8247C}.Release|x86.ActiveCfg = Release|Any CPU
 		{B7823477-4E7D-4F84-8D31-B86449F8247C}.Release|x86.Build.0 = Release|Any CPU
+		{DE9EC1C2-407B-45B2-8DE8-2EEB471C3A45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE9EC1C2-407B-45B2-8DE8-2EEB471C3A45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE9EC1C2-407B-45B2-8DE8-2EEB471C3A45}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DE9EC1C2-407B-45B2-8DE8-2EEB471C3A45}.Debug|x86.Build.0 = Debug|Any CPU
+		{DE9EC1C2-407B-45B2-8DE8-2EEB471C3A45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE9EC1C2-407B-45B2-8DE8-2EEB471C3A45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE9EC1C2-407B-45B2-8DE8-2EEB471C3A45}.Release|x86.ActiveCfg = Release|Any CPU
+		{DE9EC1C2-407B-45B2-8DE8-2EEB471C3A45}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
