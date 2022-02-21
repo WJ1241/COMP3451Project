@@ -40,7 +40,7 @@ namespace COMP3451Project
 {
     /// <summary>
     /// This is the main type for your game.
-    /// Author: William Smith & Declan Kerby-Collins
+    /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 19/02/22
     /// </summary>
     public class Kernel : Game, IInitialiseParam<IService>
@@ -837,8 +837,6 @@ namespace COMP3451Project
                 #endregion
 
                 #endregion
-
-                #endregion
             }
             // CATCH ClassDoesNotExistException from Create():
             catch (ClassDoesNotExistException e)
@@ -864,6 +862,8 @@ namespace COMP3451Project
                 // PRINT exception message to console:
                 Console.WriteLine(e.Message);
             }
+
+            #endregion
 
             // INITIALISE base class:
             base.Initialize();

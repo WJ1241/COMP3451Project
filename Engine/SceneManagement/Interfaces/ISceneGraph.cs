@@ -1,4 +1,6 @@
 ﻿using OrbitalEngine.CollisionManagement.Interfaces;
+using OrbitalEngine.EntityManagement.Interfaces;
+using System.Collections.Generic;
 
 namespace OrbitalEngine.SceneManagement.Interfaces
 {
@@ -22,6 +24,12 @@ namespace OrbitalEngine.SceneManagement.Interfaces
         /// </summary>
         /// <param name="pUName"> Used for passing unique name </param>
         void RemoveEntity(string pUName);
+
+        /// <summary>
+        /// Returns Scene Dictionary, used for testing
+        /// </summary>
+        /// <returns> IDictionary<string, IEntity> object </returns>
+        IDictionary<string, IEntity> ReturnSceneDict();
 
         #endregion
     }

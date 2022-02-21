@@ -75,6 +75,16 @@ namespace OrbitalEngine.SceneManagement
             _sceneEntDict.Remove(pUName);
         }
 
+        /// <summary>
+        /// Returns Scene Dictionary, used for testing
+        /// </summary>
+        /// <returns> IDictionary<string, IEntity> object </returns>
+        public IDictionary<string, IEntity> ReturnSceneDict()
+        {
+            // RETURN instance of _sceneEntDict:
+            return _sceneEntDict;
+        }
+
         #endregion
 
 

@@ -129,14 +129,24 @@ namespace COMP3451Project.PongPackage.Behaviours
             // IF moving left:
             if ((_entity as IVelocity).Velocity.X < 0) 
             {
-                // MINUS 0.2 multiplied by _RequiredArg's Velocity, from _velocity:
-                _velocity.X = _velocity.X - 0.2f * (pArgs.RequiredArg as IVelocity).Velocity.Length();
+                // IF speed DOES NOT exceed lower bound of other ICollidable's TextureSize.X - 1 as a negative:
+                // PREVENTS CLIPPING
+                if ((_entity as IVelocity).Velocity.X >= ((pArgs.RequiredArg as ITexture).TextureSize.X - 1) * -1)
+                {
+                    // MINUS 0.2 multiplied by _RequiredArg's Velocity, from _velocity:
+                    _velocity.X = _velocity.X - 0.2f * (pArgs.RequiredArg as IVelocity).Velocity.Length();
+                }
             }
             // IF moving right:
             else if ((_entity as IVelocity).Velocity.X > 0)  
             {
-                // ADD 0.2 multiplied by _RequiredArg's Velocity, to _velocity:
-                _velocity.X = _velocity.X + 0.2f * (pArgs.RequiredArg as IVelocity).Velocity.Length();
+                // IF speed DOES NOT exceed higher bound of other ICollidable's TextureSize.X - 1:
+                // PREVENTS CLIPPING
+                if ((_entity as IVelocity).Velocity.X <= (pArgs.RequiredArg as ITexture).TextureSize.X - 1)
+                {
+                    // ADD 0.2 multiplied by _RequiredArg's Velocity, to _velocity:
+                    _velocity.X = _velocity.X + 0.2f * (pArgs.RequiredArg as IVelocity).Velocity.Length();
+                }
             }
 
             // SET Data Property value of _sfxCommand to "PaddleHit":
