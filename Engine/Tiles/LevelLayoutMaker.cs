@@ -18,7 +18,7 @@ namespace OrbitalEngine.Tiles
     /// Date: 16/02/22
     /// </summary>
     /// <IMPORTANT> WHEN MAKING A TILEMAP IN TILED, FOLLOW LAYER NUMBERS DECLARED IN 'ILAYER' INTERFACE TO PREVENT ISSUES </IMPORTANT>
-    /// <REFERENCE> 'Teemu', Díaz, D., Gricci, S. (2016) TiledSharp-MonoGame-Example. Available at: https://github.com/Temeez/TiledSharp-MonoGame-Example. (Accessed: 16/02/22).
+    /// <REFERENCE> 'Teemu', Díaz, D., Gricci, S. (2016) TiledSharp-MonoGame-Example. Available at: https://github.com/Temeez/TiledSharp-MonoGame-Example. (Accessed: 16/02/22). </REFERENCE>
     public class LevelLayoutMaker : ILevelLayoutMaker, IInitialiseParam<string, IFuncCommand<IEntity>>, IService
     {
         #region FIELD VARIABLES
