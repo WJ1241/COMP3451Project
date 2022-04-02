@@ -49,15 +49,21 @@
     <Compile Include="Kernel.cs" />
     <Compile Include="PongPackage\Behaviours\BallBehaviour.cs" />
     <Compile Include="PongPackage\Behaviours\Interfaces\IScoreGoal.cs" />
+    <Compile Include="PongPackage\Behaviours\NpcBehavour.cs" />
     <Compile Include="PongPackage\Behaviours\PaddleBehaviour.cs" />
+    <Compile Include="PongPackage\Behaviours\PlayerBehavour.cs" />
     <Compile Include="PongPackage\Behaviours\PongBehaviour.cs" />
     <Compile Include="PongPackage\Entities\Ball.cs" />
+    <Compile Include="PongPackage\Entities\NPC.cs" />
     <Compile Include="PongPackage\Entities\Paddle.cs" />
+    <Compile Include="PongPackage\Entities\Player.cs" />
     <Compile Include="PongPackage\Entities\PongEntity.cs" />
     <Compile Include="PongPackage\Interfaces\IPongReferee.cs" />
     <Compile Include="PongPackage\PongReferee.cs" />
     <Compile Include="PongPackage\States\BallState.cs" />
+    <Compile Include="PongPackage\States\NpcState.cs" />
     <Compile Include="PongPackage\States\PaddleState.cs" />
+    <Compile Include="PongPackage\States\PlayerState.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
