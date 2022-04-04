@@ -12,7 +12,7 @@ namespace OrbitalEngine.EntityManagement
     /// <summary>
     /// Class which Stores and Initialises required commands to Entities
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 18/02/22
+    /// Date: 04/04/22
     /// </summary>
     public class EntityManager : IEntityManager, IInitialiseParam<ICommandScheduler>, IInitialiseParam<IKeyboardPublisher>, IInitialiseParam<IFactory<IEntity>>
     {
@@ -67,38 +67,38 @@ namespace OrbitalEngine.EntityManagement
             _uIDCount++;
 
             // DECLARE & INSTANTIATE an IEntity as a new T, name it '_entity':
-            IEntity _entity = _entityFactory.Create<T>();
+            IEntity entity = _entityFactory.Create<T>();
 
             // CALL Generate() to initialise uID and pUName:
-            Generate(_entity, _uIDCount, pUName);
+            Generate(entity, _uIDCount, pUName);
 
             #endregion
 
 
             #region TERMINATE COMMAND
 
-            // DECLARE an ICommandOneParam<string>, name it '_terminate':
-            ICommandOneParam<string> _terminate = new CommandOneParam<string>();
+            // DECLARE an ICommandOneParam<string>, name it 'terminate':
+            ICommandOneParam<string> terminate = new CommandOneParam<string>();
 
-            // SET MethodRef of _terminate with Terminate method:
-            _terminate.MethodRef = Terminate;
+            // SET MethodRef of terminate with Terminate method:
+            terminate.MethodRef = Terminate;
 
-            // SET Data of _terminate with _entity's UName Property:
-            _terminate.Data = _entity.UName;
+            // SET Data of terminate with entity's UName Property:
+            terminate.Data = entity.UName;
 
-            // SET SchedulerCommand property of _entity with _commandScheduler's ScheduleCommand method:
-            (_entity as ICommandSender).ScheduleCommand = _commandScheduler.ScheduleCommand;
+            // SET SchedulerCommand property of entity with _commandScheduler's ScheduleCommand method:
+            (entity as ICommandSender).ScheduleCommand = _commandScheduler.ScheduleCommand;
 
-            // SET TerminateMe property of _entity with _terminate Command:
-            (_entity as IEntityInternal).TerminateMe = _terminate;
+            // SET TerminateMe property of entity with terminate Command:
+            (entity as IEntityInternal).TerminateMe = terminate;
 
             #endregion
 
 
             #region ADDING TO DICTIONARY & RETURN
 
-            // ADD pUName as a key and _entity as a value to _entityDict:
-            _entityDict.Add(pUName, _entity);
+            // ADD pUName as a key and entity as a value to _entityDict:
+            _entityDict.Add(pUName, entity);
 
             // RETURN instance of _entityDict[pUName]:
             return _entityDict[pUName];

@@ -6,18 +6,13 @@ using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.Exceptions;
 using OrbitalEngine.InputManagement.Interfaces;
 using OrbitalEngine.States.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace COMP3451Project.PongPackage.Entities
 {
     /// <summary>
-    /// class for adding player entity to screen
-    /// Authors: Declan Kerby-Collins & William Smith
-    /// Date: 02/04/22
+    /// Class which adds a Player entity on screen
+    /// Authors: William Smith & Declan Kerby-Collins
+    /// Date: 04/04/22
     /// </summary>
     public class Player : PongEntity, IPlayer, ICollidable, IDrawSourceRectangle, IGetSpeed, IKeyboardListener
     {
@@ -58,6 +53,7 @@ namespace COMP3451Project.PongPackage.Entities
         }
 
         #endregion
+
 
         #region IMPLEMENTATION OF IDRAW
 

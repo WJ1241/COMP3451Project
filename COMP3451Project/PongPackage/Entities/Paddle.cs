@@ -54,6 +54,7 @@ namespace COMP3451Project.PongPackage.Entities
 
         #endregion
 
+
         #region IMPLEMENTATION OF IDRAW
 
         /// <summary>

@@ -1,25 +1,20 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using OrbitalEngine.Behaviours.Interfaces;
 using OrbitalEngine.CollisionManagement.Interfaces;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.EntityManagement.Interfaces;
 using OrbitalEngine.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace COMP3451Project.PongPackage.Entities
 {
     /// <summary>
-    /// class which adds NPC entities to the screen
+    /// Class which adds an NPC entity on screen
     /// Authors: Declan Kerby-Collins & William Smith
-    /// Date: 02/04/22
+    /// Date: 04/04/22
     /// </summary>
-    public class NPC: PongEntity, ICollidable, ICollisionListener, IInitialiseParam<Random>
+    public class NPC : PongEntity, ICollidable, ICollisionListener, IInitialiseParam<Random>
     {
-
         #region FIELD VARIABLES
 
         // DECLARE a Random, name it '_rand':
@@ -37,11 +32,18 @@ namespace COMP3451Project.PongPackage.Entities
         #endregion
 
 
+        #region CONSTRUCTOR
 
+        /// <summary>
+        /// Constructor for objects of NPC
+        /// </summary>
         public NPC()
         {
-
+            // EMPTY CONSTRUCTOR
         }
+
+        #endregion
+
 
         #region IMPLEMENTATION OF IINITIALISEPARAM<IUPDATEEVENTLISTENER>
 
@@ -69,6 +71,7 @@ namespace COMP3451Project.PongPackage.Entities
         }
 
         #endregion
+
 
         #region IMPLEMENTATION OF IINITIALISEPARAM<RANDOM>
 
@@ -142,7 +145,6 @@ namespace COMP3451Project.PongPackage.Entities
         #endregion
 
 
-
         #region IMPLEMENTATION OF ITERMINATE
 
         /// <summary>
@@ -154,6 +156,5 @@ namespace COMP3451Project.PongPackage.Entities
         }
 
         #endregion
-
     }
 }

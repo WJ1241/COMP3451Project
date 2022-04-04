@@ -2,9 +2,6 @@
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OrbitalEngine.Animation.Interfaces;
 using OrbitalEngine.Behaviours.Interfaces;
 using OrbitalEngine.CoreInterfaces;
@@ -17,9 +14,9 @@ using OrbitalEngine.Services.Commands.Interfaces;
 namespace COMP3451Project.PongPackage.States
 {
     /// <summary>
-    /// class for player state
-    /// Authors: Declan Kerby-Collins & William Smith
-    /// Date: 02/04/22
+    /// Class which contains conditional information for RIRR Player entities to be modified by another class e.g. PlayerBehaviour
+    /// Authors: William Smith & Declan Kerby-Collins
+    /// Date: 04/04/22
     /// </summary>
     public class PlayerState : State, IKeyboardListener, IPlayer
     {

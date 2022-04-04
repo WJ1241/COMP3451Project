@@ -1,15 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.CustomEventArgs;
 
 namespace COMP3451Project.PongPackage.Behaviours
 {
-    public class PlayerBehavour : PongBehaviour, IDirection
+    /// <summary>
+    /// Class which defines the behaviour for Player entities
+    /// Authors: William Smith & Declan Kerby-Collins 
+    /// Date: 04/04/22
+    /// </summary>
+    public class PlayerBehaviour : PongBehaviour, IDirection
     {
         #region FIELD VARIABLES
 
@@ -88,7 +88,6 @@ namespace COMP3451Project.PongPackage.Behaviours
             Boundary();
         }
 
-        #endregion 
-
+        #endregion
     }
 }
