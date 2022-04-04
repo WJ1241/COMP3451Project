@@ -1,28 +1,16 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace COMP3451Project.PongPackage.Behaviours
 {
-    /// <summary>
-    /// Class which defines the behaviour for NPC entities
-    /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 04/04/22
-    /// </summary>
-    public class NPCBehaviour
+    public class NpcBehaviour
     {
-        #region FIELD VARIABLES
+        //behavour class for NPC's 
 
 
-        #endregion
-
-
-        #region CONSTRUCTOR
-
-        public NPCBehaviour()
-        {
-            // EMPTY CONSTRUCTOR
-        }
-
-        #endregion
 
     }
 }
