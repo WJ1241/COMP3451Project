@@ -55,7 +55,7 @@ namespace OrbitalEngine.InputManagement
         /// <summary>
         /// Unsubscribes a Keyboard listening object from list/dictionary using its unique name
         /// </summary>
-        /// <param name="uName">Used for passing unique name</param>
+        /// <param name="pUName">Used for passing unique name</param>
         public void Unsubscribe(string pUName)
         {
             // CALL Remove(), on Dictionary to remove 'value' of key 'uName':

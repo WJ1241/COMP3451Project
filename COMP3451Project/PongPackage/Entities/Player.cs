@@ -10,11 +10,11 @@ using OrbitalEngine.States.Interfaces;
 namespace COMP3451Project.PongPackage.Entities
 {
     /// <summary>
-    /// Class which adds a Paddle entity on screen
+    /// Class which adds a Player entity on screen
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 20/02/22
+    /// Date: 04/04/22
     /// </summary>
-    public class Paddle : PongEntity, IPlayer, ICollidable, IDrawSourceRectangle, IGetSpeed, IKeyboardListener
+    public class Player : PongEntity, IPlayer, ICollidable, IDrawSourceRectangle, IGetSpeed, IKeyboardListener
     {
         #region FIELD VARIABLES
 
@@ -27,9 +27,9 @@ namespace COMP3451Project.PongPackage.Entities
         #region CONSTRUCTOR
 
         /// <summary>
-        /// Constructor for objects of Paddle
+        /// Constructor for objects of Player
         /// </summary>
-        public Paddle()
+        public Player()
         {
             // ASSIGNMENT, set _speed to 10:
             _speed = 10;

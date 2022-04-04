@@ -107,17 +107,17 @@ namespace OrbitalEngine.SceneManagement
 
             #region REMOVE COMMAND
 
-            // DECLARE an ICommandOneParam<string>, name it '_removeMe':
-            ICommandOneParam<string> _removeMe = new CommandOneParam<string>();
+            // DECLARE an ICommandOneParam<string>, name it 'removeMe':
+            ICommandOneParam<string> removeMe = new CommandOneParam<string>();
 
-            // SET MethodRef of _removeMe with RemoveEntity method:
-            _removeMe.MethodRef = RemoveEntity;
+            // SET MethodRef of removeMe with RemoveEntity method:
+            removeMe.MethodRef = RemoveEntity;
 
-            // SET Data of _removeMe with pEntity's UName Property:
-            _removeMe.Data = pEntity.UName;
+            // SET Data of removeMe with pEntity's UName Property:
+            removeMe.Data = pEntity.UName;
 
-            // SET RemoveMe property of pEntity with _removeMe Command:
-            (pEntity as IEntityInternal).RemoveMe = _removeMe;
+            // SET RemoveMe property of pEntity with removeMe Command:
+            (pEntity as IEntityInternal).RemoveMe = removeMe;
 
             #endregion
 
@@ -172,7 +172,7 @@ namespace OrbitalEngine.SceneManagement
         public void Draw(SpriteBatch pSpriteBatch, ICamera pCamera)
         {
             // BEGIN creation of displayable objects:
-            pSpriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, pCamera.ChngCamPos());
+            pSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, pCamera.ChngCamPos());
 
             // FOREACH IDraw in _sceneEntDict.Values:
             foreach (IDraw pEntity in _sceneEntDict.Values)

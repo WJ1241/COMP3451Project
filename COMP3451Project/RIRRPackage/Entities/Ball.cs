@@ -11,7 +11,7 @@ namespace COMP3451Project.PongPackage.Entities
     /// <summary>
     /// Class which adds a Ball entity on screen
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 30/01/22
+    /// Date: 04/04/22
     /// </summary>
     public class Ball : PongEntity, ICollidable, ICollisionListener, IInitialiseParam<Random>, IReset
     {

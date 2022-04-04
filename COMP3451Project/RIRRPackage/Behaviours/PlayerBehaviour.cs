@@ -4,6 +4,11 @@ using OrbitalEngine.CustomEventArgs;
 
 namespace COMP3451Project.PongPackage.Behaviours
 {
+    /// <summary>
+    /// Class which defines the behaviour for Player entities
+    /// Authors: William Smith & Declan Kerby-Collins 
+    /// Date: 04/04/22
+    /// </summary>
     public class PlayerBehaviour : PongBehaviour, IDirection
     {
         #region FIELD VARIABLES
@@ -83,7 +88,6 @@ namespace COMP3451Project.PongPackage.Behaviours
             Boundary();
         }
 
-        #endregion 
-
+        #endregion
     }
 }
