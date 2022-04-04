@@ -942,14 +942,14 @@ namespace COMP3451Project
 
             #region GERALD
 
-            // DECLARE & INITIALISE an IEntity with reference to "Gerald":
-            IEntity tempEntity = (_engineManager.GetService<EntityManager>() as IEntityManager).GetDictionary()["Gerald"];
+            //// DECLARE & INITIALISE an IEntity with reference to "Gerald":
+            //IEntity tempEntity = (_engineManager.GetService<EntityManager>() as IEntityManager).GetDictionary()["Gerald"];
 
-            // LOAD "paddleSpriteSheet" texture to "Gerald":
-            (tempEntity as ITexture).Texture = Content.Load<Texture2D>("ExampleLevel/paddleSpriteSheet");
+            //// LOAD "paddleSpriteSheet" texture to "Gerald":
+            //(tempEntity as ITexture).Texture = Content.Load<Texture2D>("ExampleLevel/paddleSpriteSheet");
 
-            // SPAWN "Paddle1" in "Level1" at the far left on the X axis with a gap, and middle on the Y axis:
-            (_engineManager.GetService<SceneManager>() as ISceneManager).Spawn("Gerald", tempEntity, new Vector2((tempEntity as IRotation).DrawOrigin.X * 2, _screenSize.Y / 2));
+            //// SPAWN "Paddle1" in "Level1" at the far left on the X axis with a gap, and middle on the Y axis:
+            //(_engineManager.GetService<SceneManager>() as ISceneManager).Spawn("Gerald", tempEntity, new Vector2((tempEntity as IRotation).DrawOrigin.X * 2, _screenSize.Y / 2));
 
             #endregion
 
@@ -959,7 +959,7 @@ namespace COMP3451Project
             /// PADDLE 1
 
             // INITIALISE tempEntity reference to "Paddle1":
-            tempEntity = (_engineManager.GetService<EntityManager>() as IEntityManager).GetDictionary()["Paddle1"];
+            IEntity tempEntity = (_engineManager.GetService<EntityManager>() as IEntityManager).GetDictionary()["Paddle1"];
 
             // LOAD "paddleSpriteSheet" texture to "Paddle1":
             (tempEntity as ITexture).Texture = Content.Load<Texture2D>("ExampleLevel/paddleSpriteSheet");

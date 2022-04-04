@@ -172,7 +172,7 @@ namespace OrbitalEngine.SceneManagement
         public void Draw(SpriteBatch pSpriteBatch, ICamera pCamera)
         {
             // BEGIN creation of displayable objects:
-            pSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, pCamera.ChngCamPos());
+            //pSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, pCamera.ChngCamPos());
 
             // FOREACH IDraw in _sceneEntDict.Values:
             foreach (IDraw pEntity in _sceneEntDict.Values)

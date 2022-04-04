@@ -27,33 +27,33 @@ namespace EngineTest
         {
             #region ARRANGE
 
-            // DECLARE & INSTANTIATE an IRtnService as a new EngineManager(), name it '_engMgr':
-            IRtnService _engMgr = new EngineManager();
+            // DECLARE & INSTANTIATE an IRtnService as a new EngineManager(), name it 'engMgr':
+            IRtnService engMgr = new EngineManager();
 
-            // INITIALISE _engMgr with a new Factory<IService>():
-            (_engMgr as IInitialiseParam<IFactory<IService>>).Initialise(new Factory<IService>());
+            // INITIALISE engMgr with a new Factory<IService>():
+            (engMgr as IInitialiseParam<IFactory<IService>>).Initialise(new Factory<IService>());
 
-            // DECLARE an IEntityManager, name it '_eM', set to null to prevent addressing issues:
-            IEntityManager _eM = null;
+            // DECLARE an IEntityManager, name it 'eM', set to null to prevent addressing issues:
+            IEntityManager eM = null;
 
             #endregion
 
 
             #region ACT
 
-            // RETURN an EntityManager() from _engMgr:
-            _eM = _engMgr.GetService<EntityManager>() as IEntityManager;
+            // RETURN an EntityManager() from engMgr:
+            eM = engMgr.GetService<EntityManager>() as IEntityManager;
 
             #endregion
 
 
             #region ASSERT
 
-            // IF _eM is null:
-            if (_eM == null)
+            // IF eM is null:
+            if (eM == null)
             {
                 // FAIL test:
-                Assert.Fail("_eM is null, _engMgr has not returned an IEntityManager instance!");
+                Assert.Fail("eM is null, _engMgr has not returned an IEntityManager instance!");
             }
 
             #endregion
