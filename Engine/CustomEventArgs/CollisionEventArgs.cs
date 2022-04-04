@@ -4,7 +4,7 @@ using OrbitalEngine.CollisionManagement.Interfaces;
 namespace OrbitalEngine.CustomEventArgs
 {
     /// <summary>
-    /// Class which acts as an EventArgs object for an 'Collision' event
+    /// Class which acts as an EventArgs object for a 'Collision' event
     /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 20/01/22
     /// </summary>
@@ -27,7 +27,7 @@ namespace OrbitalEngine.CustomEventArgs
         {
             get
             {
-                // RETURN instance of _gameTime:
+                // RETURN instance of _scndCollidable:
                 return _scndCollidable;
             }
             set

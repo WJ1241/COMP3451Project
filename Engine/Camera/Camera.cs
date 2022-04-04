@@ -1,14 +1,16 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using OrbitalEngine.Camera.Interfaces;
 using OrbitalEngine.CoreInterfaces;
+using OrbitalEngine.CustomEventArgs;
 using OrbitalEngine.EntityManagement.Interfaces;
 
 namespace OrbitalEngine.Camera
 {
     /// <summary>
-    /// Class which creates a camera to be used by a user based entity
+    /// Class which creates a camera to follow a user based entity
     /// Authors: William Smith, Declan Kerby-Collins & 'axlemke'
-    /// Date: 15/02/22
+    /// Date: 03/04/22
     /// </summary>
     /// <REFERENCE> axlemke (2014) XNA 2D Camera, zoom into player. Available at: https://gamedev.stackexchange.com/questions/68978/xna-2d-camera-zoom-into-player. (Accessed: 20 April 2021). </REFERENCE>
     public class Camera : IEntity, ICamera, IContainBoundary, IZoom
@@ -21,17 +23,17 @@ namespace OrbitalEngine.Camera
         // DECLARE a Vector2, name it '_camPos':
         private Vector2 _position;
 
-        // DECLARE an int, name it '_uID':
-        private int _uID;
+        // DECLARE a Point, name it '_windowSize':
+        private Point _windowSize;
 
         // DECLARE a string, name it '_uName':
         private string _uName;
 
-        // DECLARE a Point, name it '_windowSize':
-        private Point _windowSize;
-
         // DECLARE a float, name it '_zoom':
         private float _zoom;
+
+        // DECLARE an int, name it '_uID':
+        private int _uID;
 
         #endregion
 
@@ -111,11 +113,10 @@ namespace OrbitalEngine.Camera
         /// <summary>
         /// Changes position of camera object when used as a parameter in a Draw Method
         /// </summary>
-        /// <returns>A Matrix object to be used within Draw Methods</returns>
+        /// <returns> A Matrix object to be used within Draw Methods </returns>
         /// <CITATION> (axlemke, 2014) </CITATION>
-        public Matrix ChngCamPos()
-        {
-                                                                                                                                                                                                               
+        public Matrix DrawCam()
+        {                                                                                                                                                                                                  
             // ASSIGNMENT, set value of _camTransform to zoom in using _zoom value, and position in centre of screen. Scale is changed first before Translation, does not work other way around, matrix rule ISROT applies:
             _camTransform = // SET scale using zoom, on X,Y axes:
                             Matrix.CreateScale(_zoom, _zoom, 1f)
@@ -125,6 +126,29 @@ namespace OrbitalEngine.Camera
 
             // RETURN value of _camTransform:
             return _camTransform;
+        }
+
+        /// <summary>
+        /// Changes Positional values so it is updated to stay with caller source's position
+        /// </summary>
+        /// <param name="pSource"> Object that is changing Position </param>
+        /// <param name="pArgs"> EventArgs for a Positioned object </param>
+        public void ChangeCamPos(object pSource, PositionEventArgs pArgs)
+        {
+            // IF pArgs DOES HAVE an active instance:
+            if (pArgs != null)
+            {
+                // SET value of _position to value of pArgs.RequiredArg:
+                _position = pArgs.RequiredArg;
+
+
+            }
+            // IF pArgs DOES NOT HAVE an active instance:
+            else
+            {
+                // WRITE to console, explaining that pArgs cannot be used:
+                Console.WriteLine("ERROR: pArgs does not have an active instance, therefore Camera position cannot be updated!");
+            }
         }
 
         #endregion

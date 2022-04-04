@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace COMP3451Project.PongPackage.Behaviours
 {
-    public class NpcBehavour
+    public class NpcBehaviour
     {
         //behavour class for NPC's 
 

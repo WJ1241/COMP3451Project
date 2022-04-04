@@ -1,15 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.CustomEventArgs;
 
 namespace COMP3451Project.PongPackage.Behaviours
 {
-    public class PlayerBehavour : PongBehaviour, IDirection
+    public class PlayerBehaviour : PongBehaviour, IDirection
     {
         #region FIELD VARIABLES
 

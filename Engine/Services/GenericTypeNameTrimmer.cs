@@ -3,7 +3,7 @@
 namespace OrbitalEngine.Services
 {
     /// <summary>
-    /// Static Class which trims Generics Arity information to allow tidier naming and easier addressing
+    /// Static Class which trims Generic Arity information to allow tidier naming and easier addressing
     /// Author: William Smith, Declan Kerby-Collins & 'LukeH'
     /// Date: 07/02/22
     /// </summary>

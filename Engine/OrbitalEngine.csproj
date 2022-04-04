@@ -76,6 +76,7 @@
     <Compile Include="CoreInterfaces\ITexture.cs" />
     <Compile Include="CoreInterfaces\IUpdatable.cs" />
     <Compile Include="CoreInterfaces\IVelocity.cs" />
+    <Compile Include="CustomEventArgs\PositionEventArgs.cs" />
     <Compile Include="CustomEventArgs\CollisionEventArgs.cs" />
     <Compile Include="CustomEventArgs\KBInputEventArgs.cs" />
     <Compile Include="CustomEventArgs\MouseInputEventArgs.cs" />

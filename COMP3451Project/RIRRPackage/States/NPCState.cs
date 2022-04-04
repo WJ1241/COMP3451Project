@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 namespace COMP3451Project.PongPackage.States
 {
     /// <summary>
-    /// class for NPC state
-    /// Authors: Declan Kerby-Collins & William Smith
+    /// Class which contains conditional information for NPC entities to be modified by another class e.g. NPCBehaviour
+    /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 02/04/22
     /// </summary>
-    public class NpcState
+    public class NPCState
     {
     }
 }

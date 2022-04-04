@@ -1,25 +1,20 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using OrbitalEngine.Behaviours.Interfaces;
 using OrbitalEngine.CollisionManagement.Interfaces;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.EntityManagement.Interfaces;
 using OrbitalEngine.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace COMP3451Project.PongPackage.Entities
 {
     /// <summary>
-    /// class which adds NPC entities to the screen
-    /// Authors: Declan Kerby-Collins & William Smith
-    /// Date: 02/04/22
+    /// Class which adds a Ball entity on screen
+    /// Authors: William Smith & Declan Kerby-Collins
+    /// Date: 30/01/22
     /// </summary>
-    public class NPC: PongEntity, ICollidable, ICollisionListener, IInitialiseParam<Random>
+    public class Ball : PongEntity, ICollidable, ICollisionListener, IInitialiseParam<Random>, IReset
     {
-
         #region FIELD VARIABLES
 
         // DECLARE a Random, name it '_rand':
@@ -37,11 +32,25 @@ namespace COMP3451Project.PongPackage.Entities
         #endregion
 
 
+        #region CONSTRUCTOR
 
-        public NPC()
+        /// <summary>
+        /// Constructor for objects of Ball
+        /// </summary>
+        public Ball()
         {
+            // INSTANTIATE new Vector, value of 1 for both X and Y:
+            _direction = new Vector2(1);
 
+            // ASSIGNMENT, set _speed to 8:
+            _speed = 8;
+
+            // ASSIGNMENT, set value of _velocity to _speed mutlipled by _direction:
+            _velocity = _speed * _direction;
         }
+
+        #endregion
+
 
         #region IMPLEMENTATION OF IINITIALISEPARAM<IUPDATEEVENTLISTENER>
 
@@ -69,6 +78,7 @@ namespace COMP3451Project.PongPackage.Entities
         }
 
         #endregion
+
 
         #region IMPLEMENTATION OF IINITIALISEPARAM<RANDOM>
 
@@ -142,7 +152,6 @@ namespace COMP3451Project.PongPackage.Entities
         #endregion
 
 
-
         #region IMPLEMENTATION OF ITERMINATE
 
         /// <summary>
@@ -155,5 +164,37 @@ namespace COMP3451Project.PongPackage.Entities
 
         #endregion
 
+
+        #region IMPLEMENTATION OF IRESET
+
+        /// <summary>
+        /// Resets an object's initial values
+        /// </summary>
+        public void Reset()
+        {
+            // ASSIGN random rotation:
+            _rotation = (float)(Math.PI / 2 + (_rand.NextDouble() * (Math.PI / 1.5f) - Math.PI / 3));
+
+            // ASSIGN velocity.X using Sine and _rotation:
+            _velocity.X = (float)Math.Sin(_rotation);
+
+            // ASSIGN velocity.Y using Cosine and _rotation:
+            _velocity.Y = (float)Math.Cos(_rotation);
+
+            // ASSIGN Random number between 1 and 2, 3 is exclusive:
+            _randNum = _rand.Next(1, 3);
+
+            // IF Random number is 2
+            if (_randNum == 2)
+            {
+                // REVERSE velocity.X:
+                _velocity.X *= -1;
+            }
+
+            // MULTIPLY & ASSIGN _velocity by _speed:
+            _velocity *= _speed;
+        }
+
+        #endregion
     }
 }

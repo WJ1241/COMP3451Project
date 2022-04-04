@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Input;
 namespace OrbitalEngine.CustomEventArgs
 {
     /// <summary>
-    /// Class which acts as an EventArgs object for an 'MouseInput' event
+    /// Class which acts as an EventArgs object for a 'MouseInput' event
     /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 20/01/22
     /// </summary>

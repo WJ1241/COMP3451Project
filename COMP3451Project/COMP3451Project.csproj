@@ -47,23 +47,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Kernel.cs" />
-    <Compile Include="PongPackage\Behaviours\BallBehaviour.cs" />
-    <Compile Include="PongPackage\Behaviours\Interfaces\IScoreGoal.cs" />
-    <Compile Include="PongPackage\Behaviours\NpcBehavour.cs" />
-    <Compile Include="PongPackage\Behaviours\PaddleBehaviour.cs" />
-    <Compile Include="PongPackage\Behaviours\PlayerBehavour.cs" />
-    <Compile Include="PongPackage\Behaviours\PongBehaviour.cs" />
-    <Compile Include="PongPackage\Entities\Ball.cs" />
-    <Compile Include="PongPackage\Entities\NPC.cs" />
-    <Compile Include="PongPackage\Entities\Paddle.cs" />
-    <Compile Include="PongPackage\Entities\Player.cs" />
-    <Compile Include="PongPackage\Entities\PongEntity.cs" />
-    <Compile Include="PongPackage\Interfaces\IPongReferee.cs" />
-    <Compile Include="PongPackage\PongReferee.cs" />
-    <Compile Include="PongPackage\States\BallState.cs" />
-    <Compile Include="PongPackage\States\NpcState.cs" />
-    <Compile Include="PongPackage\States\PaddleState.cs" />
-    <Compile Include="PongPackage\States\PlayerState.cs" />
+    <Compile Include="RIRRPackage\Behaviours\BallBehaviour.cs" />
+    <Compile Include="RIRRPackage\Behaviours\NpcBehaviour.cs" />
+    <Compile Include="RIRRPackage\Behaviours\PaddleBehaviour.cs" />
+    <Compile Include="RIRRPackage\Behaviours\PlayerBehaviour.cs" />
+    <Compile Include="RIRRPackage\Behaviours\PongBehaviour.cs" />
+    <Compile Include="RIRRPackage\Entities\Ball.cs" />
+    <Compile Include="RIRRPackage\Entities\NPC.cs" />
+    <Compile Include="RIRRPackage\Entities\Paddle.cs" />
+    <Compile Include="RIRRPackage\Interfaces\IPongReferee.cs" />
+    <Compile Include="RIRRPackage\PongReferee.cs" />
+    <Compile Include="RIRRPackage\States\BallState.cs" />
+    <Compile Include="RIRRPackage\States\NPCState.cs" />
+    <Compile Include="RIRRPackage\States\PaddleState.cs" />
+    <Compile Include="RIRRPackage\States\PlayerState.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -92,6 +89,9 @@
       <Project>{B7823477-4E7D-4F84-8D31-B86449F8247C}</Project>
       <Name>OrbitalEngine</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="RIRRPackage\Behaviours\Interfaces\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
