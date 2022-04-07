@@ -48,6 +48,9 @@
   <ItemGroup>
     <Compile Include="Kernel.cs" />
     <Compile Include="RIRRPackage\Behaviours\Interfaces\IScoreGoal.cs" />
+    <Compile Include="RIRRPackage\Behaviours\VnBehaviour.cs" />
+    <Compile Include="RIRRPackage\Entities\Artifact.cs" />
+    <Compile Include="RIRRPackage\Entities\LevelChange.cs" />
     <Compile Include="RIRRPackage\Entities\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -60,12 +63,16 @@
     <Compile Include="RIRRPackage\Entities\NPC.cs" />
     <Compile Include="RIRRPackage\Entities\Paddle.cs" />
     <Compile Include="RIRRPackage\Entities\PongEntity.cs" />
+    <Compile Include="RIRRPackage\Entities\VnCharacter.cs" />
     <Compile Include="RIRRPackage\Interfaces\IPongReferee.cs" />
     <Compile Include="RIRRPackage\PongReferee.cs" />
+    <Compile Include="RIRRPackage\Scene\Level.cs" />
+    <Compile Include="RIRRPackage\Scene\Vn.cs" />
     <Compile Include="RIRRPackage\States\BallState.cs" />
     <Compile Include="RIRRPackage\States\NPCState.cs" />
     <Compile Include="RIRRPackage\States\PaddleState.cs" />
     <Compile Include="RIRRPackage\States\PlayerState.cs" />
+    <Compile Include="RIRRPackage\States\VnState.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

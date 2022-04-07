@@ -15,7 +15,7 @@ namespace OrbitalEngine.Tiles
     /// <summary>
     /// Class which makes a Level Layout using a tilemap built in Tiled
     /// Authors: William Smith, Declan Kerby-Collins, 'Teemu', Díaz, D. & Gricci, S.
-    /// Date: 03/04/22
+    /// Date: 07/04/22
     /// </summary>
     /// <IMPORTANT> WHEN MAKING A TILEMAP IN TILED, FOLLOW LAYER NUMBERS DECLARED IN 'ILAYER' INTERFACE TO PREVENT ISSUES </IMPORTANT>
     /// <REFERENCE> 'Teemu', Díaz, D. & Gricci, S. (2016) TiledSharp-MonoGame-Example. Available at: https://github.com/Temeez/TiledSharp-MonoGame-Example. (Accessed: 16/02/22). </REFERENCE>
@@ -128,7 +128,42 @@ namespace OrbitalEngine.Tiles
                                         // SET Layer Property value of tempEntity to 2:
                                         (tempEntity as ILayer).Layer = 2;
                                     }
+                                    // IF Layer name is "StaticObstacles" for tables, boxes etc
+                                    else if (pTileMap.Layers[i].Name == "StaticObstacles")
+                                    {
+                                        // SET Data of _createEntDict["StaticObstacles"] to "StaticObstacles" + j:
+                                        (_createEntDict["StaticObstacles"] as IFuncCommandOneParam<string, IEntity>).Data = "StaticObstacles" + j;
 
+                                        // INITIALISE tempEntity with return value from _createEntDict["StaticObstacles"].ExecuteMethod():
+                                        tempEntity = _createEntDict["StaticObstacles"].ExecuteMethod();
+
+                                        // SET Layer Property value of tempEntity to 3:
+                                        (tempEntity as ILayer).Layer = 3;
+                                    }
+                                    // IF Layer name is "Items" for the artifacts
+                                    else if (pTileMap.Layers[i].Name == "Items")
+                                    {
+                                        // SET Data of _createEntDict["Items"] to "Items" + j:
+                                        (_createEntDict["Items"] as IFuncCommandOneParam<string, IEntity>).Data = "Items" + j;
+
+                                        // INITIALISE tempEntity with return value from _createEntDict["Items"].ExecuteMethod():
+                                        tempEntity = _createEntDict["Items"].ExecuteMethod();
+
+                                        // SET Layer Property value of tempEntity to 4:
+                                        (tempEntity as ILayer).Layer = 4;
+                                    }
+                                    // IF Layer name is "LevelChange" for level transition 
+                                    else if (pTileMap.Layers[i].Name == "Trans")
+                                    {
+                                        // SET Data of _createEntDict["LevelChange"] to "LevelChange" + j:
+                                        (_createEntDict["LevelChange"] as IFuncCommandOneParam<string, IEntity>).Data = "LevelChange" + j;
+
+                                        // INITIALISE tempEntity with return value from _createEntDict["LevelChange"].ExecuteMethod():
+                                        tempEntity = _createEntDict["LevelChange"].ExecuteMethod();
+
+                                        // SET Layer Property value of tempEntity to 5:
+                                        (tempEntity as ILayer).Layer = 5;
+                                    }
                                     // tempEntity DOES have an active instance:
                                     if (tempEntity != null)
                                     {
