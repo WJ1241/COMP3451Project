@@ -28,6 +28,9 @@ namespace OrbitalEngine.States
         // DECLARE an EventHandler<UpdateEventArgs>, name it '_behaviourEvent':
         protected EventHandler<UpdateEventArgs> _behaviourEvent;
 
+        // DECLARE an UpdateEventArgs, name it 'tempUpdateEA':
+        protected UpdateEventArgs _tempUpdateEA;
+
         // DECLARE a string, name it '_stateName':
         protected string _stateName;
 

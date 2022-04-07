@@ -20,7 +20,7 @@ namespace COMP3451Project.RIRRPackage.Behaviours
 
         public NPCBehaviour()
         {
-
+            // EMPTY CONSTRUCTOR
         }
 
         #region ROAMING
