@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace COMP3451Project.PongPackage.States
+namespace COMP3451Project.RIRRPackage.States
 {
     /// <summary>
     /// Class which contains conditional information for RIRR NPC entities to be modified by another class e.g. NPCBehaviour

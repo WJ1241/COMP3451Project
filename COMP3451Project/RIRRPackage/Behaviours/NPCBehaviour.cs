@@ -4,7 +4,7 @@ using OrbitalEngine.CustomEventArgs;
 using OrbitalEngine.EntityManagement.Interfaces;
 using OrbitalEngine.Services.Commands.Interfaces;
 
-namespace COMP3451Project.PongPackage.Behaviours
+namespace COMP3451Project.RIRRPackage.Behaviours
 {
     /// <summary>
     /// Class which defines the behaviour for NPC entities

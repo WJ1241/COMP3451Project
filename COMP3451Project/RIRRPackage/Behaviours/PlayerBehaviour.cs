@@ -2,7 +2,7 @@
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.CustomEventArgs;
 
-namespace COMP3451Project.PongPackage.Behaviours
+namespace COMP3451Project.RIRRPackage.Behaviours
 {
     /// <summary>
     /// Class which defines the behaviour for Player entities

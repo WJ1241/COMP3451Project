@@ -1,9 +1,9 @@
 ﻿using System;
 using OrbitalEngine.Services.Commands.Interfaces;
 using OrbitalEngine.Services.Interfaces;
-using COMP3451Project.PongPackage.Interfaces;
+using COMP3451Project.RIRRPackage.Interfaces;
 
-namespace COMP3451Project.PongPackage
+namespace COMP3451Project.RIRRPackage
 {
     /// <summary>
     /// Class which manages scores of Players in Pong and outputs scores to screen

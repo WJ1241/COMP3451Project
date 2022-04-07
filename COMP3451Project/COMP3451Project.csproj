@@ -65,10 +65,12 @@
     <Compile Include="RIRRPackage\Interfaces\IPongReferee.cs" />
     <Compile Include="RIRRPackage\PongReferee.cs" />
     <Compile Include="RIRRPackage\Scene\Level.cs" />
+    <Compile Include="RIRRPackage\Scene\VNScreen.cs" />
     <Compile Include="RIRRPackage\States\BallState.cs" />
     <Compile Include="RIRRPackage\States\NPCState.cs" />
     <Compile Include="RIRRPackage\States\PaddleState.cs" />
     <Compile Include="RIRRPackage\States\PlayerState.cs" />
+    <Compile Include="RIRRPackage\States\VNState.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

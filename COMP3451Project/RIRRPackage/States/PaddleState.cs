@@ -9,8 +9,9 @@ using OrbitalEngine.CustomEventArgs;
 using OrbitalEngine.Exceptions;
 using OrbitalEngine.InputManagement.Interfaces;
 using OrbitalEngine.Services.Commands.Interfaces;
+using OrbitalEngine.States;
 
-namespace OrbitalEngine.States
+namespace COMP3451Project.RIRRPackage.States
 {
     /// <summary>
     /// Class which contains conditional information for Pong Paddle entities to be modified by another class e.g. PaddleBehaviour

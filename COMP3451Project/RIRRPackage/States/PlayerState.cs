@@ -11,7 +11,7 @@ using OrbitalEngine.InputManagement.Interfaces;
 using OrbitalEngine.States;
 using OrbitalEngine.Services.Commands.Interfaces;
 
-namespace COMP3451Project.PongPackage.States
+namespace COMP3451Project.RIRRPackage.States
 {
     /// <summary>
     /// Class which contains conditional information for RIRR Player entities to be modified by another class e.g. PlayerBehaviour

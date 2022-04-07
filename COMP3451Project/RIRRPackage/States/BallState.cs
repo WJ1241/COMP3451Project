@@ -5,8 +5,9 @@ using OrbitalEngine.CollisionManagement.Interfaces;
 using OrbitalEngine.CustomEventArgs;
 using OrbitalEngine.Exceptions;
 using OrbitalEngine.Services.Commands.Interfaces;
+using OrbitalEngine.States;
 
-namespace OrbitalEngine.States
+namespace COMP3451Project.RIRRPackage.States
 {
     /// <summary>
     /// Class which contains conditional information for Pong Ball entities to be modified by another class e.g. BallBehaviour

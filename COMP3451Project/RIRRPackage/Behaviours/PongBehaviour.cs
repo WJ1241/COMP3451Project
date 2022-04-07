@@ -3,7 +3,7 @@ using OrbitalEngine.Behaviours;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.CustomEventArgs;
 
-namespace COMP3451Project.PongPackage.Behaviours
+namespace COMP3451Project.RIRRPackage.Behaviours
 {
     /// <summary>
     /// Abstract class for Pong Behaviour classes to inherit from
