@@ -14,7 +14,7 @@ namespace OrbitalEngine.CollisionManagement
     /// Date: 07/04/22
     /// </summary>
     /// <REFERENCE> Price, M. (2021) ‘Session 16 - Collision Management’, Games Design & Engineering: Sessions. Available at: https://worcesterbb.blackboard.com. (Accessed: 17 February 2021). </REFERENCE>
-    public class CollisionManager : ICollisionManager, IUpdatable, IService
+    public class CollisionManager : ICollisionManager, IInitialiseParam<IList<ICollidable>>, IUpdatable, IService
     {
         #region FIELD VARIABLES
 
@@ -34,8 +34,32 @@ namespace OrbitalEngine.CollisionManagement
         /// </summary>
         public CollisionManager() 
         {
-            // INSTANTIATE _collidableList as a new List<ICollidable>():
-            _collidableList = new List<ICollidable>();
+            // EMPTY CONSTRUCTOR
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEPARAM<ILIST<ICOLLIDABLE>>
+
+        /// <summary>
+        /// Initialises an object with an IList<ICollidable> instance
+        /// </summary>
+        /// <param name="pCollidableList"> IList<ICollidable> instance </param>
+        public void Initialise(IList<ICollidable> pCollidableList)
+        {
+            // IF pCollidableList DOES HAVE an active instance:
+            if (pCollidableList != null)
+            {
+                // INITIALISE _collidableList with reference to pCollidableList:
+                _collidableList = pCollidableList;
+            }
+            // IF pCollidableList DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pCollidableList does not have an active instance!");
+            }
         }
 
         #endregion

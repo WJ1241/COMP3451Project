@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.Services;
@@ -17,7 +18,7 @@ namespace COMP3451Project
         /// <summary>
         /// The main entry point for the application.
         /// Author: William Smith
-        /// Date: 19/12/21
+        /// Date: 07/04/22
         /// </summary>
         [STAThread]
         static void Main()
@@ -29,6 +30,9 @@ namespace COMP3451Project
 
             // DECLARE & INSTANTIATE an IService as a new EngineManager(), name it 'engineManager':
             IService engineManager = serviceFactory.Create<EngineManager>();
+
+            // INITIALISE engineManager with a new Dictionary<string, IService>():
+            (engineManager as IInitialiseParam<IDictionary<string, IService>>).Initialise(new Dictionary<string, IService>());
 
             // DECLARE & INSTANTIATE a Game as a new Kernel(), name it 'kernel':
             Game kernel = new Kernel();

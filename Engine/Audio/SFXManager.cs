@@ -10,9 +10,9 @@ namespace OrbitalEngine.Audio
     /// <summary>
     /// Class which stores sound effects and plays a requested sound effect when needed
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 18/02/22
+    /// Date: 07/04/22
     /// </summary>
-    public class SFXManager : IInitialiseParam<string, SoundEffect>, IPlayAudio, IService
+    public class SFXManager : IInitialiseParam<IDictionary<string, SoundEffect>>, IInitialiseParam<string, SoundEffect>, IPlayAudio, IService
     {
         #region FIELD VARIABLES
 
@@ -29,8 +29,32 @@ namespace OrbitalEngine.Audio
         /// </summary>
         public SFXManager()
         {
-            // INSTANTIATE _sfxDict as a new Dictionary<string, SoundEffect>():
-            _sfxDict = new Dictionary<string, SoundEffect>();
+            // EMPTY CONSTRUCTOR
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEPARAM<IDICTIONARY<STRING, SOUNDEFFECT>>
+
+        /// <summary>
+        /// Initialises an object with an IDictionary<string, SoundEffect> instance
+        /// </summary>
+        /// <param name="pSFXDict"> IDictionary<string, SoundEffect> instance </param>
+        public void Initialise(IDictionary<string, SoundEffect> pSFXDict)
+        {
+            // IF pSFXDict DOES NOT HAVE an active instance:
+            if (pSFXDict != null)
+            {
+                // INITIALISE _sfxDict with reference to pSFXDict:
+                _sfxDict = pSFXDict;
+            }
+            // IF pSFXDict DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pSFXDict does not have an active instance!");
+            }
         }
 
         #endregion
@@ -61,6 +85,7 @@ namespace OrbitalEngine.Audio
                     throw new ValueAlreadyStoredException("ERROR: pSFXName already stored in _sfxDict!");
                 }
             }
+            // IF pSFXFile DOES NOT HAVE an active instance:
             else
             {
                 // THROW a new NullInstanceException(), with corresponding message:

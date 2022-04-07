@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.EntityManagement.Interfaces;
+using OrbitalEngine.Exceptions;
 using OrbitalEngine.InputManagement.Interfaces;
 using OrbitalEngine.Services.Interfaces;
 
@@ -11,9 +12,9 @@ namespace OrbitalEngine.InputManagement
     /// <summary>
     /// Class which manages all entities listening for Keyboard input
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 18/02/22
+    /// Date: 07/04/22
     /// </summary>
-    public class KeyboardManager : IUpdatable, IKeyboardPublisher, IService
+    public class KeyboardManager : IKeyboardPublisher, IInitialiseParam<IDictionary<string, IKeyboardListener>>, IService, IUpdatable
     {
         #region FIELD VARIABLES
 
@@ -33,8 +34,7 @@ namespace OrbitalEngine.InputManagement
         /// </summary>
         public KeyboardManager() 
         {
-            // INSTANTIATE _kBListeners as new Dictionary<string, IKeyboardListener>:
-            _kBListeners = new Dictionary<string, IKeyboardListener>();
+            // EMPTY CONSTRUCTOR
         }
 
         #endregion
@@ -60,6 +60,31 @@ namespace OrbitalEngine.InputManagement
         {
             // CALL Remove(), on Dictionary to remove 'value' of key 'uName':
             _kBListeners.Remove(pUName);
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEPARAM<IDICTIONARY<STRING, IKEYBOARDLISTENER>>
+
+        /// <summary>
+        /// Initialises an object with an IDictionary<string, IKeyboardListener> instance
+        /// </summary>
+        /// <param name="pKBListenerDict"> IDictionary<string, IKeyboardListener> object </param>
+        public void Initialise(IDictionary<string, IKeyboardListener> pKBListenerDict)
+        {
+            // IF pKBListenerDict DOES HAVE an active instance:
+            if (pKBListenerDict != null)
+            {
+                // INITIALISE _kBListeners with reference to pKBListenerDict:
+                _kBListeners = pKBListenerDict;
+            }
+            // IF pKBListenerDict DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pKBListenerDict does not have an active instance!");
+            }
         }
 
         #endregion

@@ -11,7 +11,7 @@ namespace OrbitalEngine.Services
     /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 07/04/22
     /// </summary>
-    public class EngineManager : IService, IInitialiseParam<IFactory<IService>>, IRtnService
+    public class EngineManager : IService, IInitialiseParam<IFactory<IService>>, IInitialiseParam<IDictionary<string, IService>>, IRtnService
     {
         #region FIELD VARIABLES
 
@@ -28,8 +28,9 @@ namespace OrbitalEngine.Services
         /// </summary>
         public EngineManager()
         {
-            // INSTANTIATE _serviceDict as a new Dictionary<string, IService>():
             _serviceDict = new Dictionary<string, IService>();
+
+            // EMPTY CONSTRUCTOR
         }
 
         #endregion
@@ -38,7 +39,7 @@ namespace OrbitalEngine.Services
         #region IMPLEMENTATION OF IINITIALISEPARAM<IFACTORY<SERVICE>>
 
         /// <summary>
-        /// Initialises an object with a reference to an IService instance
+        /// Initialises an object with a reference to an IFactory<IService> instance
         /// </summary>
         /// <param name="pServiceFactory"> IFactory<IService> instance </param>
         public void Initialise(IFactory<IService> pServiceFactory)
@@ -57,6 +58,31 @@ namespace OrbitalEngine.Services
             {
                 // THROW a new NullInstanceException(), with corresponding message():
                 throw new NullInstanceException("ERROR: pServiceFactory does not have an active instance!");
+            }
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEPARAM<IDICTIONARY<STRING, IService>>
+
+        /// <summary>
+        /// Initialises an object with a reference to an IDictionary<string, IService> instance
+        /// </summary>
+        /// <param name="pServiceDict"> IDictionary<string, IService> instance </param>
+        public void Initialise(IDictionary<string, IService> pServiceDict)
+        {
+            // IF pServiceDict DOES HAVE an active instance:
+            if (pServiceDict != null)
+            {
+                // INITIALISE _serviceDict with reference to pServiceDict:
+                //_serviceDict = pServiceDict;
+            }
+            // IF pServiceDict DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message():
+                throw new NullInstanceException("ERROR: pServiceDict does not have an active instance!");
             }
         }
 

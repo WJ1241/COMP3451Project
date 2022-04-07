@@ -19,7 +19,7 @@ namespace OrbitalEngine.Tiles
     /// </summary>
     /// <IMPORTANT> WHEN MAKING A TILEMAP IN TILED, FOLLOW LAYER NUMBERS DECLARED IN 'ILAYER' INTERFACE TO PREVENT ISSUES </IMPORTANT>
     /// <REFERENCE> 'Teemu', Díaz, D. & Gricci, S. (2016) TiledSharp-MonoGame-Example. Available at: https://github.com/Temeez/TiledSharp-MonoGame-Example. (Accessed: 16/02/22). </REFERENCE>
-    public class LevelLayoutMaker : ILevelLayoutMaker, IInitialiseParam<string, IFuncCommand<IEntity>>, IService
+    public class LevelLayoutMaker : ILevelLayoutMaker, IInitialiseParam<IDictionary<string, IFuncCommand<IEntity>>>, IInitialiseParam<string, IFuncCommand<IEntity>>, IService
     {
         #region FIELD VARIABLES
 
@@ -36,8 +36,7 @@ namespace OrbitalEngine.Tiles
         /// </summary>
         public LevelLayoutMaker()
         {
-            // INSTANTIATE _createEntDict as a new Dictionary<string, IFuncCommand<IEntity>>():
-            _createEntDict = new Dictionary<string, IFuncCommand<IEntity>>();
+            // EMPTY CONSTRUCTOR
         }
 
         #endregion
@@ -128,6 +127,7 @@ namespace OrbitalEngine.Tiles
                                         // SET Layer Property value of tempEntity to 2:
                                         (tempEntity as ILayer).Layer = 2;
                                     }
+                                    /*
                                     // IF Layer name is "StaticObstacles" for tables, boxes etc:
                                     else if (pTileMap.Layers[i].Name == "StaticObstacles")
                                     {
@@ -153,7 +153,7 @@ namespace OrbitalEngine.Tiles
                                         (tempEntity as ILayer).Layer = 4;
                                     }
                                     // IF Layer name is "LevelChange" for level transition:
-                                    else if (pTileMap.Layers[i].Name == "Trans")
+                                    else if (pTileMap.Layers[i].Name == "LevelChange")
                                     {
                                         // SET Data of _createEntDict["LevelChange"] to "LevelChange" + j:
                                         (_createEntDict["LevelChange"] as IFuncCommandOneParam<string, IEntity>).Data = "LevelChange" + j;
@@ -164,6 +164,7 @@ namespace OrbitalEngine.Tiles
                                         // SET Layer Property value of tempEntity to 5:
                                         (tempEntity as ILayer).Layer = 5;
                                     }
+                                    */
                                     // tempEntity DOES have an active instance:
                                     if (tempEntity != null)
                                     {
@@ -205,7 +206,32 @@ namespace OrbitalEngine.Tiles
         #endregion
 
 
-        #region IMPLEMENTATION OF IINITIALISEPARAM<ICOMMAND>
+        #region IMPLEMENTATION OF IINITIALISEPARAM<IDICTIONARY<STRING, IFUNCCOMMAND<IENTITY>>>
+
+        /// <summary>
+        /// Initialises an object with an IDictionary<string, IFuncCommand<IEntity>> instance
+        /// </summary>
+        /// <param name="pCreateEntDict"> IDictionary<string, IFuncCommand<IEntity>> instance </param>
+        public void Initialise(IDictionary<string, IFuncCommand<IEntity>> pCreateEntDict)
+        {
+            // IF pCreateEntDict DOES HAVE an active instance:
+            if (pCreateEntDict != null)
+            {
+                // INITIALISE _createEntDict with reference to pCreateEntDict:
+                _createEntDict = pCreateEntDict;
+            }
+            // IF pCreateEntDict DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pCreateEntDict does not have an active instance!");
+            }
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEPARAM<STRING, IFUNCCOMMAND<IENTITY>>
 
         /// <summary>
         /// Initialises an object with a string and an IFuncCommand<IEntity> object

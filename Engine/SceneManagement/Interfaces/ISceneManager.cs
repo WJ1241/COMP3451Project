@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using OrbitalEngine.CollisionManagement.Interfaces;
 using OrbitalEngine.EntityManagement.Interfaces;
+using OrbitalEngine.Services.Commands.Interfaces;
 using OrbitalEngine.Services.Interfaces;
 
 namespace OrbitalEngine.SceneManagement.Interfaces
@@ -8,7 +10,7 @@ namespace OrbitalEngine.SceneManagement.Interfaces
     /// <summary>
     /// Interface that allows implementations to manage entities in the scene
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 12/02/22
+    /// Date: 07/04/22
     /// </summary>
     public interface ISceneManager : IService
     {
@@ -21,11 +23,13 @@ namespace OrbitalEngine.SceneManagement.Interfaces
         void CreateScene(string pSceneName);
 
         /// <summary>
-        /// Initialises a specified scene with an ICollisionManager object
+        /// Initialises a specified scene with an ICollisionManager object, an IDictionary<string, IEntity> object and an IFuncCommand<ICommand> object
         /// </summary>
         /// <param name="pSceneName"> Name of Scene </param>
         /// <param name="pCollisionManager"> ICollisionManager object </param>
-        void Initialise(string pSceneName, ICollisionManager pCollisionManager);
+        /// <param name="pEntDict"> IDictionary<string, IEntity> object </param>
+        /// <param name="pCreateCommand"> IFuncCommand<ICommand> object </param>
+        void Initialise(string pSceneName, ICollisionManager pCollisionManager, IDictionary<string, IEntity> pEntDict, IFuncCommand<ICommand> pCreateCommand);
 
         /// <summary>
         /// Spawns Entity in specified scene and adds to a list/dictionary

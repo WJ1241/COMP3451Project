@@ -3,7 +3,6 @@ using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.EntityManagement.Interfaces;
 using OrbitalEngine.Exceptions;
 using OrbitalEngine.InputManagement.Interfaces;
-using OrbitalEngine.Services.Commands;
 using OrbitalEngine.Services.Commands.Interfaces;
 using OrbitalEngine.Services.Factories.Interfaces;
 
@@ -14,9 +13,13 @@ namespace OrbitalEngine.EntityManagement
     /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 07/04/22
     /// </summary>
-    public class EntityManager : IEntityManager, IInitialiseParam<ICommandScheduler>, IInitialiseParam<IKeyboardPublisher>, IInitialiseParam<IFactory<IEntity>>
+    public class EntityManager : IEntityManager,  IInitialiseParam<ICommandScheduler>, IInitialiseParam<IDictionary<string, IEntity>>, IInitialiseParam<IFactory<IEntity>>,
+        IInitialiseParam<IFuncCommand<ICommand>>, IInitialiseParam<IKeyboardPublisher>
     {
         #region FIELD VARIABLES
+
+        // DECLARE an IDictionary, name it '_entityDict':
+        private IDictionary<string, IEntity> _entityDict;
 
         // DECLARE an IFactory<IEntity>, name it '_entityFactory':
         private IFactory<IEntity> _entityFactory;
@@ -27,8 +30,8 @@ namespace OrbitalEngine.EntityManagement
         // DECLARE an IKeyboardPublisher, name it '_kbManager':
         private IKeyboardPublisher _kBManager;
 
-        // DECLARE an IDictionary, name it '_entityDict':
-        private IDictionary<string, IEntity> _entityDict;
+        // DECLARE an IFuncCommand<ICommand>, name it '_createCommand':
+        private IFuncCommand<ICommand> _createCommand;
 
         // DECLARE an int, name it 'uIDCount', used to set unique IDs:
         private int _uIDCount;
@@ -43,9 +46,6 @@ namespace OrbitalEngine.EntityManagement
         /// </summary>
         public EntityManager()
         {
-            // INSTANTIATE _entityDict as a new Dictionary<string, IEntity>:
-            _entityDict = new Dictionary<string, IEntity>();
-
             // ASSIGNMENT, set value of _uIDCount to 0:
             _uIDCount = 0;
         }
@@ -77,8 +77,8 @@ namespace OrbitalEngine.EntityManagement
 
             #region TERMINATE COMMAND
 
-            // DECLARE an ICommandOneParam<string>, name it 'terminate':
-            ICommandOneParam<string> terminate = new CommandOneParam<string>();
+            // DECLARE & INSTANTIATE an ICommandOneParam<string> as a new CommandOneParam<string>, name it 'terminate':
+            ICommandOneParam<string> terminate = _createCommand.ExecuteMethod() as ICommandOneParam<string>;
 
             // SET MethodRef of terminate with Terminate method:
             terminate.MethodRef = Terminate;
@@ -163,25 +163,25 @@ namespace OrbitalEngine.EntityManagement
         #endregion
 
 
-        #region IMPLEMENTATION OF IINITIALISEPARAM<IKEYBOARDPUBLISHER>
+        #region IMPLEMENTATION OF IINITIALISEPARAM<IDICTIONARY<STRING, IENTITY>>
 
         /// <summary>
-        /// Initialises an object with an IKeyboardPublisher object
+        /// Initialises an object with an IDictionary<string, IEntity> instance
         /// </summary>
-        /// <param name="pKBManager"> IKeyboardPublisher object </param>
-        public void Initialise(IKeyboardPublisher pKBManager)
+        /// <param name="pEntityDict"> IDictionary<string, IEntity> object </param>
+        public void Initialise(IDictionary<string, IEntity> pEntityDict)
         {
-            // IF pKBManager DOES HAVE an active instance:
-            if (pKBManager != null)
+            // IF pEntityDict DOES HAVE an active instance:
+            if (pEntityDict != null)
             {
-                // INITIALISE _kBManager with reference to pKBManager:
-                _kBManager = pKBManager;
+                // INITIALISE _entityDict with reference to pEntityDict:
+                _entityDict = pEntityDict;
             }
-            // IF pKBManager DOES NOT HAVE an active instance:
+            // IF pEntityDict DOES NOT HAVE an active instance:
             else
             {
                 // THROW a new NullInstanceException(), with corresponding message:
-                throw new NullInstanceException("ERROR: pKBManager does not have an active instance!");
+                throw new NullInstanceException("ERROR: pEntityDict does not have an active instance!");
             }
         }
 
@@ -207,6 +207,56 @@ namespace OrbitalEngine.EntityManagement
             {
                 // THROW a new NullInstanceException(), with corresponding message:
                 throw new NullInstanceException("ERROR: pFactory does not have an active instance!");
+            }
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEPARAM<IFUNCCOMMAND<ICOMMAND>>
+
+        /// <summary>
+        /// Initialises an object with an IFuncCommand<ICommand> object
+        /// </summary>
+        /// <param name="pFuncCommand"> IFuncCommand<ICommand> object </param>
+        public void Initialise(IFuncCommand<ICommand> pFuncCommand)
+        {
+            // IF pFuncCommand DOES HAVE an active instance:
+            if (pFuncCommand != null)
+            {
+                // INITIALISE _createCommand with reference to pFuncCommand:
+                _createCommand = pFuncCommand;
+            }
+            // IF pFuncCommand DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pFuncCommand does not have an active instance!");
+            }
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEPARAM<IKEYBOARDPUBLISHER>
+
+        /// <summary>
+        /// Initialises an object with an IKeyboardPublisher object
+        /// </summary>
+        /// <param name="pKBManager"> IKeyboardPublisher object </param>
+        public void Initialise(IKeyboardPublisher pKBManager)
+        {
+            // IF pKBManager DOES HAVE an active instance:
+            if (pKBManager != null)
+            {
+                // INITIALISE _kBManager with reference to pKBManager:
+                _kBManager = pKBManager;
+            }
+            // IF pKBManager DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pKBManager does not have an active instance!");
             }
         }
 

@@ -13,15 +13,26 @@ namespace COMP3451Project.RIRRPackage.Behaviours
     /// </summary>
     public class NPCBehaviour : PongBehaviour, ICollisionEventListener
     {
-        //behaviour class for NPC's 
+        #region FIELD VARIABLES
 
         // DECLARE an ICommand, name it '_sfxCommand':
         private ICommand _sfxCommand;
 
+        #endregion
+
+
+        #region CONSTRUCTOR
+
+        /// <summary>
+        /// Constructor for objects of NPCBehaviour
+        /// </summary>
         public NPCBehaviour()
         {
             // EMPTY CONSTRUCTOR
         }
+
+        #endregion
+
 
         #region ROAMING
         // BEHAVIOUR for when npc is unaware of the player
@@ -157,6 +168,5 @@ namespace COMP3451Project.RIRRPackage.Behaviours
         }
 
         #endregion
-
     }
 }

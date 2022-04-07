@@ -35,13 +35,15 @@ using COMP3451Project.RIRRPackage.Behaviours.Interfaces;
 using COMP3451Project.RIRRPackage.Entities;
 using COMP3451Project.RIRRPackage.Interfaces;
 using COMP3451Project.RIRRPackage.States;
+using System.Collections;
+using OrbitalEngine.CustomEventArgs;
 
 namespace COMP3451Project
 {
     /// <summary>
     /// This is the main type for your game.
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 04/04/22
+    /// Date: 07/04/22
     /// </summary>
     public class Kernel : Game, IInitialiseParam<IService>
     {
@@ -145,6 +147,9 @@ namespace COMP3451Project
                 // DECLARE & GET an instance of EntityManager as an IEntityManager, name it 'entityManager':
                 IEntityManager entityManager = _engineManager.GetService<EntityManager>() as IEntityManager;
 
+                // INITIALISE entityManager with a new Dictionary<string, IEntity>():
+                (entityManager as IInitialiseParam<IDictionary<string, IEntity>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, IEntity>>() as IDictionary<string, IEntity>);
+
                 // INITIALISE entityManager with a Factory<IEntity> instance from _engineManager:
                 (entityManager as IInitialiseParam<IFactory<IEntity>>).Initialise(_engineManager.GetService<Factory<IEntity>>() as IFactory<IEntity>);
 
@@ -154,6 +159,17 @@ namespace COMP3451Project
                 // INITIALISE entityManager with a KeyboardManager instance from _engineManager:
                 (entityManager as IInitialiseParam<IKeyboardPublisher>).Initialise(_engineManager.GetService<KeyboardManager>() as IKeyboardPublisher);
 
+                /// CREATE ICOMMAND FUNCCOMMAND
+
+                // DECLARE & INSTANTIATE an IFuncCommand<ICommandOneParam<string>> as a new FuncCommand<ICommandOneParam<string>>(), name it 'createCommand':
+                IFuncCommand<ICommand> createCommand = (_engineManager.GetService<Factory<IFuncCommand<ICommand>>>() as IFactory<IFuncCommand<ICommand>>).Create<FuncCommandZeroParam<ICommand>>();
+
+                // INITIALISE _createFloor's MethodRef Property with Factory<ICommand>.Create<CommandOneParam<string>>:
+                (createCommand as IFuncCommandZeroParam<ICommand>).MethodRef = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandOneParam<string>>;
+
+                // INITIALISE entityManager with a reference to createCommand:
+                (entityManager as IInitialiseParam<IFuncCommand<ICommand>>).Initialise(createCommand);
+
                 #endregion
 
 
@@ -162,8 +178,28 @@ namespace COMP3451Project
                 // DECLARE & GET an instance of SceneManager as an ISceneManager, name it 'sceneManager':
                 ISceneManager sceneManager = _engineManager.GetService<SceneManager>() as ISceneManager;
 
+                // INITIALISE engineManager with a new Dictionary<string, IService>():
+                (sceneManager as IInitialiseParam<IDictionary<string, ISceneGraph>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, ISceneGraph>>() as IDictionary<string, ISceneGraph>);
+
                 // INITIALISE sceneManager with returned Factory<ISceneGraph> instance from _engineManager:
                 (sceneManager as IInitialiseParam<IFactory<ISceneGraph>>).Initialise(_engineManager.GetService<Factory<ISceneGraph>>() as IFactory<ISceneGraph>);
+
+                #endregion
+
+
+                #region COLLISION MANAGER
+
+                // INITIALISE returned CollisionManager from _engineManager.GetService() with a new List<ICollidable>():
+                (_engineManager.GetService<CollisionManager>() as IInitialiseParam<IList<ICollidable>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<List<ICollidable>>() as IList<ICollidable>);
+
+
+                #endregion
+
+
+                #region KEYBOARD MANAGER
+
+                // INITIALISE returned KeyboardManager from _engineManager.GetService() with a new Dictionary<string, IKeyboardListener>():
+                (_engineManager.GetService<KeyboardManager>() as IInitialiseParam<IDictionary<string, IKeyboardListener>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, IKeyboardListener>>() as IDictionary<string, IKeyboardListener>);
 
                 #endregion
 
@@ -175,8 +211,9 @@ namespace COMP3451Project
                 // CALL CreateScene() on sceneManager, passing "Level1" as a parameter:
                 sceneManager.CreateScene("Level1");
 
-                // INITIALISE sceneManager with a CollisionManager instance from _engineManager for scene "Level1":
-                sceneManager.Initialise("Level1", _engineManager.GetService<CollisionManager>() as ICollisionManager);
+                // INITIALISE sceneManager with a CollisionManager instance from _engineManager, a new Dictionary<string, IEntity>() and a reference to createCommand for scene "Level1":
+                sceneManager.Initialise("Level1", _engineManager.GetService<CollisionManager>() as ICollisionManager,
+                    (_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, IEntity>>() as IDictionary<string, IEntity>, createCommand);
 
                 /// REFEREE
 
@@ -201,33 +238,36 @@ namespace COMP3451Project
 
                 #region COMMANDS
 
-                // DECLARE & INSTANTIATE an IFuncCommand<IEntity> as a new FuncCommandOneParam<string, IEntity>(), name it '_createWall':
-                IFuncCommand<IEntity> _createWall = (_engineManager.GetService<Factory<IFuncCommand<IEntity>>>() as IFactory<IFuncCommand<IEntity>>).Create<FuncCommandOneParam<string, IEntity>>();
+                // DECLARE & INSTANTIATE an IFuncCommand<IEntity> as a new FuncCommandOneParam<string, IEntity>(), name it 'createWall':
+                IFuncCommand<IEntity> createWall = new FuncCommandOneParam<string, IEntity>(); //(_engineManager.GetService<Factory<IFuncCommand<IEntity>>>() as IFactory<IFuncCommand<IEntity>>).Create<FuncCommandOneParam<string, IEntity>>();
 
                 // INITIALISE _createFloor's MethodRef Property with EntityManager.Create<Wall>:
-                (_createWall as IFuncCommandOneParam<string, IEntity>).MethodRef = (_engineManager.GetService<EntityManager>() as IEntityManager).Create<Wall>;
+                (createWall as IFuncCommandOneParam<string, IEntity>).MethodRef = (_engineManager.GetService<EntityManager>() as IEntityManager).Create<Wall>;
 
-                // DECLARE & INSTANTIATE an IFuncCommand<IEntity> as a new FuncCommandOneParam<string, IEntity>(), name it '_createFloor':
-                IFuncCommand<IEntity> _createFloor = (_engineManager.GetService<Factory<IFuncCommand<IEntity>>>() as IFactory<IFuncCommand<IEntity>>).Create<FuncCommandOneParam<string, IEntity>>();
+                // DECLARE & INSTANTIATE an IFuncCommand<IEntity> as a new FuncCommandOneParam<string, IEntity>(), name it 'createFloor':
+                IFuncCommand<IEntity> createFloor = new FuncCommandOneParam<string, IEntity>(); //(_engineManager.GetService<Factory<IFuncCommand<IEntity>>>() as IFactory<IFuncCommand<IEntity>>).Create<FuncCommandOneParam<string, IEntity>>();
 
                 // INITIALISE _createFloor's MethodRef Property with EntityManager.Create<DrawableRectangleEntity>:
-                (_createFloor as IFuncCommandOneParam<string, IEntity>).MethodRef = (_engineManager.GetService<EntityManager>() as IEntityManager).Create<DrawableRectangleEntity>;
+                (createFloor as IFuncCommandOneParam<string, IEntity>).MethodRef = (_engineManager.GetService<EntityManager>() as IEntityManager).Create<DrawableRectangleEntity>;
 
                 #endregion
 
                 // DECLARE & INSTANTIATE an ILevelLayoutMaker as a new LevelLayoutMaker(), name it 'levelLM':
                 ILevelLayoutMaker levelLM = _engineManager.GetService<LevelLayoutMaker>() as ILevelLayoutMaker;
 
-                // INITIALISE levelLM with "Wall" and _createWall as parameters:
-                (levelLM as IInitialiseParam<string, IFuncCommand<IEntity>>).Initialise("Wall", _createWall);
+                // INITIALISE levelLM with a new Dictionary<string, IEntity>():
+                (levelLM as IInitialiseParam<IDictionary<string, IFuncCommand<IEntity>>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, IFuncCommand<IEntity>>>() as IDictionary<string, IFuncCommand<IEntity>>);
 
-                // INITIALISE levelLM with "Floor" and _createFloor as parameters:
-                (levelLM as IInitialiseParam<string, IFuncCommand<IEntity>>).Initialise("Floor", _createFloor);
+                // INITIALISE levelLM with "Wall" and createWall as parameters:
+                (levelLM as IInitialiseParam<string, IFuncCommand<IEntity>>).Initialise("Wall", createWall);
+
+                // INITIALISE levelLM with "Floor" and createFloor as parameters:
+                (levelLM as IInitialiseParam<string, IFuncCommand<IEntity>>).Initialise("Floor", createFloor);
 
                 // DECLARE & INSTANTIATE a new TmxMap(), name it '_map', passing a .tmx file as a parameter:
                 TmxMap map = new TmxMap("..\\..\\..\\..\\Content\\ExampleLevel\\ExampleLevel.tmx");
 
-                // DECLARE & INITIALISE a Texture2D, name it '_tilesetTex', give value of _map's TileSet on Layer 0's name:
+                // DECLARE & INITIALISE a Texture2D, name it '_tilesetTex', give value of _map's Tilesets[0]'s name:
                 Texture2D tilesetTex = Content.Load<Texture2D>("ExampleLevel\\" + map.Tilesets[0].Name);
 
                 // CALL CreateLevelLayout() on levelLM, passing "ExampleLevel", _map and _tilesetTex as parameters:
@@ -263,9 +303,18 @@ namespace COMP3451Project
                 #region INITIALISATION
 
                 /// STATIONARY
-
+                
                 // SET Name Property value of tempStateStationary to "stationary":
                 (tempStateStationary as IName).Name = "stationary";
+
+                // INITIALISE tempStateStationary with a new Dictionary<string, ICommand>():
+                (tempStateStationary as IInitialiseParam<IDictionary<string, ICommand>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, ICommand>>() as IDictionary<string, ICommand>);
+
+                // INITIALISE tempStateStationary with a new Dictionary<string, EventArgs>():
+                (tempStateStationary as IInitialiseParam<IDictionary<string, EventArgs>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, EventArgs>>() as IDictionary<string, EventArgs>);
+
+                // INITIALISE tempStateStationary with a new UpdateEventArgs():
+                (tempStateStationary as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<UpdateEventArgs>());
 
                 // SET PlayerIndex of tempStateStationary to PlayerIndex.One:
                 (tempStateStationary as IPlayer).PlayerNum = PlayerIndex.One;
@@ -278,6 +327,15 @@ namespace COMP3451Project
                 // SET Name Property value of tempStateUp to "up":
                 (tempStateUp as IName).Name = "up";
 
+                // INITIALISE tempStateUp with a new Dictionary<string, ICommand>():
+                (tempStateUp as IInitialiseParam<IDictionary<string, ICommand>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, ICommand>>() as IDictionary<string, ICommand>);
+
+                // INITIALISE tempStateUp with a new Dictionary<string, EventArgs>():
+                (tempStateUp as IInitialiseParam<IDictionary<string, EventArgs>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, EventArgs>>() as IDictionary<string, EventArgs>);
+
+                // INITIALISE tempStateUp with a new UpdateEventArgs():
+                (tempStateUp as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<UpdateEventArgs>());
+
                 // SET PlayerIndex of tempStateUp to PlayerIndex.One:
                 (tempStateUp as IPlayer).PlayerNum = PlayerIndex.One;
 
@@ -288,6 +346,15 @@ namespace COMP3451Project
 
                 // SET Name Property value of tempStateDown to "down":
                 (tempStateDown as IName).Name = "down";
+
+                // INITIALISE tempStateDown with a new Dictionary<string, ICommand>():
+                (tempStateDown as IInitialiseParam<IDictionary<string, ICommand>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, ICommand>>() as IDictionary<string, ICommand>);
+
+                // INITIALISE tempStateDown with a new Dictionary<string, EventArgs>():
+                (tempStateDown as IInitialiseParam<IDictionary<string, EventArgs>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, EventArgs>>() as IDictionary<string, EventArgs>);
+
+                // INITIALISE tempStateDown with a new UpdateEventArgs():
+                (tempStateDown as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<UpdateEventArgs>());
 
                 // SET PlayerIndex of tempStateDown to PlayerIndex.One:
                 (tempStateDown as IPlayer).PlayerNum = PlayerIndex.One;
@@ -563,6 +630,15 @@ namespace COMP3451Project
                 // SET Name Property value of tempStateStationary to "stationary":
                 (tempStateStationary as IName).Name = "stationary";
 
+                // INITIALISE tempStateStationary with a new Dictionary<string, ICommand>():
+                (tempStateStationary as IInitialiseParam<IDictionary<string, ICommand>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, ICommand>>() as IDictionary<string, ICommand>);
+
+                // INITIALISE tempStateStationary with a new Dictionary<string, EventArgs>():
+                (tempStateStationary as IInitialiseParam<IDictionary<string, EventArgs>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, EventArgs>>() as IDictionary<string, EventArgs>);
+
+                // INITIALISE tempStateStationary with a new UpdateEventArgs>():
+                (tempStateStationary as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<UpdateEventArgs>());
+
                 // SET PlayerIndex of tempStateStationary to PlayerIndex.Two:
                 (tempStateStationary as IPlayer).PlayerNum = PlayerIndex.Two;
 
@@ -574,6 +650,15 @@ namespace COMP3451Project
                 // SET Name Property value of tempStateUp to "up":
                 (tempStateUp as IName).Name = "up";
 
+                // INITIALISE tempStateUp with a new Dictionary<string, ICommand>():
+                (tempStateUp as IInitialiseParam<IDictionary<string, ICommand>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, ICommand>>() as IDictionary<string, ICommand>);
+
+                // INITIALISE tempStateUp with a new Dictionary<string, EventArgs>():
+                (tempStateUp as IInitialiseParam<IDictionary<string, EventArgs>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, EventArgs>>() as IDictionary<string, EventArgs>);
+
+                // INITIALISE tempStateUp with a new UpdateEventArgs>():
+                (tempStateUp as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<UpdateEventArgs>());
+
                 // SET PlayerIndex of tempStateUp to PlayerIndex.Two:
                 (tempStateUp as IPlayer).PlayerNum = PlayerIndex.Two;
 
@@ -584,6 +669,15 @@ namespace COMP3451Project
 
                 // SET Name Property value of tempStateDown to "down":
                 (tempStateDown as IName).Name = "down";
+
+                // INITIALISE tempStateDown with a new Dictionary<string, ICommand>():
+                (tempStateDown as IInitialiseParam<IDictionary<string, ICommand>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, ICommand>>() as IDictionary<string, ICommand>);
+
+                // INITIALISE tempStateDown with a new Dictionary<string, EventArgs>():
+                (tempStateDown as IInitialiseParam<IDictionary<string, EventArgs>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, EventArgs>>() as IDictionary<string, EventArgs>);
+
+                // INITIALISE tempStateDown with a new UpdateEventArgs():
+                (tempStateDown as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<UpdateEventArgs>());
 
                 // SET PlayerIndex of tempStateDown to PlayerIndex.Two:
                 (tempStateDown as IPlayer).PlayerNum = PlayerIndex.Two;
@@ -888,6 +982,9 @@ namespace COMP3451Project
             // DECLARE & INSTANTIATE an IPlayAudio as a new SongManager(), name it 'songMgr':
             IPlayAudio songMgr = _engineManager.GetService<SongManager>() as IPlayAudio;
 
+            // INITIALISE songMgr with a new Dictionary<string, Song>():
+            (songMgr as IInitialiseParam<IDictionary<string, Song>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, Song>>() as IDictionary<string, Song>);
+
             // INITIALISE songMgr with "MainTrack" and a Song named "MainTrack":
             (songMgr as IInitialiseParam<string, Song>).Initialise("MainTrack", Content.Load<Song>("ExampleLevel/MainTrack"));
 
@@ -898,6 +995,9 @@ namespace COMP3451Project
 
             // DECLARE & INSTANTIATE an IPlayAudio as a new SFXManager(), name it 'sfxMgr':
             IPlayAudio sfxMgr = _engineManager.GetService<SFXManager>() as IPlayAudio;
+
+            // INITIALISE sfxMgr with a new Dictionary<string, SoundEffect>():
+            (sfxMgr as IInitialiseParam<IDictionary<string, SoundEffect>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, SoundEffect>>() as IDictionary<string, SoundEffect>);
 
             // INITIALISE sfxMgr with "WallHit" and a SoundEffect named "WallHit":
             (sfxMgr as IInitialiseParam<string, SoundEffect>).Initialise("WallHit", Content.Load<SoundEffect>("ExampleLevel/WallHit"));
@@ -989,10 +1089,6 @@ namespace COMP3451Project
             #endregion
 
             #endregion
-
-
-
-
         }
 
         /// <summary>
@@ -1072,6 +1168,18 @@ namespace COMP3451Project
 
                 // DECLARE & INSTANTIATE an IState as a new BallState(), name it 'ballState':
                 IState ballState = (_engineManager.GetService<Factory<IState>>() as IFactory<IState>).Create<BallState>();
+
+                // INITIALISE ballState with a new Dictionary<string, ICommand>():
+                (ballState as IInitialiseParam<IDictionary<string, ICommand>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, ICommand>>() as IDictionary<string, ICommand>);
+
+                // INITIALISE ballState with a new Dictionary<string, EventArgs>():
+                (ballState as IInitialiseParam<IDictionary<string, EventArgs>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, EventArgs>>() as IDictionary<string, EventArgs>);
+
+                // INITIALISE ballState with a new UpdateEventArgs():
+                (ballState as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<UpdateEventArgs>());
+
+                // INITIALISE ballState with a new CollisionEventArgs():
+                (ballState as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<CollisionEventArgs>());
 
                 #endregion
 

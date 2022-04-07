@@ -10,9 +10,9 @@ namespace OrbitalEngine.Audio
     /// <summary>
     /// Class which stores songs and plays a requested song when needed
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 20/02/22
+    /// Date: 07/04/22
     /// </summary>
-    public class SongManager : IInitialiseParam<string, Song>, IPlayAudio, IService
+    public class SongManager : IInitialiseParam<IDictionary<string, Song>>, IInitialiseParam<string, Song>, IPlayAudio, IService
     {
         #region FIELD VARIABLES
 
@@ -29,8 +29,32 @@ namespace OrbitalEngine.Audio
         /// </summary>
         public SongManager()
         {
-            // INSTANTIATE _songDict as a new Dictionary<string, Song>():
-            _songDict = new Dictionary<string, Song>();
+            // EMPTY CONSTRUCTOR
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEPARAM<IDICTIONARY<STRING, SONG>>
+
+        /// <summary>
+        /// Initialises an object with an IDictionary<string, Song> instance
+        /// </summary>
+        /// <param name="pSongDict"> IDictionary<string, Song> instance </param>
+        public void Initialise(IDictionary<string, Song> pSongDict)
+        {
+            // IF pSongDict DOES NOT HAVE an active instance:
+            if (pSongDict != null)
+            {
+                // INITIALISE _songDict with reference to pSongDict:
+                _songDict = pSongDict;
+            }
+            // IF pSongDict DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pSongDict does not have an active instance!");
+            }
         }
 
         #endregion

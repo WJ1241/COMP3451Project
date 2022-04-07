@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using OrbitalEngine.Behaviours.Interfaces;
 using OrbitalEngine.CollisionManagement.Interfaces;
 using OrbitalEngine.CustomEventArgs;
 using OrbitalEngine.Exceptions;
-using OrbitalEngine.Services.Commands.Interfaces;
 using OrbitalEngine.States;
 
 namespace COMP3451Project.RIRRPackage.States
@@ -17,9 +15,6 @@ namespace COMP3451Project.RIRRPackage.States
     public class BallState : State, ICollisionListener
     {
         #region FIELD VARIABLES
-
-        // DECLARE an IDictionary<string, EventArgs>, name it '_argsDict':
-        IDictionary<string, EventArgs> _argsDict;
 
         // DECLARE an EventHandler<CollisionEventArgs>, name it '_collisionEvent':
         private EventHandler<CollisionEventArgs> _collisionEvent;
@@ -34,8 +29,7 @@ namespace COMP3451Project.RIRRPackage.States
         /// </summary>
         public BallState()
         {
-            // INSTANTATE _triggerDict as a new Dictionary<string, ICommand>():
-            _triggerDict = new Dictionary<string, ICommand>();
+            // EMPTY CONSTRUCTOR
         }
 
         #endregion
@@ -49,14 +43,11 @@ namespace COMP3451Project.RIRRPackage.States
         /// <param name="pScndCollidable">Other entity implementing ICollidable</param>
         public void OnCollision(ICollidable pScndCollidable)
         {
-            // DECLARE & INITIALISE an CollisionEventArgs, name it 'tempCollisionEA':
-            CollisionEventArgs tempCollisionEA = new CollisionEventArgs();
+            // SET RequiredArg Property value of (_argsDict["CollisionEventArgs"] to reference to pScndCollidable:
+            (_argsDict["CollisionEventArgs"] as CollisionEventArgs).RequiredArg = pScndCollidable;
 
-            // SET RequiredArg Property's instance to pScndCollidable:
-            tempCollisionEA.RequiredArg = pScndCollidable;
-
-            // CALL Invoke on _collisionEvent, passing this class and _tempCollisionEA as parameters:
-            _collisionEvent.Invoke(this, tempCollisionEA);
+            // INVOKE _collisionEvent(), passing this class and (_argsDict["CollisionEventArgs"] as parameters:
+            _collisionEvent.Invoke(this, _argsDict["CollisionEventArgs"] as CollisionEventArgs);
         }
 
         #endregion

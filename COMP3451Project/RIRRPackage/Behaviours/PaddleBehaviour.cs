@@ -7,7 +7,7 @@ namespace COMP3451Project.RIRRPackage.Behaviours
     /// <summary>
     /// Class which defines the behaviour for Paddle entities
     /// Authors: William Smith & Declan Kerby-Collins 
-    /// Date: 15/02/22
+    /// Date: 07/04/22
     /// </summary>
     public class PaddleBehaviour : PongBehaviour, IDirection
     {
@@ -15,6 +15,19 @@ namespace COMP3451Project.RIRRPackage.Behaviours
 
         // DECLARE a Vector2, name it '_direction':
         private Vector2 _direction;
+
+        #endregion
+
+
+        #region CONSTRUCTOR
+
+        /// <summary>
+        /// Constructor for objects of PaddleBehaviour
+        /// </summary>
+        public PaddleBehaviour()
+        {
+            // EMPTY CONSTRUCTOR
+        }
 
         #endregion
 

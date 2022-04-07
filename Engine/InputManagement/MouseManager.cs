@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.EntityManagement.Interfaces;
+using OrbitalEngine.Exceptions;
 using OrbitalEngine.InputManagement.Interfaces;
 using OrbitalEngine.Services.Interfaces;
 
@@ -11,9 +12,9 @@ namespace OrbitalEngine.InputManagement
     /// <summary>
     /// Class which manages all entities listening for Mouse input
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 18/02/22
+    /// Date: 07/04/22
     /// </summary>
-    public class MouseManager : IUpdatable, IMousePublisher, IService
+    public class MouseManager : IMousePublisher, IInitialiseParam<IDictionary<string, IMouseListener>>, IService, IUpdatable
     {
         #region FIELD VARIABLES
 
@@ -33,8 +34,7 @@ namespace OrbitalEngine.InputManagement
         /// </summary>
         public MouseManager()
         {
-            // INSTANTIATE _mouseListeners as new Dictionary<string, IMouseListener>():
-            _mouseListeners = new Dictionary<string, IMouseListener>();
+            // EMPTY CONSTRUCTOR
         }
 
         #endregion
@@ -60,6 +60,31 @@ namespace OrbitalEngine.InputManagement
         {
             // CALL Remove(), on Dictionary to remove 'value' of key pUName:
             _mouseListeners.Remove(pUName);
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEPARAM<IDICTIONARY<STRING, IMOUSELISTENER>>
+
+        /// <summary>
+        /// Initialises an object with an IDictionary<string, IMouseListener> instance
+        /// </summary>
+        /// <param name="pMouseListenerDict"> IDictionary<string, IMouseListener> object </param>
+        public void Initialise(IDictionary<string, IMouseListener> pMouseListenerDict)
+        {
+            // IF pMouseListenerDict DOES HAVE an active instance:
+            if (pMouseListenerDict != null)
+            {
+                // INITIALISE _mouseListeners with reference to pMouseListenerDict:
+                _mouseListeners = pMouseListenerDict;
+            }
+            // IF pMouseListenerDict DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pMouseListenerDict does not have an active instance!");
+            }
         }
 
         #endregion

@@ -14,9 +14,6 @@ namespace COMP3451Project.RIRRPackage
     {
         #region FIELD VARIABLES
 
-        // DECLARE an Action<ICommand>, name it '_scheduleCommand':
-        private Action<ICommand> _scheduleCommand;
-
         // DECLARE an ICommand, name it '_respawnBall':
         private ICommand _respawnBall;
 

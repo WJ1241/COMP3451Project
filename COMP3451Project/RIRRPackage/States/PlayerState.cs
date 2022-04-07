@@ -1,7 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
 using OrbitalEngine.Animation.Interfaces;
 using OrbitalEngine.Behaviours.Interfaces;
 using OrbitalEngine.CoreInterfaces;
@@ -9,7 +8,6 @@ using OrbitalEngine.CustomEventArgs;
 using OrbitalEngine.Exceptions;
 using OrbitalEngine.InputManagement.Interfaces;
 using OrbitalEngine.States;
-using OrbitalEngine.Services.Commands.Interfaces;
 
 namespace COMP3451Project.RIRRPackage.States
 {
@@ -37,12 +35,11 @@ namespace COMP3451Project.RIRRPackage.States
         #region CONSTRUCTOR
 
         /// <summary>
-        /// Constructor for objects of PaddleState
+        /// Constructor for objects of PlayerState
         /// </summary>
         public PlayerState()
         {
-            // INSTANTATE _triggerDict as a new Dictionary<string, ICommand>():
-            _triggerDict = new Dictionary<string, ICommand>();
+            // EMPTY CONSTRUCTOR
         }
 
         #endregion
@@ -162,17 +159,14 @@ namespace COMP3451Project.RIRRPackage.States
         /// <param name="pGameTime">holds reference to GameTime object</param>
         public override void Update(GameTime pGameTime)
         {
-            // DECLARE & INITIALISE an UpdateEventArgs, name it 'tempUpdateEA':
-            UpdateEventArgs tempUpdateEA = new UpdateEventArgs();
+            // SET RequiredArg Property value of(_argsDict["UpdateEventArgs"] to reference to pGameTime:
+            (_argsDict["UpdateEventArgs"] as UpdateEventArgs).RequiredArg = pGameTime;
 
-            // SET RequiredArg Property's value to pGameTime:
-            tempUpdateEA.RequiredArg = pGameTime;
+            // INVOKE _behaviourEvent(), passing this class and _argsDict["UpdateArgs"] as parameters:
+            _behaviourEvent.Invoke(this, _argsDict["UpdateEventArgs"] as UpdateEventArgs);
 
-            // CALL Invoke() on _behaviourEvent, passing this class and tempUpdateEA as parameters:
-            _behaviourEvent.Invoke(this, tempUpdateEA);
-
-            // CALL Invoke() on _animationEvent, passing this class and tempUpdateEA as parameters:
-            _animationEvent.Invoke(this, tempUpdateEA);
+            // INVOKE _animationEvent(), passing this class and _argsDict["UpdateArgs"] as parameters:
+            _animationEvent.Invoke(this, _argsDict["UpdateEventArgs"] as UpdateEventArgs);
         }
 
         #endregion

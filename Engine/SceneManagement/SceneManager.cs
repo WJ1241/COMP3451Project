@@ -6,8 +6,9 @@ using OrbitalEngine.CollisionManagement.Interfaces;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.EntityManagement.Interfaces;
 using OrbitalEngine.SceneManagement.Interfaces;
-using OrbitalEngine.Services.Interfaces;
+using OrbitalEngine.Services.Commands.Interfaces;
 using OrbitalEngine.Services.Factories.Interfaces;
+using OrbitalEngine.Services.Interfaces;
 using OrbitalEngine.Exceptions;
 
 namespace OrbitalEngine.SceneManagement
@@ -15,9 +16,9 @@ namespace OrbitalEngine.SceneManagement
     /// <summary>
     /// Class which manages all entities in the scene
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 18/02/22
+    /// Date: 07/04/22
     /// </summary>
-    public class SceneManager : ISceneManager, IDraw, IDrawCamera, IInitialiseParam<IFactory<ISceneGraph>>, IService, IUpdatable
+    public class SceneManager : ISceneManager, IDraw, IDrawCamera, IInitialiseParam<IDictionary<string, ISceneGraph>>, IInitialiseParam<IFactory<ISceneGraph>>, IService, IUpdatable
     {
         #region FIELD VARIABLES
 
@@ -40,8 +41,7 @@ namespace OrbitalEngine.SceneManagement
         /// </summary>
         public SceneManager()
         {
-            // INSTANTIATE _sGDict as a new Dictionary<string, ISceneGraph>():
-            _sGDict = new Dictionary<string, ISceneGraph>();
+            // EMPTY CONSTRUCTOR
         }
 
         #endregion
@@ -63,26 +63,35 @@ namespace OrbitalEngine.SceneManagement
         }
 
         /// <summary>
-        /// Initialises a specified scene with an ICollisionManager object
+        /// Initialises a specified scene with an ICollisionManager object, an IDictionary<string, IEntity> object and an IFuncCommand<ICommand> object
         /// </summary>
         /// <param name="pSceneName"> Name of Scene </param>
         /// <param name="pCollisionManager"> ICollisionManager object </param>
-        public void Initialise(string pSceneName, ICollisionManager pCollisionManager) 
+        /// <param name="pEntDict"> IDictionary<string, IEntity> object </param>
+        /// <param name="pCreateCommand"> IFuncCommand<ICommand> object </param>
+        public void Initialise(string pSceneName, ICollisionManager pCollisionManager, IDictionary<string, IEntity> pEntDict, IFuncCommand<ICommand> pCreateCommand)
         {
             // TRY checking if Initialise() throws a NullInstanceException:
             try
             {
-                // IF _sgDict DOES contain pSceneName as a key already:
+                // IF _sGDict DOES contain pSceneName as a key already:
                 if (_sGDict.ContainsKey(pSceneName))
                 {
-                    // INITIALISE _sGDict[pSceneName] with pCollisionManager:
+                    // INITIALISE _sGDict[pSceneName] with reference to pEntDict:
+                    (_sGDict[pSceneName] as IInitialiseParam<IDictionary<string, IEntity>>).Initialise(pEntDict);
+
+                    // INITIALISE _sGDict[pSceneName] with reference to pCollisionManager:
                     _sGDict[pSceneName].Initialise(pCollisionManager);
+
+                    // INITIALISE _sGDict[pSceneName] with reference to pCreateCommand:
+                    (_sGDict[pSceneName] as IInitialiseParam<IFuncCommand<ICommand>>).Initialise(pCreateCommand);
+
                 }
-                // IF _sgDict DOES NOT contain pSceneName as a key:
+                // IF _sGDict DOES NOT contain pSceneName as a key:
                 else
                 {
                     // THROW a new NullValueException(), with corresponding message:
-                    throw new NullValueException("ERROR: _sgDict does not contain" + pSceneName + "as a key!");
+                    throw new NullValueException("ERROR: _sGDict does not contain" + pSceneName + "as a key!");
                 }
             }
             // CATCH NullInstanceException from Initialise():
@@ -103,31 +112,6 @@ namespace OrbitalEngine.SceneManagement
         {
             // CALL Spawn() on _sgDict[pSceneName], passing pEntity and pPosition as parameters:
             (_sGDict[pSceneName] as ISpawn).Spawn(pEntity, pPosition);
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF IINITIALISEPARAM<IFACTORY<ISCENEGRAPH>>
-
-        /// <summary>
-        /// Initialises an object with an IFactory<ISceneGraph> object
-        /// </summary>
-        /// <param name="pFactory"> IFactory<ISsceneGraph> object </param>
-        public void Initialise(IFactory<ISceneGraph> pFactory)
-        {
-            // IF pFactory DOES HAVE an active instance:
-            if (pFactory != null)
-            {
-                // INITIALISE _sGFactory with reference to pFactory:
-                _sGFactory = pFactory;
-            }
-            // IF pFactory DOES NOT HAVE an active instance:
-            else
-            {
-                // THROW a new NullInstanceException(), with corresponding message:
-                throw new NullInstanceException("ERROR: pFactory does not have an active instance!");
-            }
         }
 
         #endregion
@@ -162,6 +146,59 @@ namespace OrbitalEngine.SceneManagement
         }
 
         #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEPARAM<IDICTIONARY<STRING, ISCENEGRAPH>>
+
+        /// <summary>
+        /// Initialises an object with a reference to an IDictionary<string, ISceneGraph> instance
+        /// </summary>
+        /// <param name="pSGDict"> IDictionary<string, ISceneGraph> instance </param>
+        public void Initialise(IDictionary<string, ISceneGraph> pSGDict)
+        {
+            // IF pSGDict DOES HAVE an active instance:
+            if (pSGDict != null)
+            {
+                // INITIALISE _sGDict with reference to pSGDict:
+                _sGDict = pSGDict;
+            }
+            // IF pSGDict DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message():
+                throw new NullInstanceException("ERROR: pSGDict does not have an active instance!");
+            }
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEPARAM<IFACTORY<ISCENEGRAPH>>
+
+        /// <summary>
+        /// Initialises an object with an IFactory<ISceneGraph> object
+        /// </summary>
+        /// <param name="pFactory"> IFactory<ISsceneGraph> object </param>
+        public void Initialise(IFactory<ISceneGraph> pFactory)
+        {
+            // IF pFactory DOES HAVE an active instance:
+            if (pFactory != null)
+            {
+                // INITIALISE _sGFactory with reference to pFactory:
+                _sGFactory = pFactory;
+            }
+            // IF pFactory DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pFactory does not have an active instance!");
+            }
+        }
+
+        #endregion
+
+
+        
 
 
         #region IMPLEMENTATION OF IUPDATABLE

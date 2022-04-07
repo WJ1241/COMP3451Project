@@ -8,7 +8,6 @@ using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.EntityManagement.Interfaces;
 using OrbitalEngine.Exceptions;
 using OrbitalEngine.SceneManagement.Interfaces;
-using OrbitalEngine.Services.Commands;
 using OrbitalEngine.Services.Commands.Interfaces;
 
 namespace OrbitalEngine.SceneManagement
@@ -16,15 +15,18 @@ namespace OrbitalEngine.SceneManagement
     /// <summary>
     /// Class which holds reference to list in Scene Manager, Draws and Updates entities
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 15/02/22
+    /// Date: 07/04/22
     /// </summary>
     /// <REFERENCE> Abuhakmeh, K. (2009) XNA 2D Camera Engine That Follows Sprite. Available at: https://stackoverflow.com/questions/712296/xna-2d-camera-engine-that-follows-sprite. (Accessed: 20 April 2021). </REFERENCE>
-    public class SceneGraph : ISceneGraph, IDraw, ISpawn, IDrawCamera, IUpdatable
+    public class SceneGraph : ISceneGraph, IDraw, IDrawCamera, IInitialiseParam<IDictionary<string, IEntity>>, IInitialiseParam<IFuncCommand<ICommand>>, ISpawn, IUpdatable
     {
         #region FIELD VARIABLES
 
         // DECLARE an IDictionary<string, IEntity>, name it '_sceneEntDict':
         private IDictionary<string, IEntity> _sceneEntDict;
+
+        // DECLARE an IFuncCommand<ICommand>, name it '_createCommand':
+        private IFuncCommand<ICommand> _createCommand;
 
         #endregion
 
@@ -36,8 +38,7 @@ namespace OrbitalEngine.SceneManagement
         /// </summary>
         public SceneGraph()
         {
-            // INSTANTIATE _sceneEntDict as a new Dictionary<string, IEntity>():
-            _sceneEntDict = new Dictionary<string, IEntity>();
+            // EMPTY CONSTRUCTOR
         }
 
         #endregion
@@ -83,54 +84,6 @@ namespace OrbitalEngine.SceneManagement
         {
             // RETURN instance of _sceneEntDict:
             return _sceneEntDict;
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF ISPAWN
-
-        /// <summary>
-        /// Spawns specified Entity and initialises its position
-        /// </summary>
-        /// <param name="pEntity"> IEntity object </param>
-        /// <param name="pPosition"> Positional values used to place entity </param>
-        public void Spawn(IEntity pEntity, Vector2 pPosition)
-        {
-            #region ADD TO DICTIONARY
-
-            // ADD pEntity.UName as a key, and pEntity as a value to _sceneEntDict:
-            _sceneEntDict.Add(pEntity.UName, pEntity);
-
-            #endregion
-
-
-            #region REMOVE COMMAND
-
-            // DECLARE an ICommandOneParam<string>, name it 'removeMe':
-            ICommandOneParam<string> removeMe = new CommandOneParam<string>();
-
-            // SET MethodRef of removeMe with RemoveEntity method:
-            removeMe.MethodRef = RemoveEntity;
-
-            // SET Data of removeMe with pEntity's UName Property:
-            removeMe.Data = pEntity.UName;
-
-            // SET RemoveMe property of pEntity with removeMe Command:
-            (pEntity as IEntityInternal).RemoveMe = removeMe;
-
-            #endregion
-
-
-            #region SPAWN LOCATION
-
-            // INITIALISE pEntity.Position with value of pPosition:
-            pEntity.Position = pPosition;
-
-            // WRITE to console, alerting when object has been added to the scene:
-            Console.WriteLine(pEntity.UName + " ID:" + pEntity.UID + " has been Spawned on Scene!");
-            
-            #endregion
         }
 
         #endregion
@@ -183,6 +136,104 @@ namespace OrbitalEngine.SceneManagement
 
             // END creation of displayable objects:
             pSpriteBatch.End();
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEPARAM<IDICTIONARY<STRING, IENTITY>>
+
+        /// <summary>
+        /// Initialises an object with a reference to an IDictionary<string, IEntity> instance
+        /// </summary>
+        /// <param name="pSceneEntDict"> IDictionary<string, IEntity> instance </param>
+        public void Initialise(IDictionary<string, IEntity> pSceneEntDict)
+        {
+            // IF pSceneEntDict DOES HAVE an active instance:
+            if (pSceneEntDict != null)
+            {
+                // INITIALISE _sceneEntDict with reference to pSceneEntDict:
+                _sceneEntDict = pSceneEntDict;
+            }
+            // IF pSceneEntDict DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message():
+                throw new NullInstanceException("ERROR: pSceneEntDict does not have an active instance!");
+            }
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEPARAM<IFUNCCOMMAND<ICOMMAND>>
+
+        /// <summary>
+        /// Initialises an object with an IFuncCommand<ICommand> object
+        /// </summary>
+        /// <param name="pFuncCommand"> IFuncCommand<ICommand> object </param>
+        public void Initialise(IFuncCommand<ICommand> pFuncCommand)
+        {
+            // IF pFuncCommand DOES HAVE an active instance:
+            if (pFuncCommand != null)
+            {
+                // INITIALISE _createCommand with reference to pFuncCommand:
+                _createCommand = pFuncCommand;
+            }
+            // IF pFuncCommand DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pFuncCommand does not have an active instance!");
+            }
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF ISPAWN
+
+        /// <summary>
+        /// Spawns specified Entity and initialises its position
+        /// </summary>
+        /// <param name="pEntity"> IEntity object </param>
+        /// <param name="pPosition"> Positional values used to place entity </param>
+        public void Spawn(IEntity pEntity, Vector2 pPosition)
+        {
+            #region ADD TO DICTIONARY
+
+            // ADD pEntity.UName as a key, and pEntity as a value to _sceneEntDict:
+            _sceneEntDict.Add(pEntity.UName, pEntity);
+
+            #endregion
+
+
+            #region REMOVE COMMAND
+
+            // DECLARE & INSTANTIATE an ICommandOneParam<string> as a new CommandOneParam<string>(), name it 'removeMe':
+            ICommandOneParam<string> removeMe = _createCommand.ExecuteMethod() as ICommandOneParam<string>;
+
+            // SET MethodRef of removeMe with RemoveEntity method:
+            removeMe.MethodRef = RemoveEntity;
+
+            // SET Data of removeMe with pEntity's UName Property:
+            removeMe.Data = pEntity.UName;
+
+            // SET RemoveMe property of pEntity with removeMe Command:
+            (pEntity as IEntityInternal).RemoveMe = removeMe;
+
+            #endregion
+
+
+            #region SPAWN LOCATION
+
+            // INITIALISE pEntity.Position with value of pPosition:
+            pEntity.Position = pPosition;
+
+            // WRITE to console, alerting when object has been added to the scene:
+            Console.WriteLine(pEntity.UName + " ID:" + pEntity.UID + " has been Spawned on Scene!");
+            
+            #endregion
         }
 
         #endregion
