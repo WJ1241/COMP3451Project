@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace COMP3451Project.RIRRPackage.Entities
 {
-    public class Artifact
+    public class Artefact
     {
         // class for the artifact that will be picked up at the end of each level
 
