@@ -48,7 +48,6 @@
   <ItemGroup>
     <Compile Include="Kernel.cs" />
     <Compile Include="RIRRPackage\Behaviours\Interfaces\IScoreGoal.cs" />
-    <Compile Include="RIRRPackage\Behaviours\NPCBehaviour.cs" />
     <Compile Include="RIRRPackage\Entities\Artefact.cs" />
     <Compile Include="RIRRPackage\Entities\LevelChange.cs" />
     <Compile Include="RIRRPackage\Entities\Player.cs" />
