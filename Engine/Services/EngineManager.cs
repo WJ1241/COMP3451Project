@@ -9,7 +9,7 @@ namespace OrbitalEngine.Services
     /// <summary>
     /// Class which manages the game engine, holding all references for any service used to create game entities, level structure etc.
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 18/02/22
+    /// Date: 07/04/22
     /// </summary>
     public class EngineManager : IService, IInitialiseParam<IFactory<IService>>, IRtnService
     {
@@ -46,11 +46,11 @@ namespace OrbitalEngine.Services
             // IF pServiceFactory DOES HAVE an active instance:
             if (pServiceFactory != null)
             {
-                // DECLARE & INITIALISE a string, name it '_serviceName', give value of a trimmed incoming class' type:
-                string _serviceName = GenericTypeNameTrimmer.TrimOneGeneric(pServiceFactory.GetType());
+                // DECLARE & INITIALISE a string, name it 'serviceName', give value of a trimmed incoming class' type:
+                string serviceName = GenericTypeNameTrimmer.TrimOneGeneric(pServiceFactory.GetType());
 
-                // ADD new service to _serviceDict, with type of pServiceFactory as key, and pServiceFactory as value:
-                _serviceDict.Add(_serviceName, pServiceFactory as IService);
+                // ADD new service to _serviceDict, with type of serviceName as a key, and pServiceFactory as a value:
+                _serviceDict.Add(serviceName, pServiceFactory as IService);
             }
             // IF pServiceFactory DOES NOT HAVE an active instance:
             else
@@ -72,32 +72,32 @@ namespace OrbitalEngine.Services
         /// <returns> Instance of IService </returns>
         public IService GetService<C>() where C : IService, new()
         {
-            // DECLARE a string, name it '_serviceName':
+            // DECLARE a string, name it 'serviceName':
             // "" PREVENTS ADDRESSIING ISSUES:
-            string _serviceName = "";
+            string serviceName = "";
 
             // IF typeof(C) DOES HAVE one or more generic arguments:
             if (typeof(C).GetGenericArguments().Length >= 1)
             {
-                // INITIALISE _serviceName, give value of incoming class' type which is trimmed:
-                _serviceName = GenericTypeNameTrimmer.TrimOneGeneric(typeof(C));
+                // INITIALISE serviceName, give value of incoming class' type which is trimmed:
+                serviceName = GenericTypeNameTrimmer.TrimOneGeneric(typeof(C));
             }
             // IF typeof(C) DOES HAVE one or more generic arguments:
             else if (typeof(C).GetGenericArguments().Length == 0)
             {
-                // INITIALISE _serviceName, give value of incoming class/interface:
-                _serviceName = typeof(C).ToString();
+                // INITIALISE serviceName, give value of incoming class/interface:
+                serviceName = typeof(C).ToString();
             }
 
             // IF _serviceDict DOES NOT contain a key of name of class/interface to be created:
-            if (!_serviceDict.ContainsKey(_serviceName))
+            if (!_serviceDict.ContainsKey(serviceName))
             {
-                // ADD new service to _serviceDict, with type 'C' name as key, and instance of type 'C' as value:
-                _serviceDict.Add(_serviceName, (_serviceDict["Factory<IService>"] as IFactory<IService>).Create<C>());
+                // ADD new service to _serviceDict, with serviceName as key, and instance of type 'C' as value:
+                _serviceDict.Add(serviceName, (_serviceDict["Factory<IService>"] as IFactory<IService>).Create<C>());
             }
 
-            // RETURN instance of current _serviceName in _serviceDict:
-            return _serviceDict[_serviceName];
+            // RETURN instance with address of serviceName's value in _serviceDict:
+            return _serviceDict[serviceName];
         }
 
         #endregion

@@ -4,9 +4,9 @@ using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.CustomEventArgs;
 using OrbitalEngine.EntityManagement.Interfaces;
 using OrbitalEngine.Services.Commands.Interfaces;
-using COMP3451Project.PongPackage.Behaviours.Interfaces;
+using COMP3451Project.RIRRPackage.Behaviours.Interfaces;
 
-namespace COMP3451Project.PongPackage.Behaviours
+namespace COMP3451Project.RIRRPackage.Behaviours
 {
     /// <summary>
     /// Class which defines the behaviour for Ball entities

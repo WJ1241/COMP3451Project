@@ -1,6 +1,6 @@
 ﻿using OrbitalEngine.Services.Commands.Interfaces;
 
-namespace COMP3451Project.PongPackage.Interfaces
+namespace COMP3451Project.RIRRPackage.Interfaces
 {
     /// <summary>
     /// Interface which allows implementations to keep score of a Pong game

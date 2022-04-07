@@ -6,7 +6,7 @@ using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.EntityManagement.Interfaces;
 using OrbitalEngine.Exceptions;
 
-namespace COMP3451Project.PongPackage.Entities
+namespace COMP3451Project.RIRRPackage.Entities
 {
     /// <summary>
     /// Class which adds an NPC entity on screen

@@ -1,6 +1,6 @@
 ﻿using OrbitalEngine.Services.Commands.Interfaces;
 
-namespace COMP3451Project.PongPackage.Behaviours.Interfaces
+namespace COMP3451Project.RIRRPackage.Behaviours.Interfaces
 {
     /// <summary>
     /// Interface which allows implementations to contain a command related to a scoring method

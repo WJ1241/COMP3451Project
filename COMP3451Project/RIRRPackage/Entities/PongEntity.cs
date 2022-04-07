@@ -2,7 +2,7 @@
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.EntityManagement;
 
-namespace COMP3451Project.PongPackage.Entities
+namespace COMP3451Project.RIRRPackage.Entities
 {
     /// <summary>
     /// Class which contains variables and methods for Pong entities to inherit from

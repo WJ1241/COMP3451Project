@@ -7,7 +7,7 @@ using OrbitalEngine.Exceptions;
 using OrbitalEngine.InputManagement.Interfaces;
 using OrbitalEngine.States.Interfaces;
 
-namespace COMP3451Project.PongPackage.Entities
+namespace COMP3451Project.RIRRPackage.Entities
 {
     /// <summary>
     /// Class which adds a Player entity on screen

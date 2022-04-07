@@ -11,12 +11,12 @@ using OrbitalEngine.InputManagement.Interfaces;
 using OrbitalEngine.States;
 using OrbitalEngine.Services.Commands.Interfaces;
 
-namespace COMP3451Project.PongPackage.States
+namespace COMP3451Project.RIRRPackage.States
 {
     /// <summary>
     /// Class which contains conditional information for RIRR Player entities to be modified by another class e.g. PlayerBehaviour
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 04/04/22
+    /// Date: 07/04/22
     /// </summary>
     public class PlayerState : State, IKeyboardListener, IPlayer
     {
@@ -126,8 +126,6 @@ namespace COMP3451Project.PongPackage.States
                 }
             }
 
-           
-
             // IF _activeBehaviour has changed:
             if (_activeBehaviour != _stateName)
             {
@@ -164,17 +162,17 @@ namespace COMP3451Project.PongPackage.States
         /// <param name="pGameTime">holds reference to GameTime object</param>
         public override void Update(GameTime pGameTime)
         {
-            // DECLARE & INITIALISE an UpdateEventArgs, name it '_tempUpdateEA':
-            UpdateEventArgs _tempUpdateEA = new UpdateEventArgs();
+            // DECLARE & INITIALISE an UpdateEventArgs, name it 'tempUpdateEA':
+            UpdateEventArgs tempUpdateEA = new UpdateEventArgs();
 
             // SET RequiredArg Property's value to pGameTime:
-            _tempUpdateEA.RequiredArg = pGameTime;
+            tempUpdateEA.RequiredArg = pGameTime;
 
-            // CALL Invoke() on _behaviourEvent, passing this class and _tempUpdateEA as parameters:
-            _behaviourEvent.Invoke(this, _tempUpdateEA);
+            // CALL Invoke() on _behaviourEvent, passing this class and tempUpdateEA as parameters:
+            _behaviourEvent.Invoke(this, tempUpdateEA);
 
-            // CALL Invoke() on _animationEvent, passing this class and _tempUpdateEA as parameters:
-            _animationEvent.Invoke(this, _tempUpdateEA);
+            // CALL Invoke() on _animationEvent, passing this class and tempUpdateEA as parameters:
+            _animationEvent.Invoke(this, tempUpdateEA);
         }
 
         #endregion

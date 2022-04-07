@@ -5,7 +5,7 @@ namespace OrbitalEngine.CoreInterfaces
     /// <summary>
     /// Interface which allows displayable entities to be seperated on to different layers to identify specific collisions
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 12/02/22
+    /// Date: 07/04/22
     /// </summary>
     public interface ILayer
     {
@@ -17,7 +17,7 @@ namespace OrbitalEngine.CoreInterfaces
         /// Layer 2: Walls
         /// Layer 3: Static Obstacles
         /// Layer 4: Items
-        /// Layer 5: LevelChange
+        /// Layer 5: Level Change
         /// Layer 6: Player/Enemy
         /// Layer 7: GUI
         /// </summary>

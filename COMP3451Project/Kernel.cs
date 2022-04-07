@@ -27,14 +27,14 @@ using OrbitalEngine.Services.Interfaces;
 using OrbitalEngine.Services.Factories;
 using OrbitalEngine.Services.Factories.Interfaces;
 using OrbitalEngine.States.Interfaces;
-using OrbitalEngine.States;
 using OrbitalEngine.Tiles;
 using OrbitalEngine.Tiles.Interfaces;
-using COMP3451Project.PongPackage;
-using COMP3451Project.PongPackage.Behaviours;
-using COMP3451Project.PongPackage.Behaviours.Interfaces;
-using COMP3451Project.PongPackage.Entities;
-using COMP3451Project.PongPackage.Interfaces;
+using COMP3451Project.RIRRPackage;
+using COMP3451Project.RIRRPackage.Behaviours;
+using COMP3451Project.RIRRPackage.Behaviours.Interfaces;
+using COMP3451Project.RIRRPackage.Entities;
+using COMP3451Project.RIRRPackage.Interfaces;
+using COMP3451Project.RIRRPackage.States;
 
 namespace COMP3451Project
 {
@@ -473,8 +473,8 @@ namespace COMP3451Project
                 // SET WindowBorder of "Paddle1" to value of _screenSize:
                 (entityManager.GetDictionary()["Paddle1"] as IContainBoundary).WindowBorder = _screenSize;
 
-                // SET Layer of "Paddle1" to 5:
-                (entityManager.GetDictionary()["Paddle1"] as ILayer).Layer = 5;
+                // SET Layer of "Paddle1" to 6:
+                (entityManager.GetDictionary()["Paddle1"] as ILayer).Layer = 6;
 
                 #endregion
 
@@ -769,8 +769,8 @@ namespace COMP3451Project
                 // SET WindowBorder of "Paddle2" to value of _screenSize:
                 (entityManager.GetDictionary()["Paddle2"] as IContainBoundary).WindowBorder = _screenSize;
 
-                // SET Layer of "Paddle2" to 5:
-                (entityManager.GetDictionary()["Paddle2"] as ILayer).Layer = 5;
+                // SET Layer of "Paddle2" to 6:
+                (entityManager.GetDictionary()["Paddle2"] as ILayer).Layer = 6;
 
                 #endregion
 
@@ -1139,8 +1139,8 @@ namespace COMP3451Project
                 // INITIALISE '"Ball" + _ballCount' with reference to ballBehaviour:
                 (entityManager.GetDictionary()["Ball" + _ballCount] as IInitialiseParam<IUpdateEventListener>).Initialise(ballBehaviour);
 
-                // SET Layer of ("Ball" + _ballCount) to 5:
-                (entityManager.GetDictionary()["Ball" + _ballCount] as ILayer).Layer = 5;
+                // SET Layer of ("Ball" + _ballCount) to 6:
+                (entityManager.GetDictionary()["Ball" + _ballCount] as ILayer).Layer = 6;
 
                 // SET WindowBorder of "Ball" + _ballCount to value of _screenSize:
                 (entityManager.GetDictionary()["Ball" + _ballCount] as IContainBoundary).WindowBorder = _screenSize;

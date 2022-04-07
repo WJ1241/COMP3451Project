@@ -10,7 +10,7 @@ namespace EngineTest
     /// <summary>
     /// Test Class to test if Factory<A> performs all required behaviours successfully
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 21/02/22
+    /// Date: 07/04/22
     /// </summary>
     [TestClass]
     public class FactoryTest
@@ -25,30 +25,30 @@ namespace EngineTest
         {
             #region ARRANGE
 
-            // DECLARE & INSTANTIATE an IFactory<IService> as a new Factory<IService>, name it '_serviceFactory':
-            IFactory<IService> _serviceFactory = new Factory<IService>();
+            // DECLARE & INSTANTIATE an IFactory<IService> as a new Factory<IService>, name it 'serviceFactory':
+            IFactory<IService> serviceFactory = new Factory<IService>();
 
-            // DECLARE an IEntityManager, name it '_eM', set to null to prevent addressing error:
-            IEntityManager _eM = null;
+            // DECLARE an IEntityManager, name it 'eM', set to null to prevent addressing error:
+            IEntityManager eM = null;
 
             #endregion
 
 
             #region ACT
 
-            // INSTANTIATE _eM as a new EntityManager():
-            _eM = _serviceFactory.Create<EntityManager>() as IEntityManager;
+            // INSTANTIATE eM as a new EntityManager():
+            eM = serviceFactory.Create<EntityManager>() as IEntityManager;
 
             #endregion
 
 
             #region ASSERT
 
-            // IF _eM DOES NOT HAVE an active instance:
-            if (_eM == null)
+            // IF eM DOES NOT HAVE an active instance:
+            if (eM == null)
             {
                 // FAIL test:
-                Assert.Fail("_eM is null, _serviceFactory has not created an EntityManager()!");
+                Assert.Fail("eM is null, _serviceFactory has not created an EntityManager()!");
             }
 
             #endregion

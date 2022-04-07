@@ -12,7 +12,7 @@ namespace OrbitalEngine.EntityManagement
     /// <summary>
     /// Class which Stores and Initialises required commands to Entities
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 04/04/22
+    /// Date: 07/04/22
     /// </summary>
     public class EntityManager : IEntityManager, IInitialiseParam<ICommandScheduler>, IInitialiseParam<IKeyboardPublisher>, IInitialiseParam<IFactory<IEntity>>
     {
@@ -63,10 +63,10 @@ namespace OrbitalEngine.EntityManagement
         {
             #region CREATION
 
-            // INCREMENT iDCount by 1:
+            // INCREMENT _uIDCount by 1:
             _uIDCount++;
 
-            // DECLARE & INSTANTIATE an IEntity as a new T, name it '_entity':
+            // DECLARE & INSTANTIATE an IEntity as a new T, name it 'entity':
             IEntity entity = _entityFactory.Create<T>();
 
             // CALL Generate() to initialise uID and pUName:
