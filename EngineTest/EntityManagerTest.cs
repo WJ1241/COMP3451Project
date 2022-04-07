@@ -12,7 +12,7 @@ namespace EngineTest
     /// <summary>
     /// Test Class to test if EntityManager performs all required behaviours successfully
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 21/02/22
+    /// Date: 07/04/22
     /// </summary>
     [TestClass]
     public class EntityManagerTest
@@ -27,14 +27,14 @@ namespace EngineTest
         {
             #region ARRANGE
 
-            // DECLARE & INSTANTIATE an IEntityManager as a new EntityManager(), name it '_eM':
-            IEntityManager _eM = new EntityManager();
+            // DECLARE & INSTANTIATE an IEntityManager as a new EntityManager(), name it 'eM':
+            IEntityManager eM = new EntityManager();
 
-            // INITIALISE _eM with a new Factory<IEntity>():
-            (_eM as IInitialiseParam<IFactory<IEntity>>).Initialise(new Factory<IEntity>());
+            // INITIALISE eM with a new Factory<IEntity>():
+            (eM as IInitialiseParam<IFactory<IEntity>>).Initialise(new Factory<IEntity>());
 
-            // INITIALISE _eM with a new CommandScheduler():
-            (_eM as IInitialiseParam<ICommandScheduler>).Initialise(new CommandScheduler());
+            // INITIALISE eM with a new CommandScheduler():
+            (eM as IInitialiseParam<ICommandScheduler>).Initialise(new CommandScheduler());
 
             #endregion
 
@@ -42,18 +42,18 @@ namespace EngineTest
             #region ACT
 
             // INSTANTIATE a DrawableRectangleEntity() named "Example":
-            _eM.Create<DrawableRectangleEntity>("Example");
+            eM.Create<DrawableRectangleEntity>("Example");
 
             #endregion
 
 
             #region ASSERT
 
-            // IF _eM DOES NOT contain a key named "Example":
-            if (!_eM.GetDictionary().ContainsKey("Example"))
+            // IF eM DOES NOT contain a key named "Example":
+            if (!eM.GetDictionary().ContainsKey("Example"))
             {
                 // FAIL test:
-                Assert.Fail("'Example' does not exist in _eM Dictionary!");
+                Assert.Fail("'Example' does not exist in eM Dictionary!");
             }
 
             #endregion
@@ -67,14 +67,14 @@ namespace EngineTest
         {
             #region ARRANGE
 
-            // DECLARE & INSTANTIATE an IEntityManager as a new EntityManager(), name it '_eM':
-            IEntityManager _eM = new EntityManager();
+            // DECLARE & INSTANTIATE an IEntityManager as a new EntityManager(), name it 'eM':
+            IEntityManager eM = new EntityManager();
 
-            // INITIALISE _eM with a new Factory<IEntity>():
-            (_eM as IInitialiseParam<IFactory<IEntity>>).Initialise(new Factory<IEntity>());
+            // INITIALISE eM with a new Factory<IEntity>():
+            (eM as IInitialiseParam<IFactory<IEntity>>).Initialise(new Factory<IEntity>());
 
-            // INITIALISE _eM with a new CommandScheduler():
-            (_eM as IInitialiseParam<ICommandScheduler>).Initialise(new CommandScheduler());
+            // INITIALISE eM with a new CommandScheduler():
+            (eM as IInitialiseParam<ICommandScheduler>).Initialise(new CommandScheduler());
 
             #endregion
 
@@ -82,26 +82,25 @@ namespace EngineTest
             #region ACT
 
             // INSTANTIATE a DrawableRectangleEntity() named "Example":
-            _eM.Create<DrawableRectangleEntity>("Example");
+            eM.Create<DrawableRectangleEntity>("Example");
 
-            // TERMINATE "Example" from _eM:
-            _eM.Terminate("Example");
+            // TERMINATE "Example" from eM:
+            eM.Terminate("Example");
 
             #endregion
 
 
             #region ASSERT
 
-            // IF _eM DOES contain a key named "Example":
-            if (_eM.GetDictionary().ContainsKey("Example"))
+            // IF eM DOES contain a key named "Example":
+            if (eM.GetDictionary().ContainsKey("Example"))
             {
                 // FAIL test:
-                Assert.Fail("'Example' still exists in _eM Dictionary!");
+                Assert.Fail("'Example' still exists in eM Dictionary!");
             }
 
             #endregion
         }
-
 
         #endregion
     }

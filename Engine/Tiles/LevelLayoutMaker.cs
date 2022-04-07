@@ -128,7 +128,7 @@ namespace OrbitalEngine.Tiles
                                         // SET Layer Property value of tempEntity to 2:
                                         (tempEntity as ILayer).Layer = 2;
                                     }
-                                    // IF Layer name is "StaticObstacles" for tables, boxes etc
+                                    // IF Layer name is "StaticObstacles" for tables, boxes etc:
                                     else if (pTileMap.Layers[i].Name == "StaticObstacles")
                                     {
                                         // SET Data of _createEntDict["StaticObstacles"] to "StaticObstacles" + j:
@@ -140,7 +140,7 @@ namespace OrbitalEngine.Tiles
                                         // SET Layer Property value of tempEntity to 3:
                                         (tempEntity as ILayer).Layer = 3;
                                     }
-                                    // IF Layer name is "Items" for the artifacts
+                                    // IF Layer name is "Items" for the artefacts:
                                     else if (pTileMap.Layers[i].Name == "Items")
                                     {
                                         // SET Data of _createEntDict["Items"] to "Items" + j:
@@ -152,7 +152,7 @@ namespace OrbitalEngine.Tiles
                                         // SET Layer Property value of tempEntity to 4:
                                         (tempEntity as ILayer).Layer = 4;
                                     }
-                                    // IF Layer name is "LevelChange" for level transition 
+                                    // IF Layer name is "LevelChange" for level transition:
                                     else if (pTileMap.Layers[i].Name == "Trans")
                                     {
                                         // SET Data of _createEntDict["LevelChange"] to "LevelChange" + j:

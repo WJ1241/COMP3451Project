@@ -146,14 +146,14 @@ namespace OrbitalEngine.States
         /// <param name="pGameTime">holds reference to GameTime object</param>
         public virtual void Update(GameTime pGameTime)
         {
-            // DECLARE & INITIALISE an UpdateEventArgs, name it '_tempUpdateEA':
-            UpdateEventArgs _tempUpdateEA = new UpdateEventArgs();
+            // DECLARE & INITIALISE an UpdateEventArgs, name it 'tempUpdateEA':
+            UpdateEventArgs tempUpdateEA = new UpdateEventArgs();
 
             // SET RequiredArg Property's value to pGameTime:
-            _tempUpdateEA.RequiredArg = pGameTime;
+            tempUpdateEA.RequiredArg = pGameTime;
 
             // CALL Invoke on _behaviourEvent, passing this class and _tempUpdateEA as parameters:
-            _behaviourEvent.Invoke(this, _tempUpdateEA);
+            _behaviourEvent.Invoke(this, tempUpdateEA);
         }
 
         #endregion

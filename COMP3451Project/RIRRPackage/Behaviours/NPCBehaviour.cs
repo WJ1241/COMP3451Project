@@ -52,7 +52,11 @@ namespace COMP3451Project.RIRRPackage.Behaviours
         /// Used when an object hits a boundary, possibly to change direction or stop
         /// </summary>
         protected override void Boundary()
-        {
+        { }
+
+        #endregion
+
+        /*
             // ASSIGN value of _entity's Velocity to _currentVel:
             _velocity = (_entity as IVelocity).Velocity;
 
@@ -105,7 +109,7 @@ namespace COMP3451Project.RIRRPackage.Behaviours
         }
 
         #endregion
-
+        */
 
         #region IMPLEMENTATION OF ICOLLISIONEVENTLISTENER
 

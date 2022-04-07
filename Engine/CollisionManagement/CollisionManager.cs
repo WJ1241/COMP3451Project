@@ -11,7 +11,7 @@ namespace OrbitalEngine.CollisionManagement
     /// <summary>
     /// Class which stores references to entities that can collide with other entities
     /// Authors: William Smith, Declan Kerby-Collins & Marc Price
-    /// Date: 18/02/22
+    /// Date: 07/04/22
     /// </summary>
     /// <REFERENCE> Price, M. (2021) ‘Session 16 - Collision Management’, Games Design & Engineering: Sessions. Available at: https://worcesterbb.blackboard.com. (Accessed: 17 February 2021). </REFERENCE>
     public class CollisionManager : ICollisionManager, IUpdatable, IService
@@ -34,7 +34,8 @@ namespace OrbitalEngine.CollisionManagement
         /// </summary>
         public CollisionManager() 
         {
-            // EMPTY CONSTRUCTOR
+            // INSTANTIATE _collidableList as a new List<ICollidable>():
+            _collidableList = new List<ICollidable>();
         }
 
         #endregion
@@ -74,8 +75,8 @@ namespace OrbitalEngine.CollisionManagement
         /// <CITATION> (Price, 2021) </CITATION>
         public void Update(GameTime pGameTime)
         {
-            // INSTANTIATE a new List<ICollidable>, newly created instance on update, allows for changes from entity Dictionary:
-            _collidableList = new List<ICollidable>();
+            // CALL Clear() on _collidableList to remove old references
+            _collidableList.Clear();
 
             // FOREACH IEntity in _entityDictionary.values:
             foreach (IEntity pEntity in _entityDictionary.Values)

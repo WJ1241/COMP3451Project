@@ -12,11 +12,14 @@ namespace COMP3451Project.RIRRPackage.States
     /// <summary>
     /// Class which contains conditional information for Pong Ball entities to be modified by another class e.g. BallBehaviour
     /// Author: William Smith & Declan Kerby-Collins
-    /// Date: 20/02/22
+    /// Date: 07/04/22
     /// </summary>
     public class BallState : State, ICollisionListener
     {
         #region FIELD VARIABLES
+
+        // DECLARE an IDictionary<string, EventArgs>, name it '_argsDict':
+        IDictionary<string, EventArgs> _argsDict;
 
         // DECLARE an EventHandler<CollisionEventArgs>, name it '_collisionEvent':
         private EventHandler<CollisionEventArgs> _collisionEvent;
@@ -46,14 +49,14 @@ namespace COMP3451Project.RIRRPackage.States
         /// <param name="pScndCollidable">Other entity implementing ICollidable</param>
         public void OnCollision(ICollidable pScndCollidable)
         {
-            // DECLARE & INITIALISE an CollisionEventArgs, name it '_tempCollisionEA':
-            CollisionEventArgs _tempCollisionEA = new CollisionEventArgs();
+            // DECLARE & INITIALISE an CollisionEventArgs, name it 'tempCollisionEA':
+            CollisionEventArgs tempCollisionEA = new CollisionEventArgs();
 
             // SET RequiredArg Property's instance to pScndCollidable:
-            _tempCollisionEA.RequiredArg = pScndCollidable;
+            tempCollisionEA.RequiredArg = pScndCollidable;
 
             // CALL Invoke on _collisionEvent, passing this class and _tempCollisionEA as parameters:
-            _collisionEvent.Invoke(this, _tempCollisionEA);
+            _collisionEvent.Invoke(this, tempCollisionEA);
         }
 
         #endregion

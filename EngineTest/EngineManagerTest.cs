@@ -12,7 +12,7 @@ namespace EngineTest
     /// <summary>
     /// Test Class to test if EngineManager performs all required behaviours successfully
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 21/02/22
+    /// Date: 03/04/22
     /// </summary>
     [TestClass]
     public class EngineManagerTest

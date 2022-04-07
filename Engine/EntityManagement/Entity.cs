@@ -11,7 +11,7 @@ namespace OrbitalEngine.EntityManagement
     /// <summary>
     /// Abstract class for more specific entities to inherit from
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 15/02/22
+    /// Date: 07/04/22
     /// </summary>
     public abstract class Entity : IEntity, IEntityInternal, IInitialiseParam<IState>, ICommandSender, ILayer, IContainBoundary, ITerminate
     {
@@ -213,8 +213,9 @@ namespace OrbitalEngine.EntityManagement
         /// Layer 2: Walls
         /// Layer 3: Static Obstacles
         /// Layer 4: Items
-        /// Layer 5: Player/Enemy
-        /// Layer 6: GUI
+        /// Layer 5: Level Change
+        /// Layer 6: Player/Enemy
+        /// Layer 7: GUI
         /// </summary>
         public int Layer
         {

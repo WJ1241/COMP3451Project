@@ -16,7 +16,7 @@ namespace COMP3451Project.RIRRPackage.States
     /// <summary>
     /// Class which contains conditional information for Pong Paddle entities to be modified by another class e.g. PaddleBehaviour
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 19/02/22
+    /// Date: 07/04/22
     /// </summary>
     public class PaddleState : State, IKeyboardListener, IPlayer
     {
@@ -166,17 +166,17 @@ namespace COMP3451Project.RIRRPackage.States
         /// <param name="pGameTime">holds reference to GameTime object</param>
         public override void Update(GameTime pGameTime)
         {
-            // DECLARE & INITIALISE an UpdateEventArgs, name it '_tempUpdateEA':
-            UpdateEventArgs _tempUpdateEA = new UpdateEventArgs();
+            // DECLARE & INITIALISE an UpdateEventArgs, name it 'tempUpdateEA':
+            UpdateEventArgs tempUpdateEA = new UpdateEventArgs();
 
             // SET RequiredArg Property's value to pGameTime:
-            _tempUpdateEA.RequiredArg = pGameTime;
+            tempUpdateEA.RequiredArg = pGameTime;
 
-            // CALL Invoke() on _behaviourEvent, passing this class and _tempUpdateEA as parameters:
-            _behaviourEvent.Invoke(this, _tempUpdateEA);
+            // CALL Invoke() on _behaviourEvent, passing this class and tempUpdateEA as parameters:
+            _behaviourEvent.Invoke(this, tempUpdateEA);
 
-            // CALL Invoke() on _animationEvent, passing this class and _tempUpdateEA as parameters:
-            _animationEvent.Invoke(this, _tempUpdateEA);
+            // CALL Invoke() on _animationEvent, passing this class and tempUpdateEA as parameters:
+            _animationEvent.Invoke(this, tempUpdateEA);
         }
 
         #endregion
