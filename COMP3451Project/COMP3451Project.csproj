@@ -55,6 +55,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RIRRPackage\Behaviours\BallBehaviour.cs" />
+    <Compile Include="RIRRPackage\Behaviours\NPCBehaviour.cs" />
     <Compile Include="RIRRPackage\Behaviours\PaddleBehaviour.cs" />
     <Compile Include="RIRRPackage\Behaviours\PlayerBehaviour.cs" />
     <Compile Include="RIRRPackage\Behaviours\PongBehaviour.cs" />
