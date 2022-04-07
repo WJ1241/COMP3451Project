@@ -107,8 +107,15 @@ namespace OrbitalEngine.Services
             {
                 // INITIALISE serviceName, give value of incoming class' type which is trimmed:
                 serviceName = GenericTypeNameTrimmer.TrimOneGeneric(typeof(C));
+
+                // IF typeof(C) DOES HAVE one or more sets of generics:
+                if (typeof(C).GetGenericArguments()[0].GetGenericArguments().Length >= 1)
+                {
+                    // INITIALISE serviceName, give value of incoming class' type which is trimmed:
+                    serviceName = GenericTypeNameTrimmer.TrimOneDoubleGeneric(typeof(C));
+                }
             }
-            // IF typeof(C) DOES HAVE one or more generic arguments:
+            // IF typeof(C) DOES NOT HAVE one or more generic arguments:
             else if (typeof(C).GetGenericArguments().Length == 0)
             {
                 // INITIALISE serviceName, give value of incoming class/interface:

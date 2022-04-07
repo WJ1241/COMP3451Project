@@ -164,6 +164,9 @@ namespace COMP3451Project
                 // DECLARE & INSTANTIATE an IFuncCommand<ICommandOneParam<string>> as a new FuncCommand<ICommandOneParam<string>>(), name it 'createCommand':
                 IFuncCommand<ICommand> createCommand = (_engineManager.GetService<Factory<IFuncCommand<ICommand>>>() as IFactory<IFuncCommand<ICommand>>).Create<FuncCommandZeroParam<ICommand>>();
 
+                Console.WriteLine(_engineManager.GetService<Factory<IFuncCommand<ICommand>>>().GetType());
+
+
                 // INITIALISE _createFloor's MethodRef Property with Factory<ICommand>.Create<CommandOneParam<string>>:
                 (createCommand as IFuncCommandZeroParam<ICommand>).MethodRef = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandOneParam<string>>;
 
@@ -239,7 +242,7 @@ namespace COMP3451Project
                 #region COMMANDS
 
                 // DECLARE & INSTANTIATE an IFuncCommand<IEntity> as a new FuncCommandOneParam<string, IEntity>(), name it 'createWall':
-                IFuncCommand<IEntity> createWall = new FuncCommandOneParam<string, IEntity>(); //(_engineManager.GetService<Factory<IFuncCommand<IEntity>>>() as IFactory<IFuncCommand<IEntity>>).Create<FuncCommandOneParam<string, IEntity>>();
+                IFuncCommand<IEntity> createWall = (_engineManager.GetService<Factory<IFuncCommand<IEntity>>>() as IFactory<IFuncCommand<IEntity>>).Create<FuncCommandOneParam<string, IEntity>>();
 
                 // INITIALISE _createFloor's MethodRef Property with EntityManager.Create<Wall>:
                 (createWall as IFuncCommandOneParam<string, IEntity>).MethodRef = (_engineManager.GetService<EntityManager>() as IEntityManager).Create<Wall>;

@@ -36,6 +36,18 @@ namespace OrbitalEngine.Services
             return pType.Name.Remove(pType.Name.IndexOf("`")) + "<" + pType.GetGenericArguments()[0].Name + ", " + pType.GetGenericArguments()[1].Name + ">";
         }
 
+        /// <summary>
+        /// Trims ONE generic from use of TWO generic types so that addressing becomes easier
+        /// </summary>
+        /// <param name="pType"> Type including Generic parameters </param>
+        /// <returns> Trimmed string name </returns>
+        /// <CITATION> LukeH (2010) </CITATION>
+        public static string TrimOneDoubleGeneric(Type pType)
+        {
+            // RETURN a trimmed string to remove generic info for easier addressing:
+            return pType.Name.Remove(pType.Name.IndexOf("`")) + "<" + pType.GetGenericArguments()[0].Name.Remove(pType.GetGenericArguments()[0].Name.IndexOf("`")) + "<" + pType.GetGenericArguments()[0].GetGenericArguments()[0].Name + ">>";
+        }
+
         #endregion
     }
 }
