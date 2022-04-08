@@ -6,13 +6,14 @@ using OrbitalEngine.Services.Commands;
 using OrbitalEngine.Services.Commands.Interfaces;
 using OrbitalEngine.Services.Factories;
 using OrbitalEngine.Services.Factories.Interfaces;
+using System.Collections.Generic;
 
 namespace EngineTest
 {
     /// <summary>
     /// Test Class to test if EntityManager performs all required behaviours successfully
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 07/04/22
+    /// Date: 08/04/22
     /// </summary>
     [TestClass]
     public class EntityManagerTest
@@ -33,8 +34,27 @@ namespace EngineTest
             // INITIALISE eM with a new Factory<IEntity>():
             (eM as IInitialiseParam<IFactory<IEntity>>).Initialise(new Factory<IEntity>());
 
+            // INITIALISE eM with a new Dictionary<string, IEntity>():
+            (eM as IInitialiseParam<IDictionary<string, IEntity>>).Initialise(new Dictionary<string, IEntity>());
+
             // INITIALISE eM with a new CommandScheduler():
             (eM as IInitialiseParam<ICommandScheduler>).Initialise(new CommandScheduler());
+
+            #region CREATE COMMAND
+
+            // DECLARE & INSTANTIATE an IFactory<ICommand> as a new Factory<ICommand>(), name it 'cmdFactory':
+            IFactory<ICommand> cmdFactory = new Factory<ICommand>();
+
+            // DECLARE & INSTANTIATE an IFuncCommand<ICommand> as a new FuncCommandZeroParam<ICommand>(), name it 'createCommand':
+            IFuncCommand<ICommand> createCommand = new FuncCommandZeroParam<ICommand>();
+
+            // INITIALISE MethodRef Property of createCommand with reference to cmdFactory.Create<CommandOneParam<string>>:
+            (createCommand as IFuncCommandZeroParam<ICommand>).MethodRef = cmdFactory.Create<CommandOneParam<string>>;
+
+            // INITIALISE eM with reference to createCommand:
+            (eM as IInitialiseParam<IFuncCommand<ICommand>>).Initialise(createCommand);
+
+            #endregion
 
             #endregion
 
@@ -73,8 +93,27 @@ namespace EngineTest
             // INITIALISE eM with a new Factory<IEntity>():
             (eM as IInitialiseParam<IFactory<IEntity>>).Initialise(new Factory<IEntity>());
 
+            // INITIALISE eM with a new Dictionary<string, IEntity>():
+            (eM as IInitialiseParam<IDictionary<string, IEntity>>).Initialise(new Dictionary<string, IEntity>());
+
             // INITIALISE eM with a new CommandScheduler():
             (eM as IInitialiseParam<ICommandScheduler>).Initialise(new CommandScheduler());
+
+            #region CREATE COMMAND
+
+            // DECLARE & INSTANTIATE an IFactory<ICommand> as a new Factory<ICommand>(), name it 'cmdFactory':
+            IFactory<ICommand> cmdFactory = new Factory<ICommand>();
+
+            // DECLARE & INSTANTIATE an IFuncCommand<ICommand> as a new FuncCommandZeroParam<ICommand>(), name it 'createCommand':
+            IFuncCommand<ICommand> createCommand = new FuncCommandZeroParam<ICommand>();
+
+            // INITIALISE MethodRef Property of createCommand with reference to cmdFactory.Create<CommandOneParam<string>>:
+            (createCommand as IFuncCommandZeroParam<ICommand>).MethodRef = cmdFactory.Create<CommandOneParam<string>>;
+
+            // INITIALISE eM with reference to createCommand:
+            (eM as IInitialiseParam<IFuncCommand<ICommand>>).Initialise(createCommand);
+
+            #endregion
 
             #endregion
 
