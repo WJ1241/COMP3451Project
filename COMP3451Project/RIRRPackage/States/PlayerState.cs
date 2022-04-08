@@ -94,28 +94,49 @@ namespace COMP3451Project.RIRRPackage.States
             // IF Player 1:
             if (_playerNum == PlayerIndex.One)
             {
-                // IF W Key down:
-                if (pKeyboardState.IsKeyDown(Keys.W))
+                // IF W AND A Key down:
+                if (pKeyboardState.IsKeyDown(Keys.W) && pKeyboardState.IsKeyDown(Keys.A))
+                {
+                    // SET _activeBehaviour to "up-left":
+                    _activeBehaviour = "up-left";
+                }
+                // IF W AND D Key down:
+                else if (pKeyboardState.IsKeyDown(Keys.W) && pKeyboardState.IsKeyDown(Keys.D))
+                {
+                    // SET _activeBehaviour to "up-right":
+                    _activeBehaviour = "up-right";
+                }
+                // IF S AND A Key down:
+                else if (pKeyboardState.IsKeyDown(Keys.S) && pKeyboardState.IsKeyDown(Keys.A))
+                {
+                    // SET _activeBehaviour to "down-left":
+                    _activeBehaviour = "down-left";
+                }
+                // IF S AND D Key down:
+                else if (pKeyboardState.IsKeyDown(Keys.S) && pKeyboardState.IsKeyDown(Keys.D))
+                {
+                    // SET _activeBehaviour to "down-right":
+                    _activeBehaviour = "down-right";
+                }
+                // IF ONLY W Key down:
+                else if (pKeyboardState.IsKeyDown(Keys.W))
                 {
                     // SET _activeBehaviour to "up":
                     _activeBehaviour = "up";
                 }
-
-                // ELSE IF S Key down:
+                // IF ONLY S Key down:
                 else if (pKeyboardState.IsKeyDown(Keys.S))
                 {
                     // SET _activeBehaviour to "down":
                     _activeBehaviour = "down";
                 }
-
-                // ELSE IF A Key down:
+                // IF ONLY A Key down:
                 else if (pKeyboardState.IsKeyDown(Keys.A))
                 {
                     // SET _activeBehaviour to "left":
                     _activeBehaviour = "left";
                 }
-
-                // ELSE IF D Key down:
+                // IF ONLY D Key down:
                 else if (pKeyboardState.IsKeyDown(Keys.D))
                 {
                     // SET _activeBehaviour to "right":

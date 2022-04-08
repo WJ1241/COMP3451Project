@@ -12,7 +12,7 @@ namespace COMP3451Project.RIRRPackage.Entities
     /// <summary>
     /// Class which adds a Player entity on screen
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 07/04/22
+    /// Date: 08/04/22
     /// </summary>
     public class Player : PongEntity, IPlayer, ICollidable, IDrawSourceRectangle, IGetSpeed, IKeyboardListener
     {
@@ -31,8 +31,8 @@ namespace COMP3451Project.RIRRPackage.Entities
         /// </summary>
         public Player()
         {
-            // ASSIGNMENT, set _speed to 10:
-            _speed = 10;
+            // ASSIGNMENT, set _speed to 2:
+            _speed = 2;
         }
 
         #endregion

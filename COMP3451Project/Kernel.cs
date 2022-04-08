@@ -235,23 +235,21 @@ namespace COMP3451Project
 
                 #region DISPLAYABLE CREATION
 
-                #region LAYER 2
-
-                #region WALLS
+                #region LAYER 1-5
 
                 #region COMMANDS
+
+                // DECLARE & INSTANTIATE an IFuncCommand<IEntity> as a new FuncCommandOneParam<string, IEntity>(), name it 'createFloor':
+                IFuncCommand<IEntity> createFloor = (_engineManager.GetService<Factory<IFuncCommand<IEntity>>>() as IFactory<IFuncCommand<IEntity>>).Create<FuncCommandOneParam<string, IEntity>>();
+
+                // INITIALISE _createFloor's MethodRef Property with EntityManager.Create<DrawableRectangleEntity>:
+                (createFloor as IFuncCommandOneParam<string, IEntity>).MethodRef = (_engineManager.GetService<EntityManager>() as IEntityManager).Create<DrawableRectangleEntity>;
 
                 // DECLARE & INSTANTIATE an IFuncCommand<IEntity> as a new FuncCommandOneParam<string, IEntity>(), name it 'createWall':
                 IFuncCommand<IEntity> createWall = (_engineManager.GetService<Factory<IFuncCommand<IEntity>>>() as IFactory<IFuncCommand<IEntity>>).Create<FuncCommandOneParam<string, IEntity>>();
 
                 // INITIALISE _createFloor's MethodRef Property with EntityManager.Create<Wall>:
                 (createWall as IFuncCommandOneParam<string, IEntity>).MethodRef = (_engineManager.GetService<EntityManager>() as IEntityManager).Create<Wall>;
-
-                // DECLARE & INSTANTIATE an IFuncCommand<IEntity> as a new FuncCommandOneParam<string, IEntity>(), name it 'createFloor':
-                IFuncCommand<IEntity> createFloor = new FuncCommandOneParam<string, IEntity>(); //(_engineManager.GetService<Factory<IFuncCommand<IEntity>>>() as IFactory<IFuncCommand<IEntity>>).Create<FuncCommandOneParam<string, IEntity>>();
-
-                // INITIALISE _createFloor's MethodRef Property with EntityManager.Create<DrawableRectangleEntity>:
-                (createFloor as IFuncCommandOneParam<string, IEntity>).MethodRef = (_engineManager.GetService<EntityManager>() as IEntityManager).Create<DrawableRectangleEntity>;
 
                 #endregion
 
@@ -278,27 +276,43 @@ namespace COMP3451Project
 
                 #endregion
 
-                #endregion
 
+                #region LAYER 6
 
-                #region LAYER 5
+                #region PLAYER
 
-                #region PADDLES
-
-                #region PADDLE 1
+                #region GERALD
 
                 #region STATES
 
                 #region INSTANTIATION
 
-                // DECLARE & INSTANTIATE an IState as a new PaddleState(), name it 'tempStateStationary':
-                IState tempStateStationary = (_engineManager.GetService<Factory<IState>>() as IFactory<IState>).Create<PaddleState>();
+                // DECLARE & INSTANTIATE an IState as a new PlayerState(), name it 'tempStateStationary':
+                IState tempStateStationary = (_engineManager.GetService<Factory<IState>>() as IFactory<IState>).Create<PlayerState>();
 
-                // DECLARE & INSTANTIATE an IState as a new PaddleState(), name it 'tempStateUp':
-                IState tempStateUp = (_engineManager.GetService<Factory<IState>>() as IFactory<IState>).Create<PaddleState>();
+                // DECLARE & INSTANTIATE an IState as a new PlayerState(), name it 'tempStateUp':
+                IState tempStateUp = (_engineManager.GetService<Factory<IState>>() as IFactory<IState>).Create<PlayerState>();
 
-                // DECLARE & INSTANTIATE an IState as a new PaddleState(), name it 'tempStateDown':
-                IState tempStateDown = (_engineManager.GetService<Factory<IState>>() as IFactory<IState>).Create<PaddleState>();
+                // DECLARE & INSTANTIATE an IState as a new PlayerState(), name it 'tempStateDown':
+                IState tempStateDown = (_engineManager.GetService<Factory<IState>>() as IFactory<IState>).Create<PlayerState>();
+
+                // DECLARE & INSTANTIATE an IState as a new PlayerState(), name it 'tempStateLeft':
+                IState tempStateLeft = (_engineManager.GetService<Factory<IState>>() as IFactory<IState>).Create<PlayerState>();
+
+                // DECLARE & INSTANTIATE an IState as a new PlayerState(), name it 'tempStateRight':
+                IState tempStateRight = (_engineManager.GetService<Factory<IState>>() as IFactory<IState>).Create<PlayerState>();
+
+                // DECLARE & INSTANTIATE an IState as a new PlayerState(), name it 'tempStateUpLeft':
+                IState tempStateUpLeft = (_engineManager.GetService<Factory<IState>>() as IFactory<IState>).Create<PlayerState>();
+
+                // DECLARE & INSTANTIATE an IState as a new PlayerState(), name it 'tempStateUpRight':
+                IState tempStateUpRight = (_engineManager.GetService<Factory<IState>>() as IFactory<IState>).Create<PlayerState>();
+
+                // DECLARE & INSTANTIATE an IState as a new PlayerState(), name it 'tempStateDownLeft':
+                IState tempStateDownLeft = (_engineManager.GetService<Factory<IState>>() as IFactory<IState>).Create<PlayerState>();
+
+                // DECLARE & INSTANTIATE an IState as a new PlayerState(), name it 'tempStateDownRight':
+                IState tempStateDownRight = (_engineManager.GetService<Factory<IState>>() as IFactory<IState>).Create<PlayerState>();
 
                 #endregion
 
@@ -306,7 +320,7 @@ namespace COMP3451Project
                 #region INITIALISATION
 
                 /// STATIONARY
-                
+
                 // SET Name Property value of tempStateStationary to "stationary":
                 (tempStateStationary as IName).Name = "stationary";
 
@@ -365,6 +379,126 @@ namespace COMP3451Project
                 // SET ScheduleCommand Property of tempStateDown to reference of CommandScheduler.ScheduleCommand:
                 (tempStateDown as ICommandSender).ScheduleCommand = (_engineManager.GetService<CommandScheduler>() as ICommandScheduler).ScheduleCommand;
 
+                /// LEFT
+
+                // SET Name Property value of tempStateLeft to "left":
+                (tempStateLeft as IName).Name = "left";
+
+                // INITIALISE tempStateLeft with a new Dictionary<string, ICommand>():
+                (tempStateLeft as IInitialiseParam<IDictionary<string, ICommand>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, ICommand>>() as IDictionary<string, ICommand>);
+
+                // INITIALISE tempStateLeft with a new Dictionary<string, EventArgs>():
+                (tempStateLeft as IInitialiseParam<IDictionary<string, EventArgs>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, EventArgs>>() as IDictionary<string, EventArgs>);
+
+                // INITIALISE tempStateLeft with a new UpdateEventArgs():
+                (tempStateLeft as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<UpdateEventArgs>());
+
+                // SET PlayerIndex of tempStateLeft to PlayerIndex.One:
+                (tempStateLeft as IPlayer).PlayerNum = PlayerIndex.One;
+
+                // SET ScheduleCommand Property of tempStateLeft to reference of CommandScheduler.ScheduleCommand:
+                (tempStateLeft as ICommandSender).ScheduleCommand = (_engineManager.GetService<CommandScheduler>() as ICommandScheduler).ScheduleCommand;
+
+                /// RIGHT
+
+                // SET Name Property value of tempStateRight to "right":
+                (tempStateRight as IName).Name = "right";
+
+                // INITIALISE tempStateRight with a new Dictionary<string, ICommand>():
+                (tempStateRight as IInitialiseParam<IDictionary<string, ICommand>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, ICommand>>() as IDictionary<string, ICommand>);
+
+                // INITIALISE tempStateRight  with a new Dictionary<string, EventArgs>():
+                (tempStateRight as IInitialiseParam<IDictionary<string, EventArgs>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, EventArgs>>() as IDictionary<string, EventArgs>);
+
+                // INITIALISE tempStateRight with a new UpdateEventArgs():
+                (tempStateRight as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<UpdateEventArgs>());
+
+                // SET PlayerIndex of tempStateRight to PlayerIndex.One:
+                (tempStateRight as IPlayer).PlayerNum = PlayerIndex.One;
+
+                // SET ScheduleCommand Property of tempStateRight to reference of CommandScheduler.ScheduleCommand:
+                (tempStateRight as ICommandSender).ScheduleCommand = (_engineManager.GetService<CommandScheduler>() as ICommandScheduler).ScheduleCommand;
+
+                /// UP-LEFT
+
+                // SET Name Property value of tempStateUpLeft to "up-left":
+                (tempStateUpLeft as IName).Name = "up-left";
+
+                // INITIALISE tempStateUpLeft with a new Dictionary<string, ICommand>():
+                (tempStateUpLeft as IInitialiseParam<IDictionary<string, ICommand>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, ICommand>>() as IDictionary<string, ICommand>);
+
+                // INITIALISE tempStateUpLeft with a new Dictionary<string, EventArgs>():
+                (tempStateUpLeft as IInitialiseParam<IDictionary<string, EventArgs>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, EventArgs>>() as IDictionary<string, EventArgs>);
+
+                // INITIALISE tempStateUpLeft with a new UpdateEventArgs():
+                (tempStateUpLeft as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<UpdateEventArgs>());
+
+                // SET PlayerIndex of tempStateUpLeft to PlayerIndex.One:
+                (tempStateUpLeft as IPlayer).PlayerNum = PlayerIndex.One;
+
+                // SET ScheduleCommand Property of tempStateUpLeft to reference of CommandScheduler.ScheduleCommand:
+                (tempStateUpLeft as ICommandSender).ScheduleCommand = (_engineManager.GetService<CommandScheduler>() as ICommandScheduler).ScheduleCommand;
+
+                /// UP-RIGHT
+
+                // SET Name Property value of tempStateUpRight to "up-right":
+                (tempStateUpRight as IName).Name = "up-right";
+
+                // INITIALISE tempStateUpRight with a new Dictionary<string, ICommand>():
+                (tempStateUpRight as IInitialiseParam<IDictionary<string, ICommand>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, ICommand>>() as IDictionary<string, ICommand>);
+
+                // INITIALISE tempStateUpRight with a new Dictionary<string, EventArgs>():
+                (tempStateUpRight as IInitialiseParam<IDictionary<string, EventArgs>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, EventArgs>>() as IDictionary<string, EventArgs>);
+
+                // INITIALISE tempStateUpRight with a new UpdateEventArgs():
+                (tempStateUpRight as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<UpdateEventArgs>());
+
+                // SET PlayerIndex of tempStateUpRight to PlayerIndex.One:
+                (tempStateUpRight as IPlayer).PlayerNum = PlayerIndex.One;
+
+                // SET ScheduleCommand Property of tempStateUpRight to reference of CommandScheduler.ScheduleCommand:
+                (tempStateUpRight as ICommandSender).ScheduleCommand = (_engineManager.GetService<CommandScheduler>() as ICommandScheduler).ScheduleCommand;
+
+                /// DOWN-LEFT
+
+                // SET Name Property value of tempStateDownLeft to "down-left":
+                (tempStateDownLeft as IName).Name = "down-left";
+
+                // INITIALISE tempStateUpLeft with a new Dictionary<string, ICommand>():
+                (tempStateDownLeft as IInitialiseParam<IDictionary<string, ICommand>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, ICommand>>() as IDictionary<string, ICommand>);
+
+                // INITIALISE tempStateDownLeft with a new Dictionary<string, EventArgs>():
+                (tempStateDownLeft as IInitialiseParam<IDictionary<string, EventArgs>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, EventArgs>>() as IDictionary<string, EventArgs>);
+
+                // INITIALISE tempStateDownLeft with a new UpdateEventArgs():
+                (tempStateDownLeft as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<UpdateEventArgs>());
+
+                // SET PlayerIndex of tempStateDownLeft to PlayerIndex.One:
+                (tempStateDownLeft as IPlayer).PlayerNum = PlayerIndex.One;
+
+                // SET ScheduleCommand Property of tempStateDownLeft to reference of CommandScheduler.ScheduleCommand:
+                (tempStateDownLeft as ICommandSender).ScheduleCommand = (_engineManager.GetService<CommandScheduler>() as ICommandScheduler).ScheduleCommand;
+
+                /// DOWN-RIGHT
+
+                // SET Name Property value of tempStateDownRight to "down-right":
+                (tempStateDownRight as IName).Name = "down-right";
+
+                // INITIALISE tempStateDownRight with a new Dictionary<string, ICommand>():
+                (tempStateDownRight as IInitialiseParam<IDictionary<string, ICommand>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, ICommand>>() as IDictionary<string, ICommand>);
+
+                // INITIALISE tempStateDownRight with a new Dictionary<string, EventArgs>():
+                (tempStateDownRight as IInitialiseParam<IDictionary<string, EventArgs>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, EventArgs>>() as IDictionary<string, EventArgs>);
+
+                // INITIALISE tempStateDownRight with a new UpdateEventArgs():
+                (tempStateDownRight as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<UpdateEventArgs>());
+
+                // SET PlayerIndex of tempStateDownRight to PlayerIndex.One:
+                (tempStateDownRight as IPlayer).PlayerNum = PlayerIndex.One;
+
+                // SET ScheduleCommand Property of tempStateDownRight to reference of CommandScheduler.ScheduleCommand:
+                (tempStateDownRight as ICommandSender).ScheduleCommand = (_engineManager.GetService<CommandScheduler>() as ICommandScheduler).ScheduleCommand;
+
                 #endregion
 
                 #endregion
@@ -374,28 +508,37 @@ namespace COMP3451Project
 
                 #region INSTANTIATIONS
 
-                // DECLARE & INSTANTIATE an IUpdateEventListener as a new PaddleBehaviour(), name it 'behaviourStationary':
-                IUpdateEventListener behaviourStationary = (_engineManager.GetService<Factory<IUpdateEventListener>>() as IFactory<IUpdateEventListener>).Create<PaddleBehaviour>();
+                // DECLARE & INSTANTIATE an IUpdateEventListener as a new PlayerBehaviour(), name it 'behaviourStationary':
+                IUpdateEventListener behaviourStationary = (_engineManager.GetService<Factory<IUpdateEventListener>>() as IFactory<IUpdateEventListener>).Create<PlayerBehaviour>();
 
-                // DECLARE & INSTANTIATE an IUpdateEventListener as a new PaddleBehaviour(), name it 'behaviourUp':
-                IUpdateEventListener behaviourUp = (_engineManager.GetService<Factory<IUpdateEventListener>>() as IFactory<IUpdateEventListener>).Create<PaddleBehaviour>();
+                // DECLARE & INSTANTIATE an IUpdateEventListener as a new PlayerBehaviour(), name it 'behaviourUp':
+                IUpdateEventListener behaviourUp = (_engineManager.GetService<Factory<IUpdateEventListener>>() as IFactory<IUpdateEventListener>).Create<PlayerBehaviour>();
 
-                // DECLARE & INSTANTIATE an IUpdateEventListener as a new PaddleBehaviour(), name it 'behaviourDown':
-                IUpdateEventListener behaviourDown = (_engineManager.GetService<Factory<IUpdateEventListener>>() as IFactory<IUpdateEventListener>).Create<PaddleBehaviour>();
+                // DECLARE & INSTANTIATE an IUpdateEventListener as a new PlayerBehaviour(), name it 'behaviourDown':
+                IUpdateEventListener behaviourDown = (_engineManager.GetService<Factory<IUpdateEventListener>>() as IFactory<IUpdateEventListener>).Create<PlayerBehaviour>();
 
-                // DECLARE & INSTANTIATE an IUpdateEventListener as a new Animation(), name it 'animationStationary':
-                IAnimation animationStationary = (_engineManager.GetService<Factory<IAnimation>>() as IFactory<IAnimation>).Create<Animation>();
+                // DECLARE & INSTANTIATE an IUpdateEventListener as a new PlayerBehaviour(), name it 'behaviourLeft':
+                IUpdateEventListener behaviourLeft = (_engineManager.GetService<Factory<IUpdateEventListener>>() as IFactory<IUpdateEventListener>).Create<PlayerBehaviour>();
 
-                // DECLARE & INSTANTIATE an IUpdateEventListener as a new Animation(), name it 'animationUp':
-                IAnimation animationUp = (_engineManager.GetService<Factory<IAnimation>>() as IFactory<IAnimation>).Create<Animation>();
+                // DECLARE & INSTANTIATE an IUpdateEventListener as a new PlayerBehaviour(), name it 'behaviourRight':
+                IUpdateEventListener behaviourRight = (_engineManager.GetService<Factory<IUpdateEventListener>>() as IFactory<IUpdateEventListener>).Create<PlayerBehaviour>();
 
-                // DECLARE & INSTANTIATE an IUpdateEventListener as a new Animation(), name it 'animationDown':
-                IAnimation animationDown = (_engineManager.GetService<Factory<IAnimation>>() as IFactory<IAnimation>).Create<Animation>();
+                // DECLARE & INSTANTIATE an IUpdateEventListener as a new PlayerBehaviour(), name it 'behaviourUpLeft':
+                IUpdateEventListener behaviourUpLeft = (_engineManager.GetService<Factory<IUpdateEventListener>>() as IFactory<IUpdateEventListener>).Create<PlayerBehaviour>();
+
+                // DECLARE & INSTANTIATE an IUpdateEventListener as a new PlayerBehaviour(), name it 'behaviourUpRight':
+                IUpdateEventListener behaviourUpRight = (_engineManager.GetService<Factory<IUpdateEventListener>>() as IFactory<IUpdateEventListener>).Create<PlayerBehaviour>();
+
+                // DECLARE & INSTANTIATE an IUpdateEventListener as a new PlayerBehaviour(), name it 'behaviourDownLeft':
+                IUpdateEventListener behaviourDownLeft = (_engineManager.GetService<Factory<IUpdateEventListener>>() as IFactory<IUpdateEventListener>).Create<PlayerBehaviour>();
+
+                // DECLARE & INSTANTIATE an IUpdateEventListener as a new PlayerBehaviour(), name it 'behaviourDownRight':
+                IUpdateEventListener behaviourDownRight = (_engineManager.GetService<Factory<IUpdateEventListener>>() as IFactory<IUpdateEventListener>).Create<PlayerBehaviour>();
 
                 #endregion
 
 
-                #region INITIALISATION
+                #region INITIALISATIONS
 
                 // SET Direction Property value of behaviourStationary to '0':
                 (behaviourStationary as IDirection).Direction = new Vector2(0);
@@ -406,6 +549,24 @@ namespace COMP3451Project
                 // SET Direction Property value of behaviourDown to '0, 1':
                 (behaviourDown as IDirection).Direction = new Vector2(0, 1);
 
+                // SET Direction Property value of behaviourLeft to '-1, 0':
+                (behaviourLeft as IDirection).Direction = new Vector2(-1, 0);
+
+                // SET Direction Property value of behaviourRight to '1, 0':
+                (behaviourRight as IDirection).Direction = new Vector2(1, 0);
+
+                // SET Direction Property value of behaviourUpLeft to '-1, -1':
+                (behaviourUpLeft as IDirection).Direction = new Vector2(-1, -1);
+
+                // SET Direction Property value of behaviourUpLeft to '1, -1':
+                (behaviourUpRight as IDirection).Direction = new Vector2(1, -1);
+
+                // SET Direction Property value of behaviourDownLeft to '-1, 1':
+                (behaviourDownLeft as IDirection).Direction = new Vector2(-1, 1);
+
+                // SET Direction Property value of behaviourDownRight to '1, 1':
+                (behaviourDownRight as IDirection).Direction = new Vector2(1, 1);
+
                 #endregion
 
                 #endregion
@@ -413,13 +574,35 @@ namespace COMP3451Project
 
                 #region ANIMATIONS
 
+                #region INSTANTIATIONS
+
+                // DECLARE & INSTANTIATE an IUpdateEventListener as a new Animation(), name it 'animationStationary':
+                IAnimation animationStationary = (_engineManager.GetService<Factory<IAnimation>>() as IFactory<IAnimation>).Create<Animation>();
+
+                // DECLARE & INSTANTIATE an IUpdateEventListener as a new Animation(), name it 'animationUp':
+                IAnimation animationUp = (_engineManager.GetService<Factory<IAnimation>>() as IFactory<IAnimation>).Create<Animation>();
+
+                // DECLARE & INSTANTIATE an IUpdateEventListener as a new Animation(), name it 'animationDown':
+                IAnimation animationDown = (_engineManager.GetService<Factory<IAnimation>>() as IFactory<IAnimation>).Create<Animation>();
+
+                // DECLARE & INSTANTIATE an IUpdateEventListener as a new Animation(), name it 'animationLeft':
+                IAnimation animationLeft = (_engineManager.GetService<Factory<IAnimation>>() as IFactory<IAnimation>).Create<Animation>();
+
+                // DECLARE & INSTANTIATE an IUpdateEventListener as a new Animation(), name it 'animationRight':
+                IAnimation animationRight = (_engineManager.GetService<Factory<IAnimation>>() as IFactory<IAnimation>).Create<Animation>();
+
+                #endregion
+
+
+                #region INITIALISATIONS
+
                 /// STATIONARY
 
-                // SET Texture Property value of animationStationary to "paddleSpriteSheet":
-                (animationStationary as ITexture).Texture = Content.Load<Texture2D>("ExampleLevel/paddleSpriteSheet");
+                // SET Texture Property value of animationStationary to "Geoff":
+                (animationStationary as ITexture).Texture = Content.Load<Texture2D>("RIRR/Geoff");
 
-                // SET Row Property value of animationStationary to '50, 150':
-                animationStationary.SpriteSize = new Point(50, 150);
+                // SET Row Property value of animationStationary to '15, 22':
+                animationStationary.SpriteSize = new Point(15, 22);
 
                 // SET Row Property value of animationStationary to '0':
                 animationStationary.Row = 0;
@@ -429,31 +612,61 @@ namespace COMP3451Project
 
                 /// UP
 
-                // SET Texture Property value of animationUp to "paddleSpriteSheet":
-                (animationUp as ITexture).Texture = Content.Load<Texture2D>("ExampleLevel/paddleSpriteSheet");
+                // SET Texture Property value of animationUp to "Geoff":
+                (animationUp as ITexture).Texture = Content.Load<Texture2D>("RIRR/Geoff");
 
-                // SET Row Property value of animationUp to '50, 150':
-                animationUp.SpriteSize = new Point(50, 150);
+                // SET Row Property value of animationUp to '15, 22':
+                animationUp.SpriteSize = new Point(15, 22);
 
-                // SET Row Property value of animationUp to '1':
-                animationUp.Row = 1;
+                // SET Row Property value of animationUp to '2':
+                animationUp.Row = 2;
 
                 // SET MsPerFrame Property value of animationUp to '200':
                 animationUp.MsPerFrame = 200;
 
                 /// DOWN
 
-                // SET Texture Property value of animationDown to "paddleSpriteSheet":
-                (animationDown as ITexture).Texture = Content.Load<Texture2D>("ExampleLevel/paddleSpriteSheet");
+                // SET Texture Property value of animationDown to "Geoff":
+                (animationDown as ITexture).Texture = Content.Load<Texture2D>("RIRR/Geoff");
 
-                // SET Row Property value of animationDown to '50, 150':
-                animationDown.SpriteSize = new Point(50, 150);
+                // SET Row Property value of animationDown to '15, 22':
+                animationDown.SpriteSize = new Point(15, 22);
 
-                // SET Row Property value of animationDown to '2':
-                animationDown.Row = 2;
+                // SET Row Property value of animationDown to '1':
+                animationDown.Row = 1;
 
                 // SET MsPerFrame Property value of animationDown to '200':
                 animationDown.MsPerFrame = 200;
+
+                /// LEFT
+
+                // SET Texture Property value of animationLeft to "Geoff":
+                (animationLeft as ITexture).Texture = Content.Load<Texture2D>("RIRR/Geoff");
+
+                // SET Row Property value of animationLeft to '15, 22':
+                animationLeft.SpriteSize = new Point(15, 22);
+
+                // SET Row Property value of animationLeft to '4':
+                animationLeft.Row = 4;
+
+                // SET MsPerFrame Property value of animationLeft to '200':
+                animationLeft.MsPerFrame = 200;
+
+                /// RIGHT
+
+                // SET Texture Property value of animationRight to "Geoff":
+                (animationRight as ITexture).Texture = Content.Load<Texture2D>("RIRR/Geoff");
+
+                // SET Row Property value of animationRight to '15, 22':
+                animationRight.SpriteSize = new Point(15, 22);
+
+                // SET Row Property value of animationRight to '3':
+                animationRight.Row = 3;
+
+                // SET MsPerFrame Property value of animationRight to '200':
+                animationRight.MsPerFrame = 200;
+
+                #endregion
 
                 #endregion
 
@@ -484,6 +697,54 @@ namespace COMP3451Project
                 // INITIALISE tempStateDown with reference to animationDown:
                 (tempStateDown as IInitialiseParam<IUpdateEventListener>).Initialise(animationDown as IUpdateEventListener);
 
+                /// LEFT
+
+                // INITIALISE tempStateLeft with reference to behaviourLeft:
+                (tempStateLeft as IInitialiseParam<IUpdateEventListener>).Initialise(behaviourLeft);
+
+                // INITIALISE tempStateLeft with reference to animationLeft:
+                (tempStateLeft as IInitialiseParam<IUpdateEventListener>).Initialise(animationLeft as IUpdateEventListener);
+
+                /// RIGHT
+
+                // INITIALISE tempStateRight with reference to behaviourRight:
+                (tempStateRight as IInitialiseParam<IUpdateEventListener>).Initialise(behaviourRight);
+
+                // INITIALISE tempStateRight with reference to animationDown:
+                (tempStateRight as IInitialiseParam<IUpdateEventListener>).Initialise(animationRight as IUpdateEventListener);
+
+                /// UP-LEFT
+
+                // INITIALISE tempStateUpLeft with reference to behaviourUpLeft:
+                (tempStateUpLeft as IInitialiseParam<IUpdateEventListener>).Initialise(behaviourUpLeft);
+
+                // INITIALISE tempStateUpLeft with reference to animationLeft:
+                (tempStateUpLeft as IInitialiseParam<IUpdateEventListener>).Initialise(animationLeft as IUpdateEventListener);
+
+                /// UP-RIGHT
+
+                // INITIALISE tempStateUpRight with reference to behaviourUpRight:
+                (tempStateUpRight as IInitialiseParam<IUpdateEventListener>).Initialise(behaviourUpRight);
+
+                // INITIALISE tempStateUpRight with reference to animationRight:
+                (tempStateUpRight as IInitialiseParam<IUpdateEventListener>).Initialise(animationRight as IUpdateEventListener);
+
+                /// DOWN-LEFT
+
+                // INITIALISE tempStateDownLeft with reference to behaviourDownLeft:
+                (tempStateDownLeft as IInitialiseParam<IUpdateEventListener>).Initialise(behaviourDownLeft);
+
+                // INITIALISE tempStateDownLeft with reference to animationLeft:
+                (tempStateDownLeft as IInitialiseParam<IUpdateEventListener>).Initialise(animationLeft as IUpdateEventListener);
+
+                /// DOWN-RIGHT
+
+                // INITIALISE tempStateDownRight with reference to behaviourDownRight:
+                (tempStateDownRight as IInitialiseParam<IUpdateEventListener>).Initialise(behaviourDownRight);
+
+                // INITIALISE tempStateDownRight with reference to animationRight:
+                (tempStateDownRight as IInitialiseParam<IUpdateEventListener>).Initialise(animationRight as IUpdateEventListener);
+
                 #endregion
 
 
@@ -491,14 +752,14 @@ namespace COMP3451Project
 
                 #region INSTANTIATION
 
-                // INSTANTIATE new Paddle(), name it "Paddle1":
-                entityManager.Create<Paddle>("Paddle1");
+                // INSTANTIATE new Player(), name it "Gerald":
+                entityManager.Create<Player>("Gerald");
 
-                // SUBSCRIBE "Paddle1" to returned KeyboardManager from _engineManager:
-                (_engineManager.GetService<KeyboardManager>() as IKeyboardPublisher).Subscribe(entityManager.GetDictionary()["Paddle1"] as IKeyboardListener);
+                // SUBSCRIBE "Gerald" to returned KeyboardManager from _engineManager:
+                (_engineManager.GetService<KeyboardManager>() as IKeyboardPublisher).Subscribe(entityManager.GetDictionary()["Gerald"] as IKeyboardListener);
 
-                // SET PlayerIndex of "Paddle1" to PlayerIndex.One:
-                (entityManager.GetDictionary()["Paddle1"] as IPlayer).PlayerNum = PlayerIndex.One;
+                // SET PlayerIndex of "Gerald" to PlayerIndex.One:
+                (entityManager.GetDictionary()["Gerald"] as IPlayer).PlayerNum = PlayerIndex.One;
 
                 #endregion
 
@@ -507,44 +768,80 @@ namespace COMP3451Project
 
                 /// STATIONARY
 
-                // INITIALISE "Paddle1" with tempStateStationary:
-                (entityManager.GetDictionary()["Paddle1"] as IInitialiseParam<IState>).Initialise(tempStateStationary);
+                // INITIALISE "Gerald" with tempStateStationary:
+                (entityManager.GetDictionary()["Gerald"] as IInitialiseParam<IState>).Initialise(tempStateStationary);
 
-                // INITIALISE "Paddle1" with reference to behaviourStationary:
-                (entityManager.GetDictionary()["Paddle1"] as IInitialiseParam<IUpdateEventListener>).Initialise(behaviourStationary);
+                // INITIALISE "Gerald" with reference to behaviourStationary:
+                (entityManager.GetDictionary()["Gerald"] as IInitialiseParam<IUpdateEventListener>).Initialise(behaviourStationary);
 
-                // INITIALISE "Paddle1" with reference to animationStationary:
-                (entityManager.GetDictionary()["Paddle1"] as IInitialiseParam<IUpdateEventListener>).Initialise(animationStationary as IUpdateEventListener);
+                // INITIALISE "Gerald" with reference to animationStationary:
+                (entityManager.GetDictionary()["Gerald"] as IInitialiseParam<IUpdateEventListener>).Initialise(animationStationary as IUpdateEventListener);
 
                 /// UP
 
-                // INITIALISE "Paddle1" with reference to behaviourUp:
-                (entityManager.GetDictionary()["Paddle1"] as IInitialiseParam<IUpdateEventListener>).Initialise(behaviourUp);
+                // INITIALISE "Gerald" with reference to behaviourUp:
+                (entityManager.GetDictionary()["Gerald"] as IInitialiseParam<IUpdateEventListener>).Initialise(behaviourUp);
 
-                // INITIALISE "Paddle1" with reference to animationUp:
-                (entityManager.GetDictionary()["Paddle1"] as IInitialiseParam<IUpdateEventListener>).Initialise(animationUp as IUpdateEventListener);
+                // INITIALISE "Gerald" with reference to animationUp:
+                (entityManager.GetDictionary()["Gerald"] as IInitialiseParam<IUpdateEventListener>).Initialise(animationUp as IUpdateEventListener);
 
                 /// DOWN
                 
-                // INITIALISE "Paddle1" with reference to behaviourDown:
-                (entityManager.GetDictionary()["Paddle1"] as IInitialiseParam<IUpdateEventListener>).Initialise(behaviourDown);
+                // INITIALISE "Gerald" with reference to behaviourDown:
+                (entityManager.GetDictionary()["Gerald"] as IInitialiseParam<IUpdateEventListener>).Initialise(behaviourDown);
 
-                // INITIALISE "Paddle1" with reference to animationDown:
-                (entityManager.GetDictionary()["Paddle1"] as IInitialiseParam<IUpdateEventListener>).Initialise(animationDown as IUpdateEventListener);
+                // INITIALISE "Gerald" with reference to animationDown:
+                (entityManager.GetDictionary()["Gerald"] as IInitialiseParam<IUpdateEventListener>).Initialise(animationDown as IUpdateEventListener);
+
+                /// LEFT
+
+                // INITIALISE "Gerald" with reference to behaviourLeft:
+                (entityManager.GetDictionary()["Gerald"] as IInitialiseParam<IUpdateEventListener>).Initialise(behaviourLeft);
+
+                // INITIALISE "Gerald" with reference to animationLeft:
+                (entityManager.GetDictionary()["Gerald"] as IInitialiseParam<IUpdateEventListener>).Initialise(animationLeft as IUpdateEventListener);
+
+                /// RIGHT
+
+                // INITIALISE "Gerald" with reference to behaviourRight:
+                (entityManager.GetDictionary()["Gerald"] as IInitialiseParam<IUpdateEventListener>).Initialise(behaviourRight);
+
+                // INITIALISE "Gerald" with reference to animationRight:
+                (entityManager.GetDictionary()["Gerald"] as IInitialiseParam<IUpdateEventListener>).Initialise(animationRight as IUpdateEventListener);
+
+                /// UP-LEFT
+
+                // INITIALISE "Gerald" with reference to behaviourUpLeft:
+                (entityManager.GetDictionary()["Gerald"] as IInitialiseParam<IUpdateEventListener>).Initialise(behaviourUpLeft);
+
+                /// UP-RIGHT
+
+                // INITIALISE "Gerald" with reference to behaviourUpRight:
+                (entityManager.GetDictionary()["Gerald"] as IInitialiseParam<IUpdateEventListener>).Initialise(behaviourUpRight);
+
+                /// DOWN-LEFT
+
+                // INITIALISE "Gerald" with reference to behaviourDownLeft:
+                (entityManager.GetDictionary()["Gerald"] as IInitialiseParam<IUpdateEventListener>).Initialise(behaviourDownLeft);
+
+                /// DOWN-RIGHT
+
+                // INITIALISE "Gerald" with reference to behaviourDownRight:
+                (entityManager.GetDictionary()["Gerald"] as IInitialiseParam<IUpdateEventListener>).Initialise(behaviourDownRight);
 
                 /// OTHER VALUES
 
-                // SET TextureSize Property value of "Paddle1" to a new Point() passing animationStationary.SpriteSize as a parameter:
-                (entityManager.GetDictionary()["Paddle1"] as ITexture).TextureSize = new Point(animationStationary.SpriteSize.X, animationStationary.SpriteSize.Y);
+                // SET TextureSize Property value of "Gerald" to a new Point() passing animationStationary.SpriteSize as a parameter:
+                (entityManager.GetDictionary()["Gerald"] as ITexture).TextureSize = new Point(animationStationary.SpriteSize.X, animationStationary.SpriteSize.Y);
 
-                // SET DrawOrigin of "Paddle1" to value of centre of animation.SpriteSize.X / 2:
-                (entityManager.GetDictionary()["Paddle1"] as IRotation).DrawOrigin = new Vector2(animationStationary.SpriteSize.X / 2, animationStationary.SpriteSize.Y / 2);
+                // SET DrawOrigin of "Gerald" to value of centre of animation.SpriteSize.X / 2:
+                (entityManager.GetDictionary()["Gerald"] as IRotation).DrawOrigin = new Vector2(animationStationary.SpriteSize.X / 2, animationStationary.SpriteSize.Y / 2);
 
-                // SET WindowBorder of "Paddle1" to value of _screenSize:
-                (entityManager.GetDictionary()["Paddle1"] as IContainBoundary).WindowBorder = _screenSize;
+                // SET WindowBorder of "Gerald" to value of _screenSize:
+                (entityManager.GetDictionary()["Gerald"] as IContainBoundary).WindowBorder = _screenSize;
 
-                // SET Layer of "Paddle1" to 6:
-                (entityManager.GetDictionary()["Paddle1"] as ILayer).Layer = 6;
+                // SET Layer of "Gerald" to 6:
+                (entityManager.GetDictionary()["Gerald"] as ILayer).Layer = 6;
 
                 #endregion
 
@@ -564,25 +861,33 @@ namespace COMP3451Project
                 // DECLARE & INSTANTIATE an ICommand as a new CommandOneParam(), name it 'stateDownChange':
                 ICommand stateDownChange = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandOneParam<IState>>();
 
+                // DECLARE & INSTANTIATE an ICommand as a new CommandOneParam(), name it 'stateLeftChange':
+                ICommand stateLeftChange = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandOneParam<IState>>();
+
+                // DECLARE & INSTANTIATE an ICommand as a new CommandOneParam(), name it 'stateRightChange':
+                ICommand stateRightChange = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandOneParam<IState>>();
+
+                // DECLARE & INSTANTIATE an ICommand as a new CommandOneParam(), name it 'stateUpLeftChange':
+                ICommand stateUpLeftChange = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandOneParam<IState>>();
+
+                // DECLARE & INSTANTIATE an ICommand as a new CommandOneParam(), name it 'stateUpRightChange':
+                ICommand stateUpRightChange = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandOneParam<IState>>();
+
+                // DECLARE & INSTANTIATE an ICommand as a new CommandOneParam(), name it 'stateDownLeftChange':
+                ICommand stateDownLeftChange = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandOneParam<IState>>();
+
+                // DECLARE & INSTANTIATE an ICommand as a new CommandOneParam(), name it 'stateDownRightChange':
+                ICommand stateDownRightChange = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandOneParam<IState>>();
+
                 /// INITIALISATION
 
-                // SET MethodRef Property value of stateStationaryChange to reference of "Paddle1"'s SetState() method:
-                (stateStationaryChange as ICommandOneParam<IState>).MethodRef = (entityManager.GetDictionary()["Paddle1"] as IEntityInternal).SetState;
+                /// STATIONARY
+
+                // SET MethodRef Property value of stateStationaryChange to reference of "Gerald"'s SetState() method:
+                (stateStationaryChange as ICommandOneParam<IState>).MethodRef = (entityManager.GetDictionary()["Gerald"] as IEntityInternal).SetState;
 
                 // SET Data Property value of stateStationaryChange to reference of tempStateStationary:
                 (stateStationaryChange as ICommandOneParam<IState>).Data = tempStateStationary;
-
-                // SET MethodRef Property value of stateUpChange to reference of "Paddle1"'s SetState() method:
-                (stateUpChange as ICommandOneParam<IState>).MethodRef = (entityManager.GetDictionary()["Paddle1"] as IEntityInternal).SetState;
-
-                // SET Data Property value of stateUpChange to reference of tempStateUp:
-                (stateUpChange as ICommandOneParam<IState>).Data = tempStateUp;
-
-                // SET MethodRef Property value of stateDownChange to reference of "Paddle1"'s SetState() method:
-                (stateDownChange as ICommandOneParam<IState>).MethodRef = (entityManager.GetDictionary()["Paddle1"] as IEntityInternal).SetState;
-
-                // SET Data Property value of stateDownChange to reference of tempStateDown:
-                (stateDownChange as ICommandOneParam<IState>).Data = tempStateDown;
 
                 // INITIALISE tempStateStationary with tempStateUp.Name and stateUpChange as parameters:
                 (tempStateStationary as IInitialiseParam<string, ICommand>).Initialise((tempStateUp as IName).Name, stateUpChange);
@@ -590,17 +895,279 @@ namespace COMP3451Project
                 // INITIALISE tempStateStationary with tempStateDown.Name and stateDownChange as parameters:
                 (tempStateStationary as IInitialiseParam<string, ICommand>).Initialise((tempStateDown as IName).Name, stateDownChange);
 
+                // INITIALISE tempStateStationary with tempStateLeft.Name and stateLeftChange as parameters:
+                (tempStateStationary as IInitialiseParam<string, ICommand>).Initialise((tempStateLeft as IName).Name, stateLeftChange);
+
+                // INITIALISE tempStateStationary with tempStateRight.Name and stateRightChange as parameters:
+                (tempStateStationary as IInitialiseParam<string, ICommand>).Initialise((tempStateRight as IName).Name, stateRightChange);
+
+                // INITIALISE tempStateStationary with tempStateUpLeft.Name and stateUpLeftChange as parameters:
+                (tempStateStationary as IInitialiseParam<string, ICommand>).Initialise((tempStateUpLeft as IName).Name, stateUpLeftChange);
+
+                // INITIALISE tempStateStationary with tempStateUpRight.Name and stateUpRightChange as parameters:
+                (tempStateStationary as IInitialiseParam<string, ICommand>).Initialise((tempStateUpRight as IName).Name, stateUpRightChange);
+
+                // INITIALISE tempStateStationary with tempStateDownLeft.Name and stateDownLeftChange as parameters:
+                (tempStateStationary as IInitialiseParam<string, ICommand>).Initialise((tempStateDownLeft as IName).Name, stateDownLeftChange);
+
+                // INITIALISE tempStateStationary with tempStateDownRight.Name and stateDownRightChange as parameters:
+                (tempStateStationary as IInitialiseParam<string, ICommand>).Initialise((tempStateDownRight as IName).Name, stateDownRightChange);
+
+                /// UP
+
+                // SET MethodRef Property value of stateUpChange to reference of "Gerald"'s SetState() method:
+                (stateUpChange as ICommandOneParam<IState>).MethodRef = (entityManager.GetDictionary()["Gerald"] as IEntityInternal).SetState;
+
+                // SET Data Property value of stateUpChange to reference of tempStateUp:
+                (stateUpChange as ICommandOneParam<IState>).Data = tempStateUp;
+
                 // INITIALISE tempStateUp with tempStateStationary.Name and stateStationaryChange as parameters:
                 (tempStateUp as IInitialiseParam<string, ICommand>).Initialise((tempStateStationary as IName).Name, stateStationaryChange);
 
                 // INITIALISE tempStateUp with tempStateDown.Name and stateDownChange as parameters:
                 (tempStateUp as IInitialiseParam<string, ICommand>).Initialise((tempStateDown as IName).Name, stateDownChange);
 
+                // INITIALISE tempStateUp with tempStateLeft.Name and stateLeftChange as parameters:
+                (tempStateUp as IInitialiseParam<string, ICommand>).Initialise((tempStateLeft as IName).Name, stateLeftChange);
+
+                // INITIALISE tempStateUp with tempStateRight.Name and stateRightChange as parameters:
+                (tempStateUp as IInitialiseParam<string, ICommand>).Initialise((tempStateRight as IName).Name, stateRightChange);
+
+                // INITIALISE tempStateUp with tempStateUpLeft.Name and stateUpLeftChange as parameters:
+                (tempStateUp as IInitialiseParam<string, ICommand>).Initialise((tempStateUpLeft as IName).Name, stateUpLeftChange);
+
+                // INITIALISE tempStateUp with tempStateUpRight.Name and stateUpRightChange as parameters:
+                (tempStateUp as IInitialiseParam<string, ICommand>).Initialise((tempStateUpRight as IName).Name, stateUpRightChange);
+
+                // INITIALISE tempStateUp with tempStateDownLeft.Name and stateDownLeftChange as parameters:
+                (tempStateUp as IInitialiseParam<string, ICommand>).Initialise((tempStateDownLeft as IName).Name, stateDownLeftChange);
+
+                // INITIALISE tempStateUp with tempStateDownRight.Name and stateDownRightChange as parameters:
+                (tempStateUp as IInitialiseParam<string, ICommand>).Initialise((tempStateDownRight as IName).Name, stateDownRightChange);
+
+                /// DOWN
+
+                // SET MethodRef Property value of stateDownChange to reference of "Gerald"'s SetState() method:
+                (stateDownChange as ICommandOneParam<IState>).MethodRef = (entityManager.GetDictionary()["Gerald"] as IEntityInternal).SetState;
+
+                // SET Data Property value of stateDownChange to reference of tempStateDown:
+                (stateDownChange as ICommandOneParam<IState>).Data = tempStateDown;
+
                 // INITIALISE tempStateDown with tempStateStationary.Name and stateStationaryChange as parameters:
                 (tempStateDown as IInitialiseParam<string, ICommand>).Initialise((tempStateStationary as IName).Name, stateStationaryChange);
 
                 // INITIALISE tempStateDown with tempStateUp.Name and stateUpChange as parameters:
                 (tempStateDown as IInitialiseParam<string, ICommand>).Initialise((tempStateUp as IName).Name, stateUpChange);
+
+                // INITIALISE tempStateDown with tempStateLeft.Name and stateLeftChange as parameters:
+                (tempStateDown as IInitialiseParam<string, ICommand>).Initialise((tempStateLeft as IName).Name, stateLeftChange);
+
+                // INITIALISE tempStateDown with tempStateRight.Name and stateRightChange as parameters:
+                (tempStateDown as IInitialiseParam<string, ICommand>).Initialise((tempStateRight as IName).Name, stateRightChange);
+
+                // INITIALISE tempStateDown with tempStateUpLeft.Name and stateUpLeftChange as parameters:
+                (tempStateDown as IInitialiseParam<string, ICommand>).Initialise((tempStateUpLeft as IName).Name, stateUpLeftChange);
+
+                // INITIALISE tempStateDown with tempStateUpRight.Name and stateUpRightChange as parameters:
+                (tempStateDown as IInitialiseParam<string, ICommand>).Initialise((tempStateUpRight as IName).Name, stateUpRightChange);
+
+                // INITIALISE tempStateDown with tempStateDownLeft.Name and stateDownLeftChange as parameters:
+                (tempStateDown as IInitialiseParam<string, ICommand>).Initialise((tempStateDownLeft as IName).Name, stateDownLeftChange);
+
+                // INITIALISE tempStateDown with tempStateDownRight.Name and stateDownRightChange as parameters:
+                (tempStateDown as IInitialiseParam<string, ICommand>).Initialise((tempStateDownRight as IName).Name, stateDownRightChange);
+
+                /// LEFT
+
+                // SET MethodRef Property value of stateLeftChange to reference of "Gerald"'s SetState() method:
+                (stateLeftChange as ICommandOneParam<IState>).MethodRef = (entityManager.GetDictionary()["Gerald"] as IEntityInternal).SetState;
+
+                // SET Data Property value of stateLeftChange to reference of tempStateLeft:
+                (stateLeftChange as ICommandOneParam<IState>).Data = tempStateLeft;
+
+                // INITIALISE tempStateLeft with tempStateStationary.Name and stateStationaryChange as parameters:
+                (tempStateLeft as IInitialiseParam<string, ICommand>).Initialise((tempStateStationary as IName).Name, stateStationaryChange);
+
+                // INITIALISE tempStateLeft with tempStateUp.Name and stateUpChange as parameters:
+                (tempStateLeft as IInitialiseParam<string, ICommand>).Initialise((tempStateUp as IName).Name, stateUpChange);
+
+                // INITIALISE tempStateLeft with tempStateDown.Name and stateDownChange as parameters:
+                (tempStateLeft as IInitialiseParam<string, ICommand>).Initialise((tempStateDown as IName).Name, stateDownChange);
+
+                // INITIALISE tempStateLeft with tempStateRight.Name and stateRightChange as parameters:
+                (tempStateLeft as IInitialiseParam<string, ICommand>).Initialise((tempStateRight as IName).Name, stateRightChange);
+
+                // INITIALISE tempStateLeft with tempStateUpLeft.Name and stateUpLeftChange as parameters:
+                (tempStateLeft as IInitialiseParam<string, ICommand>).Initialise((tempStateUpLeft as IName).Name, stateUpLeftChange);
+
+                // INITIALISE tempStateLeft with tempStateUpRight.Name and stateUpRightChange as parameters:
+                (tempStateLeft as IInitialiseParam<string, ICommand>).Initialise((tempStateUpRight as IName).Name, stateUpRightChange);
+
+                // INITIALISE tempStateLeft with tempStateDownLeft.Name and stateDownLeftChange as parameters:
+                (tempStateLeft as IInitialiseParam<string, ICommand>).Initialise((tempStateDownLeft as IName).Name, stateDownLeftChange);
+
+                // INITIALISE tempStateLeft with tempStateDownRight.Name and stateDownRightChange as parameters:
+                (tempStateLeft as IInitialiseParam<string, ICommand>).Initialise((tempStateDownRight as IName).Name, stateDownRightChange);
+
+                /// RIGHT
+
+                // SET MethodRef Property value of stateRightChange to reference of "Gerald"'s SetState() method:
+                (stateRightChange as ICommandOneParam<IState>).MethodRef = (entityManager.GetDictionary()["Gerald"] as IEntityInternal).SetState;
+
+                // SET Data Property value of stateRightChange to reference of tempStateRight:
+                (stateRightChange as ICommandOneParam<IState>).Data = tempStateRight;
+
+                // INITIALISE tempStateRight with tempStateStationary.Name and stateStationaryChange as parameters:
+                (tempStateRight as IInitialiseParam<string, ICommand>).Initialise((tempStateStationary as IName).Name, stateStationaryChange);
+
+                // INITIALISE tempStateRight with tempStateUp.Name and stateUpChange as parameters:
+                (tempStateRight as IInitialiseParam<string, ICommand>).Initialise((tempStateUp as IName).Name, stateUpChange);
+
+                // INITIALISE tempStateRight with tempStateDown.Name and stateDownChange as parameters:
+                (tempStateRight as IInitialiseParam<string, ICommand>).Initialise((tempStateDown as IName).Name, stateDownChange);
+
+                // INITIALISE tempStateRight with tempStateLeft.Name and stateLeftChange as parameters:
+                (tempStateRight as IInitialiseParam<string, ICommand>).Initialise((tempStateLeft as IName).Name, stateLeftChange);
+
+                // INITIALISE tempStateRight with tempStateUpLeft.Name and stateUpLeftChange as parameters:
+                (tempStateRight as IInitialiseParam<string, ICommand>).Initialise((tempStateUpLeft as IName).Name, stateUpLeftChange);
+
+                // INITIALISE tempStateRight with tempStateUpRight.Name and stateUpRightChange as parameters:
+                (tempStateRight as IInitialiseParam<string, ICommand>).Initialise((tempStateUpRight as IName).Name, stateUpRightChange);
+
+                // INITIALISE tempStateRight with tempStateDownLeft.Name and stateDownLeftChange as parameters:
+                (tempStateRight as IInitialiseParam<string, ICommand>).Initialise((tempStateDownLeft as IName).Name, stateDownLeftChange);
+
+                // INITIALISE tempStateRight with tempStateDownRight.Name and stateDownRightChange as parameters:
+                (tempStateRight as IInitialiseParam<string, ICommand>).Initialise((tempStateDownRight as IName).Name, stateDownRightChange);
+
+                /// UP-LEFT
+                
+                // SET MethodRef Property value of stateUpLeftChange to reference of "Gerald"'s SetState() method:
+                (stateUpLeftChange as ICommandOneParam<IState>).MethodRef = (entityManager.GetDictionary()["Gerald"] as IEntityInternal).SetState;
+
+                // SET Data Property value of stateUpLeftChange to reference of tempStateUpLeft:
+                (stateUpLeftChange as ICommandOneParam<IState>).Data = tempStateUpLeft;
+
+                // INITIALISE tempStateUpLeft with tempStateStationary.Name and stateStationaryChange as parameters:
+                (tempStateUpLeft as IInitialiseParam<string, ICommand>).Initialise((tempStateStationary as IName).Name, stateStationaryChange);
+
+                // INITIALISE tempStateUpLeft with tempStateUp.Name and stateUpChange as parameters:
+                (tempStateUpLeft as IInitialiseParam<string, ICommand>).Initialise((tempStateUp as IName).Name, stateUpChange);
+
+                // INITIALISE tempStateUpLeft with tempStateDown.Name and stateDownChange as parameters:
+                (tempStateUpLeft as IInitialiseParam<string, ICommand>).Initialise((tempStateDown as IName).Name, stateDownChange);
+
+                // INITIALISE tempStateUpLeft with tempStateLeft.Name and stateLeftChange as parameters:
+                (tempStateUpLeft as IInitialiseParam<string, ICommand>).Initialise((tempStateLeft as IName).Name, stateLeftChange);
+
+                // INITIALISE tempStateUpLeft with tempStateRight.Name and stateRightChange as parameters:
+                (tempStateUpLeft as IInitialiseParam<string, ICommand>).Initialise((tempStateRight as IName).Name, stateRightChange);
+
+                // INITIALISE tempStateUpLeft with tempStateUpRight.Name and stateUpRightChange as parameters:
+                (tempStateUpLeft as IInitialiseParam<string, ICommand>).Initialise((tempStateUpRight as IName).Name, stateUpRightChange);
+
+                // INITIALISE tempStateUpLeft with tempStateDownLeft.Name and stateDownLeftChange as parameters:
+                (tempStateUpLeft as IInitialiseParam<string, ICommand>).Initialise((tempStateDownLeft as IName).Name, stateDownLeftChange);
+
+                // INITIALISE tempStateUpLeft with tempStateDownRight.Name and stateDownRightChange as parameters:
+                (tempStateUpLeft as IInitialiseParam<string, ICommand>).Initialise((tempStateDownRight as IName).Name, stateDownRightChange);
+
+                /// UP-RIGHT
+
+                // SET MethodRef Property value of stateUpRightChange to reference of "Gerald"'s SetState() method:
+                (stateUpRightChange as ICommandOneParam<IState>).MethodRef = (entityManager.GetDictionary()["Gerald"] as IEntityInternal).SetState;
+
+                // SET Data Property value of stateUpRightChange to reference of tempStateUpRight:
+                (stateUpRightChange as ICommandOneParam<IState>).Data = tempStateUpRight;
+
+                // INITIALISE tempStateUpRight with tempStateStationary.Name and stateStationaryChange as parameters:
+                (tempStateUpRight as IInitialiseParam<string, ICommand>).Initialise((tempStateStationary as IName).Name, stateStationaryChange);
+
+                // INITIALISE tempStateUpRight with tempStateUp.Name and stateUpChange as parameters:
+                (tempStateUpRight as IInitialiseParam<string, ICommand>).Initialise((tempStateUp as IName).Name, stateUpChange);
+
+                // INITIALISE tempStateUpRight with tempStateDown.Name and stateDownChange as parameters:
+                (tempStateUpRight as IInitialiseParam<string, ICommand>).Initialise((tempStateDown as IName).Name, stateDownChange);
+
+                // INITIALISE tempStateUpRight with tempStateLeft.Name and stateLeftChange as parameters:
+                (tempStateUpRight as IInitialiseParam<string, ICommand>).Initialise((tempStateLeft as IName).Name, stateLeftChange);
+
+                // INITIALISE tempStateUpRight with tempStateRight.Name and stateRightChange as parameters:
+                (tempStateUpRight as IInitialiseParam<string, ICommand>).Initialise((tempStateRight as IName).Name, stateRightChange);
+
+                // INITIALISE tempStateUpRight with tempStateUpLeft.Name and stateUpLeftChange as parameters:
+                (tempStateUpRight as IInitialiseParam<string, ICommand>).Initialise((tempStateUpLeft as IName).Name, stateUpLeftChange);
+
+                // INITIALISE tempStateUpRight with tempStateDownLeft.Name and stateDownLeftChange as parameters:
+                (tempStateUpRight as IInitialiseParam<string, ICommand>).Initialise((tempStateDownLeft as IName).Name, stateDownLeftChange);
+
+                // INITIALISE tempStateUpRight with tempStateDownRight.Name and stateDownRightChange as parameters:
+                (tempStateUpRight as IInitialiseParam<string, ICommand>).Initialise((tempStateDownRight as IName).Name, stateDownRightChange);
+
+                /// DOWN-LEFT
+
+                // SET MethodRef Property value of stateDownLeftChange to reference of "Gerald"'s SetState() method:
+                (stateDownLeftChange as ICommandOneParam<IState>).MethodRef = (entityManager.GetDictionary()["Gerald"] as IEntityInternal).SetState;
+
+                // SET Data Property value of stateDownLeftChange to reference of tempStateDownLeft:
+                (stateDownLeftChange as ICommandOneParam<IState>).Data = tempStateDownLeft;
+
+                // INITIALISE tempStateDownLeft with tempStateStationary.Name and stateStationaryChange as parameters:
+                (tempStateDownLeft as IInitialiseParam<string, ICommand>).Initialise((tempStateStationary as IName).Name, stateStationaryChange);
+
+                // INITIALISE tempStateDownLeft with tempStateUp.Name and stateUpChange as parameters:
+                (tempStateDownLeft as IInitialiseParam<string, ICommand>).Initialise((tempStateUp as IName).Name, stateUpChange);
+
+                // INITIALISE tempStateDownLeft with tempStateDown.Name and stateDownChange as parameters:
+                (tempStateDownLeft as IInitialiseParam<string, ICommand>).Initialise((tempStateDown as IName).Name, stateDownChange);
+
+                // INITIALISE tempStateDownLeft with tempStateLeft.Name and stateLeftChange as parameters:
+                (tempStateDownLeft as IInitialiseParam<string, ICommand>).Initialise((tempStateLeft as IName).Name, stateLeftChange);
+
+                // INITIALISE tempStateDownLeft with tempStateRight.Name and stateRightChange as parameters:
+                (tempStateDownLeft as IInitialiseParam<string, ICommand>).Initialise((tempStateRight as IName).Name, stateRightChange);
+
+                // INITIALISE tempStateDownLeft with tempStateUpLeft.Name and stateUpLeftChange as parameters:
+                (tempStateDownLeft as IInitialiseParam<string, ICommand>).Initialise((tempStateUpLeft as IName).Name, stateUpLeftChange);
+
+                // INITIALISE tempStateDownLeft with tempStateDownLeft.Name and stateDownLeftChange as parameters:
+                (tempStateDownLeft as IInitialiseParam<string, ICommand>).Initialise((tempStateUpRight as IName).Name, stateUpRightChange);
+
+                // INITIALISE tempStateDownLeft with tempStateDownRight.Name and stateDownRightChange as parameters:
+                (tempStateDownLeft as IInitialiseParam<string, ICommand>).Initialise((tempStateDownRight as IName).Name, stateDownRightChange);
+
+                /// DOWN-RIGHT
+
+                // SET MethodRef Property value of stateDownRightChange to reference of "Gerald"'s SetState() method:
+                (stateDownRightChange as ICommandOneParam<IState>).MethodRef = (entityManager.GetDictionary()["Gerald"] as IEntityInternal).SetState;
+
+                // SET Data Property value of stateDownRightChange to reference of tempStateDownRight:
+                (stateDownRightChange as ICommandOneParam<IState>).Data = tempStateDownRight;
+
+                // INITIALISE tempStateDownRight with tempStateStationary.Name and stateStationaryChange as parameters:
+                (tempStateDownRight as IInitialiseParam<string, ICommand>).Initialise((tempStateStationary as IName).Name, stateStationaryChange);
+
+                // INITIALISE tempStateDownRight with tempStateUp.Name and stateUpChange as parameters:
+                (tempStateDownRight as IInitialiseParam<string, ICommand>).Initialise((tempStateUp as IName).Name, stateUpChange);
+
+                // INITIALISE tempStateDownRight with tempStateDown.Name and stateDownChange as parameters:
+                (tempStateDownRight as IInitialiseParam<string, ICommand>).Initialise((tempStateDown as IName).Name, stateDownChange);
+
+                // INITIALISE tempStateDownRight with tempStateLeft.Name and stateLeftChange as parameters:
+                (tempStateDownRight as IInitialiseParam<string, ICommand>).Initialise((tempStateLeft as IName).Name, stateLeftChange);
+
+                // INITIALISE tempStateDownRight with tempStateRight.Name and stateRightChange as parameters:
+                (tempStateDownRight as IInitialiseParam<string, ICommand>).Initialise((tempStateRight as IName).Name, stateRightChange);
+
+                // INITIALISE tempStateDownRight with tempStateUpLeft.Name and stateUpLeftChange as parameters:
+                (tempStateDownRight as IInitialiseParam<string, ICommand>).Initialise((tempStateUpLeft as IName).Name, stateUpLeftChange);
+
+                // INITIALISE tempStateDownRight with tempStateDownRight.Name and stateDownRightChange as parameters:
+                (tempStateDownRight as IInitialiseParam<string, ICommand>).Initialise((tempStateUpRight as IName).Name, stateUpRightChange);
+
+                // INITIALISE tempStateDownRight with tempStateDownLeft.Name and stateDownLeftChange as parameters:
+                (tempStateDownRight as IInitialiseParam<string, ICommand>).Initialise((tempStateDownLeft as IName).Name, stateDownLeftChange);
 
 
                 #endregion
@@ -817,7 +1384,7 @@ namespace COMP3451Project
                 // INSTANTIATE new Paddle(), name it "Paddle2":
                 entityManager.Create<Paddle>("Paddle2");
 
-                // SUBSCRIBE "Paddle1" to returned KeyboardManager from _engineManager:
+                // SUBSCRIBE "Gerald" to returned KeyboardManager from _engineManager:
                 (_engineManager.GetService<KeyboardManager>() as IKeyboardPublisher).Subscribe(entityManager.GetDictionary()["Paddle2"] as IKeyboardListener);
 
                 // SET PlayerIndex of "Paddle2" to PlayerIndex.Two:
@@ -978,7 +1545,7 @@ namespace COMP3451Project
             // INSTANTIATE _spriteBatch as new SpriteBatch(), passing GraphicsDevice as a parameter:
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            #region SOUND MANAGER
+            #region SOUND MANAGERS
 
             /// SONG MANAGER
 
@@ -1041,37 +1608,32 @@ namespace COMP3451Project
             #endregion
 
 
-            #region LAYER 5
+            #region LAYER 6
 
             #region GERALD
 
-            //// DECLARE & INITIALISE an IEntity with reference to "Gerald":
-            //IEntity tempEntity = (_engineManager.GetService<EntityManager>() as IEntityManager).GetDictionary()["Gerald"];
+            // INITIALISE tempEntity reference to "Gerald":
+            IEntity tempEntity = (_engineManager.GetService<EntityManager>() as IEntityManager).GetDictionary()["Gerald"];
 
-            //// LOAD "paddleSpriteSheet" texture to "Gerald":
-            //(tempEntity as ITexture).Texture = Content.Load<Texture2D>("ExampleLevel/paddleSpriteSheet");
+            // LOAD "paddleSpriteSheet" texture to "Geoff":
+            (tempEntity as ITexture).Texture = Content.Load<Texture2D>("RIRR/Geoff");
 
-            //// SPAWN "Paddle1" in "Level1" at the far left on the X axis with a gap, and middle on the Y axis:
-            //(_engineManager.GetService<SceneManager>() as ISceneManager).Spawn("Gerald", tempEntity, new Vector2((tempEntity as IRotation).DrawOrigin.X * 2, _screenSize.Y / 2));
+            // SPAWN "Gerald" in "Level1" at the far left on the X axis with a gap, and middle on the Y axis:
+            (_engineManager.GetService<SceneManager>() as ISceneManager).Spawn("Level1", tempEntity, new Vector2((tempEntity as IRotation).DrawOrigin.X * 2, _screenSize.Y / 2));
+
+            #endregion
+
+
+            #region GEOFF
+
 
             #endregion
 
 
             #region PADDLES
 
-            /// PADDLE 1
-
-            // INITIALISE tempEntity reference to "Paddle1":
-            IEntity tempEntity = (_engineManager.GetService<EntityManager>() as IEntityManager).GetDictionary()["Paddle1"];
-
-            // LOAD "paddleSpriteSheet" texture to "Paddle1":
-            (tempEntity as ITexture).Texture = Content.Load<Texture2D>("ExampleLevel/paddleSpriteSheet");
-
-            // SPAWN "Paddle1" in "Level1" at the far left on the X axis with a gap, and middle on the Y axis:
-            (_engineManager.GetService<SceneManager>() as ISceneManager).Spawn("Level1", tempEntity, new Vector2((tempEntity as IRotation).DrawOrigin.X * 2, _screenSize.Y / 2));
-
             /// PADDLE 2
-            
+
             // INITIALISE tempEntity with reference to "Paddle2":
             tempEntity = (_engineManager.GetService<EntityManager>() as IEntityManager).GetDictionary()["Paddle2"];
 
@@ -1087,7 +1649,7 @@ namespace COMP3451Project
             #region BALL
 
             // CALL CreateBall(), creates, initialises and spawns on screen:
-            CreateBall();
+            // CreateBall();
 
             #endregion
 
