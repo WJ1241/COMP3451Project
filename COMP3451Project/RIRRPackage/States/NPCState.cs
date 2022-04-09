@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using OrbitalEngine.Animation.Interfaces;
+using OrbitalEngine.Behaviours.Interfaces;
+using OrbitalEngine.CustomEventArgs;
+using OrbitalEngine.Exceptions;
+using OrbitalEngine.States;
 
 namespace COMP3451Project.RIRRPackage.States
 {
@@ -11,7 +17,83 @@ namespace COMP3451Project.RIRRPackage.States
     /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 04/04/22
     /// </summary>
-    public class NPCState
+    public class NPCState: State
     {
+
+        // DECLARE an EventHandler<UpdateEventArgs>, name it '_animationEvent':
+        private EventHandler<UpdateEventArgs> _animationEvent;
+
+        // DECLARE a string, name it '_activeBehaviour':
+        private string _activeBehaviour;
+
+        /// <summary>
+        /// Constructor for objects of NPCState:
+        /// </summary>
+        public NPCState()
+        {
+            // empty constructor
+        }
+
+        #region IMPLEMENTATION OF IINITIALISEPARAM<IUPDATEEVENTLISTENER>
+
+        /// <summary>
+        /// Initialises an object with an IUpdateEventListener object
+        /// </summary>
+        /// <param name="pUpdateEventListener"> IUpdateEventListener object </param>
+        public override void Initialise(IUpdateEventListener pUpdateEventListener)
+        {
+            // IF pUpdateEventListener DOES HAVE an active instance:
+            if (pUpdateEventListener != null)
+            {
+                // IF pUpdateEventListener DOES implements IAnimation:
+                if (pUpdateEventListener is IAnimation)
+                {
+                    // SUBSCRIBE _animationEvent to pUpdateEventListener.OnUpdateEvent():
+                    _animationEvent += pUpdateEventListener.OnUpdateEvent;
+                }
+                // IF pUpdateEventListener DOES NOT implements IAnimation:
+                else
+                {
+                    // SUBSCRIBE _behaviourEvent to pUpdateEventListener.OnUpdateEvent():
+                    _behaviourEvent += pUpdateEventListener.OnUpdateEvent;
+                }
+            }
+            // IF pUpdateEventListener DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pUpdateEventListener does not have an active instance!");
+            }
+        }
+
+        #endregion
+
+        #region IMPLEMENTATION OF IUPDATABLE
+
+        /// <summary>
+        /// Updates object when a frame has been rendered on screen
+        /// </summary>
+        /// <param name="pGameTime">holds reference to GameTime object</param>
+        public override void Update(GameTime pGameTime)
+        {
+            // SET RequiredArg Property value of(_argsDict["UpdateEventArgs"] to reference to pGameTime:
+            (_argsDict["UpdateEventArgs"] as UpdateEventArgs).RequiredArg = pGameTime;
+
+            // INVOKE _behaviourEvent(), passing this class and _argsDict["UpdateArgs"] as parameters:
+            _behaviourEvent.Invoke(this, _argsDict["UpdateEventArgs"] as UpdateEventArgs);
+
+            // INVOKE _animationEvent(), passing this class and _argsDict["UpdateArgs"] as parameters:
+            _animationEvent.Invoke(this, _argsDict["UpdateEventArgs"] as UpdateEventArgs);
+        }
+
+        #endregion
+
+        // roaming state
+
+
+
+        // hunting state
+
+
     }
 }
