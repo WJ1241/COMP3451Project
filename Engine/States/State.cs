@@ -16,7 +16,7 @@ namespace OrbitalEngine.States
     /// Date: 07/04/22
     /// </summary>
     public abstract class State : IState, ICommandSender, IInitialiseParam<IDictionary<string, EventArgs>>, IInitialiseParam<IDictionary<string, ICommand>>,
-        IInitialiseParam<EventArgs>, IInitialiseParam<string, ICommand>, IInitialiseParam<IUpdateEventListener>, IName, IUpdatable
+        IInitialiseParam<EventArgs>, IInitialiseParam<string, ICommand>, IInitialiseParam<IEventListener<UpdateEventArgs>>, IName, IUpdatable
     {
         #region FIELD VARIABLES
 
@@ -181,19 +181,19 @@ namespace OrbitalEngine.States
         #endregion
 
 
-        #region IMPLEMENTATION OF IINITIALISEPARAM<IUPDATEEVENTLISTENER>
+        #region IMPLEMENTATION OF IINITIALISEPARAM<IEVENTLISTENER<UPDATEEVENTARGS>>
 
         /// <summary>
-        /// Initialises an object with an IUpdateEventListener object
+        /// Initialises an object with an IEventListener<UpdateEventArgs> object
         /// </summary>
-        /// <param name="pUpdateEventListener"> IUpdateEventListener object </param>
-        public virtual void Initialise(IUpdateEventListener pUpdateEventListener)
+        /// <param name="pUpdateEventListener"> IEventListener<UpdateEventArgs> object </param>
+        public virtual void Initialise(IEventListener<UpdateEventArgs> pUpdateEventListener)
         {
             // IF pUpdateEventListener DOES HAVE an active instance:
             if (pUpdateEventListener != null)
             {
-                // SUBSCRIBE _behaviourEvent to pUpdateEventListener.OnUpdateEvent():
-                _behaviourEvent += pUpdateEventListener.OnUpdateEvent;
+                // SUBSCRIBE _behaviourEvent to pUpdateEventListener.OnEvent():
+                _behaviourEvent += pUpdateEventListener.OnEvent;
             }
             // IF pUpdateEventListener DOES NOT HAVE an active instance:
             else

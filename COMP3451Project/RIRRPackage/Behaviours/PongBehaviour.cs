@@ -8,7 +8,7 @@ namespace COMP3451Project.RIRRPackage.Behaviours
     /// <summary>
     /// Abstract class for Pong Behaviour classes to inherit from
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 24/01/22
+    /// Date: 09/04/22
     /// </summary>
     public abstract class PongBehaviour : Behaviour, IVelocity
     {
@@ -20,14 +20,14 @@ namespace COMP3451Project.RIRRPackage.Behaviours
         #endregion
 
 
-        #region IMPLEMENTATION OF IUPDATEEVENTLISTENER
+        #region IMPLEMENTATION OF IEVENTLISTENER<UPDATEEVENTARGS>
 
         /// <summary>
         /// Method called when needing to update Behaviour
         /// </summary>
         /// <param name="pSource"> Object that is to be updated </param>
         /// <param name="pArgs"> EventArgs for an Update object </param>
-        public override void OnUpdateEvent(object pSource, UpdateEventArgs pArgs)
+        public override void OnEvent(object pSource, UpdateEventArgs pArgs)
         {
             // SET value of _entity's Velocity Property to value of _velocity:
             (_entity as IVelocity).Velocity = _velocity;

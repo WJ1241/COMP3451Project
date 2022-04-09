@@ -77,20 +77,24 @@ namespace OrbitalEngine.EntityManagement
 
             #region TERMINATE COMMAND
 
-            // DECLARE & INSTANTIATE an ICommandOneParam<string> as a new CommandOneParam<string>, name it 'terminate':
-            ICommandOneParam<string> terminate = _createCommand.ExecuteMethod() as ICommandOneParam<string>;
+            // IF entity implements IEntityInternal:
+            if (entity is IEntityInternal)
+            {
+                // DECLARE & INSTANTIATE an ICommandOneParam<string> as a new CommandOneParam<string>, name it 'terminate':
+                ICommandOneParam<string> terminate = _createCommand.ExecuteMethod() as ICommandOneParam<string>;
 
-            // SET MethodRef of terminate with Terminate method:
-            terminate.MethodRef = Terminate;
+                // SET MethodRef of terminate with Terminate method:
+                terminate.MethodRef = Terminate;
 
-            // SET Data of terminate with entity's UName Property:
-            terminate.Data = entity.UName;
+                // SET FirstParam of terminate with entity's UName Property:
+                terminate.FirstParam = entity.UName;
 
-            // SET SchedulerCommand property of entity with _commandScheduler's ScheduleCommand method:
-            (entity as ICommandSender).ScheduleCommand = _commandScheduler.ScheduleCommand;
+                // SET SchedulerCommand property of entity with _commandScheduler's ScheduleCommand method:
+                (entity as ICommandSender).ScheduleCommand = _commandScheduler.ScheduleCommand;
 
-            // SET TerminateMe property of entity with terminate Command:
-            (entity as IEntityInternal).TerminateMe = terminate;
+                // SET TerminateMe property of entity with terminate Command:
+                (entity as IEntityInternal).TerminateMe = terminate;
+            }
 
             #endregion
 

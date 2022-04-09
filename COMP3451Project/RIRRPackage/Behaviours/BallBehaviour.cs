@@ -11,9 +11,9 @@ namespace COMP3451Project.RIRRPackage.Behaviours
     /// <summary>
     /// Class which defines the behaviour for Ball entities
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 20/02/22
+    /// Date: 09/04/22
     /// </summary>
-    public class BallBehaviour : PongBehaviour, IAudioCommand, ICollisionEventListener, IScoreGoal
+    public class BallBehaviour : PongBehaviour, IAudioCommand, IEventListener<CollisionEventArgs>, IScoreGoal
     {
         #region FIELD VARIABLES
 
@@ -58,8 +58,8 @@ namespace COMP3451Project.RIRRPackage.Behaviours
                 // APPLY new Velocity to _entity.Velocity:
                 (_entity as IVelocity).Velocity = _velocity;
 
-                // SET Data Property value of _sfxCommand to "WallHit":
-                (_sfxCommand as ICommandOneParam<string>).Data = "WallHit";
+                // SET FirstParam Property value of _sfxCommand to "WallHit":
+                (_sfxCommand as ICommandOneParam<string>).FirstParam = "WallHit";
 
                 // SCHEDULE _sfxCommand to be executed:
                 (_entity as ICommandSender).ScheduleCommand(_sfxCommand);
@@ -70,21 +70,21 @@ namespace COMP3451Project.RIRRPackage.Behaviours
                 // IF at left screen edge:
                 if (_entity.Position.X <= 0)
                 {
-                    // SET Data Property value of _scoreGoal to '2':
-                    (_scoreGoal as ICommandOneParam<int>).Data = 2;
+                    // SET FirstParam Property value of _scoreGoal to '2':
+                    (_scoreGoal as ICommandOneParam<int>).FirstParam = 2;
                 }
                 // IF at right screen edge:
                 else if (_entity.Position.X >= (_entity as IContainBoundary).WindowBorder.X - (_entity as ITexture).TextureSize.X)
                 {
-                    // SET Data Property value of _scoreGoal to '1':
-                    (_scoreGoal as ICommandOneParam<int>).Data = 1;
+                    // SET FirstParam Property value of _scoreGoal to '1':
+                    (_scoreGoal as ICommandOneParam<int>).FirstParam = 1;
                 }
 
                 // SCHEDULE _scoreGoal to be executed:
                 (_entity as ICommandSender).ScheduleCommand(_scoreGoal);
 
-                // SET Data Property value of _sfxCommand to "Score":
-                (_sfxCommand as ICommandOneParam<string>).Data = "Score";
+                // SET FirstParam Property value of _sfxCommand to "Score":
+                (_sfxCommand as ICommandOneParam<string>).FirstParam = "Score";
 
                 // SCHEDULE _sfxCommand to be executed:
                 (_entity as ICommandSender).ScheduleCommand(_sfxCommand);
@@ -124,7 +124,7 @@ namespace COMP3451Project.RIRRPackage.Behaviours
         /// </summary>
         /// <param name="pSource"> Object that requires output from colliding with another object </param>
         /// <param name="pArgs"> CollisionEventArgs object </param>
-        public void OnCollisionEvent(object pSource, CollisionEventArgs pArgs)
+        public void OnEvent(object pSource, CollisionEventArgs pArgs)
         {
             // IF moving left:
             if ((_entity as IVelocity).Velocity.X < 0) 
@@ -149,8 +149,8 @@ namespace COMP3451Project.RIRRPackage.Behaviours
                 }
             }
 
-            // SET Data Property value of _sfxCommand to "PaddleHit":
-            (_sfxCommand as ICommandOneParam<string>).Data = "PaddleHit";
+            // SET FirstParam Property value of _sfxCommand to "PaddleHit":
+            (_sfxCommand as ICommandOneParam<string>).FirstParam = "PaddleHit";
 
             // SCHEDULE _sfxCommand SFX to be executed:
             (_entity as ICommandSender).ScheduleCommand(_sfxCommand);

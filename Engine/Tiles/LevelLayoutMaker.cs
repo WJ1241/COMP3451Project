@@ -15,7 +15,7 @@ namespace OrbitalEngine.Tiles
     /// <summary>
     /// Class which makes a Level Layout using a tilemap built in Tiled
     /// Authors: William Smith, Declan Kerby-Collins, 'Teemu', Díaz, D. & Gricci, S.
-    /// Date: 07/04/22
+    /// Date: 09/04/22
     /// </summary>
     /// <IMPORTANT> WHEN MAKING A TILEMAP IN TILED, FOLLOW LAYER NUMBERS DECLARED IN 'ILAYER' INTERFACE TO PREVENT ISSUES </IMPORTANT>
     /// <REFERENCE> 'Teemu', Díaz, D. & Gricci, S. (2016) TiledSharp-MonoGame-Example. Available at: https://github.com/Temeez/TiledSharp-MonoGame-Example. (Accessed: 16/02/22). </REFERENCE>
@@ -68,7 +68,9 @@ namespace OrbitalEngine.Tiles
                     // DECLARE an IEntity, name it 'tempEntity':
                     IEntity tempEntity;
 
-                    // FORLOOP, iterate until 'i' exceeds count of TileMap Layers:
+                    #region TILES
+
+                    // FORLOOP, iterate until 'i' exceeds count of TileMap Tile Layers:
                     for (int i = 0; i < pTileMap.Layers.Count; i++)
                     {
                         // FORLOOP, iterate until 'j' exceeds count of tiles in chosen layer:
@@ -99,15 +101,14 @@ namespace OrbitalEngine.Tiles
                                 // DECLARE & INITIALISE a float, name it 'tileYPos', give rounded down value of current value of 'j' multiplied by pTileMap's width which is then multiplied by the tile height:
                                 float tileYPos = (float)Math.Floor(j / (double)pTileMap.Width) * pTileMap.TileHeight;
 
-
                                 // TRY checking if ExecuteMethod() throws a ClassDoesNotExistException:
                                 try
                                 {
                                     // IF Layer name is "Floors":
                                     if (pTileMap.Layers[i].Name == "Floors")
                                     {
-                                        // SET Data of _createEntDict["Floor"] to "Floor" + j:
-                                        (_createEntDict["Floor"] as IFuncCommandOneParam<string, IEntity>).Data = "Floor" + j;
+                                        // SET FirstParam of _createEntDict["Floor"] to "Floor" + j:
+                                        (_createEntDict["Floor"] as IFuncCommandOneParam<string, IEntity>).FirstParam = "Floor" + j;
 
                                         // INITIALISE tempEntity with return value from _createEntDict["Floor"].ExecuteMethod():
                                         tempEntity = _createEntDict["Floor"].ExecuteMethod();
@@ -118,24 +119,23 @@ namespace OrbitalEngine.Tiles
                                     // IF Layer name is "Walls":
                                     else if (pTileMap.Layers[i].Name == "Walls")
                                     {
-                                        // SET Data of _createEntDict["Wall"] to "Wall" + j:
-                                        (_createEntDict["Wall"] as IFuncCommandOneParam<string, IEntity>).Data = "Wall" + j;
+                                        // SET FirstParam of _createEntDict["SimpleCollidableEntity"] to "Wall" + j:
+                                        (_createEntDict["SimpleCollidableEntity"] as IFuncCommandOneParam<string, IEntity>).FirstParam = "Wall" + j;
 
-                                        // INITIALISE tempEntity with return value from _createEntDict["Wall"].ExecuteMethod():
-                                        tempEntity = _createEntDict["Wall"].ExecuteMethod();
+                                        // INITIALISE tempEntity with return value from _createEntDict["SimpleCollidableEntity"].ExecuteMethod():
+                                        tempEntity = _createEntDict["SimpleCollidableEntity"].ExecuteMethod();
 
                                         // SET Layer Property value of tempEntity to 2:
                                         (tempEntity as ILayer).Layer = 2;
                                     }
-                                    /*
                                     // IF Layer name is "StaticObstacles" for tables, boxes etc:
                                     else if (pTileMap.Layers[i].Name == "StaticObstacles")
                                     {
-                                        // SET Data of _createEntDict["StaticObstacles"] to "StaticObstacles" + j:
-                                        (_createEntDict["StaticObstacles"] as IFuncCommandOneParam<string, IEntity>).Data = "StaticObstacles" + j;
+                                        // SET FirstParam of _createEntDict["StaticObstacles"] to "StaticObstacles" + j:
+                                        (_createEntDict["SimpleCollidableEntity"] as IFuncCommandOneParam<string, IEntity>).FirstParam = "StaticObstacles" + j;
 
-                                        // INITIALISE tempEntity with return value from _createEntDict["StaticObstacles"].ExecuteMethod():
-                                        tempEntity = _createEntDict["StaticObstacles"].ExecuteMethod();
+                                        // INITIALISE tempEntity with return value from _createEntDict["SimpleCollidableEntity"].ExecuteMethod():
+                                        tempEntity = _createEntDict["SimpleCollidableEntity"].ExecuteMethod();
 
                                         // SET Layer Property value of tempEntity to 3:
                                         (tempEntity as ILayer).Layer = 3;
@@ -143,11 +143,11 @@ namespace OrbitalEngine.Tiles
                                     // IF Layer name is "Items" for the artefacts:
                                     else if (pTileMap.Layers[i].Name == "Items")
                                     {
-                                        // SET Data of _createEntDict["Items"] to "Items" + j:
-                                        (_createEntDict["Items"] as IFuncCommandOneParam<string, IEntity>).Data = "Items" + j;
+                                        // SET FirstParam of _createEntDict["SimpleCollidableEntity"] to "Items" + j:
+                                        (_createEntDict["SimpleCollidableEntity"] as IFuncCommandOneParam<string, IEntity>).FirstParam = "Items" + j;
 
-                                        // INITIALISE tempEntity with return value from _createEntDict["Items"].ExecuteMethod():
-                                        tempEntity = _createEntDict["Items"].ExecuteMethod();
+                                        // INITIALISE tempEntity with return value from _createEntDict["SimpleCollidableEntity"].ExecuteMethod():
+                                        tempEntity = _createEntDict["SimpleCollidableEntity"].ExecuteMethod();
 
                                         // SET Layer Property value of tempEntity to 4:
                                         (tempEntity as ILayer).Layer = 4;
@@ -155,17 +155,17 @@ namespace OrbitalEngine.Tiles
                                     // IF Layer name is "LevelChange" for level transition:
                                     else if (pTileMap.Layers[i].Name == "LevelChange")
                                     {
-                                        // SET Data of _createEntDict["LevelChange"] to "LevelChange" + j:
-                                        (_createEntDict["LevelChange"] as IFuncCommandOneParam<string, IEntity>).Data = "LevelChange" + j;
+                                        // SET FirstParam of _createEntDict["SimpleCollidableEntity"] to "LevelChange" + j:
+                                        (_createEntDict["SimpleCollidableEntity"] as IFuncCommandOneParam<string, IEntity>).FirstParam = "LevelChange" + j;
 
-                                        // INITIALISE tempEntity with return value from _createEntDict["LevelChange"].ExecuteMethod():
-                                        tempEntity = _createEntDict["LevelChange"].ExecuteMethod();
+                                        // INITIALISE tempEntity with return value from _createEntDict["SimpleCollidableEntity"].ExecuteMethod():
+                                        tempEntity = _createEntDict["SimpleCollidableEntity"].ExecuteMethod();
 
                                         // SET Layer Property value of tempEntity to 5:
                                         (tempEntity as ILayer).Layer = 5;
                                     }
-                                    */
-                                    // tempEntity DOES have an active instance:
+
+                                    // IF tempEntity DOES have an active instance:
                                     if (tempEntity != null)
                                     {
                                         // SET Texture Property value of tempEntity to same as pTexture:
@@ -187,6 +187,66 @@ namespace OrbitalEngine.Tiles
                             }
                         }
                     }
+
+                    #endregion
+
+
+                    #region PLAYER/NPC
+
+                    // FORLOOP, iterate until 'i' exceeds count of TileMap Object Groups:
+                    for (int i = 0; i < pTileMap.ObjectGroups.Count; i++)
+                    {
+                        // FORLOOP, iterate until 'j' exceeds count of objects in chosen group:
+                        for (int j = 0; j < pTileMap.ObjectGroups[i].Objects.Count; j++)
+                        {
+                            // SET tempEntity to null, prevents issue where an entity can be addressed twice:
+                            tempEntity = null;
+
+                            // TRY checking if ExecuteMethod() throws a ClassDoesNotExistException:
+                            try
+                            {
+                                // IF Group name is "Player":
+                                if (pTileMap.ObjectGroups[i].Name == "Player")
+                                {
+                                    // SET FirstParam of _createEntDict["Player"] to "Player" + (j + 1) for Player naming convention:
+                                    (_createEntDict["Player"] as IFuncCommandOneParam<string, IEntity>).FirstParam = "Player" + (j + 1);
+
+                                    // INITIALISE tempEntity with return value from _createEntDict["Player"].ExecuteMethod():
+                                    tempEntity = _createEntDict["Player"].ExecuteMethod();
+
+                                    // SET Layer Property value of tempEntity to 6:
+                                    (tempEntity as ILayer).Layer = 6;
+                                }
+                                // IF Group name is "NPC":
+                                else if (pTileMap.ObjectGroups[i].Name == "NPC")
+                                {
+                                    // SET FirstParam of _createEntDict["NPC"] to "NPC" + j:
+                                    (_createEntDict["NPC"] as IFuncCommandOneParam<string, IEntity>).FirstParam = "NPC" + j;
+
+                                    // INITIALISE tempEntity with return value from _createEntDict["NPC"].ExecuteMethod():
+                                    tempEntity = _createEntDict["NPC"].ExecuteMethod();
+
+                                    // SET Layer Property value of tempEntity to 6:
+                                    (tempEntity as ILayer).Layer = 6;
+                                }
+
+                                // IF tempEntity DOES have an active instance:
+                                if (tempEntity != null)
+                                {
+                                    // SET Position Property value of tempEntity to value of Object[j]'s X and Y coordinates:
+                                    tempEntity.Position = new Vector2((int)pTileMap.ObjectGroups[i].Objects[j].X, (int)pTileMap.ObjectGroups[i].Objects[j].Y);
+                                }
+                            }
+                            // CATCH ClassDoesNotExistException from ExecuteMethod():
+                            catch (ClassDoesNotExistException e)
+                            {
+                                // THROW a new ClassDoesNotExistException(), with corresponding message:
+                                throw new ClassDoesNotExistException(e.Message);
+                            }
+                        }
+                    }
+
+                    #endregion
                 }
                 // IF pTexture DOES NOT HAVE an active instance:
                 else

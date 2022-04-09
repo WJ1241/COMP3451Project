@@ -1,17 +1,23 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
+using OrbitalEngine.CollisionManagement.Interfaces;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.CustomEventArgs;
+using OrbitalEngine.Services.Commands.Interfaces;
 
 namespace COMP3451Project.RIRRPackage.Behaviours
 {
     /// <summary>
     /// Class which defines the behaviour for Player entities
     /// Authors: William Smith & Declan Kerby-Collins 
-    /// Date: 07/04/22
+    /// Date: 09/04/22
     /// </summary>
     public class PlayerBehaviour : PongBehaviour, IDirection
     {
         #region FIELD VARIABLES
+
+        // DECLARE an ICommand, name it '_updatePosCommand':
+        private ICommand _updatePosCommand;
 
         // DECLARE a Vector2, name it '_direction':
         private Vector2 _direction;
@@ -40,14 +46,14 @@ namespace COMP3451Project.RIRRPackage.Behaviours
         protected override void Boundary()
         {
             // IF Paddle at top of screen:
-            if (_entity.Position.Y - (_entity as IRotation).DrawOrigin.Y <= 0)
+            if ((_entity as ICollidable).HitBox.Top <= 0)
             {
                 // ASSIGNMENT, set _position.Y to _entity's Origin Point, keeps at top of screen:
                 _entity.Position = new Vector2(_entity.Position.X, (_entity as IRotation).DrawOrigin.Y);
             }
 
             // IF Paddle at bottom of screen:
-            else if (_entity.Position.Y + (_entity as IRotation).DrawOrigin.Y >= (_entity as IContainBoundary).WindowBorder.Y)
+            if (_entity.Position.Y + (_entity as IRotation).DrawOrigin.Y >= (_entity as IContainBoundary).WindowBorder.Y)
             {
                 // ASSIGNMENT, set _position.Y to _windowBorder.Y - _textureSize.Y, keeps at bottom of screen:
                 _entity.Position = new Vector2(_entity.Position.X, (_entity as IContainBoundary).WindowBorder.Y - (_entity as IRotation).DrawOrigin.Y);
@@ -79,14 +85,14 @@ namespace COMP3451Project.RIRRPackage.Behaviours
         #endregion 
 
 
-        #region IMPLEMENTATION OF IUPDATEEVENTLISTENER
+        #region IMPLEMENTATION OF IEVENTLISTENER<UPDATEEVENTARGS>>
 
         /// <summary>
         /// Method called when needing to update Behaviour
         /// </summary>
         /// <param name="pSource"> Object that is to be updated </param>
         /// <param name="pArgs"> EventArgs for an Update object </param>
-        public override void OnUpdateEvent(object pSource, UpdateEventArgs pArgs)
+        public override void OnEvent(object pSource, UpdateEventArgs pArgs)
         {
             // ASSIGNMENT, set value of _velocity to _speed mutlipled by _direction:
             _velocity = (_entity as IGetSpeed).GetSpeed * _direction;
@@ -97,8 +103,28 @@ namespace COMP3451Project.RIRRPackage.Behaviours
             // ADD & APPLY velocity to current position:
             _entity.Position += _velocity;
 
-            // CALL Boundary() method:
-            Boundary();
+            // CALL UpdateFollowEntity():
+            //UpdateFollowEntity();
+        }
+
+        #endregion
+
+
+        #region PRIVATE METHODS
+
+        /// <summary>
+        /// Updates an Entity that requires lerp positioning
+        /// </summary>
+        private void UpdateFollowEntity()
+        {
+            // INITIALISE FirstParam Property of _updatePosCommand with value of _entity's Position Property:
+            (_updatePosCommand as ICommandTwoParam<Vector2, Vector2>).FirstParam = _entity.Position;
+
+            // INITIALISE SecondParam Property of _updatePosCommand with value of _entity's TextureSize:
+            (_updatePosCommand as ICommandTwoParam<Vector2, Vector2>).SecondParam = new Vector2((_entity as ITexture).TextureSize.X, (_entity as ITexture).TextureSize.Y);
+
+            // SCHEDULE _updatePosCommand to be executed:
+            (_entity as ICommandSender).ScheduleCommand(_updatePosCommand);
         }
 
         #endregion

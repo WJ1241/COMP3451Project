@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using OrbitalEngine.Behaviours.Interfaces;
 using OrbitalEngine.Camera.Interfaces;
 using OrbitalEngine.CollisionManagement.Interfaces;
 using OrbitalEngine.CoreInterfaces;
+using OrbitalEngine.CustomEventArgs;
 using OrbitalEngine.EntityManagement.Interfaces;
 using OrbitalEngine.Exceptions;
 using OrbitalEngine.SceneManagement.Interfaces;
@@ -15,10 +17,10 @@ namespace OrbitalEngine.SceneManagement
     /// <summary>
     /// Class which holds reference to list in Scene Manager, Draws and Updates entities
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 07/04/22
+    /// Date: 09/04/22
     /// </summary>
     /// <REFERENCE> Abuhakmeh, K. (2009) XNA 2D Camera Engine That Follows Sprite. Available at: https://stackoverflow.com/questions/712296/xna-2d-camera-engine-that-follows-sprite. (Accessed: 20 April 2021). </REFERENCE>
-    public class SceneGraph : ISceneGraph, IDraw, IDrawCamera, IInitialiseParam<IDictionary<string, IEntity>>, IInitialiseParam<IFuncCommand<ICommand>>, ISpawn, IUpdatable
+    public class SceneGraph : ISceneGraph, IDraw, IEventListener<MatrixEventArgs>, IInitialiseParam<IDictionary<string, IEntity>>, IInitialiseParam<IFuncCommand<ICommand>>, ISpawn, IUpdatable
     {
         #region FIELD VARIABLES
 
@@ -27,6 +29,9 @@ namespace OrbitalEngine.SceneManagement
 
         // DECLARE an IFuncCommand<ICommand>, name it '_createCommand':
         private IFuncCommand<ICommand> _createCommand;
+
+        // DECLARE a Matrix, name it '_zoomFollowMatrix':
+        private Matrix _zoomFollowMatrix;
 
         #endregion
 
@@ -97,8 +102,18 @@ namespace OrbitalEngine.SceneManagement
         /// <param name="pSpriteBatch"> Needed to draw entity's texture on screen </param>
         public void Draw(SpriteBatch pSpriteBatch)
         {
-            // BEGIN creation of displayable objects:
-            pSpriteBatch.Begin();
+            // IF "Camera" IS stored in _sceneEntDict:
+            if (_sceneEntDict.ContainsKey("Camera"))
+            {
+                // BEGIN creation of displayable objects:
+                pSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, _zoomFollowMatrix);
+            }
+            // IF "Camera" IS NOT stored in _sceneEntDict:
+            else
+            {
+                // BEGIN creation of displayable objects:
+                pSpriteBatch.Begin();
+            }
 
             // FOREACH IDraw in _sceneEntDict.Values:
             foreach (IDraw entity in _sceneEntDict.Values)
@@ -114,32 +129,20 @@ namespace OrbitalEngine.SceneManagement
         #endregion
 
 
-        #region IMPLEMENTATION OF IDRAWCAMERA
+        #region IMPLEMENTATION OF IEVENTLISTENER<MATRIXEVENTARGS>
 
         /// <summary>
-        /// When called, draws entity's texture on screen, as well as reposition of a camera object
+        /// Event called when needing to update Matrix value for Draw() Method
         /// </summary>
-        /// <param name="pSpriteBatch"> Needed to draw entity's texture on screen </param>
-        /// <param name="pCamera"> Needed to move camera position on screen </param>
-        /// <CITATION> (Abuhakmeh, 2009) </CITATION>
-        public void Draw(SpriteBatch pSpriteBatch, ICamera pCamera)
+        /// <param name="pSource"> Caller of Event </param>
+        /// <param name="pArgs"> MatrixEventArgs object </param>
+        public void OnEvent(object pSource, MatrixEventArgs pArgs)
         {
-            // BEGIN creation of displayable objects:
-            //pSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, pCamera.ChngCamPos());
-
-            // FOREACH IDraw in _sceneEntDict.Values:
-            foreach (IDraw pEntity in _sceneEntDict.Values)
-            {
-                // CALL Draw method on all entities in _entityDictionary:
-                pEntity.Draw(pSpriteBatch);
-            }
-
-            // END creation of displayable objects:
-            pSpriteBatch.End();
+            // INITIALISE _zoomFollowMatrix with value of pArgs' RequiredArg Property:
+            _zoomFollowMatrix = pArgs.RequiredArg;
         }
 
         #endregion
-
 
         #region IMPLEMENTATION OF IINITIALISEPARAM<IDICTIONARY<STRING, IENTITY>>
 
@@ -210,25 +213,43 @@ namespace OrbitalEngine.SceneManagement
 
             #region REMOVE COMMAND
 
-            // DECLARE & INSTANTIATE an ICommandOneParam<string> as a new CommandOneParam<string>(), name it 'removeMe':
-            ICommandOneParam<string> removeMe = _createCommand.ExecuteMethod() as ICommandOneParam<string>;
+            // IF pEntity implements IEntityInternal:
+            if (pEntity is IEntityInternal)
+            {
+                // DECLARE & INSTANTIATE an ICommandOneParam<string> as a new CommandOneParam<string>(), name it 'removeMe':
+                ICommandOneParam<string> removeMe = _createCommand.ExecuteMethod() as ICommandOneParam<string>;
 
-            // SET MethodRef of removeMe with RemoveEntity method:
-            removeMe.MethodRef = RemoveEntity;
+                // SET MethodRef of removeMe with RemoveEntity method:
+                removeMe.MethodRef = RemoveEntity;
 
-            // SET Data of removeMe with pEntity's UName Property:
-            removeMe.Data = pEntity.UName;
+                // SET FirstParam of removeMe with pEntity's UName Property:
+                removeMe.FirstParam = pEntity.UName;
 
-            // SET RemoveMe property of pEntity with removeMe Command:
-            (pEntity as IEntityInternal).RemoveMe = removeMe;
+                // SET RemoveMe property of pEntity with removeMe Command:
+                (pEntity as IEntityInternal).RemoveMe = removeMe;
+            }
 
             #endregion
 
 
             #region SPAWN LOCATION
 
-            // INITIALISE pEntity.Position with value of pPosition:
-            pEntity.Position = pPosition;
+            // IF pEntity's Position Property DOES NOT return the same value as pPosition:
+            if (pEntity.Position != pPosition)
+            {
+                // INITIALISE pEntity.Position with value of pPosition:
+                pEntity.Position = pPosition;
+            }
+
+            // IF pEntity implements ICamera:
+            if (pEntity is ICamera)
+            {
+                // INITIALISE pEntity with reference to OnEvent():
+                (pEntity as IInitialiseParam<EventHandler<MatrixEventArgs>>).Initialise(OnEvent);
+
+                // END Method Call so it does not output to console as Camera is not 'spawning':
+                return;
+            }
 
             // WRITE to console, alerting when object has been added to the scene:
             Console.WriteLine(pEntity.UName + " ID:" + pEntity.UID + " has been Spawned on Scene!");
@@ -250,7 +271,7 @@ namespace OrbitalEngine.SceneManagement
             // FOREACH IEntity in _sceneEntDict.Values:
             foreach (IEntity pEntity in _sceneEntDict.Values)
             {
-                // IF entity implements IUpdatable:
+                // IF pEntity implements IUpdatable:
                 if (pEntity is IUpdatable)
                 {
                     // CALL Update() on pEntity, passing pGameTime as a parameter:

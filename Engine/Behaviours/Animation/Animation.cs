@@ -148,14 +148,14 @@ namespace OrbitalEngine.Animation
         #endregion
 
 
-        #region IMPLEMENTATION OF IUPDATEEVENTLISTENER
+        #region IMPLEMENTATION OF IEVENTLISTENER<UPDATEEVENTARGS>
 
         /// <summary>
         /// Method called when needing to update Behaviour
         /// </summary>
         /// <param name="pSource"> Object that is to be updated </param>
         /// <param name="pArgs"> Identification for Update() Method in EventHandler </param>
-        public override void OnUpdateEvent(object pSource, UpdateEventArgs pArgs)
+        public override void OnEvent(object pSource, UpdateEventArgs pArgs)
         {
             // ASSIGNMENT: _time has the value of pArgs in milliseconds added to it:
             _time += pArgs.RequiredArg.ElapsedGameTime.TotalMilliseconds;

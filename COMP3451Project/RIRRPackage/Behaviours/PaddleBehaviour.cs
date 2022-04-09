@@ -79,14 +79,14 @@ namespace COMP3451Project.RIRRPackage.Behaviours
         #endregion 
 
 
-        #region IMPLEMENTATION OF IUPDATEEVENTLISTENER
+        #region IMPLEMENTATION OF IEVENTLISTENER<UPDATEEVENTARGS>
 
         /// <summary>
         /// Method called when needing to update Behaviour
         /// </summary>
         /// <param name="pSource"> Object that is to be updated </param>
         /// <param name="pArgs"> EventArgs for an Update object </param>
-        public override void OnUpdateEvent(object pSource, UpdateEventArgs pArgs)
+        public override void OnEvent(object pSource, UpdateEventArgs pArgs)
         {
             // ASSIGNMENT, set value of _velocity to _speed mutlipled by _direction:
             _velocity = (_entity as IGetSpeed).GetSpeed * _direction;

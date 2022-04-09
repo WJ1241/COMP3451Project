@@ -11,7 +11,7 @@ namespace OrbitalEngine.Behaviours
     /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 19/02/22
     /// </summary>
-    public abstract class Behaviour : IUpdateEventListener, IInitialiseParam<IEntity>, IName
+    public abstract class Behaviour : IEventListener<UpdateEventArgs>, IInitialiseParam<IEntity>, IName
     {
         #region FIELD VARIABLES
 
@@ -24,14 +24,14 @@ namespace OrbitalEngine.Behaviours
         #endregion
 
 
-        #region IMPLEMENTATION OF IUPDATEEVENTLISTENER
+        #region IMPLEMENTATION OF IEVENTLISTENER<UPDATEEVENTARGS>
 
         /// <summary>
         /// Method called when needing to update Behaviour
         /// </summary>
         /// <param name="pSource"> Object that is to be updated </param>
         /// <param name="pArgs"> EventArgs for an Update object </param>
-        public abstract void OnUpdateEvent(object pSource, UpdateEventArgs pArgs);
+        public abstract void OnEvent(object pSource, UpdateEventArgs pArgs);
 
         #endregion
 

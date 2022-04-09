@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using OrbitalEngine.Behaviours.Interfaces;
 using OrbitalEngine.CoreInterfaces;
+using OrbitalEngine.CustomEventArgs;
 using OrbitalEngine.EntityManagement.Interfaces;
 using OrbitalEngine.Exceptions;
 
@@ -9,17 +10,17 @@ namespace OrbitalEngine.EntityManagement
     /// <summary>
     /// Abstract Class which contains logic for a game loop for dynamic entities
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 15/02/22
+    /// Date: 09/04/22
     /// </summary>
-    public abstract class UpdatableEntity : DrawableEntity, IInitialiseParam<IUpdateEventListener>, IUpdatable
+    public abstract class UpdatableEntity : DrawableEntity, IInitialiseParam<IEventListener<UpdateEventArgs>>, IUpdatable
     {
-        #region IMPLEMENTATION OF IINITIALISEPARAM<IUPDATEEVENTLISTENER>
+        #region IMPLEMENTATION OF IINITIALISEPARAM<IEVENTLISTENER<UPDATEVENTARGS>>
 
         /// <summary>
-        /// Initialises an object with an IUpdateEventListener object
+        /// Initialises an object with an IEventListener<UpdateEventArgs> object
         /// </summary>
-        /// <param name="pUpdateEventListener"> IUpdateEventListener object </param>
-        public virtual void Initialise(IUpdateEventListener pUpdateEventListener)
+        /// <param name="pUpdateEventListener"> IEventListener<UpdateEventArgs> object </param>
+        public virtual void Initialise(IEventListener<UpdateEventArgs> pUpdateEventListener)
         {
             // IF pUpdateEventListener DOES HAVE an active instance:
             if (pUpdateEventListener != null)

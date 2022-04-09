@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using OrbitalEngine.Behaviours.Interfaces;
 using OrbitalEngine.CollisionManagement.Interfaces;
 using OrbitalEngine.CoreInterfaces;
+using OrbitalEngine.CustomEventArgs;
 using OrbitalEngine.EntityManagement.Interfaces;
 using OrbitalEngine.Exceptions;
 
@@ -11,7 +12,7 @@ namespace COMP3451Project.RIRRPackage.Entities
     /// <summary>
     /// Class which adds a Ball entity on screen
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 04/04/22
+    /// Date: 09/04/22
     /// </summary>
     public class Ball : PongEntity, ICollidable, ICollisionListener, IInitialiseParam<Random>, IReset
     {
@@ -52,13 +53,13 @@ namespace COMP3451Project.RIRRPackage.Entities
         #endregion
 
 
-        #region IMPLEMENTATION OF IINITIALISEPARAM<IUPDATEEVENTLISTENER>
+        #region IMPLEMENTATION OF IINITIALISEPARAM<IEVENTLISTENER<UPDATEEVENTARGS>>
 
         /// <summary>
-        /// Initialises an object with an IUpdateEventListener object
+        /// Initialises an object with an IEventListener<UpdateEventArgs> object
         /// </summary>
-        /// <param name="pUpdateEventListener"> IUpdateEventListener object </param>
-        public override void Initialise(IUpdateEventListener pUpdateEventListener)
+        /// <param name="pUpdateEventListener"> IEventListener<UpdateEventArgs> object </param>
+        public override void Initialise(IEventListener<UpdateEventArgs> pUpdateEventListener)
         {
             // IF pUpdateEventListener DOES HAVE an active instance:
             if (pUpdateEventListener != null)

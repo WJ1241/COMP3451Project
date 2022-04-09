@@ -41,7 +41,7 @@ namespace OrbitalEngine.Services.Commands
         /// <summary>
         /// Property which allows write access to the desired first parameter type
         /// </summary>
-        public T Data
+        public T FirstParam
         {
             set
             {

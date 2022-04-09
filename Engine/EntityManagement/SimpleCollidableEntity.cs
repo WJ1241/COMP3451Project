@@ -1,22 +1,21 @@
 ﻿using Microsoft.Xna.Framework;
 using OrbitalEngine.CollisionManagement.Interfaces;
-using OrbitalEngine.EntityManagement;
 
-namespace OrbitalEngine.Tiles
+namespace OrbitalEngine.EntityManagement
 {
     /// <summary>
-    /// Class which spawns a Wall on screen
+    /// Class which spawns a SimpleCollidableEntity on screen
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 15/02/22
+    /// Date: 09/04/22
     /// </summary>
-    public class Wall : DrawableRectangleEntity, ICollidable
+    public class SimpleCollidableEntity : DrawableRectangleEntity, ICollidable
     {
         #region CONSTRUCTOR
 
         /// <summary>
-        /// Constructor for objects of Wall
+        /// Constructor for objects of SimpleCollidableEntity
         /// </summary>
-        public Wall()
+        public SimpleCollidableEntity()
         {
             // EMPTY CONSTRUCTOR
         }

@@ -18,7 +18,7 @@ namespace OrbitalEngine.CoreInterfaces
         /// Layer 3: Static Obstacles
         /// Layer 4: Items
         /// Layer 5: Level Change
-        /// Layer 6: Player/Enemy
+        /// Layer 6: Player/NPC
         /// Layer 7: GUI
         /// </summary>
         int Layer { get; set; }

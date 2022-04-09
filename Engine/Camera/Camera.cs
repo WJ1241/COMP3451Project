@@ -10,12 +10,18 @@ namespace OrbitalEngine.Camera
     /// <summary>
     /// Class which creates a camera to follow a user based entity
     /// Authors: William Smith, Declan Kerby-Collins & 'axlemke'
-    /// Date: 07/04/22
+    /// Date: 09/04/22
     /// </summary>
     /// <REFERENCE> axlemke (2014) XNA 2D Camera, zoom into player. Available at: https://gamedev.stackexchange.com/questions/68978/xna-2d-camera-zoom-into-player. (Accessed: 20 April 2021). </REFERENCE>
-    public class Camera : ICamera, IContainBoundary, IEntity, IZoom
+    public class Camera : ICamera, IContainBoundary, IEntity, IInitialiseParam<EventHandler<MatrixEventArgs>>, IZoom
     {
         #region FIELD VARIABLES
+
+        // DECLARE an EventHandler<MatrixEventArgs>, name it '_camPosChangeEvent':
+        private EventHandler<MatrixEventArgs> _camPosChangeEvent;
+
+        // DECLARE a MatrixEventArgs, name it '_matrixArgs':
+        private MatrixEventArgs _matrixArgs;
 
         // DECLARE a Matrix, name it '_camTransform':
         private Matrix _camTransform;
@@ -55,12 +61,16 @@ namespace OrbitalEngine.Camera
         #region IMPLEMENTATION OF ICAMERA
 
         /// <summary>
-        /// Changes position of camera object when used as a parameter in a Draw Method
+        /// Changes Positional values of Camera
         /// </summary>
-        /// <returns> A Matrix object to be used within Draw Methods </returns>
+        /// <param name="pPosition"> Incoming Position value </param>
+        /// <param name="pCenteringValue"> Incoming Position value </param>
         /// <CITATION> (axlemke, 2014) </CITATION>
-        public Matrix DrawCam()
+        public void ChangeCamPos(Vector2 pPosition, Vector2 pCenteringValue)
         {
+            // SET value of _position to value of pPosition:
+            _position = Vector2.Lerp(_position, (pPosition * _zoom) + new Vector2(pCenteringValue.X * (_zoom / 2), pCenteringValue.Y * (_zoom / 2)), 0.1f);
+
             // ASSIGNMENT, set value of _camTransform to zoom in using _zoom value, and position in centre of screen. Scale is changed first before Translation, does not work other way around, matrix rule ISROT applies:
             _camTransform = // SET scale using zoom, on X,Y axes:
                             Matrix.CreateScale(_zoom, _zoom, 1f)
@@ -68,29 +78,11 @@ namespace OrbitalEngine.Camera
                           // SET value of _camTransform to a new Vector3, passing parameters of the camera user's X,Y position, excluding Z as game operates in 2D:
                           * Matrix.CreateTranslation(new Vector3(-_position.X + (_windowSize.X / 2), -_position.Y + (_windowSize.Y / 2), 0));
 
-            // RETURN value of _camTransform:
-            return _camTransform;
-        }
+            // INITIALISE _matrixArgs with value of _camTransform:
+            _matrixArgs.RequiredArg = _camTransform;
 
-        /// <summary>
-        /// Changes Positional values so it is updated to stay with caller source's position
-        /// </summary>
-        /// <param name="pSource"> Object that is changing Position </param>
-        /// <param name="pArgs"> EventArgs for a Positioned object </param>
-        public void ChangeCamPos(object pSource, PositionEventArgs pArgs)
-        {
-            // IF pArgs DOES HAVE an active instance:
-            if (pArgs != null)
-            {
-                // SET value of _position to value of pArgs.RequiredArg:
-                _position = pArgs.RequiredArg;
-            }
-            // IF pArgs DOES NOT HAVE an active instance:
-            else
-            {
-                // WRITE to console, explaining that pArgs cannot be used:
-                Console.WriteLine("ERROR: pArgs does not have an active instance, therefore Camera position cannot be updated!");
-            }
+            // INVOKE _camPosChangeEvent(), passing this class and _matrixArgs as parameters:
+            _camPosChangeEvent.Invoke(this, _matrixArgs);
         }
 
         #endregion
@@ -169,6 +161,44 @@ namespace OrbitalEngine.Camera
                 // ASSIGNMENT give _uName value of external class modified value:
                 _uName = value;
             }
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEPARAM<EVENTHANDLER<MATRIXEVENTARGS>>
+
+        /// <summary>
+        /// Initialises an object with an EventHandler<MatrixEventArgs> reference
+        /// </summary>
+        /// <param name="pEventHandler"> EventHandler<MatrixEventArgs> reference </param>
+        public void Initialise(EventHandler<MatrixEventArgs> pEventHandler)
+        {
+            // IF pEventHandler DOES HAVE a valid method reference:
+            if (pEventHandler != null)
+            {
+                // INITIALISE _camPosChangeEvent with reference to pEventHandler
+                _camPosChangeEvent = pEventHandler;
+            }
+            // IF pEventHandler DOES NOT HAVE a valid method reference:
+            else
+            {
+                // THROW a new NullReferenceException(), with corresponding message:
+                throw new NullReferenceException("ERROR: pEventHandler does not have a valid method reference!");
+            }
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF ITERMINATE
+
+        /// <summary>
+        /// Disposes resources to the garbage collector
+        /// </summary>
+        public void Terminate()
+        {
+
         }
 
         #endregion

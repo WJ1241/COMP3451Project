@@ -45,13 +45,13 @@ namespace COMP3451Project.RIRRPackage.States
         #endregion
 
 
-        #region IMPLEMENTATION OF IINITIALISEPARAM<IUPDATEEVENTLISTENER>
+        #region IMPLEMENTATION OF IINITIALISEPARAM<IEVENTLISTENER<UPDATEEVENTARGS>>
 
         /// <summary>
-        /// Initialises an object with an IUpdateEventListener object
+        /// Initialises an object with an IEventListener<UpdateEventArgs> object
         /// </summary>
-        /// <param name="pUpdateEventListener"> IUpdateEventListener object </param>
-        public override void Initialise(IUpdateEventListener pUpdateEventListener)
+        /// <param name="pUpdateEventListener"> IEventListener<UpdateEventArgs> object </param>
+        public override void Initialise(IEventListener<UpdateEventArgs> pUpdateEventListener)
         {
             // IF pUpdateEventListener DOES HAVE an active instance:
             if (pUpdateEventListener != null)
@@ -59,14 +59,14 @@ namespace COMP3451Project.RIRRPackage.States
                 // IF pUpdateEventListener DOES implements IAnimation:
                 if (pUpdateEventListener is IAnimation)
                 {
-                    // SUBSCRIBE _animationEvent to pUpdateEventListener.OnUpdateEvent():
-                    _animationEvent += pUpdateEventListener.OnUpdateEvent;
+                    // SUBSCRIBE _animationEvent to pUpdateEventListener.OnEvent():
+                    _animationEvent += pUpdateEventListener.OnEvent;
                 }
                 // IF pUpdateEventListener DOES NOT implements IAnimation:
                 else
                 {
-                    // SUBSCRIBE _behaviourEvent to pUpdateEventListener.OnUpdateEvent():
-                    _behaviourEvent += pUpdateEventListener.OnUpdateEvent;
+                    // SUBSCRIBE _behaviourEvent to pUpdateEventListener.OnEvent():
+                    _behaviourEvent += pUpdateEventListener.OnEvent;
                 }
             }
             // IF pUpdateEventListener DOES NOT HAVE an active instance:

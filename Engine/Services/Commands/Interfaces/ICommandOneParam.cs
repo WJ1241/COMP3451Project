@@ -15,7 +15,7 @@ namespace OrbitalEngine.Services.Commands.Interfaces
         /// <summary>
         /// Property which allows write access to the desired first parameter type
         /// </summary>
-        T Data { set; }
+        T FirstParam { set; }
 
         /// <summary>
         /// Property which allows write access to a reference of a method with ONE parameter

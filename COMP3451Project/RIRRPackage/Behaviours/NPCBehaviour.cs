@@ -1,7 +1,6 @@
 ﻿using OrbitalEngine.Behaviours.Interfaces;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.CustomEventArgs;
-using OrbitalEngine.EntityManagement.Interfaces;
 using OrbitalEngine.Services.Commands.Interfaces;
 
 namespace COMP3451Project.RIRRPackage.Behaviours
@@ -9,9 +8,9 @@ namespace COMP3451Project.RIRRPackage.Behaviours
     /// <summary>
     /// Class which defines the behaviour for NPC entities
     /// Authors: William Smith & Declan Kerby-Collins 
-    /// Date: 07/04/22
+    /// Date: 09/04/22
     /// </summary>
-    public class NPCBehaviour : PongBehaviour, ICollisionEventListener
+    public class NPCBehaviour : PongBehaviour, IEventListener<CollisionEventArgs>
     {
         #region FIELD VARIABLES
 
@@ -119,14 +118,14 @@ namespace COMP3451Project.RIRRPackage.Behaviours
         #endregion
         
 
-        #region IMPLEMENTATION OF ICOLLISIONEVENTLISTENER
+        #region IMPLEMENTATION OF IEVENTLISTENER<COLLISIONEVENTARGS>
 
         /// <summary>
         /// Method which is called after an object that requires output after colliding with another object
         /// </summary>
         /// <param name="pSource"> Object that requires output from colliding with another object </param>
         /// <param name="pArgs"> CollisionEventArgs object </param>
-        public void OnCollisionEvent(object pSource, CollisionEventArgs pArgs)
+        public void OnEvent(object pSource, CollisionEventArgs pArgs)
         {
             // IF moving left:
             if ((_entity as IVelocity).Velocity.X < 0)
