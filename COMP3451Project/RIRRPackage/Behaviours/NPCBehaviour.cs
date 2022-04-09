@@ -63,64 +63,61 @@ namespace COMP3451Project.RIRRPackage.Behaviours
         /// Used when an object hits a boundary, possibly to change direction or stop
         /// </summary>
         protected override void Boundary()
-        { }
+        { 
+            
+            //// ASSIGN value of _entity's Velocity to _currentVel:
+            //_velocity = (_entity as IVelocity).Velocity;
 
-        #endregion
+            //// IF at top screen edge or bottom screen edge:
+            //if (_entity.Position.Y <= (_entity.Position.Y + 48) || _entity.Position.Y >= (_entity as IContainBoundary).WindowBorder.Y - (_entity as ITexture).TextureSize.Y)
+            //{
+            //    // MULTIPLY _currentVel.Y by '-1':
+            //    _velocity.Y *= -1;
 
-        /*
-            // ASSIGN value of _entity's Velocity to _currentVel:
-            _velocity = (_entity as IVelocity).Velocity;
+            //    // APPLY new Velocity to _entity.Velocity:
+            //    (_entity as IVelocity).Velocity = _velocity;
 
-            // IF at top screen edge or bottom screen edge:
-            if (_entity.Position.Y <= 0 || _entity.Position.Y >= (_entity as IContainBoundary).WindowBorder.Y - (_entity as ITexture).TextureSize.Y)
-            {
-                // MULTIPLY _currentVel.Y by '-1':
-                _velocity.Y *= -1;
+            //    // SET Data Property value of _sfxCommand to "WallHit":
+            //    //(_sfxCommand as ICommandOneParam<string>).Data = "WallHit";
 
-                // APPLY new Velocity to _entity.Velocity:
-                (_entity as IVelocity).Velocity = _velocity;
+            //    // SCHEDULE _sfxCommand to be executed:
+            //    (_entity as ICommandSender).ScheduleCommand(_sfxCommand);
+            //}
+            //// IF at left screen edge or right screen edge:
+            //else if (_entity.Position.X <= 0 || _entity.Position.X >= (_entity as IContainBoundary).WindowBorder.X - (_entity as ITexture).TextureSize.X)
+            //{
+            //    // IF at left screen edge:
+            //    if (_entity.Position.X <= 0)
+            //    {
+            //        // SET Data Property value of _scoreGoal to '2':
+            //        //(_scoreGoal as ICommandOneParam<int>).Data = 2;
+            //    }
+            //    // IF at right screen edge:
+            //    else if (_entity.Position.X >= (_entity as IContainBoundary).WindowBorder.X - (_entity as ITexture).TextureSize.X)
+            //    {
+            //        // SET Data Property value of _scoreGoal to '1':
+            //        //(_scoreGoal as ICommandOneParam<int>).Data = 1;
+            //    }
 
-                // SET Data Property value of _sfxCommand to "WallHit":
-                (_sfxCommand as ICommandOneParam<string>).Data = "WallHit";
+            //    // SCHEDULE _scoreGoal to be executed:
+            //    //(_entity as ICommandSender).ScheduleCommand(_scoreGoal);
 
-                // SCHEDULE _sfxCommand to be executed:
-                (_entity as ICommandSender).ScheduleCommand(_sfxCommand);
-            }
-            // IF at left screen edge or right screen edge:
-            else if (_entity.Position.X <= 0 || _entity.Position.X >= (_entity as IContainBoundary).WindowBorder.X - (_entity as ITexture).TextureSize.X)
-            {
-                // IF at left screen edge:
-                if (_entity.Position.X <= 0)
-                {
-                    // SET Data Property value of _scoreGoal to '2':
-                    (_scoreGoal as ICommandOneParam<int>).Data = 2;
-                }
-                // IF at right screen edge:
-                else if (_entity.Position.X >= (_entity as IContainBoundary).WindowBorder.X - (_entity as ITexture).TextureSize.X)
-                {
-                    // SET Data Property value of _scoreGoal to '1':
-                    (_scoreGoal as ICommandOneParam<int>).Data = 1;
-                }
+            //    // SET Data Property value of _sfxCommand to "Score":
+            //    //(_sfxCommand as ICommandOneParam<string>).Data = "Score";
 
-                // SCHEDULE _scoreGoal to be executed:
-                (_entity as ICommandSender).ScheduleCommand(_scoreGoal);
+            //    // SCHEDULE _sfxCommand to be executed:
+            //    //(_entity as ICommandSender).ScheduleCommand(_sfxCommand);
 
-                // SET Data Property value of _sfxCommand to "Score":
-                (_sfxCommand as ICommandOneParam<string>).Data = "Score";
+            //    // SCHEDULE RemoveMe to be executed:
+            //    (_entity as ICommandSender).ScheduleCommand((_entity as IEntityInternal).RemoveMe);
 
-                // SCHEDULE _sfxCommand to be executed:
-                (_entity as ICommandSender).ScheduleCommand(_sfxCommand);
-
-                // SCHEDULE RemoveMe to be executed:
-                (_entity as ICommandSender).ScheduleCommand((_entity as IEntityInternal).RemoveMe);
-
-                // SCHEDULE TerminateMe to be executed:
-                (_entity as ICommandSender).ScheduleCommand((_entity as IEntityInternal).TerminateMe);
-            }
+            //    // SCHEDULE TerminateMe to be executed:
+            //    (_entity as ICommandSender).ScheduleCommand((_entity as IEntityInternal).TerminateMe);
+            //}
         }
 
         #endregion
-        */
+        
 
         #region IMPLEMENTATION OF ICOLLISIONEVENTLISTENER
 
@@ -136,29 +133,91 @@ namespace COMP3451Project.RIRRPackage.Behaviours
             {
                 // IF speed DOES NOT exceed lower bound of other ICollidable's TextureSize.X - 1 as a negative:
                 // PREVENTS CLIPPING
-                if ((_entity as IVelocity).Velocity.X >= ((pArgs.RequiredArg as ITexture).TextureSize.X - 1) * -1)
+                //if ((_entity as IVelocity).Velocity.X >= ((pArgs.RequiredArg as ITexture).TextureSize.X - 1) * -1)
+                //{
+                //    // MINUS 0.2 multiplied by _RequiredArg's Velocity, from _velocity:
+                //    _velocity.X = _velocity.X - 0.2f * (pArgs.RequiredArg as IVelocity).Velocity.Length();
+                //}
+
+                if ((_entity as IVelocity).Velocity.X >= (pArgs.RequiredArg as ITexture).TextureSize.X - 1)
                 {
-                    // MINUS 0.2 multiplied by _RequiredArg's Velocity, from _velocity:
-                    _velocity.X = _velocity.X - 0.2f * (pArgs.RequiredArg as IVelocity).Velocity.Length();
+                    _velocity.X -= _velocity.X;
                 }
             }
             // IF moving right:
             else if ((_entity as IVelocity).Velocity.X > 0)
             {
-                // IF speed DOES NOT exceed higher bound of other ICollidable's TextureSize.X - 1:
-                // PREVENTS CLIPPING
-                if ((_entity as IVelocity).Velocity.X <= (pArgs.RequiredArg as ITexture).TextureSize.X - 1)
+                if ((_entity as IVelocity).Velocity.X <= (pArgs.RequiredArg as ITexture).TextureSize.X + 1)
                 {
-                    // ADD 0.2 multiplied by _RequiredArg's Velocity, to _velocity:
-                    _velocity.X = _velocity.X + 0.2f * (pArgs.RequiredArg as IVelocity).Velocity.Length();
+                    _velocity.X -= _velocity.X;
                 }
             }
-
+            // IF moving top:
+            else if ((_entity as IVelocity).Velocity.Y < 0)
+            {
+                if ((_entity as IVelocity).Velocity.Y >= (pArgs.RequiredArg as ITexture).TextureSize.Y - 1)
+                {
+                    _velocity.Y -= _velocity.Y;
+                }
+            }
+            // IF moving bottom:
+            else if ((_entity as IVelocity).Velocity.Y > 0)
+            {
+                if ((_entity as IVelocity).Velocity.Y <= (pArgs.RequiredArg as ITexture).TextureSize.Y + 1)
+                {
+                    _velocity.Y -= _velocity.Y;
+                }
+            }
             // SET Data Property value of _sfxCommand to "PaddleHit":
-            (_sfxCommand as ICommandOneParam<string>).Data = "PaddleHit";
+            //(_sfxCommand as ICommandOneParam<string>).Data = "PaddleHit";
 
             // SCHEDULE _sfxCommand SFX to be executed:
-            (_entity as ICommandSender).ScheduleCommand(_sfxCommand);
+            //(_entity as ICommandSender).ScheduleCommand(_sfxCommand);
+
+
+            // ok this bit is for the detection collision, so its the box around the npc and when
+            // the player enters this box the npc is 'aware' and starts hunting you down... theoretically
+
+            // IF moving left:
+            if ((_entity as IVelocity).Velocity.X < 0)
+            {
+                // IF speed DOES NOT exceed lower bound of other ICollidable's TextureSize.X - 1 as a negative:
+                // PREVENTS CLIPPING
+                //if ((_entity as IVelocity).Velocity.X >= ((pArgs.RequiredArg as ITexture).TextureSize.X - 1) * -1)
+                //{
+                //    // MINUS 0.2 multiplied by _RequiredArg's Velocity, from _velocity:
+                //    _velocity.X = _velocity.X - 0.2f * (pArgs.RequiredArg as IVelocity).Velocity.Length();
+                //}
+
+                if (((_entity as IVelocity).Velocity.X - 48) >= (pArgs.RequiredArg as ITexture).TextureSize.X - 1)
+                {
+                    
+                }
+            }
+            // IF moving right:
+            else if ((_entity as IVelocity).Velocity.X > 0)
+            {
+                if (((_entity as IVelocity).Velocity.X + 48) <= (pArgs.RequiredArg as ITexture).TextureSize.X + 1)
+                {
+                    
+                }
+            }
+            // IF moving top:
+            else if ((_entity as IVelocity).Velocity.Y < 0)
+            {
+                if (((_entity as IVelocity).Velocity.Y + 48) >= (pArgs.RequiredArg as ITexture).TextureSize.Y - 1)
+                {
+                    
+                }
+            }
+            // IF moving bottom:
+            else if ((_entity as IVelocity).Velocity.Y > 0)
+            {
+                if (((_entity as IVelocity).Velocity.Y - 48) <= (pArgs.RequiredArg as ITexture).TextureSize.Y + 1)
+                {
+                    
+                }
+            }
 
             // MULTIPLY _currentVel.X by '-1':
             _velocity.X *= -1;

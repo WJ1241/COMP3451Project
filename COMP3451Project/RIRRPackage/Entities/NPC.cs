@@ -26,8 +26,6 @@ namespace COMP3451Project.RIRRPackage.Entities
         // DECLARE a Vector2 and name it 'direction':
         private Vector2 _direction;
 
-        // DECLARE an float, name it '_rotation':
-        private float _rotation;
 
         #endregion
 
@@ -81,6 +79,8 @@ namespace COMP3451Project.RIRRPackage.Entities
         /// <param name="pRand"> Random object </param>
         public void Initialise(Random pRand)
         {
+
+
             // IF pRand DOES HAVE an active instance:
             if (pRand != null)
             {
@@ -140,6 +140,7 @@ namespace COMP3451Project.RIRRPackage.Entities
         {
             // CALL OnCollision() on _currentState, passing pScndCollidable as a parameter:
             (_currentState as ICollisionListener).OnCollision(pScndCollidable);
+            
         }
 
         #endregion
