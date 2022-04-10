@@ -37,13 +37,15 @@ using COMP3451Project.RIRRPackage.Interfaces;
 using COMP3451Project.RIRRPackage.States;
 using System.Collections;
 using OrbitalEngine.CustomEventArgs;
+using OrbitalEngine.Camera.Interfaces;
+using OrbitalEngine.Camera;
 
 namespace COMP3451Project
 {
     /// <summary>
     /// This is the main type for your game.
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 07/04/22
+    /// Date: 10/04/22
     /// </summary>
     public class Kernel : Game, IInitialiseParam<IService>
     {
@@ -281,20 +283,41 @@ namespace COMP3451Project
                 (levelLM as IInitialiseParam<string, IFuncCommand<IEntity>>).Initialise("NPC", createNPC);
 
                 // DECLARE & INSTANTIATE a new TmxMap(), name it '_map', passing a .tmx file as a parameter:
-                TmxMap map = new TmxMap("..\\..\\..\\..\\Content\\ExampleLevel\\ExampleLevel.tmx");
+                TmxMap map = new TmxMap("..\\..\\..\\..\\Content\\RIRR\\Levels\\Level2.tmx");
 
                 // DECLARE & INITIALISE a Texture2D, name it '_tilesetTex', give value of _map's Tilesets[0]'s name:
-                Texture2D tilesetTex = Content.Load<Texture2D>("ExampleLevel\\" + map.Tilesets[0].Name);
+                Texture2D tilesetTex = Content.Load<Texture2D>("RIRR\\Levels\\Tiles\\" + map.Tilesets[0].Name);
 
-                // CALL CreateLevelLayout() on levelLM, passing "ExampleLevel", _map and _tilesetTex as parameters:
-                levelLM.CreateLevelLayout("ExampleLevel", map, tilesetTex);
+                // CALL CreateLevelLayout() on levelLM, passing "Level1", _map and _tilesetTex as parameters:
+                levelLM.CreateLevelLayout("Level1", map, tilesetTex);
 
                 #endregion
 
 
                 #region LAYER 6
 
-                #region PLAYERS
+                #region CAMERA
+
+                // DECLARE & INSTANTIATE an ICamera as a new Camera, name it 'camera':
+                ICamera camera = (_engineManager.GetService<EntityManager>() as IEntityManager).Create<Camera>("Camera") as ICamera;
+
+                // INITIALISE camera with a new MatrixEventArgs:
+                (camera as IInitialiseParam<MatrixEventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<MatrixEventArgs>() as MatrixEventArgs);
+
+                // INITIALISE camera's WindowBorder Property with value of _screenSize:
+                (camera as IContainBoundary).WindowBorder = _screenSize;
+
+                // INITIALISE camera's Zoom Property with a value of '4':
+                (camera as IZoom).Zoom = 4;
+
+                // DECLARE & an ICommand as a new CommandTwoParam<Vector2, Vector2>(), name it 'camPosChangeCommand':
+                ICommand camPosChangeCommand = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandTwoParam<Vector2, Vector2>>();
+
+                // INITIALISE camPosChangeCommand's MethodRef Property with reference to camera.ChangeCamPos():
+                (camPosChangeCommand as ICommandTwoParam<Vector2, Vector2>).MethodRef = camera.ChangeCamPos;
+
+                #endregion
+
 
                 #region PLAYER 1
 
@@ -348,6 +371,9 @@ namespace COMP3451Project
                 // INITIALISE tempStateStationary with a new UpdateEventArgs():
                 (tempStateStationary as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<UpdateEventArgs>());
 
+                // INITIALISE tempStateStationary with a new CollisionEventArgs():
+                (tempStateStationary as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<CollisionEventArgs>());
+
                 // SET PlayerIndex of tempStateStationary to PlayerIndex.One:
                 (tempStateStationary as IPlayer).PlayerNum = PlayerIndex.One;
 
@@ -367,6 +393,9 @@ namespace COMP3451Project
 
                 // INITIALISE tempStateUp with a new UpdateEventArgs():
                 (tempStateUp as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<UpdateEventArgs>());
+
+                // INITIALISE tempStateUp with a new CollisionEventArgs():
+                (tempStateUp as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<CollisionEventArgs>());
 
                 // SET PlayerIndex of tempStateUp to PlayerIndex.One:
                 (tempStateUp as IPlayer).PlayerNum = PlayerIndex.One;
@@ -388,6 +417,9 @@ namespace COMP3451Project
                 // INITIALISE tempStateDown with a new UpdateEventArgs():
                 (tempStateDown as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<UpdateEventArgs>());
 
+                // INITIALISE tempStateDown with a new CollisionEventArgs():
+                (tempStateDown as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<CollisionEventArgs>());
+
                 // SET PlayerIndex of tempStateDown to PlayerIndex.One:
                 (tempStateDown as IPlayer).PlayerNum = PlayerIndex.One;
 
@@ -407,6 +439,9 @@ namespace COMP3451Project
 
                 // INITIALISE tempStateLeft with a new UpdateEventArgs():
                 (tempStateLeft as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<UpdateEventArgs>());
+
+                // INITIALISE tempStateLeft with a new CollisionEventArgs():
+                (tempStateLeft as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<CollisionEventArgs>());
 
                 // SET PlayerIndex of tempStateLeft to PlayerIndex.One:
                 (tempStateLeft as IPlayer).PlayerNum = PlayerIndex.One;
@@ -428,6 +463,9 @@ namespace COMP3451Project
                 // INITIALISE tempStateRight with a new UpdateEventArgs():
                 (tempStateRight as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<UpdateEventArgs>());
 
+                // INITIALISE tempStateRight with a new CollisionEventArgs():
+                (tempStateRight as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<CollisionEventArgs>());
+
                 // SET PlayerIndex of tempStateRight to PlayerIndex.One:
                 (tempStateRight as IPlayer).PlayerNum = PlayerIndex.One;
 
@@ -447,6 +485,9 @@ namespace COMP3451Project
 
                 // INITIALISE tempStateUpLeft with a new UpdateEventArgs():
                 (tempStateUpLeft as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<UpdateEventArgs>());
+
+                // INITIALISE tempStateUpLeft with a new CollisionEventArgs():
+                (tempStateUpLeft as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<CollisionEventArgs>());
 
                 // SET PlayerIndex of tempStateUpLeft to PlayerIndex.One:
                 (tempStateUpLeft as IPlayer).PlayerNum = PlayerIndex.One;
@@ -468,6 +509,9 @@ namespace COMP3451Project
                 // INITIALISE tempStateUpRight with a new UpdateEventArgs():
                 (tempStateUpRight as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<UpdateEventArgs>());
 
+                // INITIALISE tempStateUpRight with a new CollisionEventArgs():
+                (tempStateUpRight as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<CollisionEventArgs>());
+
                 // SET PlayerIndex of tempStateUpRight to PlayerIndex.One:
                 (tempStateUpRight as IPlayer).PlayerNum = PlayerIndex.One;
 
@@ -488,6 +532,9 @@ namespace COMP3451Project
                 // INITIALISE tempStateDownLeft with a new UpdateEventArgs():
                 (tempStateDownLeft as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<UpdateEventArgs>());
 
+                // INITIALISE tempStateDownLeft with a new CollisionEventArgs():
+                (tempStateDownLeft as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<CollisionEventArgs>());
+
                 // SET PlayerIndex of tempStateDownLeft to PlayerIndex.One:
                 (tempStateDownLeft as IPlayer).PlayerNum = PlayerIndex.One;
 
@@ -507,6 +554,9 @@ namespace COMP3451Project
 
                 // INITIALISE tempStateDownRight with a new UpdateEventArgs():
                 (tempStateDownRight as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<UpdateEventArgs>());
+
+                // INITIALISE tempStateDownRight with a new CollisionEventArgs():
+                (tempStateDownRight as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<CollisionEventArgs>());
 
                 // SET PlayerIndex of tempStateDownRight to PlayerIndex.One:
                 (tempStateDownRight as IPlayer).PlayerNum = PlayerIndex.One;
@@ -558,29 +608,56 @@ namespace COMP3451Project
                 // SET Direction Property value of behaviourStationary to '0':
                 (behaviourStationary as IDirection).Direction = new Vector2(0);
 
+                // INITIALISE behaviourStationary with reference to camPosChangeCommand:
+                (behaviourStationary as IInitialiseParam<ICommand>).Initialise(camPosChangeCommand);
+
                 // SET Direction Property value of behaviourUp to '0, -1':
                 (behaviourUp as IDirection).Direction = new Vector2(0, -1);
+
+                // INITIALISE behaviourUp with reference to camPosChangeCommand:
+                (behaviourUp as IInitialiseParam<ICommand>).Initialise(camPosChangeCommand);
 
                 // SET Direction Property value of behaviourDown to '0, 1':
                 (behaviourDown as IDirection).Direction = new Vector2(0, 1);
 
+                // INITIALISE behaviourDown with reference to camPosChangeCommand:
+                (behaviourDown as IInitialiseParam<ICommand>).Initialise(camPosChangeCommand);
+
                 // SET Direction Property value of behaviourLeft to '-1, 0':
                 (behaviourLeft as IDirection).Direction = new Vector2(-1, 0);
+
+                // INITIALISE behaviourLeft with reference to camPosChangeCommand:
+                (behaviourLeft as IInitialiseParam<ICommand>).Initialise(camPosChangeCommand);
 
                 // SET Direction Property value of behaviourRight to '1, 0':
                 (behaviourRight as IDirection).Direction = new Vector2(1, 0);
 
+                // INITIALISE behaviourRight with reference to camPosChangeCommand:
+                (behaviourRight as IInitialiseParam<ICommand>).Initialise(camPosChangeCommand);
+
                 // SET Direction Property value of behaviourUpLeft to '-1, -1':
                 (behaviourUpLeft as IDirection).Direction = new Vector2(-1, -1);
+
+                // INITIALISE behaviourUpLeft with reference to camPosChangeCommand:
+                (behaviourUpLeft as IInitialiseParam<ICommand>).Initialise(camPosChangeCommand);
 
                 // SET Direction Property value of behaviourUpLeft to '1, -1':
                 (behaviourUpRight as IDirection).Direction = new Vector2(1, -1);
 
+                // INITIALISE behaviourUpRight with reference to camPosChangeCommand:
+                (behaviourUpRight as IInitialiseParam<ICommand>).Initialise(camPosChangeCommand);
+
                 // SET Direction Property value of behaviourDownLeft to '-1, 1':
                 (behaviourDownLeft as IDirection).Direction = new Vector2(-1, 1);
 
+                // INITIALISE behaviourDownLeft with reference to camPosChangeCommand:
+                (behaviourDownLeft as IInitialiseParam<ICommand>).Initialise(camPosChangeCommand);
+
                 // SET Direction Property value of behaviourDownRight to '1, 1':
                 (behaviourDownRight as IDirection).Direction = new Vector2(1, 1);
+
+                // INITIALISE behaviourDownRight with reference to camPosChangeCommand:
+                (behaviourDownRight as IInitialiseParam<ICommand>).Initialise(camPosChangeCommand);
 
                 #endregion
 
@@ -613,11 +690,11 @@ namespace COMP3451Project
 
                 /// STATIONARY
 
-                // SET Texture Property value of animationStationary to "Geoff":
-                (animationStationary as ITexture).Texture = Content.Load<Texture2D>("RIRR/Geoff");
+                // SET Texture Property value of animationStationary to "Gerald":
+                (animationStationary as ITexture).Texture = Content.Load<Texture2D>("RIRR/GameSprites/Gerald");
 
                 // SET Row Property value of animationStationary to '15, 22':
-                animationStationary.SpriteSize = new Point(15, 22);
+                animationStationary.SpriteSize = new Point(14, 18);
 
                 // SET Row Property value of animationStationary to '0':
                 animationStationary.Row = 0;
@@ -627,11 +704,11 @@ namespace COMP3451Project
 
                 /// UP
 
-                // SET Texture Property value of animationUp to "Geoff":
-                (animationUp as ITexture).Texture = Content.Load<Texture2D>("RIRR/Geoff");
+                // SET Texture Property value of animationUp to "Gerald":
+                (animationUp as ITexture).Texture = Content.Load<Texture2D>("RIRR/GameSprites/Gerald");
 
-                // SET Row Property value of animationUp to '15, 22':
-                animationUp.SpriteSize = new Point(15, 22);
+                // SET Row Property value of animationUp to '14, 18':
+                animationUp.SpriteSize = new Point(14, 18);
 
                 // SET Row Property value of animationUp to '2':
                 animationUp.Row = 2;
@@ -641,11 +718,11 @@ namespace COMP3451Project
 
                 /// DOWN
 
-                // SET Texture Property value of animationDown to "Geoff":
-                (animationDown as ITexture).Texture = Content.Load<Texture2D>("RIRR/Geoff");
+                // SET Texture Property value of animationDown to "Gerald":
+                (animationDown as ITexture).Texture = Content.Load<Texture2D>("RIRR/GameSprites/Gerald");
 
-                // SET Row Property value of animationDown to '15, 22':
-                animationDown.SpriteSize = new Point(15, 22);
+                // SET Row Property value of animationDown to '14, 18':
+                animationDown.SpriteSize = new Point(14, 18);
 
                 // SET Row Property value of animationDown to '1':
                 animationDown.Row = 1;
@@ -655,11 +732,11 @@ namespace COMP3451Project
 
                 /// LEFT
 
-                // SET Texture Property value of animationLeft to "Geoff":
-                (animationLeft as ITexture).Texture = Content.Load<Texture2D>("RIRR/Geoff");
+                // SET Texture Property value of animationLeft to "Gerald":
+                (animationLeft as ITexture).Texture = Content.Load<Texture2D>("RIRR/GameSprites/Gerald");
 
-                // SET Row Property value of animationLeft to '15, 22':
-                animationLeft.SpriteSize = new Point(15, 22);
+                // SET Row Property value of animationLeft to '14, 18':
+                animationLeft.SpriteSize = new Point(14, 18);
 
                 // SET Row Property value of animationLeft to '4':
                 animationLeft.Row = 4;
@@ -669,11 +746,11 @@ namespace COMP3451Project
 
                 /// RIGHT
 
-                // SET Texture Property value of animationRight to "Geoff":
-                (animationRight as ITexture).Texture = Content.Load<Texture2D>("RIRR/Geoff");
+                // SET Texture Property value of animationRight to "Gerald":
+                (animationRight as ITexture).Texture = Content.Load<Texture2D>("RIRR/GameSprites/Gerald");
 
-                // SET Row Property value of animationRight to '15, 22':
-                animationRight.SpriteSize = new Point(15, 22);
+                // SET Row Property value of animationRight to '14, 18':
+                animationRight.SpriteSize = new Point(14, 18);
 
                 // SET Row Property value of animationRight to '3':
                 animationRight.Row = 3;
@@ -1514,8 +1591,6 @@ namespace COMP3451Project
                 #endregion
 
                 #endregion
-
-                #endregion
             }
             // CATCH ClassDoesNotExistException from Create():
             catch (ClassDoesNotExistException e)
@@ -1624,20 +1699,14 @@ namespace COMP3451Project
 
             #region PLAYER 1
 
-            // INITIALISE tempEntity reference to "Gerald":
+            // INITIALISE tempEntity reference to "Player1":
             IEntity tempEntity = (_engineManager.GetService<EntityManager>() as IEntityManager).GetDictionary()["Player1"];
 
-            // LOAD "paddleSpriteSheet" texture to "Geoff":
-            (tempEntity as ITexture).Texture = Content.Load<Texture2D>("RIRR/Geoff");
+            // LOAD "Gerald" texture to "Player1":
+            (tempEntity as ITexture).Texture = Content.Load<Texture2D>("RIRR/GameSprites/Gerald");
 
-            // SPAWN "Gerald" in "Level1" at position created from Tiled:
+            // SPAWN "Player1" in "Level1" at position created from Tiled:
             (_engineManager.GetService<SceneManager>() as ISceneManager).Spawn("Level1", tempEntity, tempEntity.Position);
-
-            #endregion
-
-
-            #region GEOFF
-
 
             #endregion
 
@@ -1654,14 +1723,26 @@ namespace COMP3451Project
 
             // SPAWN "Paddle2" in "Level1" at the far left on the X axis with a gap, and middle on the Y axis:
             (_engineManager.GetService<SceneManager>() as ISceneManager).Spawn("Level1", tempEntity, new Vector2(_screenSize.X - (tempEntity as IRotation).DrawOrigin.X * 2, _screenSize.Y / 2));
-            
+
             #endregion
-            
+
 
             #region BALL
 
             // CALL CreateBall(), creates, initialises and spawns on screen:
             // CreateBall();
+
+            #endregion
+
+
+            #region CAMERA
+
+            // LOAD "ViewRange" texture to "Camera":
+            ((_engineManager.GetService<EntityManager>() as IEntityManager).GetDictionary()["Camera"] as ITexture).Texture = Content.Load<Texture2D>("RIRR/GameSprites/ViewRange");
+
+            // SPAWN "Camera" in "Level1" at position of tempEntity:
+            // SPAWNED LAST TO PREVENT OVERLAY ISSUES
+            (_engineManager.GetService<SceneManager>() as ISceneManager).Spawn("Level1", (_engineManager.GetService<EntityManager>() as IEntityManager).GetDictionary()["Camera"], (_engineManager.GetService<EntityManager>() as IEntityManager).GetDictionary()["Player1"].Position);
 
             #endregion
 
@@ -1719,7 +1800,7 @@ namespace COMP3451Project
         protected override void Draw(GameTime pGameTime)
         {
             // SET colour of screen background as Black:
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // CALL Draw() method on returned SceneManager instance from _engineManager:
             (_engineManager.GetService<SceneManager>() as IDraw).Draw(_spriteBatch);

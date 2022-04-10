@@ -17,7 +17,7 @@ namespace OrbitalEngine.SceneManagement
     /// <summary>
     /// Class which holds reference to list in Scene Manager, Draws and Updates entities
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 09/04/22
+    /// Date: 10/04/22
     /// </summary>
     /// <REFERENCE> Abuhakmeh, K. (2009) XNA 2D Camera Engine That Follows Sprite. Available at: https://stackoverflow.com/questions/712296/xna-2d-camera-engine-that-follows-sprite. (Accessed: 20 April 2021). </REFERENCE>
     public class SceneGraph : ISceneGraph, IDraw, IEventListener<MatrixEventArgs>, IInitialiseParam<IDictionary<string, IEntity>>, IInitialiseParam<IFuncCommand<ICommand>>, ISpawn, IUpdatable
@@ -115,11 +115,15 @@ namespace OrbitalEngine.SceneManagement
                 pSpriteBatch.Begin();
             }
 
-            // FOREACH IDraw in _sceneEntDict.Values:
-            foreach (IDraw entity in _sceneEntDict.Values)
+            // FOREACH IEntity in _sceneEntDict.Values:
+            foreach (IEntity pEntity in _sceneEntDict.Values)
             {
-                // CALL Draw method on all entities in _entityDictionary:
-                entity.Draw(pSpriteBatch);
+                // IF pEntity implements IDraw:
+                if (pEntity is IDraw)
+                {
+                    // CALL Draw() on pEntity, passing pSpriteBatch as a parameter:
+                    (pEntity as IDraw).Draw(pSpriteBatch);
+                }
             }
 
             // END creation of displayable objects:
@@ -143,6 +147,7 @@ namespace OrbitalEngine.SceneManagement
         }
 
         #endregion
+
 
         #region IMPLEMENTATION OF IINITIALISEPARAM<IDICTIONARY<STRING, IENTITY>>
 

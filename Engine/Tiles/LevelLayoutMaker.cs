@@ -79,7 +79,7 @@ namespace OrbitalEngine.Tiles
                             // SET tempEntity to null, prevents issue where an entity can be addressed twice:
                             tempEntity = null;
 
-                            // DECLARE an int, name it 'gid' give value of whether tile is being used and what tile of tileset its using:
+                            // DECLARE & INITIALISE an int, give value of whether tile is being used and what tile of tileset its using, name it 'gid':
                             int gid = pTileMap.Layers[i].Tiles[j].Gid;
 
                             // IF current tile is not empty:

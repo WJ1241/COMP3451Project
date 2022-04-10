@@ -12,9 +12,9 @@ namespace COMP3451Project.RIRRPackage.Entities
     /// <summary>
     /// Class which adds a Player entity on screen
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 08/04/22
+    /// Date: 10/04/22
     /// </summary>
-    public class Player : PongEntity, IPlayer, ICollidable, IDrawSourceRectangle, IGetSpeed, IKeyboardListener
+    public class Player : PongEntity, IPlayer, ICollidable, ICollisionListener, IDrawSourceRectangle, IGetSpeed, IKeyboardListener
     {
         #region FIELD VARIABLES
 
@@ -31,8 +31,8 @@ namespace COMP3451Project.RIRRPackage.Entities
         /// </summary>
         public Player()
         {
-            // ASSIGNMENT, set _speed to 2:
-            _speed = 2;
+            // ASSIGNMENT, set _speed to 1:
+            _speed = 1;
         }
 
         #endregion
@@ -50,6 +50,21 @@ namespace COMP3451Project.RIRRPackage.Entities
                 // RETURN new Rectangle() using _position and _textureSize as parameters:
                 return new Rectangle((int)_position.X - (int)_drawOrigin.X, (int)_position.Y - (int)_drawOrigin.Y, _textureSize.X, _textureSize.Y);
             }
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF ICOLLISIONLISTENER
+
+        /// <summary>
+        /// Called by Collision Manager when two entities collide
+        /// </summary>
+        /// <param name="pScndCollidable"> Other entity implementing ICollidable </param>
+        public void OnCollision(ICollidable pScndCollidable)
+        {
+            // CALL OnCollision() on _currentState, passing pScndCollidable as a parameter:
+            (_currentState as ICollisionListener).OnCollision(pScndCollidable);
         }
 
         #endregion

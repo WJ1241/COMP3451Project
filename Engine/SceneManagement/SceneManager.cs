@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using OrbitalEngine.Camera.Interfaces;
 using OrbitalEngine.CollisionManagement.Interfaces;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.EntityManagement.Interfaces;
@@ -16,9 +15,9 @@ namespace OrbitalEngine.SceneManagement
     /// <summary>
     /// Class which manages all entities in the scene
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 07/04/22
+    /// Date: 10/04/22
     /// </summary>
-    public class SceneManager : ISceneManager, IDraw, IDrawCamera, IInitialiseParam<IDictionary<string, ISceneGraph>>, IInitialiseParam<IFactory<ISceneGraph>>, IService, IUpdatable
+    public class SceneManager : ISceneManager, IDraw, IInitialiseParam<IDictionary<string, ISceneGraph>>, IInitialiseParam<IFactory<ISceneGraph>>, IService, IUpdatable
     {
         #region FIELD VARIABLES
 
@@ -132,22 +131,6 @@ namespace OrbitalEngine.SceneManagement
         #endregion
 
 
-        #region IMPLEMENTATION OF IDRAWCAMERA
-
-        /// <summary>
-        /// When called, draws entity's texture on screen, as well as reposition a a camera object
-        /// </summary>
-        /// <param name="spriteBatch">Needed to draw entity's texture on screen</param>
-        /// <param name="camera">Needed to move camera position on screen</param>
-        public void Draw(SpriteBatch spriteBatch, ICamera camera)
-        {
-            // CALL Draw() on _sGDict[_currentScene], passing spriteBatch and camera as parameters:
-            (_sGDict[_currentScene] as IDrawCamera).Draw(spriteBatch, camera);
-        }
-
-        #endregion
-
-
         #region IMPLEMENTATION OF IINITIALISEPARAM<IDICTIONARY<STRING, ISCENEGRAPH>>
 
         /// <summary>
@@ -196,9 +179,6 @@ namespace OrbitalEngine.SceneManagement
         }
 
         #endregion
-
-
-        
 
 
         #region IMPLEMENTATION OF IUPDATABLE

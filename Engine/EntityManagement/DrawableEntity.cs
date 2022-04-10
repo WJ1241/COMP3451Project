@@ -19,7 +19,6 @@ namespace OrbitalEngine.EntityManagement
         // DECLARE a Texture2D, name it '_textureSize':
         protected Point _textureSize;
 
-
         #endregion
 
 

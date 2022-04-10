@@ -43,6 +43,12 @@
 /processorParam:Quality=Best
 /build:ExampleLevel/Score.wav
 
+#begin ExampleLevel/SP.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:ExampleLevel/SP.mp3
+
 #begin ExampleLevel/square.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -73,7 +79,7 @@
 /processorParam:Quality=Best
 /build:ExampleLevel/WallHit.wav
 
-#begin RIRR/Geoff.png
+#begin RIRR/GameSprites/Geoff.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -83,9 +89,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:RIRR/Geoff.png
+/build:RIRR/GameSprites/Geoff.png
 
-#begin RIRR/Gerald.png
+#begin RIRR/GameSprites/Gerald.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -95,9 +101,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:RIRR/Gerald.png
+/build:RIRR/GameSprites/Gerald.png
 
-#begin RIRR/Thug_03.png
+#begin RIRR/GameSprites/Thug_03.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -107,9 +113,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:RIRR/Thug_03.png
+/build:RIRR/GameSprites/Thug_03.png
 
-#begin RIRR/Thug_04.png
+#begin RIRR/GameSprites/Thug_04.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -119,5 +125,29 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:RIRR/Thug_04.png
+/build:RIRR/GameSprites/Thug_04.png
+
+#begin RIRR/GameSprites/ViewRange.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:RIRR/GameSprites/ViewRange.png
+
+#begin RIRR/Levels/Tiles/TextureAtlas_Interior.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:RIRR/Levels/Tiles/TextureAtlas_Interior.png
 

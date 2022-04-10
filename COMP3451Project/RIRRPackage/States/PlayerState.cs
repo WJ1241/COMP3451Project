@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using OrbitalEngine.Animation.Interfaces;
 using OrbitalEngine.Behaviours.Interfaces;
+using OrbitalEngine.CollisionManagement.Interfaces;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.CustomEventArgs;
 using OrbitalEngine.Exceptions;
@@ -14,14 +15,17 @@ namespace COMP3451Project.RIRRPackage.States
     /// <summary>
     /// Class which contains conditional information for RIRR Player entities to be modified by another class e.g. PlayerBehaviour
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 07/04/22
+    /// Date: 10/04/22
     /// </summary>
-    public class PlayerState : State, IKeyboardListener, IPlayer
+    public class PlayerState : State, ICollisionListener, IKeyboardListener, IPlayer
     {
         #region FIELD VARIABLES
 
         // DECLARE an EventHandler<UpdateEventArgs>, name it '_animationEvent':
         private EventHandler<UpdateEventArgs> _animationEvent;
+
+        // DECLARE an EventHandler<CollisionEventArgs>, name it '_collisionEvent':
+        private EventHandler<CollisionEventArgs> _collisionEvent;
 
         // DECLARE a PlayerIndex, name it '_playerNum':
         private PlayerIndex _playerNum;
@@ -67,6 +71,9 @@ namespace COMP3451Project.RIRRPackage.States
                 {
                     // SUBSCRIBE _behaviourEvent to pUpdateEventListener.OnEvent():
                     _behaviourEvent += pUpdateEventListener.OnEvent;
+
+                    // SUBSCRIBE _collisionEvent to pUpdateEventListener.OnEvent():
+                    _collisionEvent += (pUpdateEventListener as IEventListener<CollisionEventArgs>).OnEvent;
                 }
             }
             // IF pUpdateEventListener DOES NOT HAVE an active instance:
@@ -75,6 +82,24 @@ namespace COMP3451Project.RIRRPackage.States
                 // THROW a new NullInstanceException(), with corresponding message:
                 throw new NullInstanceException("ERROR: pUpdateEventListener does not have an active instance!");
             }
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF ICOLLISIONLISTENER
+
+        /// <summary>
+        /// Called by Collision Manager when two entities collide
+        /// </summary>
+        /// <param name="pScndCollidable">Other entity implementing ICollidable</param>
+        public void OnCollision(ICollidable pScndCollidable)
+        {
+            // SET RequiredArg Property value of (_argsDict["CollisionEventArgs"] to reference to pScndCollidable:
+            (_argsDict["CollisionEventArgs"] as CollisionEventArgs).RequiredArg = pScndCollidable;
+
+            // INVOKE _collisionEvent(), passing this class and (_argsDict["CollisionEventArgs"] as parameters:
+            _collisionEvent.Invoke(this, _argsDict["CollisionEventArgs"] as CollisionEventArgs);
         }
 
         #endregion

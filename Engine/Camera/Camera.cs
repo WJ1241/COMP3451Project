@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using OrbitalEngine.Camera.Interfaces;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.CustomEventArgs;
@@ -10,10 +11,10 @@ namespace OrbitalEngine.Camera
     /// <summary>
     /// Class which creates a camera to follow a user based entity
     /// Authors: William Smith, Declan Kerby-Collins & 'axlemke'
-    /// Date: 09/04/22
+    /// Date: 10/04/22
     /// </summary>
     /// <REFERENCE> axlemke (2014) XNA 2D Camera, zoom into player. Available at: https://gamedev.stackexchange.com/questions/68978/xna-2d-camera-zoom-into-player. (Accessed: 20 April 2021). </REFERENCE>
-    public class Camera : ICamera, IContainBoundary, IEntity, IInitialiseParam<EventHandler<MatrixEventArgs>>, IZoom
+    public class Camera : ICamera, IContainBoundary, IDraw, IEntity, IInitialiseParam<EventHandler<MatrixEventArgs>>, IInitialiseParam<MatrixEventArgs>, ILayer, ITerminate, ITexture, IZoom
     {
         #region FIELD VARIABLES
 
@@ -23,11 +24,20 @@ namespace OrbitalEngine.Camera
         // DECLARE a MatrixEventArgs, name it '_matrixArgs':
         private MatrixEventArgs _matrixArgs;
 
+        // DECLARE a Texture2D, name it '_texture':
+        private Texture2D _texture;
+
         // DECLARE a Matrix, name it '_camTransform':
         private Matrix _camTransform;
 
         // DECLARE a Vector2, name it '_camPos':
         private Vector2 _position;
+
+        // DECLARE a Vector2, name it '_drawOrigin':
+        private Vector2 _drawOrigin;
+
+        // DECLARE a Point, name it '_textureSize':
+        private Point _textureSize;
 
         // DECLARE a Point, name it '_windowSize':
         private Point _windowSize;
@@ -40,6 +50,9 @@ namespace OrbitalEngine.Camera
 
         // DECLARE an int, name it '_uID':
         private int _uID;
+
+        // DECLARE an int, name it '_layer':
+        private int _layer;
 
         #endregion
 
@@ -69,7 +82,7 @@ namespace OrbitalEngine.Camera
         public void ChangeCamPos(Vector2 pPosition, Vector2 pCenteringValue)
         {
             // SET value of _position to value of pPosition:
-            _position = Vector2.Lerp(_position, (pPosition * _zoom) + new Vector2(pCenteringValue.X * (_zoom / 2), pCenteringValue.Y * (_zoom / 2)), 0.1f);
+            _position = Vector2.Lerp(_position, (pPosition * _zoom) + new Vector2(pCenteringValue.X / _zoom, pCenteringValue.Y / _zoom), 0.15f);
 
             // ASSIGNMENT, set value of _camTransform to zoom in using _zoom value, and position in centre of screen. Scale is changed first before Translation, does not work other way around, matrix rule ISROT applies:
             _camTransform = // SET scale using zoom, on X,Y axes:
@@ -104,6 +117,70 @@ namespace OrbitalEngine.Camera
             {
                 // SET value of _windowSize to incoming value:
                 _windowSize = value;
+            }
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IDRAW
+
+        /// <summary>
+        /// When called, draws entity's texture on screen
+        /// </summary>
+        /// <param name="pSpriteBatch"> Needed to draw entity's texture on screen </param>
+        public virtual void Draw(SpriteBatch pSpriteBatch)
+        {
+            // DRAW given texture, given location, and colour
+            pSpriteBatch.Draw(_texture, _position / _zoom, null, Color.AntiqueWhite, 0, _drawOrigin, 1f, SpriteEffects.None, 1);
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF ITEXTURE
+
+        /// <summary>
+        /// Property which allows read or write access to visible texture
+        /// </summary>
+        public virtual Texture2D Texture
+        {
+            get
+            {
+                // RETURN value of current texture:
+                return _texture;
+            }
+            set
+            {
+                // INITIALISE _texture with incoming value:
+                _texture = value;
+
+                // IF _textureSize HAS NOT been set already:
+                if (_textureSize.X == 0 && _textureSize.Y == 0)
+                {
+                    // INSTANTIATE _textureSize as a new Point(), using _texture's dimensions as parameters:
+                    _textureSize = new Point(_texture.Width, _texture.Height);
+
+                    // INSTANTIATE _drawOrigin as a new Vector2(), using _textureSize's dimensions as parameters:
+                    _drawOrigin = new Vector2(_textureSize.X / 2, _textureSize.Y / 2);
+                }
+            }
+        }
+
+        /// <summary>
+        /// /// Property which allows read or write access to size of texture, mostly used for testing, as well as setting hitbox
+        /// </summary>
+        public Point TextureSize
+        {
+            get
+            {
+                // RETURN value of _textureSize:
+                return _textureSize;
+            }
+            set
+            {
+                // SET value of _textureSize to incoming value:
+                _textureSize = value;
             }
         }
 
@@ -177,7 +254,7 @@ namespace OrbitalEngine.Camera
             // IF pEventHandler DOES HAVE a valid method reference:
             if (pEventHandler != null)
             {
-                // INITIALISE _camPosChangeEvent with reference to pEventHandler
+                // INITIALISE _camPosChangeEvent with reference to pEventHandler:
                 _camPosChangeEvent = pEventHandler;
             }
             // IF pEventHandler DOES NOT HAVE a valid method reference:
@@ -185,6 +262,60 @@ namespace OrbitalEngine.Camera
             {
                 // THROW a new NullReferenceException(), with corresponding message:
                 throw new NullReferenceException("ERROR: pEventHandler does not have a valid method reference!");
+            }
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEPARAM<MATRIXEVENTARGS>
+
+        /// <summary>
+        /// Initialises an object with a MatrixEventArgs instance
+        /// </summary>
+        /// <param name="pArgs"> MatrixEventArgs instance </param>
+        public void Initialise(MatrixEventArgs pArgs)
+        {
+            // IF pArgs DOES HAVE an active instance:
+            if (pArgs != null)
+            {
+                // INITIALISE _matrixArgs with reference to pArgs:
+                _matrixArgs = pArgs;
+            }
+            // IF pArgs DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullReferenceException(), with corresponding message:
+                throw new NullReferenceException("ERROR: pArgs does not have a valid method reference!");
+            }
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF ILAYER
+
+        /// <summary>
+        /// Property which can get and set layer value
+        /// Layer 1: Floors
+        /// Layer 2: Walls
+        /// Layer 3: Static Obstacles
+        /// Layer 4: Items
+        /// Layer 5: Level Change
+        /// Layer 6: Player/NPC
+        /// Layer 7: GUI
+        /// </summary>
+        public int Layer
+        {
+            get
+            {
+                // RETURN value of _layer:
+                return _layer;
+            }
+            set
+            {
+                // SET value of _layer to incoming value:
+                _layer = value;
             }
         }
 
