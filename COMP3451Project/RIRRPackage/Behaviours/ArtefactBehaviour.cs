@@ -1,4 +1,5 @@
-﻿using OrbitalEngine.Behaviours.Interfaces;
+﻿using OrbitalEngine.Behaviours;
+using OrbitalEngine.Behaviours.Interfaces;
 using OrbitalEngine.CollisionManagement.Interfaces;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.CustomEventArgs;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace COMP3451Project.RIRRPackage.Behaviours
 {
-    public class ArtefactBehaviour : PongBehaviour, IEventListener<CollisionEventArgs>
+    public class ArtefactBehaviour : Behaviour, IEventListener<CollisionEventArgs>
     {
 
         public ArtefactBehaviour()
@@ -20,20 +21,19 @@ namespace COMP3451Project.RIRRPackage.Behaviours
         }
 
 
-
-
-        #region INHERITED FROM PONGBEHAVIOUR
+        #region IMPLEMENTATION OF IEVENTLISTENER<UPDATEEVENTARGS>
 
         /// <summary>
-        /// Used when an object hits a boundary, possibly to change direction or stop
+        /// Method called when needing to update Behaviour
         /// </summary>
-        protected override void Boundary()
+        /// <param name="pSource"> Object that is to be updated </param>
+        /// <param name="pArgs"> EventArgs for an Update object </param>
+        public override void OnEvent(object pSource, UpdateEventArgs pArgs)
         {
-
+            
         }
 
         #endregion
-
 
         #region IMPLEMENTATION OF IEVENTLISTENER<COLLISIONEVENTARGS>
 
@@ -44,79 +44,17 @@ namespace COMP3451Project.RIRRPackage.Behaviours
         /// <param name="pArgs"> CollisionEventArgs object </param>
         public void OnEvent(object pSource, CollisionEventArgs pArgs)
         {
-
-            //------------------------------------ Entity Collision, for colliding with player -------------------
-
-                //IF Player Top is greater than Bottom of Artefact:
-            if (pArgs.RequiredArg.HitBox.Top > (_entity as ICollidable).HitBox.Bottom &&
-                // AND Player Bottom is greater than Artefact Bottom:
-                pArgs.RequiredArg.HitBox.Bottom < (_entity as ICollidable).HitBox.Bottom &&
-                // AND Player Left is less than the artefact Right:
-                pArgs.RequiredArg.HitBox.Left < ((_entity as ICollidable).HitBox.Right ) &&
-                // AND Player Right is greater than Artefact Right:
-                pArgs.RequiredArg.HitBox.Right > (_entity as ICollidable).HitBox.Left)
+            // IF ICollidable is of type IPlayer:
+            if(pArgs.RequiredArg is IPlayer)
             {
-                // CALL DeSpawn method
-                DeSpawn();
+                // SET ObjectiveComplete property of the Player to true:
+                (pArgs.RequiredArg as IHaveObjective).ObjectiveComplete = true;
+
+                // CALL Terminate method in Artefact:
+                (_entity as ITerminate).Terminate();
             }
-
-
-                // IF player Bottom is Less than Artefact Top:
-            if (pArgs.RequiredArg.HitBox.Bottom < (_entity as ICollidable).HitBox.Top &&
-                // AND Player Top is greater than Artefact Top:
-                pArgs.RequiredArg.HitBox.Top > (_entity as ICollidable).HitBox.Top &&
-                // AND Player Left is less than the artefact Right:
-                pArgs.RequiredArg.HitBox.Left < ((_entity as ICollidable).HitBox.Right) &&
-                // AND Player Right is greater than Artefact Left:
-                pArgs.RequiredArg.HitBox.Right > (_entity as ICollidable).HitBox.Left) 
-            {
-                // CALL DeSpawn method
-                DeSpawn();
-            }
-
-                // IF Player Right is greater than Artefact Left:
-            if (pArgs.RequiredArg.HitBox.Right > (_entity as ICollidable).HitBox.Left &&
-                // AND Player Left is les than Artefact Left:
-                pArgs.RequiredArg.HitBox.Left < (_entity as ICollidable).HitBox.Left &&
-                // AND Player Top is greater than Artefact Bottom:
-                pArgs.RequiredArg.HitBox.Top > (_entity as ICollidable).HitBox.Bottom &&
-                // AND Player Bottom is less than Artefact Top:
-                pArgs.RequiredArg.HitBox.Bottom < (_entity as ICollidable).HitBox.Top)
-            {
-                // CALL DeSpawn method
-                DeSpawn();
-            }
-
-                // IF Player Left is less than Artefact right:
-            if (pArgs.RequiredArg.HitBox.Left < (_entity as ICollidable).HitBox.Right &&
-                // AND Player Right is greater than Artefact Right:
-                pArgs.RequiredArg.HitBox.Right > (_entity as ICollidable).HitBox.Right &&
-                // AND Player Top is greater than Artefact Bottom:
-                pArgs.RequiredArg.HitBox.Top > (_entity as ICollidable).HitBox.Bottom &&
-                // AND Player Bottom is less than Artefact Top:
-                pArgs.RequiredArg.HitBox.Bottom < (_entity as ICollidable).HitBox.Top)
-            {
-                // CALL DeSpawn method
-                DeSpawn();
-            }
-
         }
 
         #endregion
-
-        #region PRIVATE METHODS
-
-        /// <summary>
-        /// METHOD PickUp, called when player has colided with the Artefact
-        /// </summary>
-        private void DeSpawn()
-        {
-            // CALL Terminate method in Artefact
-            (_entity as ITerminate).Terminate();
-        }
-
-
-        #endregion
-
     }
 }

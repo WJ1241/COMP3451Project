@@ -158,18 +158,5 @@ namespace COMP3451Project.RIRRPackage.Entities
         }
 
         #endregion
-
-
-        #region IMPLEMENTATION OF ITERMINATE
-
-        /// <summary>
-        /// Disposes resources to the garbage collector
-        /// </summary>
-        public override void Terminate()
-        {
-            // No functionality, MonoGame deals with object and texture in garbage collector already
-        }
-
-        #endregion
     }
 }
