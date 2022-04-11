@@ -13,7 +13,12 @@ using OrbitalEngine.States;
 
 namespace COMP3451Project.RIRRPackage.States
 {
-    class ArtefactState : State, ICollisionListener
+    /// <summary>
+    /// Class which contains conditional information for RIRR Player entities to be modified by another class e.g. Artefact Behaviour
+    /// Authors: Declan Kerby-Collins & William Smith
+    /// Date: 11/04/22
+    /// </summary>
+    public class ArtefactState : State, ICollisionListener
     {
         #region FEILD VARIABLES
 

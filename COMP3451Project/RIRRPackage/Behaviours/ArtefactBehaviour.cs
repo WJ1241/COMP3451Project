@@ -12,6 +12,11 @@ using System.Threading.Tasks;
 
 namespace COMP3451Project.RIRRPackage.Behaviours
 {
+    /// <summary>
+    /// Class which defines the behaviour for Artefact entities
+    /// Authors: Declan Kerby-Collins & William Smith 
+    /// Date: 11/04/22
+    /// </summary>
     public class ArtefactBehaviour : Behaviour, IEventListener<CollisionEventArgs>
     {
 
@@ -19,21 +24,6 @@ namespace COMP3451Project.RIRRPackage.Behaviours
         {
             //empty
         }
-
-
-        #region IMPLEMENTATION OF IEVENTLISTENER<UPDATEEVENTARGS>
-
-        /// <summary>
-        /// Method called when needing to update Behaviour
-        /// </summary>
-        /// <param name="pSource"> Object that is to be updated </param>
-        /// <param name="pArgs"> EventArgs for an Update object </param>
-        public override void OnEvent(object pSource, UpdateEventArgs pArgs)
-        {
-            
-        }
-
-        #endregion
 
         #region IMPLEMENTATION OF IEVENTLISTENER<COLLISIONEVENTARGS>
 
