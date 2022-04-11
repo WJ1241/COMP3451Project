@@ -306,8 +306,8 @@ namespace COMP3451Project
 
                 #region STATES
 
-                // DECLARE & INSTANTIATE an IState as a new State(), name it 'camState':
-                IState camState = (_engineManager.GetService<Factory<IState>>() as IFactory<IState>).Create<State>();
+                // DECLARE & INSTANTIATE an IState as a new UpdatableState(), name it 'camState':
+                IState camState = (_engineManager.GetService<Factory<IState>>() as IFactory<IState>).Create<UpdatableState>();
 
                 // INITIALISE camState with a new Dictionary<string, ICommand>():
                 (camState as IInitialiseParam<IDictionary<string, ICommand>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, ICommand>>() as IDictionary<string, ICommand>);
@@ -1871,8 +1871,8 @@ namespace COMP3451Project
             {
                 #region STATE
 
-                // DECLARE & INSTANTIATE an IState as a new BallState(), name it 'ballState':
-                IState ballState = (_engineManager.GetService<Factory<IState>>() as IFactory<IState>).Create<BallState>();
+                // DECLARE & INSTANTIATE an IState as a new UpdatableCollidableState(), name it 'ballState':
+                IState ballState = (_engineManager.GetService<Factory<IState>>() as IFactory<IState>).Create<UpdatableCollidableState>();
 
                 // INITIALISE ballState with a new Dictionary<string, ICommand>():
                 (ballState as IInitialiseParam<IDictionary<string, ICommand>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, ICommand>>() as IDictionary<string, ICommand>);

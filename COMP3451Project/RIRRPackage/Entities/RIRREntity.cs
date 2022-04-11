@@ -9,7 +9,7 @@ namespace COMP3451Project.RIRRPackage.Entities
     /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 04/04/22
     /// </summary>
-    public abstract class PongEntity : UpdatableEntity, IRotation, IVelocity
+    public abstract class RIRREntity : UpdatableEntity, IRotation, IVelocity
     {
         #region FIELD VARIABLES
 

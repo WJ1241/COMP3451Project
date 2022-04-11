@@ -2,7 +2,6 @@
 using OrbitalEngine.Behaviours.Interfaces;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.CustomEventArgs;
-using OrbitalEngine.EntityManagement.Interfaces;
 using OrbitalEngine.Services.Commands.Interfaces;
 using COMP3451Project.RIRRPackage.Behaviours.Interfaces;
 
@@ -13,7 +12,7 @@ namespace COMP3451Project.RIRRPackage.Behaviours
     /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 09/04/22
     /// </summary>
-    public class BallBehaviour : PongBehaviour, IAudioCommand, IEventListener<CollisionEventArgs>, IScoreGoal
+    public class BallBehaviour : RIRRBehaviour, IAudioCommand, IEventListener<CollisionEventArgs>, IScoreGoal
     {
         #region FIELD VARIABLES
 
@@ -38,6 +37,7 @@ namespace COMP3451Project.RIRRPackage.Behaviours
 
         #endregion
 
+        /*
 
         #region INHERITED FROM PONGBEHAVIOUR
 
@@ -95,6 +95,8 @@ namespace COMP3451Project.RIRRPackage.Behaviours
         }
 
         #endregion
+
+        */
 
 
         #region IMPLEMENTATION OF IAUDIOCOMMAND

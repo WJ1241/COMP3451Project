@@ -12,9 +12,9 @@ namespace COMP3451Project.RIRRPackage.Entities
     /// <summary>
     /// Class which adds a Paddle entity on screen
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 20/02/22
+    /// Date: 11/04/22
     /// </summary>
-    public class Paddle : PongEntity, IPlayer, ICollidable, IDrawSourceRectangle, IGetSpeed, IKeyboardListener
+    public class Paddle : RIRREntity, IPlayer, ICollidable, IDrawSourceRectangle, IGetSpeed, IKeyboardListener
     {
         #region FIELD VARIABLES
 

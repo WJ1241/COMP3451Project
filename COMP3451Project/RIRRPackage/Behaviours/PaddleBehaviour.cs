@@ -9,7 +9,7 @@ namespace COMP3451Project.RIRRPackage.Behaviours
     /// Authors: William Smith & Declan Kerby-Collins 
     /// Date: 07/04/22
     /// </summary>
-    public class PaddleBehaviour : PongBehaviour, IDirection
+    public class PaddleBehaviour : RIRRBehaviour, IDirection
     {
         #region FIELD VARIABLES
 
@@ -31,6 +31,7 @@ namespace COMP3451Project.RIRRPackage.Behaviours
 
         #endregion
 
+        /*
 
         #region INHERITED FROM PONGBEHAVIOUR
 
@@ -55,6 +56,8 @@ namespace COMP3451Project.RIRRPackage.Behaviours
         }
 
         #endregion
+
+        */
 
 
         #region IMPLEMENTATION OF IDIRECTION
@@ -98,7 +101,7 @@ namespace COMP3451Project.RIRRPackage.Behaviours
             _entity.Position += _velocity;
 
             // CALL Boundary() method:
-            Boundary();
+            // Boundary();
         }
 
         #endregion

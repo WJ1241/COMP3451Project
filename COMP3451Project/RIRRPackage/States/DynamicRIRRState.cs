@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using OrbitalEngine.Animation.Interfaces;
 using OrbitalEngine.Behaviours.Interfaces;
@@ -14,28 +10,32 @@ using OrbitalEngine.States;
 namespace COMP3451Project.RIRRPackage.States
 {
     /// <summary>
-    /// Class which contains conditional information for RIRR NPC entities to be modified by another class e.g. NPCBehaviour
+    /// Class which contains conditional information for Dynamic RIRR entities to be modified by another class e.g. NPCBehaviour
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 09/04/22
+    /// Date: 11/04/22
     /// </summary>
-    public class NPCState: State, ICollisionListener
+    public class DynamicRIRRState : UpdatableCollidableState, ICollisionListener
     {
+        #region FIELD VARIABLES
+
         // DECLARE an EventHandler<UpdateEventArgs>, name it '_animationEvent':
-        private EventHandler<UpdateEventArgs> _animationEvent;
+        protected EventHandler<UpdateEventArgs> _animationEvent;
 
-        // DECLARE an EventHandler<CollisionEventArgs>, name it '_collisionEvent':
-        private EventHandler<CollisionEventArgs> _collisionEvent;
+        #endregion
 
-        // DECLARE a string, name it '_activeBehaviour':
-        private string _activeBehaviour;
+
+        #region CONSTRUCTOR
 
         /// <summary>
-        /// Constructor for objects of NPCState:
+        /// Constructor for objects of DynamicRIRRState
         /// </summary>
-        public NPCState()
+        public DynamicRIRRState()
         {
-            // empty constructor
+            // EMPTY CONSTRUCTOR
         }
+
+        #endregion
+
 
         #region IMPLEMENTATION OF IINITIALISEPARAM<IEVENTLISTENER<UPDATEEVENTARGS>>
 
@@ -74,6 +74,7 @@ namespace COMP3451Project.RIRRPackage.States
 
         #endregion
 
+
         #region IMPLEMENTATION OF IUPDATABLE
 
         /// <summary>
@@ -93,24 +94,5 @@ namespace COMP3451Project.RIRRPackage.States
         }
 
         #endregion
-
-        #region IMPLEMENTATION OF ICOLLISIONLISTENER
-
-        /// <summary>
-        /// Called by Collision Manager when two entities collide
-        /// </summary>
-        /// <param name="pScndCollidable">Other entity implementing ICollidable</param>
-        public void OnCollision(ICollidable pScndCollidable)
-        {
-            // SET RequiredArg Property value of (_argsDict["CollisionEventArgs"] to reference to pScndCollidable:
-            (_argsDict["CollisionEventArgs"] as CollisionEventArgs).RequiredArg = pScndCollidable;
-
-            // INVOKE _collisionEvent(), passing this class and (_argsDict["CollisionEventArgs"] as parameters:
-            _collisionEvent.Invoke(this, _argsDict["CollisionEventArgs"] as CollisionEventArgs);
-        }
-
-        #endregion
-
-
     }
 }

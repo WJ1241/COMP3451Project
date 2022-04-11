@@ -6,6 +6,7 @@ using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.Exceptions;
 using OrbitalEngine.InputManagement.Interfaces;
 using OrbitalEngine.States.Interfaces;
+using COMP3451Project.RIRRPackage.Interfaces;
 
 namespace COMP3451Project.RIRRPackage.Entities
 {
@@ -14,12 +15,15 @@ namespace COMP3451Project.RIRRPackage.Entities
     /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 11/04/22
     /// </summary>
-    public class Player : PongEntity, IPlayer, ICollidable, ICollisionListener, IDrawSourceRectangle, IGetSpeed, IHaveObjective, IKeyboardListener
+    public class Player : RIRREntity, IPlayer, IChangeTexColour, ICollidable, ICollisionListener, IDrawSourceRectangle, IGetSpeed, IHaveObjective, IKeyboardListener
     {
         #region FIELD VARIABLES
 
         // DECLARE a PlayerIndex and name it '_playerNum':
         private PlayerIndex _playerNum;
+
+        // DECLARE a Color, name it '_texColour':
+        private Color _texColour;
 
         // DECLARE a bool, name it '_objectiveComplete':
         private bool _objectiveComplete;
@@ -34,6 +38,9 @@ namespace COMP3451Project.RIRRPackage.Entities
         /// </summary>
         public Player()
         {
+            // INITIALISE _texColour with value of Color.White:
+            _texColour = Color.White;
+
             // SET _objectiveComplete to false:
             _objectiveComplete = false;
 
@@ -55,6 +62,28 @@ namespace COMP3451Project.RIRRPackage.Entities
             {
                 // SET value of _playerNum to incoming value:
                 _playerNum = value;
+            }
+        }
+
+        #endregion
+
+
+        #region PROPERTIES
+
+        /// <summary>
+        /// Property which allows read and write access to a texture colour
+        /// </summary>
+        public Color TexColour
+        {
+            get
+            {
+                // RETURN value of _texColour:
+                return _texColour;
+            }
+            set
+            {
+                // SET value of _texColour to incoming value:
+                _texColour = value;
             }
         }
 
@@ -102,7 +131,7 @@ namespace COMP3451Project.RIRRPackage.Entities
         public override void Draw(SpriteBatch pSpriteBatch)
         {
             // DRAW given texture, given location, _sourceRectangle, colour, rotation angle, origin point, scale, effects and draw layer:
-            pSpriteBatch.Draw(_texture, _position, _sourceRectangle, Color.White, _rotAngle, _drawOrigin, 1f, SpriteEffects.None, 1f);
+            pSpriteBatch.Draw(_texture, _position, _sourceRectangle, _texColour, _rotAngle, _drawOrigin, 1f, SpriteEffects.None, 1f);
         }
 
         #endregion

@@ -1,6 +1,6 @@
 ﻿
 
-namespace OrbitalEngine.CoreInterfaces
+namespace COMP3451Project.RIRRPackage.Interfaces
 {
     /// <summary>
     /// Interface which allows implementations to contain a boolean relative to their main in-game objective

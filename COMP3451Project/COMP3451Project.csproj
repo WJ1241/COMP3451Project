@@ -94,16 +94,15 @@
     <Compile Include="RIRRPackage\Behaviours\PaddleBehaviour.cs" />
     <Compile Include="RIRRPackage\Behaviours\NPCBehaviour.cs" />
     <Compile Include="RIRRPackage\Behaviours\PlayerBehaviour.cs" />
-    <Compile Include="RIRRPackage\Behaviours\PongBehaviour.cs" />
+    <Compile Include="RIRRPackage\Behaviours\RIRRBehaviour.cs" />
     <Compile Include="RIRRPackage\Entities\Ball.cs" />
     <Compile Include="RIRRPackage\Entities\NPC.cs" />
     <Compile Include="RIRRPackage\Entities\Paddle.cs" />
-    <Compile Include="RIRRPackage\Entities\PongEntity.cs" />
+    <Compile Include="RIRRPackage\Entities\RIRREntity.cs" />
+    <Compile Include="RIRRPackage\Interfaces\IHaveObjective.cs" />
     <Compile Include="RIRRPackage\Interfaces\IPongReferee.cs" />
     <Compile Include="RIRRPackage\PongReferee.cs" />
-    <Compile Include="RIRRPackage\States\ArtefactState.cs" />
-    <Compile Include="RIRRPackage\States\BallState.cs" />
-    <Compile Include="RIRRPackage\States\NPCState.cs" />
+    <Compile Include="RIRRPackage\States\DynamicRIRRState.cs" />
     <Compile Include="RIRRPackage\States\PaddleState.cs" />
     <Compile Include="RIRRPackage\States\PlayerState.cs" />
   </ItemGroup>

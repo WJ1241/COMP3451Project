@@ -14,7 +14,7 @@ namespace COMP3451Project.RIRRPackage.Entities
     /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 09/04/22
     /// </summary>
-    public class Ball : PongEntity, ICollidable, ICollisionListener, IInitialiseParam<Random>, IReset
+    public class Ball : RIRREntity, ICollidable, ICollisionListener, IInitialiseParam<Random>, IReset
     {
         #region FIELD VARIABLES
 

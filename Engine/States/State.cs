@@ -16,7 +16,7 @@ namespace OrbitalEngine.States
     /// Date: 11/04/22
     /// </summary>
     public class State : IState, ICommandSender, IInitialiseParam<IDictionary<string, EventArgs>>, IInitialiseParam<IDictionary<string, ICommand>>,
-        IInitialiseParam<EventArgs>, IInitialiseParam<string, ICommand>, IInitialiseParam<IEventListener<UpdateEventArgs>>, IName, IUpdatable
+        IInitialiseParam<EventArgs>, IInitialiseParam<string, ICommand>, IName
     {
         #region FIELD VARIABLES
 
@@ -28,9 +28,6 @@ namespace OrbitalEngine.States
 
         // DECLARE an Action<ICommand>, name it '_scheduleCommand', used to schedule a command:
         protected Action<ICommand> _scheduleCommand;
-
-        // DECLARE an EventHandler<UpdateEventArgs>, name it '_behaviourEvent':
-        protected EventHandler<UpdateEventArgs> _behaviourEvent;
 
         // DECLARE a string, name it '_stateName':
         protected string _stateName;
@@ -194,31 +191,6 @@ namespace OrbitalEngine.States
         #endregion
 
 
-        #region IMPLEMENTATION OF IINITIALISEPARAM<IEVENTLISTENER<UPDATEEVENTARGS>>
-
-        /// <summary>
-        /// Initialises an object with an IEventListener<UpdateEventArgs> object
-        /// </summary>
-        /// <param name="pUpdateEventListener"> IEventListener<UpdateEventArgs> object </param>
-        public virtual void Initialise(IEventListener<UpdateEventArgs> pUpdateEventListener)
-        {
-            // IF pUpdateEventListener DOES HAVE an active instance:
-            if (pUpdateEventListener != null)
-            {
-                // SUBSCRIBE _behaviourEvent to pUpdateEventListener.OnEvent():
-                _behaviourEvent += pUpdateEventListener.OnEvent;
-            }
-            // IF pUpdateEventListener DOES NOT HAVE an active instance:
-            else
-            {
-                // THROW a new NullInstanceException(), with corresponding message:
-                throw new NullInstanceException("ERROR: pUpdateEventListener does not have an active instance!");
-            }
-        }
-
-        #endregion
-
-
         #region IMPLEMENTATION OF INAME
 
         /// <summary>
@@ -236,24 +208,6 @@ namespace OrbitalEngine.States
                 // SET value of _stateName to incoming value:
                 _stateName = value;
             }
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF IUPDATABLE
-
-        /// <summary>
-        /// Updates object when a frame has been rendered on screen
-        /// </summary>
-        /// <param name="pGameTime">holds reference to GameTime object</param>
-        public virtual void Update(GameTime pGameTime)
-        {
-            // SET RequiredArg Property value of(_argsDict["UpdateEventArgs"] to reference to pGameTime
-            (_argsDict["UpdateEventArgs"] as UpdateEventArgs).RequiredArg = pGameTime;
-
-            // INVOKE _behaviourEvent(), passing this class and _argsDict["UpdateArgs"] as parameters:
-            _behaviourEvent.Invoke(this, _argsDict["UpdateEventArgs"] as UpdateEventArgs);
         }
 
         #endregion

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using OrbitalEngine.Animation.Interfaces;
 using OrbitalEngine.Behaviours.Interfaces;
@@ -7,21 +6,17 @@ using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.CustomEventArgs;
 using OrbitalEngine.Exceptions;
 using OrbitalEngine.InputManagement.Interfaces;
-using OrbitalEngine.States;
 
 namespace COMP3451Project.RIRRPackage.States
 {
     /// <summary>
     /// Class which contains conditional information for Pong Paddle entities to be modified by another class e.g. PaddleBehaviour
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 07/04/22
+    /// Date: 11/04/22
     /// </summary>
-    public class PaddleState : State, IKeyboardListener, IPlayer
+    public class PaddleState : DynamicRIRRState, IKeyboardListener, IPlayer
     {
         #region FIELD VARIABLES
-
-        // DECLARE an EventHandler<UpdateEventArgs>, name it '_animationEvent':
-        private EventHandler<UpdateEventArgs> _animationEvent;
 
         // DECLARE a PlayerIndex, name it '_playerNum':
         private PlayerIndex _playerNum;
@@ -150,27 +145,6 @@ namespace COMP3451Project.RIRRPackage.States
                 // SET value of _playerNum to incoming value:
                 _playerNum = value;
             }
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF IUPDATABLE
-
-        /// <summary>
-        /// Updates object when a frame has been rendered on screen
-        /// </summary>
-        /// <param name="pGameTime">holds reference to GameTime object</param>
-        public override void Update(GameTime pGameTime)
-        {
-            // SET RequiredArg Property value of(_argsDict["UpdateEventArgs"] to reference to pGameTime:
-            (_argsDict["UpdateEventArgs"] as UpdateEventArgs).RequiredArg = pGameTime;
-
-            // INVOKE _behaviourEvent(), passing this class and _argsDict["UpdateArgs"] as parameters:
-            _behaviourEvent.Invoke(this, _argsDict["UpdateEventArgs"] as UpdateEventArgs);
-
-            // INVOKE _animationEvent(), passing this class and _argsDict["UpdateArgs"] as parameters:
-            _animationEvent.Invoke(this, _argsDict["UpdateEventArgs"] as UpdateEventArgs);
         }
 
         #endregion

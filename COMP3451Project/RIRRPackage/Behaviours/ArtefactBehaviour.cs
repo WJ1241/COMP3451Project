@@ -1,14 +1,9 @@
 ﻿using OrbitalEngine.Behaviours;
 using OrbitalEngine.Behaviours.Interfaces;
-using OrbitalEngine.CollisionManagement.Interfaces;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.CustomEventArgs;
 using OrbitalEngine.EntityManagement.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using COMP3451Project.RIRRPackage.Interfaces;
 
 namespace COMP3451Project.RIRRPackage.Behaviours
 {
@@ -19,11 +14,18 @@ namespace COMP3451Project.RIRRPackage.Behaviours
     /// </summary>
     public class ArtefactBehaviour : Behaviour, IEventListener<CollisionEventArgs>
     {
+        #region CONSTRUCTOR
 
+        /// <summary>
+        /// Constructor for objects of ArtefactBehaviour
+        /// </summary>
         public ArtefactBehaviour()
         {
-            //empty
+            // EMPTY CONSTRUCTOR
         }
+
+        #endregion
+
 
         #region IMPLEMENTATION OF IEVENTLISTENER<COLLISIONEVENTARGS>
 

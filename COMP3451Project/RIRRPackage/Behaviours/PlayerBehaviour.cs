@@ -11,10 +11,11 @@ namespace COMP3451Project.RIRRPackage.Behaviours
     /// <summary>
     /// Class which defines the behaviour for Player entities
     /// Authors: William Smith & Declan Kerby-Collins 
-    /// Date: 09/04/22
+    /// Date: 11/04/22
     /// </summary>
-    /// <REFERENCE> Lewin, N. (2016). MonoGame Tutorial 009 - Sprite Collision Detection and Response. Available at: https://youtu.be/CV8P9aq2gQo?t=480. (Accessed: 9 April 2022). </REFERENCE>
-    public class PlayerBehaviour : PongBehaviour, IDirection, IEventListener<CollisionEventArgs>, IInitialiseParam<ICommand>
+    /// <REFERENCE> Lewin, N. (2016) MonoGame Tutorial 009 - Sprite Collision Detection and Response. Available at: https://youtu.be/CV8P9aq2gQo?t=480. (Accessed: 9 April 2022). </REFERENCE>
+    /// <REFERENCE> Smith, W. (2021) 'Post-Production Milestone'. Assignment for COMP2451 Game Design & Development, Computing BSc (Hons), University of Worcester. Unpublished. </REFERENCE>
+    public class PlayerBehaviour : RIRRBehaviour, IDirection, IEventListener<CollisionEventArgs>, IInitialiseParam<ICommand>
     {
         #region FIELD VARIABLES
 
@@ -23,6 +24,12 @@ namespace COMP3451Project.RIRRPackage.Behaviours
 
         // DECLARE a Vector2, name it '_direction':
         private Vector2 _direction;
+
+        // DECLARE a static bool, name it '_damaged':
+        private static bool _damaged;
+
+        // DECLARE a static int, name it '_dmgTimer':
+        private static int _dmgTimer;
 
         #endregion
 
@@ -34,32 +41,11 @@ namespace COMP3451Project.RIRRPackage.Behaviours
         /// </summary>
         public PlayerBehaviour()
         {
-            // EMPTY CONSTRUCTOR
-        }
+            // SET _damaged to false:
+            _damaged = false;
 
-        #endregion
-
-
-        #region INHERITED FROM PONGBEHAVIOUR
-
-        /// <summary>
-        /// Used when an object hits a boundary, possibly to change direction or stop
-        /// </summary>
-        protected override void Boundary()
-        {
-            // IF Paddle at top of screen:
-            if ((_entity as ICollidable).HitBox.Top <= 0)
-            {
-                // ASSIGNMENT, set _entity.Position. to _entity's Origin Point, keeps at top of screen:
-                _entity.Position = new Vector2(_entity.Position.X, (_entity as IRotation).DrawOrigin.Y);
-            }
-
-            // IF Paddle at bottom of screen:
-            if ((_entity as ICollidable).HitBox.Bottom >= (_entity as IContainBoundary).WindowBorder.Y)
-            {
-                // ASSIGNMENT, set _entity.Position.Y to _windowBorder.Y - _textureSize.Y, keeps at bottom of screen:
-                _entity.Position = new Vector2(_entity.Position.X, (_entity as IContainBoundary).WindowBorder.Y - (_entity as IRotation).DrawOrigin.Y);
-            }
+            // INITIALISE _dmgTimer with a value of '0':
+            _dmgTimer = 0;
         }
 
         #endregion
@@ -96,8 +82,20 @@ namespace COMP3451Project.RIRRPackage.Behaviours
         /// <param name="pArgs"> CollisionEventArgs object </param>
         public void OnEvent(object pSource, CollisionEventArgs pArgs)
         {
-            // CALL StopMovement(), passing pArgs.RequiredArg as a parameter:
-            StopMovement(pArgs.RequiredArg);
+            // IF pArgs.RequiredArg is on either layer 2/3/5/6:
+            if ((pArgs.RequiredArg as ILayer).Layer == 2 || (pArgs.RequiredArg as ILayer).Layer == 3
+             || (pArgs.RequiredArg as ILayer).Layer == 5 || (pArgs.RequiredArg as ILayer).Layer == 6)
+            {
+                // CALL StopMovement(), passing pArgs.RequiredArg as a parameter:
+                StopMovement(pArgs.RequiredArg);
+            }
+
+            // IF pArgs.RequiredArg is on layer 4 and _damaged is FALSE:
+            if ((pArgs.RequiredArg as ILayer).Layer == 5 && !_damaged)
+            {
+                // CALL DamagePlayer(), passing pArgs.RequiredArg as a parameter:
+                DamagePlayer(pArgs.RequiredArg);
+            }
         }
 
         #endregion
@@ -120,6 +118,9 @@ namespace COMP3451Project.RIRRPackage.Behaviours
 
             // ADD & APPLY velocity to current position:
             _entity.Position += _velocity;
+
+            // CALL CheckPlayerHealth():
+            CheckPlayerHealth();
 
             // CALL UpdateFollowEntity():
             UpdateFollowEntity();
@@ -156,6 +157,138 @@ namespace COMP3451Project.RIRRPackage.Behaviours
         #region PRIVATE METHODS
 
         /// <summary>
+        /// Called to see if Player has run out of HP and to check if they are damaged
+        /// </summary>
+        /// <CITATION> (Smith, 2021) </CITATION>
+        private void CheckPlayerHealth()
+        {
+            // IF _damaged is TRUE:
+            if (_damaged)
+            {
+                // SET colour of _entity to Red:
+                (_entity as IChangeTexColour).TexColour = Color.IndianRed;
+
+                // INCREMENT _dmgTimer by '1':
+                _dmgTimer++;
+
+                // IF _dmgTimer is greater or equal to 60, used due to 60 FPS in Framework:
+                if (_dmgTimer >= 60)
+                {
+                    // RESET _dmgTimer to '0':
+                    _dmgTimer = 0;
+
+                    // SET _damaged to false:
+                    _damaged = false;
+                }
+            }
+            // IF _damaged is FALSE:
+            else
+            {
+                // IF _entity's TexColour IS NOT White:
+                if ((_entity as IChangeTexColour).TexColour != Color.White)
+                {
+                    // SET TexColour Property value of _entity to White:
+                    (_entity as IChangeTexColour).TexColour = Color.White;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Damages the Player and reduces HP
+        /// </summary>
+        /// <param name="pScndCollidable"> Value to impact Player's health points with </param>
+        private void DamagePlayer(ICollidable pScndCollidable)
+        {
+            if ((_entity as ICollidable).HitBox.Top + (_entity as IRotation).DrawOrigin.Y <= pScndCollidable.HitBox.Bottom)
+            {
+                // SET _damaged to true:
+                _damaged = true;
+            }
+        }
+
+        /// <summary>
+        /// When called, stops movement of Player object
+        /// </summary>
+        /// <param name="pScndCollidable">Reference to other object in collision</param>
+        /// <CITATION> (Lewin, 2016) </CITATION>
+        /// <CITATION> (Smith, 2021) </CITATION>
+        private void StopMovement(ICollidable pScndCollidable)
+        {
+            /// LEFT OF COLLIDABLE COLLISION
+
+                /* Right of object colliding with Left of collidable AND */
+            if ((_entity as ICollidable).HitBox.Right > pScndCollidable.HitBox.Left &&
+                /* Left of object to the Left of collidable AND */
+                (_entity as ICollidable).HitBox.Left < pScndCollidable.HitBox.Left &&
+                /* Bottom of object pos greater than Top of collidable AND */
+                (_entity as ICollidable).HitBox.Bottom > pScndCollidable.HitBox.Top &&
+                /* Top of object pos less than Bottom of collidable AND Moving to the Right */
+                (_entity as ICollidable).HitBox.Top + (_entity as IRotation).DrawOrigin.Y < pScndCollidable.HitBox.Bottom && _velocity.X > 0)
+            {
+                // WRITE to console that Left side collision has occurred:
+                System.Console.WriteLine("Left Collision");
+
+                // SET _entity.Position.X value to left of collidable object:
+                _entity.Position = new Vector2(pScndCollidable.HitBox.Left - (_entity as IRotation).DrawOrigin.X, _entity.Position.Y);
+            }
+
+            /// RIGHT OF COLLIDABLE COLLISION
+            
+                /* Left of object colliding with Right of collidable AND */
+            if ((_entity as ICollidable).HitBox.Left < pScndCollidable.HitBox.Right &&
+                /* Right of object to the Right of collidable AND */
+                (_entity as ICollidable).HitBox.Right > pScndCollidable.HitBox.Right &&
+                /* Bottom of object pos greater than Top of collidable AND */
+                (_entity as ICollidable).HitBox.Bottom > pScndCollidable.HitBox.Top &&
+                /* Top of object pos less than Bottom of collidable AND Moving to the Right */
+                (_entity as ICollidable).HitBox.Top + (_entity as IRotation).DrawOrigin.Y < pScndCollidable.HitBox.Bottom && _velocity.X < 0)
+            {
+                // WRITE to console that Right side collision has occurred:
+                System.Console.WriteLine("Right Collision");
+
+                // SET _entity.Position.X value to right of collidable object:
+                _entity.Position = new Vector2(pScndCollidable.HitBox.Right + (_entity as IRotation).DrawOrigin.X, _entity.Position.Y);
+            }
+
+            /// TOP OF COLLIDABLE COLLISION
+
+                /* Bottom of object colliding with Top of collidable AND */
+            if ((_entity as ICollidable).HitBox.Bottom > pScndCollidable.HitBox.Top &&
+                /* Top of object to the Top of collidable AND */
+                (_entity as ICollidable).HitBox.Top + (_entity as IRotation).DrawOrigin.Y < pScndCollidable.HitBox.Top &&
+                /* Right of object pos greater than Left of collidable AND */
+                (_entity as ICollidable).HitBox.Right > pScndCollidable.HitBox.Left &&
+                /* Top of object pos less than Bottom of collidable AND Moving Downwards */
+                (_entity as ICollidable).HitBox.Left < pScndCollidable.HitBox.Right && _velocity.Y > 0)
+            {
+                // WRITE to console that Right side collision has occurred:
+                System.Console.WriteLine("Top Collision");
+
+                // SET _entity.Position.Y value to top of collidable object:
+                _entity.Position = new Vector2(_entity.Position.X, pScndCollidable.HitBox.Top - (_entity as IRotation).DrawOrigin.Y);
+            }
+
+
+            //// BOTTOM OF COLLIDABLE COLLISION
+
+                /* Top of object colliding with Bottom of collidable AND */
+            if ((_entity as ICollidable).HitBox.Top + (_entity as IRotation).DrawOrigin.Y < pScndCollidable.HitBox.Bottom &&
+                /* Bottom of object to the Bottom of collidable AND */
+                (_entity as ICollidable).HitBox.Bottom > pScndCollidable.HitBox.Bottom &&
+                /* Right of object pos greater than Left of collidable AND */
+                (_entity as ICollidable).HitBox.Right > pScndCollidable.HitBox.Left &&
+                /* Top of object pos less than Bottom of collidable AND Moving Upwards */
+                (_entity as ICollidable).HitBox.Left < pScndCollidable.HitBox.Right && _velocity.Y < 0)
+            {
+                // WRITE to console that Right side collision has occurred:
+                System.Console.WriteLine("Bottom Collision");
+
+                // SET _entity.Position.Y value to bottom of collidable object:
+                _entity.Position = new Vector2(_entity.Position.X, pScndCollidable.HitBox.Bottom);
+            }
+        }
+
+        /// <summary>
         /// Updates an Entity that requires lerp positioning
         /// </summary>
         private void UpdateFollowEntity()
@@ -168,88 +301,6 @@ namespace COMP3451Project.RIRRPackage.Behaviours
 
             // SCHEDULE _updatePosCommand to be executed:
             (_entity as ICommandSender).ScheduleCommand(_updatePosCommand);
-        }
-
-        /// <summary>
-        /// When called, stops movement of Player object
-        /// </summary>
-        /// <param name="scndCollidable">Reference to other object in collision</param>
-        /// <CITATION> (Lewin, 2016) </CITATION>
-        /// <CITATION> (Smith, 2021) </CITATION>
-        private void StopMovement(ICollidable scndCollidable)
-        {
-            /// LEFT OF COLLIDABLE COLLISION
-
-                /* Right of object colliding with Left of collidable AND */
-            if ((_entity as ICollidable).HitBox.Right > scndCollidable.HitBox.Left &&
-                /* Left of object to the Left of collidable AND */
-                (_entity as ICollidable).HitBox.Left < scndCollidable.HitBox.Left &&
-                /* Bottom of object pos greater than Top of collidable AND */
-                (_entity as ICollidable).HitBox.Bottom > scndCollidable.HitBox.Top &&
-                /* Top of object pos less than Bottom of collidable AND Moving to the Right */
-                (_entity as ICollidable).HitBox.Top + (_entity as IRotation).DrawOrigin.Y < scndCollidable.HitBox.Bottom && _velocity.X > 0)
-            {
-                // WRITE to console that Left side collision has occurred:
-                System.Console.WriteLine("Left Collision");
-
-                // SET _entity.Position.X value to left of collidable object:
-                _entity.Position = new Vector2(scndCollidable.HitBox.Left - (_entity as IRotation).DrawOrigin.X, _entity.Position.Y);
-            }
-
-            /// RIGHT OF COLLIDABLE COLLISION
-            
-                /* Left of object colliding with Right of collidable AND */
-            if ((_entity as ICollidable).HitBox.Left < scndCollidable.HitBox.Right &&
-                /* Right of object to the Right of collidable AND */
-                (_entity as ICollidable).HitBox.Right > scndCollidable.HitBox.Right &&
-                /* Bottom of object pos greater than Top of collidable AND */
-                (_entity as ICollidable).HitBox.Bottom > scndCollidable.HitBox.Top &&
-                /* Top of object pos less than Bottom of collidable AND Moving to the Right */
-                (_entity as ICollidable).HitBox.Top + (_entity as IRotation).DrawOrigin.Y < scndCollidable.HitBox.Bottom && _velocity.X < 0)
-            {
-                // WRITE to console that Right side collision has occurred:
-                System.Console.WriteLine("Right Collision");
-
-                // SET _entity.Position.X value to right of collidable object:
-                _entity.Position = new Vector2(scndCollidable.HitBox.Right + (_entity as IRotation).DrawOrigin.X, _entity.Position.Y);
-            }
-
-            /// TOP OF COLLIDABLE COLLISION
-
-                /* Bottom of object colliding with Top of collidable AND */
-            if ((_entity as ICollidable).HitBox.Bottom > scndCollidable.HitBox.Top &&
-                /* Top of object to the Top of collidable AND */
-                (_entity as ICollidable).HitBox.Top + (_entity as IRotation).DrawOrigin.Y < scndCollidable.HitBox.Top &&
-                /* Right of object pos greater than Left of collidable AND */
-                (_entity as ICollidable).HitBox.Right > scndCollidable.HitBox.Left &&
-                /* Top of object pos less than Bottom of collidable AND Moving Downwards */
-                (_entity as ICollidable).HitBox.Left < scndCollidable.HitBox.Right && _velocity.Y > 0)
-            {
-                // WRITE to console that Right side collision has occurred:
-                System.Console.WriteLine("Top Collision");
-
-                // SET _entity.Position.Y value to top of collidable object:
-                _entity.Position = new Vector2(_entity.Position.X, scndCollidable.HitBox.Top - (_entity as IRotation).DrawOrigin.Y);
-            }
-
-
-            //// BOTTOM OF COLLIDABLE COLLISION
-
-                /* Top of object colliding with Bottom of collidable AND */
-            if ((_entity as ICollidable).HitBox.Top + (_entity as IRotation).DrawOrigin.Y < scndCollidable.HitBox.Bottom &&
-                /* Bottom of object to the Bottom of collidable AND */
-                (_entity as ICollidable).HitBox.Bottom > scndCollidable.HitBox.Bottom &&
-                /* Right of object pos greater than Left of collidable AND */
-                (_entity as ICollidable).HitBox.Right > scndCollidable.HitBox.Left &&
-                /* Top of object pos less than Bottom of collidable AND Moving Upwards */
-                (_entity as ICollidable).HitBox.Left < scndCollidable.HitBox.Right && _velocity.Y < 0)
-            {
-                // WRITE to console that Right side collision has occurred:
-                System.Console.WriteLine("Bottom Collision");
-
-                // SET _entity.Position.Y value to bottom of collidable object:
-                _entity.Position = new Vector2(_entity.Position.X, scndCollidable.HitBox.Bottom);
-            }
         }
 
         #endregion

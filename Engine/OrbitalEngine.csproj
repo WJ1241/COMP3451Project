@@ -59,13 +59,13 @@
     <Compile Include="CollisionManagement\Interfaces\ICollidable.cs" />
     <Compile Include="CollisionManagement\Interfaces\ICollisionListener.cs" />
     <Compile Include="CollisionManagement\Interfaces\ICollisionManager.cs" />
+    <Compile Include="CoreInterfaces\IChangeColour.cs" />
     <Compile Include="CoreInterfaces\IContainBoundary.cs" />
     <Compile Include="CoreInterfaces\IDirection.cs" />
     <Compile Include="CoreInterfaces\IDraw.cs" />
     <Compile Include="CoreInterfaces\IDrawDestinationRectangle.cs" />
     <Compile Include="CoreInterfaces\IDrawSourceRectangle.cs" />
     <Compile Include="CoreInterfaces\IGetSpeed.cs" />
-    <Compile Include="CoreInterfaces\IHaveObjective.cs" />
     <Compile Include="CoreInterfaces\IInitialiseParam.cs" />
     <Compile Include="CoreInterfaces\ILayer.cs" />
     <Compile Include="CoreInterfaces\IName.cs" />
@@ -129,8 +129,11 @@
     <Compile Include="Services\GenericTypeNameTrimmer.cs" />
     <Compile Include="Services\Interfaces\IRtnService.cs" />
     <Compile Include="Services\Interfaces\IService.cs" />
+    <Compile Include="States\CollidableState.cs" />
     <Compile Include="States\Interfaces\IState.cs" />
     <Compile Include="States\State.cs" />
+    <Compile Include="States\UpdatableCollidableState.cs" />
+    <Compile Include="States\UpdatableState.cs" />
     <Compile Include="Tiles\Interfaces\ILevelLayoutMaker.cs" />
     <Compile Include="Tiles\LevelLayoutMaker.cs" />
     <Compile Include="EntityManagement\SimpleCollidableEntity.cs" />

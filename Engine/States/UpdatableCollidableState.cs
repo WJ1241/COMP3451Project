@@ -3,21 +3,20 @@ using OrbitalEngine.Behaviours.Interfaces;
 using OrbitalEngine.CollisionManagement.Interfaces;
 using OrbitalEngine.CustomEventArgs;
 using OrbitalEngine.Exceptions;
-using OrbitalEngine.States;
 
-namespace COMP3451Project.RIRRPackage.States
+namespace OrbitalEngine.States
 {
     /// <summary>
-    /// Class which contains conditional information for Pong Ball entities to be modified by another class e.g. BallBehaviour
-    /// Author: William Smith & Declan Kerby-Collins
-    /// Date: 07/04/22
+    /// Class which contains conditional information for RIRR Player entities to be modified by another class e.g. an IEventListener<UpdateEventArgs> AND IEventListener<CollisionEventArgs> implementation
+    /// Authors: William Smith & Declan Kerby-Collins
+    /// Date: 11/04/22
     /// </summary>
-    public class BallState : State, ICollisionListener
+    public class UpdatableCollidableState : UpdatableState, ICollisionListener
     {
         #region FIELD VARIABLES
 
         // DECLARE an EventHandler<CollisionEventArgs>, name it '_collisionEvent':
-        private EventHandler<CollisionEventArgs> _collisionEvent;
+        protected EventHandler<CollisionEventArgs> _collisionEvent;
 
         #endregion
 
@@ -25,9 +24,9 @@ namespace COMP3451Project.RIRRPackage.States
         #region CONSTRUCTOR
 
         /// <summary>
-        /// Constructor for objects of BallState
+        /// Constructor for objects of UpdatableCollidableState
         /// </summary>
-        public BallState()
+        public UpdatableCollidableState()
         {
             // EMPTY CONSTRUCTOR
         }
@@ -74,7 +73,7 @@ namespace COMP3451Project.RIRRPackage.States
             else
             {
                 // THROW a new NullInstanceException(), with corresponding message:
-                throw new NullInstanceException("ERROR: pUpdateEventListener does not have an active instance");
+                throw new NullInstanceException("ERROR: pUpdateEventListener does not have an active instance!");
             }
         }
 

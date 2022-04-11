@@ -8,9 +8,9 @@ namespace COMP3451Project.RIRRPackage.Behaviours
     /// <summary>
     /// Abstract class for Pong Behaviour classes to inherit from
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 09/04/22
+    /// Date: 11/04/22
     /// </summary>
-    public abstract class PongBehaviour : UpdatableBehaviour, IVelocity
+    public abstract class RIRRBehaviour : UpdatableBehaviour, IVelocity
     {
         #region FIELD VARIABLES
 
@@ -34,9 +34,6 @@ namespace COMP3451Project.RIRRPackage.Behaviours
 
             // ADD & APPLY velocity to current position:
             _entity.Position += _velocity;
-
-            // CALL Boundary() method:
-            Boundary();
         }
 
         #endregion
@@ -60,16 +57,6 @@ namespace COMP3451Project.RIRRPackage.Behaviours
                 _velocity = value;
             }
         }
-
-        #endregion 
-
-
-        #region PROTECTED METHODS
-
-        /// <summary>
-        /// Used when an object hits a boundary, possibly to change direction or stop
-        /// </summary>
-        protected abstract void Boundary();
 
         #endregion
     }

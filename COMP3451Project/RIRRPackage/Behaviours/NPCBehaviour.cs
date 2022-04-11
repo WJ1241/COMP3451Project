@@ -2,7 +2,6 @@
 using OrbitalEngine.Behaviours.Interfaces;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.CustomEventArgs;
-using OrbitalEngine.EntityManagement.Interfaces;
 using OrbitalEngine.Services.Commands.Interfaces;
 
 namespace COMP3451Project.RIRRPackage.Behaviours
@@ -10,9 +9,9 @@ namespace COMP3451Project.RIRRPackage.Behaviours
     /// <summary>
     /// Class which defines the behaviour for NPC entities
     /// Authors: William Smith & Declan Kerby-Collins 
-    /// Date: 09/04/22
+    /// Date: 11/04/22
     /// </summary>
-    public class NPCBehaviour : PongBehaviour, IEventListener<CollisionEventArgs>
+    public class NPCBehaviour : RIRRBehaviour, IEventListener<CollisionEventArgs>
     {
         #region FIELD VARIABLES
 
@@ -35,6 +34,7 @@ namespace COMP3451Project.RIRRPackage.Behaviours
 
         #endregion
 
+        /*
 
         #region INHERITED FROM PONGBEHAVIOUR
 
@@ -97,6 +97,7 @@ namespace COMP3451Project.RIRRPackage.Behaviours
 
         #endregion
         
+        */
 
         #region IMPLEMENTATION OF IEVENTLISTENER<COLLISIONEVENTARGS>
 
@@ -255,8 +256,6 @@ namespace COMP3451Project.RIRRPackage.Behaviours
                     _entity.Position = tempPosition;
                 }
             }
-
-            
         }
 
         #endregion

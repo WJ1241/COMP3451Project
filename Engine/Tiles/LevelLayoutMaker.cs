@@ -15,7 +15,7 @@ namespace OrbitalEngine.Tiles
     /// <summary>
     /// Class which makes a Level Layout using a tilemap built in Tiled
     /// Authors: William Smith, Declan Kerby-Collins, 'Teemu', Díaz, D. & Gricci, S.
-    /// Date: 09/04/22
+    /// Date: 11/04/22
     /// </summary>
     /// <IMPORTANT> WHEN MAKING A TILEMAP IN TILED, FOLLOW LAYER NUMBERS DECLARED IN 'ILAYER' INTERFACE TO PREVENT ISSUES </IMPORTANT>
     /// <REFERENCE> 'Teemu', Díaz, D. & Gricci, S. (2016) TiledSharp-MonoGame-Example. Available at: https://github.com/Temeez/TiledSharp-MonoGame-Example. (Accessed: 16/02/22). </REFERENCE>

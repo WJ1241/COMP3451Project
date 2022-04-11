@@ -15,7 +15,7 @@ namespace COMP3451Project.RIRRPackage.Entities
     /// Authors: Declan Kerby-Collins & William Smith
     /// Date: 04/04/22
     /// </summary>
-    public class NPC : PongEntity, ICollidable, ICollisionListener, IInitialiseParam<Random, State>
+    public class NPC : RIRREntity, ICollidable, ICollisionListener, IInitialiseParam<Random, State>
     {
         #region FIELD VARIABLES
 
