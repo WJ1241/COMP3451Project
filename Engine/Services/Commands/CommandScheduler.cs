@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.Services.Commands.Interfaces;
@@ -9,7 +10,7 @@ namespace OrbitalEngine.Services.Commands
     /// <summary>
     /// Class which schedules commands at a specific point in a runtime loop
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 16/01/22
+    /// Date: 11/04/22
     /// </summary>
     public class CommandScheduler : IService, ICommandScheduler, IExecuteCommand, IUpdatable
     {
@@ -76,7 +77,7 @@ namespace OrbitalEngine.Services.Commands
             if (_commandList.Count >= 1)
             {
                 // FOREACH ICommand object stored in _commandList:
-                foreach (ICommand pCommand in _commandList)
+                foreach (ICommand pCommand in _commandList.ToList())
                 {
                     // CALL ExecuteCommand, passing pCommand as a parameter:
                     ExecuteCommand(pCommand);

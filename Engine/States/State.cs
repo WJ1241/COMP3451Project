@@ -13,9 +13,9 @@ namespace OrbitalEngine.States
     /// <summary>
     /// Class which contains conditional information for entities to be modified by another class e.g. Behaviour
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 07/04/22
+    /// Date: 11/04/22
     /// </summary>
-    public abstract class State : IState, ICommandSender, IInitialiseParam<IDictionary<string, EventArgs>>, IInitialiseParam<IDictionary<string, ICommand>>,
+    public class State : IState, ICommandSender, IInitialiseParam<IDictionary<string, EventArgs>>, IInitialiseParam<IDictionary<string, ICommand>>,
         IInitialiseParam<EventArgs>, IInitialiseParam<string, ICommand>, IInitialiseParam<IEventListener<UpdateEventArgs>>, IName, IUpdatable
     {
         #region FIELD VARIABLES
@@ -34,6 +34,19 @@ namespace OrbitalEngine.States
 
         // DECLARE a string, name it '_stateName':
         protected string _stateName;
+
+        #endregion
+
+
+        #region CONSTRUCTOR
+
+        /// <summary>
+        /// Constructor for objects of State
+        /// </summary>
+        public State()
+        {
+            // EMPTY CONSTRUCTOR
+        }
 
         #endregion
 
@@ -236,11 +249,8 @@ namespace OrbitalEngine.States
         /// <param name="pGameTime">holds reference to GameTime object</param>
         public virtual void Update(GameTime pGameTime)
         {
-            if (_argsDict["UpdateEventArgs"] is UpdateEventArgs)
-            {
-                // SET RequiredArg Property value of(_argsDict["UpdateEventArgs"] to reference to pGameTime
-                (_argsDict["UpdateEventArgs"] as UpdateEventArgs).RequiredArg = pGameTime;
-            }
+            // SET RequiredArg Property value of(_argsDict["UpdateEventArgs"] to reference to pGameTime
+            (_argsDict["UpdateEventArgs"] as UpdateEventArgs).RequiredArg = pGameTime;
 
             // INVOKE _behaviourEvent(), passing this class and _argsDict["UpdateArgs"] as parameters:
             _behaviourEvent.Invoke(this, _argsDict["UpdateEventArgs"] as UpdateEventArgs);

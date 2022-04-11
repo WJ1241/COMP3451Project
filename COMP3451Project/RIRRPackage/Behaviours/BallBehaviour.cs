@@ -89,11 +89,8 @@ namespace COMP3451Project.RIRRPackage.Behaviours
                 // SCHEDULE _sfxCommand to be executed:
                 (_entity as ICommandSender).ScheduleCommand(_sfxCommand);
 
-                // SCHEDULE RemoveMe to be executed:
-                (_entity as ICommandSender).ScheduleCommand((_entity as IEntityInternal).RemoveMe);
-
-                // SCHEDULE TerminateMe to be executed:
-                (_entity as ICommandSender).ScheduleCommand((_entity as IEntityInternal).TerminateMe);
+                // CALL Terminate() on _entity:
+                (_entity as ITerminate).Terminate();
             }
         }
 

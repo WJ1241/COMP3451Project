@@ -39,6 +39,8 @@ using System.Collections;
 using OrbitalEngine.CustomEventArgs;
 using OrbitalEngine.Camera.Interfaces;
 using OrbitalEngine.Camera;
+using OrbitalEngine.Camera.Behaviours;
+using OrbitalEngine.States;
 
 namespace COMP3451Project
 {
@@ -66,6 +68,9 @@ namespace COMP3451Project
         // DECLARE a Point, name it 'screenSize':
         private Point _screenSize;
 
+        // DECLARE a float, name it '_viewZoom':
+        private float _viewZoom;
+
         // DECLARE an int, name it '_ballCount':
         // USED ONLY TO KEEP VALUE FROM RESETTING
         private int _ballCount;
@@ -83,6 +88,8 @@ namespace COMP3451Project
             // INSTANTIATE _graphics as a new GraphicsDeviceManager, passing Kernel as a parameter:
             _graphics = new GraphicsDeviceManager(this);
 
+
+
             // SET RootDirectory of Content to "Content":
             Content.RootDirectory = "Content";
 
@@ -97,6 +104,15 @@ namespace COMP3451Project
 
             // SET screen height to _screenSize.Y:
             _graphics.PreferredBackBufferHeight = _screenSize.Y;
+
+            // INSTANTIATE _rand as new Random():
+            _rand = new Random();
+
+            // INITIALISE _viewZoom with a value of '4':
+            _viewZoom = 4;
+
+            // INITIALISE _ballCount with a value of '0':
+            _ballCount = 0;
         }
 
         #endregion
@@ -128,18 +144,6 @@ namespace COMP3451Project
         protected override void Initialize()
         {
             #region OBJECT INSTANTIATIONS & INITIALISATIONS
-
-            // Get Screen Width:
-            _screenSize.X = GraphicsDevice.Viewport.Width;
-
-            // GET Screen Height:
-            _screenSize.Y = GraphicsDevice.Viewport.Height;
-
-            // INITIALISE _ballCount with value of '0':
-            _ballCount = 0;
-
-            // INSTANTIATE _rand as new Random():
-            _rand = new Random();
 
             // TRY checking if all engine creational classes as well as entity setup throw any exceptions:
             try
@@ -180,8 +184,11 @@ namespace COMP3451Project
                 // DECLARE & GET an instance of SceneManager as an ISceneManager, name it 'sceneManager':
                 ISceneManager sceneManager = _engineManager.GetService<SceneManager>() as ISceneManager;
 
-                // INITIALISE engineManager with a new Dictionary<string, IService>():
+                // INITIALISE engineManager with a new Dictionary<string, ISceneGraph>():
                 (sceneManager as IInitialiseParam<IDictionary<string, ISceneGraph>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, ISceneGraph>>() as IDictionary<string, ISceneGraph>);
+
+                // INITIALISE engineManager with a new Dictionary<string, ICommand>():
+                (sceneManager as IInitialiseParam<IDictionary<string, ICommand>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, ICommand>>() as IDictionary<string, ICommand>);
 
                 // INITIALISE sceneManager with returned Factory<ISceneGraph> instance from _engineManager:
                 (sceneManager as IInitialiseParam<IFactory<ISceneGraph>>).Initialise(_engineManager.GetService<Factory<ISceneGraph>>() as IFactory<ISceneGraph>);
@@ -211,7 +218,7 @@ namespace COMP3451Project
                 /// SCENE
 
                 // CALL CreateScene() on sceneManager, passing "Level1" as a parameter:
-                sceneManager.CreateScene("Level1");
+                sceneManager.CreateScene("Level1", new CommandZeroParam());
 
                 // INITIALISE sceneManager with a CollisionManager instance from _engineManager, a new Dictionary<string, IEntity>() and a reference to createCommand for scene "Level1":
                 sceneManager.Initialise("Level1", _engineManager.GetService<CollisionManager>() as ICollisionManager,
@@ -298,23 +305,64 @@ namespace COMP3451Project
 
                 #region CAMERA
 
+                #region STATES
+
+                // DECLARE & INSTANTIATE an IState as a new State(), name it 'camState':
+                IState camState = (_engineManager.GetService<Factory<IState>>() as IFactory<IState>).Create<State>();
+
+                // INITIALISE camState with a new Dictionary<string, ICommand>():
+                (camState as IInitialiseParam<IDictionary<string, ICommand>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, ICommand>>() as IDictionary<string, ICommand>);
+
+                // INITIALISE camState with a new Dictionary<string, EventArgs>():
+                (camState as IInitialiseParam<IDictionary<string, EventArgs>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, EventArgs>>() as IDictionary<string, EventArgs>);
+
+                // INITIALISE camState with a new UpdateEventArgs():
+                (camState as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<UpdateEventArgs>());
+
+                #endregion
+
+
+                #region BEHAVIOUR
+
+                // DECLARE & INSTANTIATE an IBehaviour as a new CameraBehaviour(), name it 'camBehaviour':
+                IEventListener<UpdateEventArgs> camBehaviour = (_engineManager.GetService<Factory<IEventListener<UpdateEventArgs>>>() as IFactory<IEventListener<UpdateEventArgs>>).Create<CameraBehaviour>();
+
+                // INITIALISE camBehaviour with a new MatrixEventArgs:
+                (camBehaviour as IInitialiseParam<MatrixEventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<MatrixEventArgs>() as MatrixEventArgs);
+
+                // INITIALISE camBehaviour with a reference to the current scene's MatrixEventArgs OnEvent() method:
+                (camBehaviour as IInitialiseParam<EventHandler<MatrixEventArgs>>).Initialise((sceneManager.ReturnCurrentScene() as IEventListener<MatrixEventArgs>).OnEvent);
+
+                // INITIALISE camState with a reference to camBehaviour:
+                (camState as IInitialiseParam<IEventListener<UpdateEventArgs>>).Initialise(camBehaviour);
+
+                #endregion
+
+
+                #region ENTITY
+
                 // DECLARE & INSTANTIATE an ICamera as a new Camera, name it 'camera':
                 ICamera camera = (_engineManager.GetService<EntityManager>() as IEntityManager).Create<Camera>("Camera") as ICamera;
-
-                // INITIALISE camera with a new MatrixEventArgs:
-                (camera as IInitialiseParam<MatrixEventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<MatrixEventArgs>() as MatrixEventArgs);
 
                 // INITIALISE camera's WindowBorder Property with value of _screenSize:
                 (camera as IContainBoundary).WindowBorder = _screenSize;
 
-                // INITIALISE camera's Zoom Property with a value of '4':
-                (camera as IZoom).Zoom = 4;
+                // INITIALISE camera's Zoom Property with value of _viewZoom:
+                (camera as IZoom).Zoom = _viewZoom;
+
+                // INITIALISE _camera with a reference to camState:
+                (camera as IInitialiseParam<IState>).Initialise(camState);
+
+                // INITIALISE camera with reference to camBehaviour:
+                (camera as IInitialiseParam<IEventListener<UpdateEventArgs>>).Initialise(camBehaviour);
 
                 // DECLARE & an ICommand as a new CommandTwoParam<Vector2, Vector2>(), name it 'camPosChangeCommand':
                 ICommand camPosChangeCommand = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandTwoParam<Vector2, Vector2>>();
 
                 // INITIALISE camPosChangeCommand's MethodRef Property with reference to camera.ChangeCamPos():
                 (camPosChangeCommand as ICommandTwoParam<Vector2, Vector2>).MethodRef = camera.ChangeCamPos;
+
+                #endregion
 
                 #endregion
 
@@ -699,8 +747,8 @@ namespace COMP3451Project
                 // SET Row Property value of animationStationary to '0':
                 animationStationary.Row = 0;
 
-                // SET MsPerFrame Property value of animationStationary to '200':
-                animationStationary.MsPerFrame = 200;
+                // SET MsPerFrame Property value of animationStationary to '175':
+                animationStationary.MsPerFrame = 175;
 
                 /// UP
 
@@ -713,8 +761,8 @@ namespace COMP3451Project
                 // SET Row Property value of animationUp to '2':
                 animationUp.Row = 2;
 
-                // SET MsPerFrame Property value of animationUp to '200':
-                animationUp.MsPerFrame = 200;
+                // SET MsPerFrame Property value of animationUp to '175':
+                animationUp.MsPerFrame = 175;
 
                 /// DOWN
 
@@ -727,8 +775,8 @@ namespace COMP3451Project
                 // SET Row Property value of animationDown to '1':
                 animationDown.Row = 1;
 
-                // SET MsPerFrame Property value of animationDown to '200':
-                animationDown.MsPerFrame = 200;
+                // SET MsPerFrame Property value of animationDown to '175':
+                animationDown.MsPerFrame = 175;
 
                 /// LEFT
 
@@ -741,8 +789,8 @@ namespace COMP3451Project
                 // SET Row Property value of animationLeft to '4':
                 animationLeft.Row = 4;
 
-                // SET MsPerFrame Property value of animationLeft to '200':
-                animationLeft.MsPerFrame = 200;
+                // SET MsPerFrame Property value of animationLeft to '175':
+                animationLeft.MsPerFrame = 175;
 
                 /// RIGHT
 
@@ -755,8 +803,8 @@ namespace COMP3451Project
                 // SET Row Property value of animationRight to '3':
                 animationRight.Row = 3;
 
-                // SET MsPerFrame Property value of animationRight to '200':
-                animationRight.MsPerFrame = 200;
+                // SET MsPerFrame Property value of animationRight to '175':
+                animationRight.MsPerFrame = 175;
 
                 #endregion
 
@@ -1800,7 +1848,7 @@ namespace COMP3451Project
         protected override void Draw(GameTime pGameTime)
         {
             // SET colour of screen background as Black:
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // CALL Draw() method on returned SceneManager instance from _engineManager:
             (_engineManager.GetService<SceneManager>() as IDraw).Draw(_spriteBatch);

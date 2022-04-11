@@ -88,20 +88,7 @@ namespace OrbitalEngine.EntityManagement
         public override void Draw(SpriteBatch pSpriteBatch)
         {
             // DRAW given texture, given destination rectangle, source rectangle (where to draw) and colour
-            pSpriteBatch.Draw(_texture, _destinationRect, _sourceRect, Color.AntiqueWhite);
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF ITERMINATE
-
-        /// <summary>
-        /// Disposes resources to the garbage collector
-        /// </summary>
-        public override void Terminate()
-        {
-            // No functionality, MonoGame deals with object and texture in garbage collector already
+            pSpriteBatch.Draw(_texture, _destinationRect, _sourceRect, Color.White);
         }
 
         #endregion
