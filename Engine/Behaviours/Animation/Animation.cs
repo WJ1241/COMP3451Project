@@ -10,10 +10,10 @@ namespace OrbitalEngine.Animation
     /// <summary>
     /// Class which contains the code relative to changing source rectangles for animated sprites
     /// Authors: Declan Kerby-Collins & William Smith
-    /// Date: 19/02/22
+    /// Date: 11/04/22
     /// </summary>
     /// <REFERENCE> Lioncat Dev Studio (2021) Player Animation - Making a RPG in monogame. Available at: https://www.youtube.com/watch?v=i2ef5vfWO0w. (Accessed: 16 February 2022).</REFERENCE>
-    public class Animation : Behaviour, IAnimation, ITexture
+    public class Animation : UpdatableBehaviour, IAnimation, ITexture
     {
         #region FIELD VARIABLES
 

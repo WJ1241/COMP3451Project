@@ -16,11 +16,6 @@ namespace OrbitalEngine.CoreInterfaces
         /// </summary>
         PlayerIndex PlayerNum { set; }
 
-        /// <summary>
-        /// Property which allows read and write access to an objective boolean
-        /// </summary>
-        bool ObjectiveComplete { get; set; }
-
         #endregion
     }
 }

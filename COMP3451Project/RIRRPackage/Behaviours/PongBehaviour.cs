@@ -10,7 +10,7 @@ namespace COMP3451Project.RIRRPackage.Behaviours
     /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 09/04/22
     /// </summary>
-    public abstract class PongBehaviour : Behaviour, IVelocity
+    public abstract class PongBehaviour : UpdatableBehaviour, IVelocity
     {
         #region FIELD VARIABLES
 
