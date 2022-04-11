@@ -201,7 +201,6 @@ namespace COMP3451Project
                 // INITIALISE returned CollisionManager from _engineManager.GetService() with a new List<ICollidable>():
                 (_engineManager.GetService<CollisionManager>() as IInitialiseParam<IList<ICollidable>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<List<ICollidable>>() as IList<ICollidable>);
 
-
                 #endregion
 
 

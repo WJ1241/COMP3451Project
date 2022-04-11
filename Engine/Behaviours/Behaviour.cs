@@ -1,6 +1,4 @@
-﻿using OrbitalEngine.Behaviours.Interfaces;
-using OrbitalEngine.CoreInterfaces;
-using OrbitalEngine.CustomEventArgs;
+﻿using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.EntityManagement.Interfaces;
 using OrbitalEngine.Exceptions;
 
@@ -9,9 +7,9 @@ namespace OrbitalEngine.Behaviours
     /// <summary>
     /// Class which contains basic variables and methods needed for ALL behaviour classes
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 19/02/22
+    /// Date: 11/04/22
     /// </summary>
-    public abstract class Behaviour : IEventListener<UpdateEventArgs>, IInitialiseParam<IEntity>, IName
+    public abstract class Behaviour : IInitialiseParam<IEntity>, IName
     {
         #region FIELD VARIABLES
 
@@ -20,18 +18,6 @@ namespace OrbitalEngine.Behaviours
 
         // DECLARE a string, name it '_name':
         protected string _name;
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF IEVENTLISTENER<UPDATEEVENTARGS>
-
-        /// <summary>
-        /// Method called when needing to update Behaviour
-        /// </summary>
-        /// <param name="pSource"> Object that is to be updated </param>
-        /// <param name="pArgs"> EventArgs for an Update object </param>
-        public abstract void OnEvent(object pSource, UpdateEventArgs pArgs);
 
         #endregion
 

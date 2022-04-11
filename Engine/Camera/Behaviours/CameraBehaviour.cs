@@ -11,7 +11,7 @@ namespace OrbitalEngine.Camera.Behaviours
     /// Authors: William Smith & Declan Kerby-Collins 
     /// Date: 11/04/22
     /// </summary>
-    public class CameraBehaviour : Behaviour, IInitialiseParam<EventHandler<MatrixEventArgs>>, IInitialiseParam<MatrixEventArgs>
+    public class CameraBehaviour : UpdatableBehaviour, IInitialiseParam<EventHandler<MatrixEventArgs>>, IInitialiseParam<MatrixEventArgs>
     {
         #region FIELD VARIABLES
 

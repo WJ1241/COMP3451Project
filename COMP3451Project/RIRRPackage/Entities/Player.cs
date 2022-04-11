@@ -12,14 +12,17 @@ namespace COMP3451Project.RIRRPackage.Entities
     /// <summary>
     /// Class which adds a Player entity on screen
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 10/04/22
+    /// Date: 11/04/22
     /// </summary>
-    public class Player : PongEntity, IPlayer, ICollidable, ICollisionListener, IDrawSourceRectangle, IGetSpeed, IKeyboardListener
+    public class Player : PongEntity, IPlayer, ICollidable, ICollisionListener, IDrawSourceRectangle, IGetSpeed, IHaveObjective, IKeyboardListener
     {
         #region FIELD VARIABLES
 
         // DECLARE a PlayerIndex and name it '_playerNum':
         private PlayerIndex _playerNum;
+
+        // DECLARE a bool, name it '_objectiveComplete':
+        private bool _objectiveComplete;
 
         #endregion
 
@@ -31,8 +34,28 @@ namespace COMP3451Project.RIRRPackage.Entities
         /// </summary>
         public Player()
         {
-            // ASSIGNMENT, set _speed to 1:
+            // SET _objectiveComplete to false:
+            _objectiveComplete = false;
+
+            // INITIALISE _speed with a value of '1':
             _speed = 1;
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IPLAYER
+
+        /// <summary>
+        /// Property which can set value of a PlayerIndex
+        /// </summary>
+        public PlayerIndex PlayerNum
+        {
+            set
+            {
+                // SET value of _playerNum to incoming value:
+                _playerNum = value;
+            }
         }
 
         #endregion
@@ -124,6 +147,28 @@ namespace COMP3451Project.RIRRPackage.Entities
         #endregion
 
 
+        #region IMPLEMENTATION OF IHAVEOBJECTIVE
+
+        /// <summary>
+        /// Property which allows read and write access to an objective boolean
+        /// </summary>
+        public bool ObjectiveComplete
+        {
+            get
+            {
+                // RETURN value of _objectiveComplete:
+                return _objectiveComplete;
+            }
+            set
+            {
+                // SET value of _objectiveComplete to incoming value:
+                _objectiveComplete = value;
+            }
+        }
+
+        #endregion
+
+
         #region IMPLEMENTATION OF IINITIALISEPARAM<ISTATE>
 
         /// <summary>
@@ -177,23 +222,6 @@ namespace COMP3451Project.RIRRPackage.Entities
         {
             // CALL Update() on _currentState, passing pGameTime as a parameter:
             (_currentState as IUpdatable).Update(pGameTime);
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF IPLAYER
-
-        /// <summary>
-        /// Property which can set value of a PlayerIndex
-        /// </summary>
-        public PlayerIndex PlayerNum
-        {
-            set
-            {
-                // SET value of _playerNum to incoming value:
-                _playerNum = value;
-            }
         }
 
         #endregion
