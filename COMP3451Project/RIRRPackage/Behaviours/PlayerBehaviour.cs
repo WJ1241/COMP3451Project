@@ -3,7 +3,6 @@ using OrbitalEngine.Behaviours.Interfaces;
 using OrbitalEngine.CollisionManagement.Interfaces;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.CustomEventArgs;
-using OrbitalEngine.EntityManagement.Interfaces;
 using OrbitalEngine.Exceptions;
 using OrbitalEngine.Services.Commands.Interfaces;
 
@@ -56,7 +55,7 @@ namespace COMP3451Project.RIRRPackage.Behaviours
             }
 
             // IF Paddle at bottom of screen:
-            if (_entity.Position.Y + (_entity as IRotation).DrawOrigin.Y >= (_entity as IContainBoundary).WindowBorder.Y)
+            if ((_entity as ICollidable).HitBox.Bottom >= (_entity as IContainBoundary).WindowBorder.Y)
             {
                 // ASSIGNMENT, set _entity.Position.Y to _windowBorder.Y - _textureSize.Y, keeps at bottom of screen:
                 _entity.Position = new Vector2(_entity.Position.X, (_entity as IContainBoundary).WindowBorder.Y - (_entity as IRotation).DrawOrigin.Y);

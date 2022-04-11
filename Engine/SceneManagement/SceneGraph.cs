@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using OrbitalEngine.Behaviours.Interfaces;
-using OrbitalEngine.Camera.Interfaces;
 using OrbitalEngine.CollisionManagement.Interfaces;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.CustomEventArgs;
@@ -17,10 +17,11 @@ namespace OrbitalEngine.SceneManagement
     /// <summary>
     /// Class which holds reference to list in Scene Manager, Draws and Updates entities
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 10/04/22
+    /// Date: 11/04/22
     /// </summary>
     /// <REFERENCE> Abuhakmeh, K. (2009) XNA 2D Camera Engine That Follows Sprite. Available at: https://stackoverflow.com/questions/712296/xna-2d-camera-engine-that-follows-sprite. (Accessed: 20 April 2021). </REFERENCE>
-    public class SceneGraph : ISceneGraph, IDraw, IEventListener<MatrixEventArgs>, IInitialiseParam<IDictionary<string, IEntity>>, IInitialiseParam<IFuncCommand<ICommand>>, ISpawn, IUpdatable
+    public class SceneGraph : ISceneGraph, IDraw, IEventListener<MatrixEventArgs>, IInitialiseParam<ICollisionManager>, IInitialiseParam<IDictionary<string, IEntity>>, IInitialiseParam<IFuncCommand<ICommand>>,
+        ISpawn, IUpdatable
     {
         #region FIELD VARIABLES
 
@@ -52,26 +53,6 @@ namespace OrbitalEngine.SceneManagement
         #region IMPLEMENTATION OF ISCENEGRAPH
 
         /// <summary>
-        /// Initialises an object with an ICollisionManager object
-        /// </summary>
-        /// <param name="pCollisionManager"> ICollisionManager object </param>
-        public void Initialise(ICollisionManager pCollisionManager)
-        {
-            // IF pCollisionManager DOES HAVE an active instance:
-            if (pCollisionManager != null)
-            {
-                // INITIALISE pCollisionManager with _sceneEntDict:
-                pCollisionManager.Initialise(_sceneEntDict as IReadOnlyDictionary<string, IEntity>);
-            }
-            // IF pCollisionManager DOES NOT HAVE an active instance:
-            else
-            {
-                // THROW a new NullInstanceException(), with corresponding message:
-                throw new NullInstanceException("ERROR: pCollisionManager does not have an active instance!");
-            }
-        }
-
-        /// <summary>
         /// Removes instance of object from list/dictionary using an entity's unique name
         /// </summary>
         /// <param name="pUName"> Used for passing unique name </param>
@@ -79,6 +60,23 @@ namespace OrbitalEngine.SceneManagement
         {
             // REMOVE IEntity object addressed by pUName from _sceneEntDict:
             _sceneEntDict.Remove(pUName);
+        }
+
+        /// <summary>
+        /// Removes and terminates any references to entities from the scene
+        /// </summary>
+        public void ClearScene()
+        {
+            // FOREACH IEntity in _sceneEntDict.Values:
+            foreach (IEntity pEntity in _sceneEntDict.Values.ToList())
+            {
+
+                if (pEntity.UName != "Paddle2")
+                {
+                    // CALL Terminate() on pEntity:
+                    (pEntity as ITerminate).Terminate();
+                }
+            }
         }
 
         /// <summary>
@@ -144,6 +142,31 @@ namespace OrbitalEngine.SceneManagement
         {
             // INITIALISE _zoomFollowMatrix with value of pArgs' RequiredArg Property:
             _zoomFollowMatrix = pArgs.RequiredArg;
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEPARAM<ICOLLISIONMANAGER>
+
+        /// <summary>
+        /// Initialises an object with an ICollisionManager object
+        /// </summary>
+        /// <param name="pCollisionManager"> ICollisionManager object </param>
+        public void Initialise(ICollisionManager pCollisionManager)
+        {
+            // IF pCollisionManager DOES HAVE an active instance:
+            if (pCollisionManager != null)
+            {
+                // INITIALISE pCollisionManager with _sceneEntDict:
+                pCollisionManager.Initialise(_sceneEntDict as IReadOnlyDictionary<string, IEntity>);
+            }
+            // IF pCollisionManager DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pCollisionManager does not have an active instance!");
+            }
         }
 
         #endregion
@@ -244,16 +267,6 @@ namespace OrbitalEngine.SceneManagement
             {
                 // INITIALISE pEntity.Position with value of pPosition:
                 pEntity.Position = pPosition;
-            }
-
-            // IF pEntity implements ICamera:
-            if (pEntity is ICamera)
-            {
-                // INITIALISE pEntity with reference to OnEvent():
-                (pEntity as IInitialiseParam<EventHandler<MatrixEventArgs>>).Initialise(OnEvent);
-
-                // END Method Call so it does not output to console as Camera is not 'spawning':
-                return;
             }
 
             // WRITE to console, alerting when object has been added to the scene:

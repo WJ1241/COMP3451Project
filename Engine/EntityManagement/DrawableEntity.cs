@@ -44,7 +44,7 @@ namespace OrbitalEngine.EntityManagement
         public virtual void Draw(SpriteBatch pSpriteBatch)
         {
             // DRAW given texture, given location, and colour
-            pSpriteBatch.Draw(_texture, _position, Color.AntiqueWhite);
+            pSpriteBatch.Draw(_texture, _position, Color.White);
         }
 
         #endregion

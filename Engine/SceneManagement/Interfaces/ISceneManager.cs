@@ -10,7 +10,7 @@ namespace OrbitalEngine.SceneManagement.Interfaces
     /// <summary>
     /// Interface that allows implementations to manage entities in the scene
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 07/04/22
+    /// Date: 11/04/22
     /// </summary>
     public interface ISceneManager : IService
     {
@@ -20,7 +20,35 @@ namespace OrbitalEngine.SceneManagement.Interfaces
         /// Creates a Scene which stores entities and their positions
         /// </summary>
         /// <param name="pSceneName"> Name of Scene </param>
-        void CreateScene(string pSceneName);
+        /// <param name="pResetSceneCommand"> Command to Reset Scene when needed </param>
+        void CreateScene(string pSceneName, ICommand pResetSceneCommand);
+
+        /// <summary>
+        /// Creates a Cutscene which stores entities and their positions
+        /// </summary>
+        /// <param name="pCutsceneName"> Name of Cutscene </param>
+        /// /// <param name="pResetSceneCommand"> Command to Reset Scene when needed </param>
+        void CreateCutscene(string pCutsceneName, ICommand pResetSceneCommand);
+
+        /// <summary>
+        /// Removes a Scene/Cutscene specified by its Name
+        /// </summary>
+        /// <param name="pSceneName"> Name of Scene </param>
+        void RemoveScene(string pSceneName);
+
+        /// <summary>
+        /// Returns Current loaded scene
+        /// </summary>
+        /// <returns> Current Loaded Scene </returns>
+        ISceneGraph ReturnCurrentScene();
+
+        /// <summary>
+        /// Initialises a specified scene with an IDictionary<string, IEntity> object and an IFuncCommand<ICommand> object
+        /// </summary>
+        /// <param name="pSceneName"> Name of Scene </param>
+        /// <param name="pEntDict"> IDictionary<string, IEntity> object </param>
+        /// <param name="pCreateCommand"> IFuncCommand<ICommand> object </param>
+        void Initialise(string pSceneName, IDictionary<string, IEntity> pEntDict, IFuncCommand<ICommand> pCreateCommand);
 
         /// <summary>
         /// Initialises a specified scene with an ICollisionManager object, an IDictionary<string, IEntity> object and an IFuncCommand<ICommand> object

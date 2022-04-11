@@ -50,9 +50,9 @@
     <Compile Include="Behaviours\Animation\Interfaces\IAnimation.cs" />
     <Compile Include="Behaviours\Behaviour.cs" />
     <Compile Include="Behaviours\Interfaces\IEventListener.cs" />
+    <Compile Include="Camera\Behaviours\CameraBehaviour.cs" />
     <Compile Include="Camera\Camera.cs" />
     <Compile Include="Camera\Interfaces\ICamera.cs" />
-    <Compile Include="Camera\Interfaces\IDrawCamera.cs" />
     <Compile Include="Camera\Interfaces\IZoom.cs" />
     <Compile Include="CollisionManagement\CollisionManager.cs" />
     <Compile Include="CollisionManagement\Interfaces\ICollidable.cs" />
@@ -99,6 +99,7 @@
     <Compile Include="InputManagement\KeyboardManager.cs" />
     <Compile Include="InputManagement\MouseManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SceneManagement\CutsceneGraph.cs" />
     <Compile Include="SceneManagement\Interfaces\ISceneGraph.cs" />
     <Compile Include="SceneManagement\Interfaces\ISceneManager.cs" />
     <Compile Include="SceneManagement\Interfaces\ISpawn.cs" />

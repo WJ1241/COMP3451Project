@@ -79,7 +79,7 @@ namespace COMP3451Project.RIRRPackage.Entities
         public override void Draw(SpriteBatch pSpriteBatch)
         {
             // DRAW given texture, given location, _sourceRectangle, colour, rotation angle, origin point, scale, effects and draw layer:
-            pSpriteBatch.Draw(_texture, _position, _sourceRectangle, Color.AntiqueWhite, _rotAngle, _drawOrigin, 1f, SpriteEffects.None, 1f);
+            pSpriteBatch.Draw(_texture, _position, _sourceRectangle, Color.White, _rotAngle, _drawOrigin, 1f, SpriteEffects.None, 1f);
         }
 
         #endregion
@@ -194,19 +194,6 @@ namespace COMP3451Project.RIRRPackage.Entities
                 // SET value of _playerNum to incoming value:
                 _playerNum = value;
             }
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF ITERMINATE
-
-        /// <summary>
-        /// Disposes resources to the garbage collector
-        /// </summary>
-        public override void Terminate()
-        {
-            // No functionality, MonoGame deals with object and texture in garbage collector already
         }
 
         #endregion

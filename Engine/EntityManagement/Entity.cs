@@ -261,7 +261,14 @@ namespace OrbitalEngine.EntityManagement
         /// <summary>
         /// Disposes resources to the garbage collector
         /// </summary>
-        public abstract void Terminate();
+        public virtual void Terminate()
+        {
+            // SCHEDULE _removeMe to be executed:
+            _scheduleCommand(_removeMe);
+
+            // SCHEDULE TerminateMe to be executed:
+            _scheduleCommand(_terminateMe);
+        }
 
         #endregion
     }
