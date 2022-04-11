@@ -6,6 +6,7 @@ using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.CustomEventArgs;
 using OrbitalEngine.EntityManagement.Interfaces;
 using OrbitalEngine.Exceptions;
+using OrbitalEngine.States;
 
 namespace COMP3451Project.RIRRPackage.Entities
 {
@@ -14,7 +15,7 @@ namespace COMP3451Project.RIRRPackage.Entities
     /// Authors: Declan Kerby-Collins & William Smith
     /// Date: 04/04/22
     /// </summary>
-    public class NPC : PongEntity, ICollidable, ICollisionListener, IInitialiseParam<Random>
+    public class NPC : PongEntity, ICollidable, ICollisionListener, IInitialiseParam<Random, State>
     {
         #region FIELD VARIABLES
 
@@ -78,9 +79,9 @@ namespace COMP3451Project.RIRRPackage.Entities
         /// Initialises an object with a Random object
         /// </summary>
         /// <param name="pRand"> Random object </param>
-        public void Initialise(Random pRand)
+        /// <param name="pState"> State object </param>
+        public void Initialise(Random pRand, State pState)
         {
-
 
             // IF pRand DOES HAVE an active instance:
             if (pRand != null)
@@ -89,6 +90,18 @@ namespace COMP3451Project.RIRRPackage.Entities
                 _rand = pRand;
             }
             // IF pRand DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("pRand does not have an active instance!");
+            }
+
+            // IF pState DOES HAVE an active instance:
+            if (pState != null)
+            {
+                // INITIALISE _currentState with instance of pState:
+                _currentState = pState;
+            }
             else
             {
                 // THROW a new NullInstanceException(), with corresponding message:

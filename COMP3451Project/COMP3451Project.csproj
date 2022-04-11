@@ -83,6 +83,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Kernel.cs" />
+    <Compile Include="RIRRPackage\Behaviours\ArtefactBehaviour.cs" />
     <Compile Include="RIRRPackage\Behaviours\Interfaces\IScoreGoal.cs" />
     <Compile Include="RIRRPackage\Entities\Artefact.cs" />
     <Compile Include="RIRRPackage\Entities\LevelChange.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="RIRRPackage\PongReferee.cs" />
     <Compile Include="RIRRPackage\Scene\Level.cs" />
     <Compile Include="RIRRPackage\Scene\VNScreen.cs" />
+    <Compile Include="RIRRPackage\States\ArtefactState.cs" />
     <Compile Include="RIRRPackage\States\BallState.cs" />
     <Compile Include="RIRRPackage\States\NPCState.cs" />
     <Compile Include="RIRRPackage\States\PaddleState.cs" />

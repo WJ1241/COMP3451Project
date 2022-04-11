@@ -36,29 +36,6 @@ namespace COMP3451Project.RIRRPackage.Behaviours
         #endregion
 
 
-        #region ROAMING
-        // BEHAVIOUR for when npc is unaware of the player
-
-        private void Roaming()
-        {
-            // decides if to move
-        }
-
-        #endregion
-
-
-        #region HUNTING
-        // BEHAVIOUR for when npc is aware of the player
-        private void Hunting()
-        {
-
-        }
-
-
-        #endregion
-
-
-
         #region INHERITED FROM PONGBEHAVIOUR
 
         /// <summary>
@@ -140,14 +117,7 @@ namespace COMP3451Project.RIRRPackage.Behaviours
             // IF moving left:
             if ((_entity as IVelocity).Velocity.X < 0)
             {
-                // IF speed DOES NOT exceed lower bound of other ICollidable's TextureSize.X - 1 as a negative:
-                // PREVENTS CLIPPING
-                //if ((_entity as IVelocity).Velocity.X >= ((pArgs.RequiredArg as ITexture).TextureSize.X - 1) * -1)
-                //{
-                //    // MINUS 0.2 multiplied by _RequiredArg's Velocity, from _velocity:
-                //    _velocity.X = _velocity.X - 0.2f * (pArgs.RequiredArg as IVelocity).Velocity.Length();
-                //}
-
+                
                 // IF _entity(NPC) velocity.X is greater than or equal to pArgs(Player) textureSize.X minus 1:
                 if ((_entity as IVelocity).Velocity.X >= (pArgs.RequiredArg as ITexture).TextureSize.X - 1)
                 {
