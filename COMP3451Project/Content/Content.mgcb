@@ -43,11 +43,6 @@
 /processorParam:Quality=Best
 /build:ExampleLevel/Score.wav
 
-#begin ExampleLevel/SP.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:ExampleLevel/SP.mp3
 
 #begin ExampleLevel/square.png
 /importer:TextureImporter
