@@ -44,11 +44,13 @@
   <ItemGroup>
     <Compile Include="Audio\Interfaces\IAudioCommand.cs" />
     <Compile Include="Audio\Interfaces\IPlayAudio.cs" />
+    <Compile Include="Audio\Interfaces\ISongManager.cs" />
     <Compile Include="Audio\SFXManager.cs" />
     <Compile Include="Audio\SongManager.cs" />
     <Compile Include="Behaviours\Animation\Animation.cs" />
     <Compile Include="Behaviours\Animation\Interfaces\IAnimation.cs" />
     <Compile Include="Behaviours\Behaviour.cs" />
+    <Compile Include="Behaviours\CollidableBehaviour.cs" />
     <Compile Include="Behaviours\Interfaces\IEventListener.cs" />
     <Compile Include="Behaviours\UpdatableBehaviour.cs" />
     <Compile Include="Camera\Behaviours\CameraBehaviour.cs" />
@@ -59,7 +61,8 @@
     <Compile Include="CollisionManagement\Interfaces\ICollidable.cs" />
     <Compile Include="CollisionManagement\Interfaces\ICollisionListener.cs" />
     <Compile Include="CollisionManagement\Interfaces\ICollisionManager.cs" />
-    <Compile Include="CoreInterfaces\IChangeColour.cs" />
+    <Compile Include="CoreInterfaces\IChangeTexColour.cs" />
+    <Compile Include="CoreInterfaces\IChangePosition.cs" />
     <Compile Include="CoreInterfaces\IContainBoundary.cs" />
     <Compile Include="CoreInterfaces\IDirection.cs" />
     <Compile Include="CoreInterfaces\IDraw.cs" />
@@ -83,6 +86,7 @@
     <Compile Include="CustomEventArgs\UpdateEventArgs.cs" />
     <Compile Include="EntityManagement\DrawableEntity.cs" />
     <Compile Include="EntityManagement\DrawableRectangleEntity.cs" />
+    <Compile Include="EntityManagement\DynamicCollidableEntity.cs" />
     <Compile Include="EntityManagement\Entity.cs" />
     <Compile Include="EntityManagement\EntityManager.cs" />
     <Compile Include="EntityManagement\Interfaces\IEntity.cs" />

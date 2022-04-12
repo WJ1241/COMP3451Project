@@ -31,6 +31,13 @@ namespace OrbitalEngine.SceneManagement.Interfaces
         void CreateCutscene(string pCutsceneName, ICommand pResetSceneCommand);
 
         /// <summary>
+        /// Removes current level references and loads the next level for the user
+        /// </summary>
+        /// <param name="pPrevLevel"> Name of previous level </param>
+        /// <param name="pNextLevel"> Name of next level </param>
+        void LoadNextLevel(string pPrevLevel, string pNextLevel);
+
+        /// <summary>
         /// Removes a Scene/Cutscene specified by its Name
         /// </summary>
         /// <param name="pSceneName"> Name of Scene </param>

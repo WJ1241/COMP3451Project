@@ -6,6 +6,7 @@ using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.Exceptions;
 using OrbitalEngine.InputManagement.Interfaces;
 using OrbitalEngine.States.Interfaces;
+using COMP3451Project.RIRRPackage.Entities.Interfaces;
 using COMP3451Project.RIRRPackage.Interfaces;
 
 namespace COMP3451Project.RIRRPackage.Entities
@@ -15,7 +16,7 @@ namespace COMP3451Project.RIRRPackage.Entities
     /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 11/04/22
     /// </summary>
-    public class Player : RIRREntity, IPlayer, IChangeTexColour, ICollidable, ICollisionListener, IDrawSourceRectangle, IGetSpeed, IHaveObjective, IKeyboardListener
+    public class Player : RIRREntity, IPlayer, IChangeTexColour, ICollidable, ICollisionListener, IDrawSourceRectangle, IGetSpeed, IHaveHealth, IHaveObjective, IKeyboardListener
     {
         #region FIELD VARIABLES
 
@@ -27,6 +28,12 @@ namespace COMP3451Project.RIRRPackage.Entities
 
         // DECLARE a bool, name it '_objectiveComplete':
         private bool _objectiveComplete;
+
+        // DECLARE an int, name it '_maxHealthPoints':
+        private int _maxHealthPoints;
+
+        // DECLARE an int, name it '_healthPoints':
+        private int _healthPoints;
 
         #endregion
 
@@ -46,6 +53,12 @@ namespace COMP3451Project.RIRRPackage.Entities
 
             // INITIALISE _speed with a value of '1':
             _speed = 1;
+
+            // INITIALISE maxHealthPoints with a value of '3':
+            _maxHealthPoints = 3;
+
+            // INITIALISE _healthPoints with value of _maxHealthPoints:
+            _healthPoints = _maxHealthPoints;
         }
 
         #endregion
@@ -170,6 +183,45 @@ namespace COMP3451Project.RIRRPackage.Entities
             {
                 // RETURN value of speed:
                 return _speed;
+            }
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IHAVEHEALTH
+
+        /// <summary>
+        /// Property which has read and write access to an implementation's health points
+        /// </summary>
+        public int HealthPoints
+        {
+            get
+            {
+                // RETURN value of _healthPoints:
+                return _healthPoints;
+            }
+            set
+            {
+                // SET value of _healthPoints to incoming value:
+                _healthPoints = value;
+            }
+        }
+
+        /// <summary>
+        /// Property which has read and write access to an implementation's maximum health points
+        /// </summary>
+        public int MaxHealthPoints
+        {
+            get
+            {
+                // RETURN value of _maxHealthPoints:
+                return _maxHealthPoints;
+            }
+            set
+            {
+                // SET value of _maxHealthPoints to incoming value:
+                _maxHealthPoints = value;
             }
         }
 

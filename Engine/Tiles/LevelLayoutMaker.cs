@@ -143,11 +143,13 @@ namespace OrbitalEngine.Tiles
                                     // IF Layer name is "Items" for the artefacts:
                                     else if (pTileMap.Layers[i].Name == "Items")
                                     {
-                                        // SET FirstParam of _createEntDict["SimpleCollidableEntity"] to "Items" + j:
-                                        (_createEntDict["SimpleCollidableEntity"] as IFuncCommandOneParam<string, IEntity>).FirstParam = "Items" + j;
+                                        // SET FirstParam of _createEntDict["DynamicCollidableEntity"] to "Item" + j:
+                                        (_createEntDict["DynamicCollidableEntity"] as IFuncCommandOneParam<string, IEntity>).FirstParam = "Item" + j;
 
-                                        // INITIALISE tempEntity with return value from _createEntDict["SimpleCollidableEntity"].ExecuteMethod():
-                                        tempEntity = _createEntDict["SimpleCollidableEntity"].ExecuteMethod();
+                                        Console.WriteLine("J = " + j);
+
+                                        // INITIALISE tempEntity with return value from _createEntDict["DynamicCollidableEntity"].ExecuteMethod():
+                                        tempEntity = _createEntDict["DynamicCollidableEntity"].ExecuteMethod();
 
                                         // SET Layer Property value of tempEntity to 4:
                                         (tempEntity as ILayer).Layer = 4;
@@ -155,11 +157,11 @@ namespace OrbitalEngine.Tiles
                                     // IF Layer name is "LevelChange" for level transition:
                                     else if (pTileMap.Layers[i].Name == "LevelChange")
                                     {
-                                        // SET FirstParam of _createEntDict["SimpleCollidableEntity"] to "LevelChange" + j:
-                                        (_createEntDict["SimpleCollidableEntity"] as IFuncCommandOneParam<string, IEntity>).FirstParam = "LevelChange" + j;
+                                        // SET FirstParam of _createEntDict["DynamicCollidableEntity"] to "LevelChange" + j:
+                                        (_createEntDict["DynamicCollidableEntity"] as IFuncCommandOneParam<string, IEntity>).FirstParam = "LevelChange" + j;
 
-                                        // INITIALISE tempEntity with return value from _createEntDict["SimpleCollidableEntity"].ExecuteMethod():
-                                        tempEntity = _createEntDict["SimpleCollidableEntity"].ExecuteMethod();
+                                        // INITIALISE tempEntity with return value from _createEntDict["DynamicCollidableEntity"].ExecuteMethod():
+                                        tempEntity = _createEntDict["DynamicCollidableEntity"].ExecuteMethod();
 
                                         // SET Layer Property value of tempEntity to 5:
                                         (tempEntity as ILayer).Layer = 5;

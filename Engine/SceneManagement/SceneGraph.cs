@@ -20,7 +20,7 @@ namespace OrbitalEngine.SceneManagement
     /// Date: 11/04/22
     /// </summary>
     /// <REFERENCE> Abuhakmeh, K. (2009) XNA 2D Camera Engine That Follows Sprite. Available at: https://stackoverflow.com/questions/712296/xna-2d-camera-engine-that-follows-sprite. (Accessed: 20 April 2021). </REFERENCE>
-    public class SceneGraph : ISceneGraph, IDraw, IEventListener<MatrixEventArgs>, IInitialiseParam<ICollisionManager>, IInitialiseParam<IDictionary<string, IEntity>>, IInitialiseParam<IFuncCommand<ICommand>>,
+    public class SceneGraph : ISceneGraph, IDraw, IEventListener<MatrixEventArgs>, IInitialiseParam<ICollisionManager>, IInitialiseParam<IDictionary<string, IEntity>>, IInitialiseParam<IFuncCommand<ICommand>>, IName,
         ISpawn, IUpdatable
     {
         #region FIELD VARIABLES
@@ -33,6 +33,9 @@ namespace OrbitalEngine.SceneManagement
 
         // DECLARE a Matrix, name it '_zoomFollowMatrix':
         private Matrix _zoomFollowMatrix;
+
+        // DECLARE a string, name it '_sceneName':
+        private string _sceneName;
 
         #endregion
 
@@ -216,6 +219,28 @@ namespace OrbitalEngine.SceneManagement
             {
                 // THROW a new NullInstanceException(), with corresponding message:
                 throw new NullInstanceException("ERROR: pFuncCommand does not have an active instance!");
+            }
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF INAME
+
+        /// <summary>
+        /// Property which allows read and write access to the value of an object's specific name
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                // RETURN value of _sceneName:
+                return _sceneName;
+            }
+            set
+            {
+                // SET value of _sceneName to incoming value:
+                _sceneName = value;
             }
         }
 

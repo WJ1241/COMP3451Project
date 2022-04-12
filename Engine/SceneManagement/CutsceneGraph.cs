@@ -13,7 +13,7 @@ namespace OrbitalEngine.SceneManagement
     /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 11/04/22
     /// </summary>
-    public class CutsceneGraph : ISceneGraph, IDraw//, IInitialiseParam<IDictionary<string, IDictionary<int, Texture2D>>>, IInitialiseParam<SpriteFont>, IInitialiseParam<IDictionary<int, string>>, IUpdatable
+    public class CutsceneGraph : ISceneGraph, IDraw//, IInitialiseParam<IDictionary<string, IDictionary<int, Texture2D>>>, IInitialiseParam<SpriteFont>, IInitialiseParam<IDictionary<int, string>>, IName, ISpawn, IUpdatable
     {
         #region FIELD VARIABLES
 

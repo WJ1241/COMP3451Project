@@ -40,7 +40,7 @@ namespace OrbitalEngine.States
         /// Called by Collision Manager when two entities collide
         /// </summary>
         /// <param name="pScndCollidable">Other entity implementing ICollidable</param>
-        public void OnCollision(ICollidable pScndCollidable)
+        public virtual void OnCollision(ICollidable pScndCollidable)
         {
             // SET RequiredArg Property value of (_argsDict["CollisionEventArgs"] to reference to pScndCollidable:
             (_argsDict["CollisionEventArgs"] as CollisionEventArgs).RequiredArg = pScndCollidable;

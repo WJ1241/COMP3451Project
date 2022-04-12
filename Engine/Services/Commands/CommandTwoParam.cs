@@ -10,7 +10,7 @@ namespace OrbitalEngine.Services.Commands
     /// </summary>
     /// <typeparam name="T"> Generic Type 'T' </typeparam>
     /// <typeparam name="U"> Generic Type 'U' </typeparam>
-    public class CommandTwoParam<T, U> : ICommandTwoParam<T, U>
+    public class CommandOneParam<T, U> : ICommandTwoParam<T, U>
     {
         #region FIELD VARIABLES
 

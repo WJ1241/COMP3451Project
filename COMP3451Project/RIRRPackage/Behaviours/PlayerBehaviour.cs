@@ -25,12 +25,6 @@ namespace COMP3451Project.RIRRPackage.Behaviours
         // DECLARE a Vector2, name it '_direction':
         private Vector2 _direction;
 
-        // DECLARE a static bool, name it '_damaged':
-        private static bool _damaged;
-
-        // DECLARE a static int, name it '_dmgTimer':
-        private static int _dmgTimer;
-
         #endregion
 
 
@@ -41,11 +35,7 @@ namespace COMP3451Project.RIRRPackage.Behaviours
         /// </summary>
         public PlayerBehaviour()
         {
-            // SET _damaged to false:
-            _damaged = false;
-
-            // INITIALISE _dmgTimer with a value of '0':
-            _dmgTimer = 0;
+            // EMPTY CONSTRUCTOR
         }
 
         #endregion
@@ -89,13 +79,6 @@ namespace COMP3451Project.RIRRPackage.Behaviours
                 // CALL StopMovement(), passing pArgs.RequiredArg as a parameter:
                 StopMovement(pArgs.RequiredArg);
             }
-
-            // IF pArgs.RequiredArg is on layer 4 and _damaged is FALSE:
-            if ((pArgs.RequiredArg as ILayer).Layer == 5 && !_damaged)
-            {
-                // CALL DamagePlayer(), passing pArgs.RequiredArg as a parameter:
-                DamagePlayer(pArgs.RequiredArg);
-            }
         }
 
         #endregion
@@ -118,9 +101,6 @@ namespace COMP3451Project.RIRRPackage.Behaviours
 
             // ADD & APPLY velocity to current position:
             _entity.Position += _velocity;
-
-            // CALL CheckPlayerHealth():
-            CheckPlayerHealth();
 
             // CALL UpdateFollowEntity():
             UpdateFollowEntity();
@@ -155,56 +135,6 @@ namespace COMP3451Project.RIRRPackage.Behaviours
 
 
         #region PRIVATE METHODS
-
-        /// <summary>
-        /// Called to see if Player has run out of HP and to check if they are damaged
-        /// </summary>
-        /// <CITATION> (Smith, 2021) </CITATION>
-        private void CheckPlayerHealth()
-        {
-            // IF _damaged is TRUE:
-            if (_damaged)
-            {
-                // SET colour of _entity to Red:
-                (_entity as IChangeTexColour).TexColour = Color.IndianRed;
-
-                // INCREMENT _dmgTimer by '1':
-                _dmgTimer++;
-
-                // IF _dmgTimer is greater or equal to 60, used due to 60 FPS in Framework:
-                if (_dmgTimer >= 60)
-                {
-                    // RESET _dmgTimer to '0':
-                    _dmgTimer = 0;
-
-                    // SET _damaged to false:
-                    _damaged = false;
-                }
-            }
-            // IF _damaged is FALSE:
-            else
-            {
-                // IF _entity's TexColour IS NOT White:
-                if ((_entity as IChangeTexColour).TexColour != Color.White)
-                {
-                    // SET TexColour Property value of _entity to White:
-                    (_entity as IChangeTexColour).TexColour = Color.White;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Damages the Player and reduces HP
-        /// </summary>
-        /// <param name="pScndCollidable"> Value to impact Player's health points with </param>
-        private void DamagePlayer(ICollidable pScndCollidable)
-        {
-            if ((_entity as ICollidable).HitBox.Top + (_entity as IRotation).DrawOrigin.Y <= pScndCollidable.HitBox.Bottom)
-            {
-                // SET _damaged to true:
-                _damaged = true;
-            }
-        }
 
         /// <summary>
         /// When called, stops movement of Player object

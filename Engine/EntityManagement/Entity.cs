@@ -35,8 +35,8 @@ namespace OrbitalEngine.EntityManagement
         // DECLARE a Vector2, name it '_position', stores current location, needed to draw texture when location(x,y) is changed
         protected Vector2 _position;
 
-        // DECLARE a Point, name it '_windowBorder', used for storing screen size:
-        protected Point _windowBorder;
+        // DECLARE a Vector2, name it '_windowBorder', used for storing screen size:
+        protected Vector2 _windowBorder;
 
         // DECLARE an int, name it '_layer', used to determine collision layer:
         protected int _layer;
@@ -55,7 +55,7 @@ namespace OrbitalEngine.EntityManagement
         /// <summary>
         /// Property which can get and set value of an entity's position
         /// </summary>
-        public Vector2 Position
+        public virtual Vector2 Position
         {
             get
             {
@@ -239,7 +239,7 @@ namespace OrbitalEngine.EntityManagement
         /// <summary>
         /// Property which has read and write access to the value of screen window borders
         /// </summary>
-        public Point WindowBorder
+        public Vector2 WindowBorder
         {
             get
             {

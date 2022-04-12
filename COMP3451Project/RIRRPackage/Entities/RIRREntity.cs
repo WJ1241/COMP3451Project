@@ -7,7 +7,7 @@ namespace COMP3451Project.RIRRPackage.Entities
     /// <summary>
     /// Class which contains variables and methods for Pong entities to inherit from
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 04/04/22
+    /// Date: 12/04/22
     /// </summary>
     public abstract class RIRREntity : UpdatableEntity, IRotation, IVelocity
     {

@@ -5,7 +5,7 @@ namespace OrbitalEngine.CoreInterfaces
     /// <summary>
     /// Interface that allows implementations to have access to Screen Size
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 21/01/22
+    /// Date: 12/04/22
     /// </summary>
     public interface IContainBoundary
     {
@@ -14,7 +14,7 @@ namespace OrbitalEngine.CoreInterfaces
         /// <summary>
         /// Property which has read and write access to the value of screen window borders
         /// </summary>
-        Point WindowBorder { get; set; }
+        Vector2 WindowBorder { get; set; }
 
         #endregion
     }

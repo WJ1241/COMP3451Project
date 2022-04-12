@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework;
 using OrbitalEngine.Behaviours;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.CustomEventArgs;
+using OrbitalEngine.Exceptions;
+using OrbitalEngine.Services.Commands.Interfaces;
 
 namespace OrbitalEngine.Camera.Behaviours
 {
@@ -11,9 +13,12 @@ namespace OrbitalEngine.Camera.Behaviours
     /// Authors: William Smith & Declan Kerby-Collins 
     /// Date: 11/04/22
     /// </summary>
-    public class CameraBehaviour : UpdatableBehaviour, IInitialiseParam<EventHandler<MatrixEventArgs>>, IInitialiseParam<MatrixEventArgs>
+    public class CameraBehaviour : UpdatableBehaviour, IInitialiseParam<EventHandler<MatrixEventArgs>>, IInitialiseParam<ICommand>, IInitialiseParam<MatrixEventArgs>
     {
         #region FIELD VARIABLES
+
+        // DECLARE an ICommand, name it '_updateFollowEntityCommand':
+        private ICommand _updateFollowEntityCommand;
 
         // DECLARE an EventHandler<MatrixEventArgs>, name it '_camPosChangeEvent':
         private EventHandler<MatrixEventArgs> _camPosChangeEvent;
@@ -48,6 +53,41 @@ namespace OrbitalEngine.Camera.Behaviours
 
             // INVOKE _camPosChangeEvent(), passing this class and _matrixArgs as parameters:
             _camPosChangeEvent.Invoke(this, _matrixArgs);
+
+            // IF _updateFollowEntityCommand HAS NOT been initialised:
+            if (_updateFollowEntityCommand != null)
+            {
+                // INITIALISE FirstParam Property of _updateFollowEntityCommand with value of _entity.Position:
+                (_updateFollowEntityCommand as ICommandOneParam<Vector2>).FirstParam = _entity.Position;
+
+                // SCHEDULE _updateFollowEntityCommand to be executed:
+                (_entity as ICommandSender).ScheduleCommand(_updateFollowEntityCommand);
+            }
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEPARAM<ICOMMAND>
+
+        /// <summary>
+        /// Initialises an object with an ICommand object
+        /// </summary>
+        /// <param name="pCommand"> ICommand object </param>
+        public void Initialise(ICommand pCommand)
+        {
+            // IF pCommand DOES HAVE an active instance:
+            if (pCommand != null)
+            {
+                // INITIALISE _sfxCommand with reference to pCommand:
+                _updateFollowEntityCommand = pCommand;
+            }
+            // IF pCommand DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pCommand does not have an active instance!");
+            }
         }
 
         #endregion

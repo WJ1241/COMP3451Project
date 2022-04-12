@@ -24,8 +24,8 @@ namespace OrbitalEngine.SceneManagement
         // DECLARE an IDictionary<string, ISceneGraph>, name it '_sGDict':
         private IDictionary<string, ISceneGraph> _sGDict;
 
-        // DECLARE an IDictionary<string, ICommand>, name it '_resetSceneDict':
-        private IDictionary<string, ICommand> _resetSceneDict;
+        // DECLARE an IDictionary<string, ICommand>, name it '_sceneLoadDict':
+        private IDictionary<string, ICommand> _sceneLoadDict;
 
         // DECLARE an IFactory<ISceneGraph>, name it '_sGFactory':
         private IFactory<ISceneGraph> _sGFactory;
@@ -64,8 +64,8 @@ namespace OrbitalEngine.SceneManagement
             // ADD _currentScene as a key, and a new SceneGraph() to _sGDict:
             _sGDict.Add(_currentScene, _sGFactory.Create<SceneGraph>());
 
-            // ADD _currentScene as a key, and a reference to pResetSceneCommand to _resetSceneDict:
-            _resetSceneDict.Add(_currentScene, pResetSceneCommand);
+            // ADD _currentScene as a key, and a reference to pResetSceneCommand to _sceneLoadDict:
+            _sceneLoadDict.Add(_currentScene, pResetSceneCommand);
         }
 
         /// <summary>
@@ -81,8 +81,22 @@ namespace OrbitalEngine.SceneManagement
             // ADD _currentScene as a key, and a new CutsceneGraph() to _sGDict:
             _sGDict.Add(_currentScene, _sGFactory.Create<CutsceneGraph>());
 
-            // ADD _currentScene as a key, and a reference to pResetSceneCommand to _resetSceneDict:
-            _resetSceneDict.Add(_currentScene, pResetSceneCommand);
+            // ADD _currentScene as a key, and a reference to pResetSceneCommand to _sceneLoadDict:
+            _sceneLoadDict.Add(_currentScene, pResetSceneCommand);
+        }
+
+        /// <summary>
+        /// Removes current level references and loads the next level for the user
+        /// </summary>
+        /// <param name="pPrevLevel"> Name of previous level </param>
+        /// <param name="pNextLevel"> Name of next level </param>
+        public void LoadNextLevel(string pPrevLevel, string pNextLevel)
+        {
+            // CALL RemoveScene(), passing pPrevLevel as a parameter:
+            RemoveScene(pPrevLevel);
+
+            // CALL ExecuteMethod() on _sceneLoadDict[pNextLevel]:
+            _sceneLoadDict[pNextLevel].ExecuteMethod();
         }
 
         /// <summary>
@@ -94,8 +108,8 @@ namespace OrbitalEngine.SceneManagement
             // REMOVE ISceneGraph instance stored using pSceneName from _sGDict:
             _sGDict.Remove(pSceneName);
 
-            // REMOVE ICommand instance stored using pSceneName from _resetSceneDict:
-            _resetSceneDict.Remove(pSceneName);
+            // REMOVE ICommand instance stored using pSceneName from _sceneLoadDict:
+            _sceneLoadDict.Remove(pSceneName);
         }
 
         /// <summary>
@@ -224,8 +238,8 @@ namespace OrbitalEngine.SceneManagement
             // IF pCommandDict DOES HAVE an active instance:
             if (pCommandDict != null)
             {
-                // INITIALISE _resetSceneDict with reference to pCommandDict:
-                _resetSceneDict = pCommandDict;
+                // INITIALISE _sceneLoadDict with reference to pCommandDict:
+                _sceneLoadDict = pCommandDict;
             }
             // IF pCommandDict DOES NOT HAVE an active instance:
             else

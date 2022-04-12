@@ -10,9 +10,9 @@ namespace OrbitalEngine.Audio
     /// <summary>
     /// Class which stores songs and plays a requested song when needed
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 07/04/22
+    /// Date: 12/04/22
     /// </summary>
-    public class SongManager : IInitialiseParam<IDictionary<string, Song>>, IInitialiseParam<string, Song>, IPlayAudio, IService
+    public class SongManager : ISongManager, IInitialiseParam<IDictionary<string, Song>>, IInitialiseParam<string, Song>, IService
     {
         #region FIELD VARIABLES
 
@@ -112,6 +112,15 @@ namespace OrbitalEngine.Audio
 
             // PLAY song addressed as pSoundFile in _songDict using MediaPlayer:
             MediaPlayer.Play(_songDict[pSoundFile]);
+        }
+
+        /// <summary>
+        /// Stops an audio track from looping or playing over a scene it does not belong in
+        /// </summary>
+        public void StopAudio()
+        {
+            // CALL Stop() on MediaPlayer so that song ends when not needing to play:
+            MediaPlayer.Stop();
         }
 
         #endregion
