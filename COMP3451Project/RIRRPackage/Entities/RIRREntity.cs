@@ -9,7 +9,7 @@ namespace COMP3451Project.RIRRPackage.Entities
     /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 12/04/22
     /// </summary>
-    public abstract class RIRREntity : UpdatableEntity, IRotation, IVelocity
+    public abstract class RIRREntity : UpdatableEntity, IGetSpeed, IRotation, IVelocity
     {
         #region FIELD VARIABLES
 
@@ -27,6 +27,23 @@ namespace COMP3451Project.RIRRPackage.Entities
 
         // DECLARE an int, name it '_speed':
         protected int _speed;
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IGETSPEED
+
+        /// <summary>
+        /// Property which allows read and write access to the value of an entity's Speed
+        /// </summary>
+        public float GetSpeed
+        {
+            get
+            {
+                // RETURN value of speed:
+                return _speed;
+            }
+        }
 
         #endregion
 
@@ -89,6 +106,21 @@ namespace COMP3451Project.RIRRPackage.Entities
             } 
         }
 
-        #endregion 
+        #endregion
+
+
+        #region IMPLEMENTATION OF IUPDATABLE
+
+        /// <summary>
+        /// Updates object when a frame has been rendered on screen
+        /// </summary>
+        /// <param name="pGameTime">holds reference to GameTime object</param>
+        public override void Update(GameTime pGameTime)
+        {
+            // CALL Update() on _currentState, passing pGameTime as a parameter:
+            (_currentState as IUpdatable).Update(pGameTime);
+        }
+
+        #endregion
     }
 }

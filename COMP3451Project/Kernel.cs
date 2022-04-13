@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using COMP3451Project.RIRRPackage.Behaviours;
+using COMP3451Project.RIRRPackage.Entities;
+using COMP3451Project.RIRRPackage.Entities.Interfaces;
+using COMP3451Project.RIRRPackage.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using TiledSharp;
 using OrbitalEngine.Animation;
 using OrbitalEngine.Animation.Interfaces;
 using OrbitalEngine.Audio;
@@ -28,17 +28,17 @@ using OrbitalEngine.SceneManagement;
 using OrbitalEngine.SceneManagement.Interfaces;
 using OrbitalEngine.Services.Commands;
 using OrbitalEngine.Services.Commands.Interfaces;
-using OrbitalEngine.Services.Interfaces;
 using OrbitalEngine.Services.Factories;
 using OrbitalEngine.Services.Factories.Interfaces;
+using OrbitalEngine.Services.Interfaces;
 using OrbitalEngine.States;
 using OrbitalEngine.States.Interfaces;
 using OrbitalEngine.Tiles;
 using OrbitalEngine.Tiles.Interfaces;
-using COMP3451Project.RIRRPackage.Behaviours;
-using COMP3451Project.RIRRPackage.Entities;
-using COMP3451Project.RIRRPackage.States;
-using COMP3451Project.RIRRPackage.Entities.Interfaces;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using TiledSharp;
 
 namespace COMP3451Project
 {
@@ -47,7 +47,7 @@ namespace COMP3451Project
     /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 12/04/22
     /// </summary>
-    public class Kernel : Game, IInitialiseParam<IService>
+    public partial class Kernel : Game, IInitialiseParam<IService>
     {
         #region FIELD VARIABLES
 
@@ -273,7 +273,7 @@ namespace COMP3451Project
                 (levelLM as IInitialiseParam<string, IFuncCommand<IEntity>>).Initialise("NPC", createNPC);
 
                 // DECLARE & INSTANTIATE a new TmxMap(), name it '_map', passing a .tmx file as a parameter:
-                TmxMap map = new TmxMap("..\\..\\..\\..\\Content\\RIRR\\Levels\\Level2.tmx");
+                TmxMap map = new TmxMap("..\\..\\..\\..\\Content\\RIRR\\Levels\\Level1.tmx");
 
                 // DECLARE & INITIALISE a Texture2D, name it '_tilesetTex', give value of _map's Tilesets[0]'s name:
                 Texture2D tilesetTex = Content.Load<Texture2D>("RIRR\\Levels\\Tiles\\" + map.Tilesets[0].Name);
@@ -291,7 +291,7 @@ namespace COMP3451Project
                 // DECLARE & INSTANTIATE an IState as a new CollidableState(), name it 'artefactState':
                 IState artefactState = (_engineManager.GetService<Factory<IState>>() as IFactory<IState>).Create<CollidableState>();
 
-                // INITIALISE camState with a new Dictionary<string, ICommand>():
+                // INITIALISE artefactState with a new Dictionary<string, ICommand>():
                 (artefactState as IInitialiseParam<IDictionary<string, ICommand>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, ICommand>>() as IDictionary<string, ICommand>);
 
                 // INITIALISE artefactState with a new Dictionary<string, EventArgs>():
@@ -305,7 +305,7 @@ namespace COMP3451Project
 
                 #region BEHAVIOUR
 
-                // DECLARE & INSTANTIATE an IBehaviour as a new CameraBehaviour(), name it 'artefactBehaviour':
+                // DECLARE & INSTANTIATE an IBehaviour as a new ArtefactBehaviour(), name it 'artefactBehaviour':
                 IEventListener<CollisionEventArgs> artefactBehaviour = (_engineManager.GetService<Factory<IEventListener<CollisionEventArgs>>>() as IFactory<IEventListener<CollisionEventArgs>>).Create<ArtefactBehaviour>();
 
                 // INITIALISE artefactState with a reference to artefactBehaviour:
@@ -316,14 +316,69 @@ namespace COMP3451Project
 
                 #region ENTITY
 
-                // INITIALISE "Item909" with a reference to artefactState:
-                // NAMED 909 DUE TO PLACEMENT IN TILED FILE
-                (entityManager.GetDictionary()["Item909"] as IInitialiseParam<IState>).Initialise(artefactState);
+                // INITIALISE "Item450" with a reference to artefactState:
+                // NAMED 450 DUE TO PLACEMENT IN TILED FILE
+                (entityManager.GetDictionary()["Item450"] as IInitialiseParam<IState>).Initialise(artefactState);
 
-                // INITIALISE "Item909" with reference to artefactBehaviour:
-                (entityManager.GetDictionary()["Item909"] as IInitialiseParam<IEventListener<CollisionEventArgs>>).Initialise(artefactBehaviour);
+                // INITIALISE "Item450" with reference to artefactBehaviour:
+                (entityManager.GetDictionary()["Item450"] as IInitialiseParam<IEventListener<CollisionEventArgs>>).Initialise(artefactBehaviour);
 
                 #endregion
+
+                #endregion
+
+                #endregion
+
+
+                #region LAYER 5 - LEVEL CHANGE
+
+                #region LEVEL CHANGE
+
+                #region STATES
+
+                // DECLARE & INSTANTIATE an IState as a new CollidableState(), name it 'levelChangeState':
+                IState levelChangeState = (_engineManager.GetService<Factory<IState>>() as IFactory<IState>).Create<CollidableState>();
+
+                // INITIALISE levelChangeState with a new Dictionary<string, ICommand>():
+                (levelChangeState as IInitialiseParam<IDictionary<string, ICommand>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, ICommand>>() as IDictionary<string, ICommand>);
+
+                // INITIALISE levelChangeState with a new Dictionary<string, EventArgs>():
+                (levelChangeState as IInitialiseParam<IDictionary<string, EventArgs>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, EventArgs>>() as IDictionary<string, EventArgs>);
+
+                // INITIALISE levelChangeState with a new CollisionEventArgs():
+                (levelChangeState as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<CollisionEventArgs>());
+
+                #endregion
+
+
+                #region BEHAVIOUR
+
+                // DECLARE & INSTANTIATE an IBehaviour as a new LevelChangeBehaviour(), name it 'levelChangeBehaviour':
+                IEventListener<CollisionEventArgs> levelChangeBehaviour = (_engineManager.GetService<Factory<IEventListener<CollisionEventArgs>>>() as IFactory<IEventListener<CollisionEventArgs>>).Create<LevelChangeBehaviour>();
+
+                // INITIALISE artefactState with a reference to levelChangeBehaviour:
+                (levelChangeState as IInitialiseParam<IEventListener<CollisionEventArgs>>).Initialise(levelChangeBehaviour);
+
+                // DECLARE & INSTANTIATE an ICommand as a new CommandOneParam<string>, name it 'nextLevelCommand':
+                ICommand nextLevelCommand = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandOneParam<string>>();
+
+                // INITIALISE nextLevelCommand's MethodRef Property with a reference to sceneManager.ReturnCurrentScene().GoToNextScene:
+                (nextLevelCommand as ICommandOneParam<string>).MethodRef = sceneManager.ReturnCurrentScene().GoToNextScene;
+
+                // INITIALISE levelChangeBehaviour with a reference to levelChangeCommand:
+                (levelChangeBehaviour as IInitialiseParam<ICommand>).Initialise(nextLevelCommand);
+
+                #endregion
+
+
+                #region ENTITY
+
+                // INITIALISE "LevelChange38" with a reference to levelChangeState:
+                // NAMED 38 DUE TO PLACEMENT IN TILED FILE
+                (entityManager.GetDictionary()["LevelChange38"] as IInitialiseParam<IState>).Initialise(levelChangeState);
+
+                // INITIALISE "LevelChange38" with reference to levelChangeBehaviour:
+                (entityManager.GetDictionary()["LevelChange38"] as IInitialiseParam<IEventListener<CollisionEventArgs>>).Initialise(levelChangeBehaviour);
 
                 #endregion
 
@@ -342,9 +397,6 @@ namespace COMP3451Project
 
                 // DECLARE & INSTANTIATE an IState as a new UpdatableState(), name it 'camState':
                 IState camState = (_engineManager.GetService<Factory<IState>>() as IFactory<IState>).Create<UpdatableState>();
-
-                // INITIALISE camState with a new Dictionary<string, ICommand>():
-                (camState as IInitialiseParam<IDictionary<string, ICommand>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, ICommand>>() as IDictionary<string, ICommand>);
 
                 // INITIALISE camState with a new Dictionary<string, EventArgs>():
                 (camState as IInitialiseParam<IDictionary<string, EventArgs>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, EventArgs>>() as IDictionary<string, EventArgs>);
@@ -754,19 +806,19 @@ namespace COMP3451Project
 
                 #region INSTANTIATIONS
 
-                // DECLARE & INSTANTIATE an IEventListener<UpdateEventArgs> as a new Animation(), name it 'animationStationary':
+                // DECLARE & INSTANTIATE an IAnimation as a new Animation(), name it 'animationStationary':
                 IAnimation animationStationary = (_engineManager.GetService<Factory<IAnimation>>() as IFactory<IAnimation>).Create<Animation>();
 
-                // DECLARE & INSTANTIATE an IEventListener<UpdateEventArgs> as a new Animation(), name it 'animationUp':
+                // DECLARE & INSTANTIATE an IAnimation as a new Animation(), name it 'animationUp':
                 IAnimation animationUp = (_engineManager.GetService<Factory<IAnimation>>() as IFactory<IAnimation>).Create<Animation>();
 
-                // DECLARE & INSTANTIATE an IEventListener<UpdateEventArgs> as a new Animation(), name it 'animationDown':
+                // DECLARE & INSTANTIATE an IAnimation as a new Animation(), name it 'animationDown':
                 IAnimation animationDown = (_engineManager.GetService<Factory<IAnimation>>() as IFactory<IAnimation>).Create<Animation>();
 
-                // DECLARE & INSTANTIATE an IEventListener<UpdateEventArgs> as a new Animation(), name it 'animationLeft':
+                // DECLARE & INSTANTIATE an IAnimation as a new Animation(), name it 'animationLeft':
                 IAnimation animationLeft = (_engineManager.GetService<Factory<IAnimation>>() as IFactory<IAnimation>).Create<Animation>();
 
-                // DECLARE & INSTANTIATE an IEventListener<UpdateEventArgs> as a new Animation(), name it 'animationRight':
+                // DECLARE & INSTANTIATE an IAnimation as a new Animation(), name it 'animationRight':
                 IAnimation animationRight = (_engineManager.GetService<Factory<IAnimation>>() as IFactory<IAnimation>).Create<Animation>();
 
                 #endregion
@@ -988,7 +1040,7 @@ namespace COMP3451Project
                 (entityManager.GetDictionary()["Player1"] as IInitialiseParam<IEventListener<UpdateEventArgs>>).Initialise(animationUp as IEventListener<UpdateEventArgs>);
 
                 /// DOWN
-                
+
                 // INITIALISE "Player1" with reference to behaviourDown:
                 (entityManager.GetDictionary()["Player1"] as IInitialiseParam<IEventListener<UpdateEventArgs>>).Initialise(behaviourDown);
 
@@ -1046,9 +1098,6 @@ namespace COMP3451Project
 
                 // SET WindowBorder of "Player1" to value of _screenSize:
                 (entityManager.GetDictionary()["Player1"] as IContainBoundary).WindowBorder = _screenSize;
-
-                // SET Layer of "Player1" to 6:
-                (entityManager.GetDictionary()["Player1"] as ILayer).Layer = 6;
 
                 #endregion
 
@@ -1249,7 +1298,7 @@ namespace COMP3451Project
                 (tempStateRight as IInitialiseParam<string, ICommand>).Initialise((tempStateDownRight as IName).Name, stateDownRightChange);
 
                 /// UP-LEFT
-                
+
                 // SET MethodRef Property value of stateUpLeftChange to reference of "Player1"'s SetState() method:
                 (stateUpLeftChange as ICommandOneParam<IState>).MethodRef = (entityManager.GetDictionary()["Player1"] as IEntityInternal).SetState;
 
@@ -1381,6 +1430,109 @@ namespace COMP3451Project
 
                 #endregion
 
+
+                #region NPCS
+
+                #region NPC 1
+
+                #region STATES
+
+                // DECLARE & INSTANTIATE an IState as a new UpdatableCollidableState(), name it 'npcState':
+                IState npcState = (_engineManager.GetService<Factory<IState>>() as IFactory<IState>).Create<UpdatableCollidableState>();
+
+                // INITIALISE npcState with a new Dictionary<string, EventArgs>():
+                (npcState as IInitialiseParam<IDictionary<string, EventArgs>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, EventArgs>>() as IDictionary<string, EventArgs>);
+
+                // INITIALISE npcState with a new UpdateEventArgs():
+                (npcState as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<UpdateEventArgs>());
+
+                // INITIALISE npcState with a new CollisionEventArgs():
+                (npcState as IInitialiseParam<EventArgs>).Initialise((_engineManager.GetService<Factory<EventArgs>>() as IFactory<EventArgs>).Create<CollisionEventArgs>());
+
+                #endregion
+
+
+                #region BEHAVIOUR
+
+                // DECLARE & INSTANTIATE an IEventListener<UpdateEventArgs> as a new NPCBehaviour(), name it 'npcBehaviour':
+                IEventListener<UpdateEventArgs> npcBehaviour = (_engineManager.GetService<Factory<IEventListener<UpdateEventArgs>>>() as IFactory<IEventListener<UpdateEventArgs>>).Create<NPCBehaviour>();
+
+                // INITIALISE npcBehaviour with a new Dictionary<string, EventHandler<UpdateEventArgs>>():
+                (npcBehaviour as IInitialiseParam<IDictionary<string, EventHandler<UpdateEventArgs>>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>)
+                    .Create<Dictionary<string, EventHandler<UpdateEventArgs>>>() as IDictionary<string, EventHandler<UpdateEventArgs>>);
+
+                // INITIALISE npcBehaviour Direction Property with a new Vector2(0, -0.1f):
+                (npcBehaviour as IDirection).Direction = new Vector2(-1, 0);
+
+                // INITIALISE npcState with a reference to npcBehaviour:
+                (npcState as IInitialiseParam<IEventListener<UpdateEventArgs>>).Initialise(npcBehaviour);
+
+                #region ANIMATIONS
+
+                /// UP
+
+                // INSTANTIATE animationUp as a new Animation():
+                animationUp = (_engineManager.GetService<Factory<IAnimation>>() as IFactory<IAnimation>).Create<Animation>();
+
+                // SET Texture Property value of animationUp to "Gerald":
+                (animationUp as ITexture).Texture = Content.Load<Texture2D>("RIRR/GameSprites/Thug_03");
+
+                // SET Row Property value of animationUp to '14, 18':
+                animationUp.SpriteSize = new Point(14, 18);
+
+                // SET Row Property value of animationUp to '2':
+                animationUp.Row = 2;
+
+                // SET MsPerFrame Property value of animationUp to '175':
+                animationUp.MsPerFrame = 175;
+
+                /// DOWN
+
+                // INSTANTIATE animationDown as a new Animation():
+                animationDown = (_engineManager.GetService<Factory<IAnimation>>() as IFactory<IAnimation>).Create<Animation>();
+
+                // SET Texture Property value of animationDown to "Gerald":
+                (animationDown as ITexture).Texture = Content.Load<Texture2D>("RIRR/GameSprites/Thug_03");
+
+                // SET Row Property value of animationDown to '14, 18':
+                animationDown.SpriteSize = new Point(14, 18);
+
+                // SET Row Property value of animationDown to '1':
+                animationDown.Row = 1;
+
+                // SET MsPerFrame Property value of animationDown to '175':
+                animationDown.MsPerFrame = 175;
+
+                #endregion
+
+                #endregion
+
+
+                #region ENTITY
+
+                // INITIALISE "NPC1" with a reference to npcState:
+                (entityManager.GetDictionary()["NPC1"] as IInitialiseParam<IState>).Initialise(npcState);
+
+                // INITIALISE "NPC1" with a reference to npcBehaviour:
+                (entityManager.GetDictionary()["NPC1"] as IInitialiseParam<IEventListener<UpdateEventArgs>>).Initialise(npcBehaviour);
+
+                // SET TextureSize Property value of "NPC1" to a new Point() passing animationStationary.SpriteSize as a parameter:
+                (entityManager.GetDictionary()["NPC1"] as ITexture).TextureSize = new Point(animationStationary.SpriteSize.X, animationStationary.SpriteSize.Y);
+
+                // SET DrawOrigin of "NPC1" to value of centre of animation.SpriteSize.X / 2:
+                (entityManager.GetDictionary()["NPC1"] as IRotation).DrawOrigin = new Vector2(animationStationary.SpriteSize.X / 2, animationStationary.SpriteSize.Y / 2);
+
+                // SET WindowBorder of "NPC1" to value of _screenSize:
+                (entityManager.GetDictionary()["NPC1"] as IContainBoundary).WindowBorder = _screenSize;
+
+                #endregion
+
+
+                #endregion
+
+
+                #endregion
+
                 #endregion
 
 
@@ -1470,6 +1622,8 @@ namespace COMP3451Project
 
                 // INITIALISE camBehaviour with a reference to hPBarShroudPosChangeCommand:
                 (camBehaviour as IInitialiseParam<ICommand>).Initialise(hPBarShroudPosChangeCommand);
+
+                #endregion
 
                 #endregion
 
@@ -1580,10 +1734,32 @@ namespace COMP3451Project
 
             #region LAYER 6 - PLAYER / NPC
 
-            #region PLAYER 1
 
-            // INITIALISE tempEntity reference to "Player1":
-            IEntity tempEntity = (_engineManager.GetService<EntityManager>() as IEntityManager).GetDictionary()["Player1"];
+
+
+            #region NPCS
+
+            #region NPC 1
+
+            // DECLARE & INITIALISE and IEntity with reference to "NPC1", name it 'tempEntity':
+            IEntity tempEntity = (_engineManager.GetService<EntityManager>() as IEntityManager).GetDictionary()["NPC1"];
+
+            // LOAD "Thug_03" texture to "Player1":
+            (tempEntity as ITexture).Texture = Content.Load<Texture2D>("RIRR/GameSprites/Thug_03");
+
+            // SPAWN "NPC1" in "Level1" at position created from Tiled:
+            (_engineManager.GetService<SceneManager>() as ISceneManager).Spawn("Level1", tempEntity, tempEntity.Position);
+
+
+            #endregion
+
+            #endregion
+
+
+            #region PLAYER
+
+            // INITIALISE tempEntity with reference to "Player1":
+            tempEntity = (_engineManager.GetService<EntityManager>() as IEntityManager).GetDictionary()["Player1"];
 
             // LOAD "Gerald" texture to "Player1":
             (tempEntity as ITexture).Texture = Content.Load<Texture2D>("RIRR/GameSprites/Gerald");

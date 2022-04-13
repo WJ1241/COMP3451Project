@@ -6,16 +6,41 @@ using OrbitalEngine.CustomEventArgs;
 namespace COMP3451Project.RIRRPackage.Behaviours
 {
     /// <summary>
-    /// Abstract class for Pong Behaviour classes to inherit from
+    /// Abstract class for RIRR Behaviour classes to inherit from
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 11/04/22
+    /// Date: 13/04/22
     /// </summary>
-    public abstract class RIRRBehaviour : UpdatableBehaviour, IVelocity
+    public abstract class RIRRBehaviour : UpdatableBehaviour, IDirection,  IVelocity
     {
         #region FIELD VARIABLES
 
+        // DECLARE a Vector2, name it '_direction':
+        protected Vector2 _direction;
+
         // DECLARE a Vector2, name it '_velocity':
         protected Vector2 _velocity;
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IDIRECTION
+
+        /// <summary>
+        /// Property which allows read and write access to the value of an entity's direction
+        /// </summary>
+        public Vector2 Direction
+        {
+            get
+            {
+                // RETURN value of _direction:
+                return _direction;
+            }
+            set
+            {
+                // SET value of _direction to incoming value:
+                _direction = value;
+            }
+        }
 
         #endregion
 
@@ -29,6 +54,9 @@ namespace COMP3451Project.RIRRPackage.Behaviours
         /// <param name="pArgs"> EventArgs for an Update object </param>
         public override void OnEvent(object pSource, UpdateEventArgs pArgs)
         {
+            // ASSIGNMENT, set value of _velocity to _speed mutlipled by _direction:
+            _velocity = (_entity as IGetSpeed).GetSpeed * _direction;
+
             // SET value of _entity's Velocity Property to value of _velocity:
             (_entity as IVelocity).Velocity = _velocity;
 

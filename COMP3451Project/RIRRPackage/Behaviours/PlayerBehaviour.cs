@@ -11,19 +11,16 @@ namespace COMP3451Project.RIRRPackage.Behaviours
     /// <summary>
     /// Class which defines the behaviour for Player entities
     /// Authors: William Smith & Declan Kerby-Collins 
-    /// Date: 11/04/22
+    /// Date: 13/04/22
     /// </summary>
     /// <REFERENCE> Lewin, N. (2016) MonoGame Tutorial 009 - Sprite Collision Detection and Response. Available at: https://youtu.be/CV8P9aq2gQo?t=480. (Accessed: 9 April 2022). </REFERENCE>
     /// <REFERENCE> Smith, W. (2021) 'Post-Production Milestone'. Assignment for COMP2451 Game Design & Development, Computing BSc (Hons), University of Worcester. Unpublished. </REFERENCE>
-    public class PlayerBehaviour : RIRRBehaviour, IDirection, IEventListener<CollisionEventArgs>, IInitialiseParam<ICommand>
+    public class PlayerBehaviour : RIRRBehaviour, IEventListener<CollisionEventArgs>, IInitialiseParam<ICommand>
     {
         #region FIELD VARIABLES
 
         // DECLARE an ICommand, name it '_updatePosCommand':
         private ICommand _updatePosCommand;
-
-        // DECLARE a Vector2, name it '_direction':
-        private Vector2 _direction;
 
         #endregion
 
@@ -36,28 +33,6 @@ namespace COMP3451Project.RIRRPackage.Behaviours
         public PlayerBehaviour()
         {
             // EMPTY CONSTRUCTOR
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF IDIRECTION
-
-        /// <summary>
-        /// Property which allows read and write access to the value of an entity's direction
-        /// </summary>
-        public Vector2 Direction
-        {
-            get
-            {
-                // RETURN value of _direction:
-                return _direction;
-            }
-            set
-            {
-                // SET value of _direction to incoming value:
-                _direction = value;
-            }
         }
 
         #endregion

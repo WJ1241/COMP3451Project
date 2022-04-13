@@ -4,15 +4,16 @@ using OrbitalEngine.CustomEventArgs;
 using OrbitalEngine.Services.Commands.Interfaces;
 using COMP3451Project.RIRRPackage.Interfaces;
 using OrbitalEngine.Exceptions;
+using OrbitalEngine.CollisionManagement.Interfaces;
 
 namespace COMP3451Project.RIRRPackage.Behaviours
 {
     /// <summary>
     /// Class which defines the behaviour for Level Change entities
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 12/04/22
+    /// Date: 13/04/22
     /// </summary>
-    public class LevelChangeBehaviour : CollidableBehaviour, IInitialiseParam<string>
+    public class LevelChangeBehaviour : CollidableBehaviour, IInitialiseParam<ICommand>, IInitialiseParam<string>
     {
         #region FIELD VARIABLES
 
@@ -21,7 +22,6 @@ namespace COMP3451Project.RIRRPackage.Behaviours
 
         // DECLARE a string, name it '_nextLevel':
         private string _nextLevel;
-
 
         #endregion
 
@@ -49,10 +49,39 @@ namespace COMP3451Project.RIRRPackage.Behaviours
         public override void OnEvent(object pSource, CollisionEventArgs pArgs)
         {
             // IF pArgs.RequiredArg implements IPlayer and has completed their objective:
-            if (pArgs.RequiredArg is IPlayer && (pArgs.RequiredArg as IHaveObjective).ObjectiveComplete)
+            if (pArgs.RequiredArg is IPlayer && (pArgs.RequiredArg as IHaveObjective).ObjectiveComplete
+                && pArgs.RequiredArg.HitBox.Top + (pArgs.RequiredArg as IRotation).DrawOrigin.Y < (_entity as ICollidable).HitBox.Bottom)
             {
+                // INITIALISE _changeLevelCommand's FirstParam Property with value of _nextLevel:
+                (_changeLevelCommand as ICommandOneParam<string>).FirstParam = _nextLevel;
 
-                //(_changeLevelCommand as ICommandOneParam<string>)
+                // SCHEDULE _changeLevelCommand to be executed:
+                _changeLevelCommand.ExecuteMethod();
+            }
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEPARAM<ICOMMAND>
+
+        /// <summary>
+        /// Initialises an object with an ICommand object
+        /// </summary>
+        /// <param name="pCommand"> ICommand object </param>
+        public void Initialise(ICommand pCommand)
+        {
+            // IF pCommand DOES HAVE an active instance:
+            if (pCommand != null)
+            {
+                // INITIALISE _changeLevelCommand with reference to pCommand:
+                _changeLevelCommand = pCommand;
+            }
+            // IF pCommand DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pCommand does not have an active instance!");
             }
         }
 

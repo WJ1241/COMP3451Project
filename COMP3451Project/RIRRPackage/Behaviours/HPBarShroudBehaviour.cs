@@ -65,7 +65,7 @@ namespace COMP3451Project.RIRRPackage.Behaviours
             // IF pCommand DOES HAVE an active instance:
             if (pCommand != null)
             {
-                // INITIALISE _sfxCommand with reference to pCommand:
+                // INITIALISE _updateHPBarPosCommand with reference to pCommand:
                 _updateHPBarPosCommand = pCommand;
             }
             // IF pCommand DOES NOT HAVE an active instance:

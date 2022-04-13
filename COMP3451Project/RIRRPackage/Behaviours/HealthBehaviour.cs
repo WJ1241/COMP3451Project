@@ -58,7 +58,7 @@ namespace COMP3451Project.RIRRPackage.Behaviours
         public void OnEvent(object pSource, CollisionEventArgs pArgs)
         {
             // IF pArgs.RequiredArg is on layer 6 and _damaged is FALSE:
-            if ((pArgs.RequiredArg as ILayer).Layer == 2 && !_damaged)
+            if ((pArgs.RequiredArg as ILayer).Layer == 6 && !_damaged)
             {
                 // CALL Damage(), passing pArgs.RequiredArg as a parameter:
                 Damage(pArgs.RequiredArg);

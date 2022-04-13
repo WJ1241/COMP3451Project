@@ -146,7 +146,8 @@ namespace OrbitalEngine.Tiles
                                         // SET FirstParam of _createEntDict["DynamicCollidableEntity"] to "Item" + j:
                                         (_createEntDict["DynamicCollidableEntity"] as IFuncCommandOneParam<string, IEntity>).FirstParam = "Item" + j;
 
-                                        Console.WriteLine("J = " + j);
+                                        // WRITE Item name to Console, to address Item easily when setting up:
+                                        Console.WriteLine("Item No is: " + j);
 
                                         // INITIALISE tempEntity with return value from _createEntDict["DynamicCollidableEntity"].ExecuteMethod():
                                         tempEntity = _createEntDict["DynamicCollidableEntity"].ExecuteMethod();
@@ -159,6 +160,9 @@ namespace OrbitalEngine.Tiles
                                     {
                                         // SET FirstParam of _createEntDict["DynamicCollidableEntity"] to "LevelChange" + j:
                                         (_createEntDict["DynamicCollidableEntity"] as IFuncCommandOneParam<string, IEntity>).FirstParam = "LevelChange" + j;
+
+                                        // WRITE Item name to Console, to address LevelChange easily when setting up:
+                                        Console.WriteLine("LevelChange No is: " + j);
 
                                         // INITIALISE tempEntity with return value from _createEntDict["DynamicCollidableEntity"].ExecuteMethod():
                                         tempEntity = _createEntDict["DynamicCollidableEntity"].ExecuteMethod();

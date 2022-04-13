@@ -52,10 +52,10 @@ namespace COMP3451Project.RIRRPackage.Behaviours
                 (pArgs.RequiredArg as IHaveObjective).ObjectiveComplete = true;
 
                 // INITIALISE FirstParam Property of _sfxCommand with value of "ObjectiveComplete":
-                (_sfxCommand as ICommandOneParam<string>).FirstParam = "ObjectiveComplete";
+                //(_sfxCommand as ICommandOneParam<string>).FirstParam = "ObjectiveComplete";
 
                 // SCHEDULER _sfxCommand to play:
-                (_entity as ICommandSender).ScheduleCommand(_sfxCommand);
+                // (_entity as ICommandSender).ScheduleCommand(_sfxCommand);
 
                 // CALL Terminate method in Artefact:
                 (_entity as ITerminate).Terminate();

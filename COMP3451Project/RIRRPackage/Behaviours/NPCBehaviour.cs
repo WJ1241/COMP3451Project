@@ -1,7 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using OrbitalEngine.Behaviours.Interfaces;
+using OrbitalEngine.CollisionManagement.Interfaces;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.CustomEventArgs;
+using OrbitalEngine.Exceptions;
 using OrbitalEngine.Services.Commands.Interfaces;
 
 namespace COMP3451Project.RIRRPackage.Behaviours
@@ -9,16 +13,21 @@ namespace COMP3451Project.RIRRPackage.Behaviours
     /// <summary>
     /// Class which defines the behaviour for NPC entities
     /// Authors: William Smith & Declan Kerby-Collins 
-    /// Date: 11/04/22
+    /// Date: 13/04/22
     /// </summary>
-    public class NPCBehaviour : RIRRBehaviour, IEventListener<CollisionEventArgs>
+    public class NPCBehaviour : RIRRBehaviour, IInitialiseParam<IDictionary<string, EventHandler<UpdateEventArgs>>>, IEventListener<CollisionEventArgs>
     {
         #region FIELD VARIABLES
 
+        // DECLARE an IDictionary<string, EventHandler<UpdateEventArgs>>, name it '_animationEventDict':
+        private IDictionary<string, EventHandler<UpdateEventArgs>> _animationEventDict;
+
         // DECLARE an ICommand, name it '_sfxCommand':
         private ICommand _sfxCommand;
+
         // DECLARE an int, name it '_tileSize':
         int _tileSize = 16;
+
         #endregion
 
 
@@ -29,75 +38,10 @@ namespace COMP3451Project.RIRRPackage.Behaviours
         /// </summary>
         public NPCBehaviour()
         {
-            // EMPTY CONSTRUCTOR
         }
 
         #endregion
 
-        /*
-
-        #region INHERITED FROM PONGBEHAVIOUR
-
-        /// <summary>
-        /// Used when an object hits a boundary, possibly to change direction or stop
-        /// </summary>
-        protected override void Boundary()
-        { 
-            
-            //// ASSIGN value of _entity's Velocity to _currentVel:
-            //_velocity = (_entity as IVelocity).Velocity;
-
-            //// IF at top screen edge or bottom screen edge:
-            //if (_entity.Position.Y <= (_entity.Position.Y + 48) || _entity.Position.Y >= (_entity as IContainBoundary).WindowBorder.Y - (_entity as ITexture).TextureSize.Y)
-            //{
-            //    // MULTIPLY _currentVel.Y by '-1':
-            //    _velocity.Y *= -1;
-
-            //    // APPLY new Velocity to _entity.Velocity:
-            //    (_entity as IVelocity).Velocity = _velocity;
-
-            //    // SET Data Property value of _sfxCommand to "WallHit":
-            //    //(_sfxCommand as ICommandOneParam<string>).Data = "WallHit";
-
-            //    // SCHEDULE _sfxCommand to be executed:
-            //    (_entity as ICommandSender).ScheduleCommand(_sfxCommand);
-            //}
-            //// IF at left screen edge or right screen edge:
-            //else if (_entity.Position.X <= 0 || _entity.Position.X >= (_entity as IContainBoundary).WindowBorder.X - (_entity as ITexture).TextureSize.X)
-            //{
-            //    // IF at left screen edge:
-            //    if (_entity.Position.X <= 0)
-            //    {
-            //        // SET Data Property value of _scoreGoal to '2':
-            //        //(_scoreGoal as ICommandOneParam<int>).Data = 2;
-            //    }
-            //    // IF at right screen edge:
-            //    else if (_entity.Position.X >= (_entity as IContainBoundary).WindowBorder.X - (_entity as ITexture).TextureSize.X)
-            //    {
-            //        // SET Data Property value of _scoreGoal to '1':
-            //        //(_scoreGoal as ICommandOneParam<int>).Data = 1;
-            //    }
-
-            //    // SCHEDULE _scoreGoal to be executed:
-            //    //(_entity as ICommandSender).ScheduleCommand(_scoreGoal);
-
-            //    // SET Data Property value of _sfxCommand to "Score":
-            //    //(_sfxCommand as ICommandOneParam<string>).Data = "Score";
-
-            //    // SCHEDULE _sfxCommand to be executed:
-            //    //(_entity as ICommandSender).ScheduleCommand(_sfxCommand);
-
-            //    // SCHEDULE RemoveMe to be executed:
-            //    (_entity as ICommandSender).ScheduleCommand((_entity as IEntityInternal).RemoveMe);
-
-            //    // SCHEDULE TerminateMe to be executed:
-            //    (_entity as ICommandSender).ScheduleCommand((_entity as IEntityInternal).TerminateMe);
-            //}
-        }
-
-        #endregion
-        
-        */
 
         #region IMPLEMENTATION OF IEVENTLISTENER<COLLISIONEVENTARGS>
 
@@ -108,7 +52,81 @@ namespace COMP3451Project.RIRRPackage.Behaviours
         /// <param name="pArgs"> CollisionEventArgs object </param>
         public void OnEvent(object pSource, CollisionEventArgs pArgs)
         {
+            #region OBSTACLE COLLISION
 
+            // IF pArgs.RequiredArg is on Layer 2/3/5:
+            if ((pArgs.RequiredArg as ILayer).Layer == 2 || (pArgs.RequiredArg as ILayer).Layer == 3 || (pArgs.RequiredArg as ILayer).Layer == 5)
+            {
+                // DECLARE & INITIALISE a Vector2 with value of _direction, name it 'tempVel':
+                Vector2 tempDir = _direction;
+
+                // IF _entity has collided with the bottom of the other collidable and is moving UPWARDS:
+                if ((_entity as ICollidable).HitBox.Top + (_entity as IRotation).DrawOrigin.Y <= pArgs.RequiredArg.HitBox.Bottom
+                 && (_entity as ICollidable).HitBox.Bottom >= pArgs.RequiredArg.HitBox.Bottom && _direction.Y < 0)
+                {
+
+                    _entity.Position = new Vector2(_entity.Position.X, pArgs.RequiredArg.HitBox.Bottom);
+
+                    // INVERSE tempDir.Y:
+                    tempDir.Y *= -1;
+                }
+
+                // IF _entity has collided with the top of the other collidable and is moving DOWNWARDS:
+                if ((_entity as ICollidable).HitBox.Bottom >= pArgs.RequiredArg.HitBox.Top
+                    && (_entity as ICollidable).HitBox.Top <= pArgs.RequiredArg.HitBox.Top && _direction.Y > 0)
+                {
+                    // INITIALISE _entity.Position Property to be positioned 
+                    _entity.Position = new Vector2(_entity.Position.X, pArgs.RequiredArg.HitBox.Top - (_entity as IRotation).DrawOrigin.Y);
+
+                    // INVERSE tempDir.Y:
+                    tempDir.Y *= -1;
+                }
+
+                // IF _entity has collided with the right of the other collidable and is moving to the LEFT:
+                if ((_entity as ICollidable).HitBox.Left <= pArgs.RequiredArg.HitBox.Right
+                 && (_entity as ICollidable).HitBox.Right >= pArgs.RequiredArg.HitBox.Right && _direction.X < 0)
+                {
+
+                    _entity.Position = new Vector2(pArgs.RequiredArg.HitBox.Right + (_entity as IRotation).DrawOrigin.X, _entity.Position.Y);
+
+                    // INVERSE tempDir.X:
+                    tempDir.X *= -1;
+                }
+
+                // IF _entity has collided with the left of the other collidable and is moving to the RIGHT:
+                if ((_entity as ICollidable).HitBox.Right >= pArgs.RequiredArg.HitBox.Left
+                 && (_entity as ICollidable).HitBox.Left <= pArgs.RequiredArg.HitBox.Left && _direction.X > 0)
+                {
+
+                    _entity.Position = new Vector2(pArgs.RequiredArg.HitBox.Left - (_entity as IRotation).DrawOrigin.X, _entity.Position.Y);
+
+                    // INVERSE tempDir.X:
+                    tempDir.X *= -1;
+                }
+
+                // INITIALISE _direction with modified tempDir value:
+                _direction = tempDir;
+            }
+
+            #endregion
+
+
+            #region PLAYER COLLISION
+
+            // IF pArgs.RequiredArg implements IPlayer:
+            if ((pArgs.RequiredArg is IPlayer) && pArgs.RequiredArg.HitBox.Top + (pArgs.RequiredArg as IRotation).DrawOrigin.Y < (_entity as ICollidable).HitBox.Bottom)
+            {
+                // INITIALISE FirstParam Property of _sfxCommand with value of "Attack":
+                (_sfxCommand as ICommandOneParam<string>).FirstParam = "Attack";
+
+                // SCHEDULER _sfxCommand to play:
+                (_entity as ICommandSender).ScheduleCommand(_sfxCommand);
+            }
+
+            #endregion
+
+
+            #region OLD TRACKING CODE
 
             // ASIGNMENT _tileSize has its value multiplied by 3, this way we have the value of 3 tiles
             // and can be used for the tile height or width:
@@ -255,6 +273,33 @@ namespace COMP3451Project.RIRRPackage.Behaviours
                     // ASSIGNMENT _entity.Position is set to the value of tempPosition
                     _entity.Position = tempPosition;
                 }
+            }
+
+            #endregion
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEPARAM<IDICTIONARY<STRING, EVENTHANDLER<UPDATEEVENTARGS>>>
+
+        /// <summary>
+        /// Initialises an object with a reference to an IDictionary<string, EventHandler<UpdateEventArgs> instance
+        /// </summary>
+        /// <param name="pUpdateEventDict"> IDictionary<string, EventHandler<UpdateEventArgs> instance </param>
+        public void Initialise(IDictionary<string, EventHandler<UpdateEventArgs>> pUpdateEventDict)
+        {
+            // IF pUpdateEventDict DOES HAVE an active instance:
+            if (pUpdateEventDict != null)
+            {
+                // INITIALISE _animationEventDict with reference to pUpdateEventDict:
+                _animationEventDict = pUpdateEventDict;
+            }
+            // IF pUpdateEventDict DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message():
+                throw new NullInstanceException("ERROR: pUpdateEventDict does not have an active instance!");
             }
         }
 

@@ -36,7 +36,7 @@ namespace OrbitalEngine.EntityManagement
         public void OnCollision(ICollidable pScndCollidable)
         {
             // CALL OnCollision() on _currentState, passing pScndCollidable as a parameter:
-            //(_currentState as ICollisionListener).OnCollision(pScndCollidable);
+            (_currentState as ICollisionListener).OnCollision(pScndCollidable);
         }
 
         #endregion

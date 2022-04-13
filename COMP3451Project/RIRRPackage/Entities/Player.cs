@@ -172,23 +172,6 @@ namespace COMP3451Project.RIRRPackage.Entities
         #endregion
 
 
-        #region IMPLEMENTATION OF IGETSPEED
-
-        /// <summary>
-        /// Property which allows read and write access to the value of an entity's Speed
-        /// </summary>
-        public float GetSpeed
-        {
-            get
-            {
-                // RETURN value of speed:
-                return _speed;
-            }
-        }
-
-        #endregion
-
-
         #region IMPLEMENTATION OF IHAVEHEALTH
 
         /// <summary>
@@ -288,21 +271,6 @@ namespace COMP3451Project.RIRRPackage.Entities
         {
             // CALL OnKBInput on _currentState, passing pKeyboardState as a parameter:
             (_currentState as IKeyboardListener).OnKBInput(pKeyboardState);
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF IUPDATABLE
-
-        /// <summary>
-        /// Updates object when a frame has been rendered on screen
-        /// </summary>
-        /// <param name="pGameTime"> Holds reference to GameTime object </param>
-        public override void Update(GameTime pGameTime)
-        {
-            // CALL Update() on _currentState, passing pGameTime as a parameter:
-            (_currentState as IUpdatable).Update(pGameTime);
         }
 
         #endregion

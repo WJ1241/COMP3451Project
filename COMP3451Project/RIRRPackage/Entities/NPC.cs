@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using OrbitalEngine.Behaviours.Interfaces;
 using OrbitalEngine.CollisionManagement.Interfaces;
 using OrbitalEngine.CoreInterfaces;
@@ -12,24 +12,10 @@ namespace COMP3451Project.RIRRPackage.Entities
     /// <summary>
     /// Class which adds an NPC entity on screen
     /// Authors: Declan Kerby-Collins & William Smith
-    /// Date: 04/04/22
+    /// Date: 13/04/22
     /// </summary>
-    public class NPC : RIRREntity, ICollidable, ICollisionListener, IInitialiseParam<Random>
+    public class NPC : RIRREntity, ICollidable, ICollisionListener
     {
-        #region FIELD VARIABLES
-
-        // DECLARE a Random, name it '_rand':
-        private Random _rand;
-
-        // DECLARE an int, name it '_randNum':
-        private int _randNum;
-
-        // DECLARE a Vector2 and name it 'direction':
-        private Vector2 _direction;
-
-        #endregion
-
-
         #region CONSTRUCTOR
 
         /// <summary>
@@ -37,7 +23,40 @@ namespace COMP3451Project.RIRRPackage.Entities
         /// </summary>
         public NPC()
         {
-            // EMPTY CONSTRUCTOR
+            // INITIALISE _speed with a value of '1':
+            _speed = 1;
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF ICOLLIDABLE
+
+        /// <summary>
+        /// Used to Return a rectangle object to caller of property
+        /// </summary>
+        public Rectangle HitBox
+        {
+            get
+            {
+                // RETURN new Rectangle() using _position and _textureSize as parameters:
+                return new Rectangle((int)_position.X - (int)_drawOrigin.X, (int)_position.Y - (int)_drawOrigin.Y, _textureSize.X, _textureSize.Y);
+            }
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IDRAW
+
+        /// <summary>
+        /// When called, draws entity's texture on screen
+        /// </summary>
+        /// <param name="pSpriteBatch"> Needed to draw entity's texture on screen </param>
+        public override void Draw(SpriteBatch pSpriteBatch)
+        {
+            // DRAW given texture, given location, _sourceRectangle, colour, rotation angle, origin point, scale, effects and draw layer:
+            pSpriteBatch.Draw(_texture, _position, _sourceRectangle, Color.White, _rotAngle, _drawOrigin, 1f, SpriteEffects.None, 1f);
         }
 
         #endregion
@@ -65,63 +84,6 @@ namespace COMP3451Project.RIRRPackage.Entities
             {
                 // THROW a new NullInstanceException(), with corresponding message:
                 throw new NullInstanceException("ERROR: pUpdateEventListener does not have an active instance");
-            }
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF IINITIALISEPARAM<RANDOM>
-
-        /// <summary>
-        /// Initialises an object with a Random object
-        /// </summary>
-        /// <param name="pRand"> Random object </param>
-        public void Initialise(Random pRand)
-        {
-            // IF pRand DOES HAVE an active instance:
-            if (pRand != null)
-            {
-                // INITIALISE _rand with reference to pRand:
-                _rand = pRand;
-            }
-            // IF pRand DOES NOT HAVE an active instance:
-            else
-            {
-                // THROW a new NullInstanceException(), with corresponding message:
-                throw new NullInstanceException("pRand does not have an active instance!");
-            }
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF IUPDATABLE
-
-        /// <summary>
-        /// Updates object when a frame has been rendered on screen
-        /// </summary>
-        /// <param name="pGameTime">holds reference to GameTime object</param>
-        public override void Update(GameTime pGameTime)
-        {
-            // CALL Update() on _currentState, passing pGameTime as a parameter:
-            (_currentState as IUpdatable).Update(pGameTime);
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF ICOLLIDABLE
-
-        /// <summary>
-        /// Used to Return a rectangle object to caller of property
-        /// </summary>
-        public Rectangle HitBox
-        {
-            get
-            {
-                // RETURN a rectangle, object current X axis location, object current Y axis location, texture width size, texture height size:
-                return new Rectangle((int)_position.X, (int)_position.Y, _textureSize.X, _textureSize.Y);
             }
         }
 

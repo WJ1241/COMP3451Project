@@ -91,7 +91,6 @@
     <Compile Include="RIRRPackage\Entities\HPBarShroud.cs" />
     <Compile Include="RIRRPackage\Entities\Interfaces\IHaveHealth.cs" />
     <Compile Include="RIRRPackage\Entities\Interfaces\IHPBar.cs" />
-    <Compile Include="RIRRPackage\Entities\LevelChange.cs" />
     <Compile Include="RIRRPackage\Entities\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -101,7 +100,7 @@
     <Compile Include="RIRRPackage\Entities\NPC.cs" />
     <Compile Include="RIRRPackage\Entities\RIRREntity.cs" />
     <Compile Include="RIRRPackage\Interfaces\IHaveObjective.cs" />
-    <Compile Include="RIRRPackage\States\DynamicRIRRState.cs" />
+    <Compile Include="RIRRPackage\States\AnimatedRIRRState.cs" />
     <Compile Include="RIRRPackage\States\PlayerState.cs" />
   </ItemGroup>
   <ItemGroup>

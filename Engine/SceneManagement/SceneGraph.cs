@@ -17,16 +17,19 @@ namespace OrbitalEngine.SceneManagement
     /// <summary>
     /// Class which holds reference to list in Scene Manager, Draws and Updates entities
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 11/04/22
+    /// Date: 13/04/22
     /// </summary>
     /// <REFERENCE> Abuhakmeh, K. (2009) XNA 2D Camera Engine That Follows Sprite. Available at: https://stackoverflow.com/questions/712296/xna-2d-camera-engine-that-follows-sprite. (Accessed: 20 April 2021). </REFERENCE>
-    public class SceneGraph : ISceneGraph, IDraw, IEventListener<MatrixEventArgs>, IInitialiseParam<ICollisionManager>, IInitialiseParam<IDictionary<string, IEntity>>, IInitialiseParam<IFuncCommand<ICommand>>, IName,
-        ISpawn, IUpdatable
+    public class SceneGraph : ISceneGraph, IDraw, IEventListener<MatrixEventArgs>, IInitialiseParam<ICollisionManager>, IInitialiseParam<ICommand>, IInitialiseParam<IDictionary<string, IEntity>>,
+        IInitialiseParam<IFuncCommand<ICommand>>, IName, ISpawn, IUpdatable
     {
         #region FIELD VARIABLES
 
         // DECLARE an IDictionary<string, IEntity>, name it '_sceneEntDict':
         private IDictionary<string, IEntity> _sceneEntDict;
+
+        // DECLARE an ICommand, name it '_loadNextLevelCommand':
+        private ICommand _loadNextLevelCommand;
 
         // DECLARE an IFuncCommand<ICommand>, name it '_createCommand':
         private IFuncCommand<ICommand> _createCommand;
@@ -71,15 +74,30 @@ namespace OrbitalEngine.SceneManagement
         public void ClearScene()
         {
             // FOREACH IEntity in _sceneEntDict.Values:
-            foreach (IEntity pEntity in _sceneEntDict.Values.ToList())
+            foreach (IEntity pEntity in _sceneEntDict.Values)
             {
-
-                if (pEntity.UName != "Paddle2")
-                {
-                    // CALL Terminate() on pEntity:
-                    (pEntity as ITerminate).Terminate();
-                }
+                // CALL Terminate() on pEntity:
+                (pEntity as ITerminate).Terminate();
             }
+        }
+
+        /// <summary>
+        /// Clears all references to entities in current scene and signals command to load next scene
+        /// </summary>
+        /// <param name="pNextScene"> Name of next scene </param>
+        public void GoToNextScene(string pNextScene)
+        {
+            // CALL ClearScene():
+            ClearScene();
+
+            //// INITIALISE _loadNextLevelCommand's FirstParam Property with value of _sceneName:
+            //(_loadNextLevelCommand as ICommandTwoParam<string, string>).FirstParam = _sceneName;
+
+            //// INITIALISE _loadNextLevelCommand's SecondParam Property with value of pNextScene:
+            //(_loadNextLevelCommand as ICommandTwoParam<string, string>).SecondParam = pNextScene;
+
+            //// EXECUTE _loadNextLevelCommand:
+            //_loadNextLevelCommand.ExecuteMethod();
         }
 
         /// <summary>
@@ -169,6 +187,31 @@ namespace OrbitalEngine.SceneManagement
             {
                 // THROW a new NullInstanceException(), with corresponding message:
                 throw new NullInstanceException("ERROR: pCollisionManager does not have an active instance!");
+            }
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEPARAM<ICOMMAND>
+
+        /// <summary>
+        /// Initialises an object with an ICommand object
+        /// </summary>
+        /// <param name="pCommand"> ICommand object </param>
+        public void Initialise(ICommand pCommand)
+        {
+            // IF pCommand DOES HAVE an active instance:
+            if (pCommand != null)
+            {
+                // INITIALISE _loadNextLevelCommand with reference to pCommand:
+                _loadNextLevelCommand = pCommand;
+            }
+            // IF pCommand DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pCommand does not have an active instance!");
             }
         }
 

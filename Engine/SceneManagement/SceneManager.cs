@@ -79,7 +79,7 @@ namespace OrbitalEngine.SceneManagement
             _currentScene = pCutsceneName;
 
             // ADD _currentScene as a key, and a new CutsceneGraph() to _sGDict:
-            _sGDict.Add(_currentScene, _sGFactory.Create<CutsceneGraph>());
+           // _sGDict.Add(_currentScene, _sGFactory.Create<CutsceneGraph>());
 
             // ADD _currentScene as a key, and a reference to pResetSceneCommand to _sceneLoadDict:
             _sceneLoadDict.Add(_currentScene, pResetSceneCommand);

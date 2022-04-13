@@ -13,7 +13,7 @@ namespace COMP3451Project.RIRRPackage.States
     /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 12/04/22
     /// </summary>
-    public class PlayerState : DynamicRIRRState, ICollisionListener, IInitialiseParam<EventHandler<UpdateEventArgs>, EventHandler<CollisionEventArgs>>, IKeyboardListener, IPlayer
+    public class PlayerState : AnimatedRIRRState, ICollisionListener, IInitialiseParam<EventHandler<UpdateEventArgs>, EventHandler<CollisionEventArgs>>, IKeyboardListener, IPlayer
     {
         #region FIELD VARIABLES
 

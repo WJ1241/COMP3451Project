@@ -147,8 +147,9 @@ namespace OrbitalEngine.CollisionManagement
                     // CALL 'OnCollision()' passing an ICollidable as a parameter, used to modify entity depending on what type of collision:
                     (pFrstEntity as ICollisionListener).OnCollision(pScndEntity);
                 }
+
                 // IF pScndEntity implements ICollisionListener:
-                else if (pScndEntity is ICollisionListener)
+                if (pScndEntity is ICollisionListener)
                 {
                     // CALL 'OnCollision()' passing an ICollidable as a parameter, used to modify entity depending on what type of collision:
                     (pScndEntity as ICollisionListener).OnCollision(pFrstEntity);
