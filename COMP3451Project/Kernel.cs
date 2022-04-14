@@ -285,7 +285,7 @@ namespace COMP3451Project
 
 
                 // CALL CreateLevelOne():
-                CreateLevelThree();
+                CreateLevelOne();
             }
             // CATCH ClassDoesNotExistException from Create():
             catch (ClassDoesNotExistException e)
