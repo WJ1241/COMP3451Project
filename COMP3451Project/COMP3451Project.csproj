@@ -83,6 +83,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Kernel.cs" />
+    <Compile Include="KernelLevel.cs" />
+    <Compile Include="KernelVN.cs" />
     <Compile Include="RIRRPackage\Behaviours\ArtefactBehaviour.cs" />
     <Compile Include="RIRRPackage\Behaviours\HealthBehaviour.cs" />
     <Compile Include="RIRRPackage\Behaviours\HPBarShroudBehaviour.cs" />
@@ -91,6 +93,7 @@
     <Compile Include="RIRRPackage\Entities\HPBarShroud.cs" />
     <Compile Include="RIRRPackage\Entities\Interfaces\IHaveHealth.cs" />
     <Compile Include="RIRRPackage\Entities\Interfaces\IHPBar.cs" />
+    <Compile Include="RIRRPackage\Entities\Interfaces\ITakeDamage.cs" />
     <Compile Include="RIRRPackage\Entities\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

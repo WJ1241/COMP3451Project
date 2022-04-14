@@ -5,7 +5,7 @@ namespace COMP3451Project.RIRRPackage.Entities.Interfaces
     /// <summary>
     /// Interface which allows implementations to have health points within a game level
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 12/04/22
+    /// Date: 13/04/22
     /// </summary>
     public interface IHaveHealth
     {

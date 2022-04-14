@@ -9,7 +9,7 @@ namespace OrbitalEngine.EntityManagement
     /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 15/02/22
     /// </summary>
-    public abstract class DrawableEntity : Entity, IDraw, ITexture
+    public class DrawableEntity : Entity, IDraw, ITexture
     {
         #region FIELD VARIABLES
 

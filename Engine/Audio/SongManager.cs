@@ -75,14 +75,14 @@ namespace OrbitalEngine.Audio
                 // IF _songDict DOES NOT contain pSongName as a key:
                 if (!_songDict.ContainsKey(pSongName))
                 {
-                    // ADD pSongName as a key, and pSongFile as a value to _sfxDict:
+                    // ADD pSongName as a key, and pSongFile as a value to _songDict:
                     _songDict.Add(pSongName, pSongFile);
                 }
-                // IF _songDict DOES contain value of pSFXName already:
+                // IF _songDict DOES contain value of pSongName already:
                 else
                 {
                     // THROW a new ValueAlreadyStoredException(), with corresponding message:
-                    throw new ValueAlreadyStoredException("ERROR: pSongName already stored in _sfxDict!");
+                    throw new ValueAlreadyStoredException("ERROR: pSongName already stored in _songDict!");
                 }
             }
             // IF pSongFile DOES NOT HAVE an active instance:

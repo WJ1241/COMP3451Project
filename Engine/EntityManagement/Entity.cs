@@ -264,10 +264,14 @@ namespace OrbitalEngine.EntityManagement
         public virtual void Terminate()
         {
             // SCHEDULE _removeMe to be executed:
-            _scheduleCommand(_removeMe);
+            //_scheduleCommand(_removeMe);
+
+            _removeMe.ExecuteMethod();
 
             // SCHEDULE TerminateMe to be executed:
-            _scheduleCommand(_terminateMe);
+            //_scheduleCommand(_terminateMe);
+
+            _terminateMe.ExecuteMethod();
         }
 
         #endregion

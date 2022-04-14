@@ -11,7 +11,7 @@ namespace OrbitalEngine.CollisionManagement
     /// <summary>
     /// Class which stores references to entities that can collide with other entities
     /// Authors: William Smith, Declan Kerby-Collins & Marc Price
-    /// Date: 07/04/22
+    /// Date: 14/04/22
     /// </summary>
     /// <REFERENCE> Price, M. (2021) ‘Session 16 - Collision Management’, Games Design & Engineering: Sessions. Available at: https://worcesterbb.blackboard.com. (Accessed: 17 February 2021). </REFERENCE>
     public class CollisionManager : ICollisionManager, IInitialiseParam<IList<ICollidable>>, IUpdatable, IService
@@ -32,7 +32,7 @@ namespace OrbitalEngine.CollisionManagement
         /// <summary>
         /// Constructor for objects of CollisionManager
         /// </summary>
-        public CollisionManager() 
+        public CollisionManager()
         {
             // EMPTY CONSTRUCTOR
         }
@@ -99,28 +99,32 @@ namespace OrbitalEngine.CollisionManagement
         /// <CITATION> (Price, 2021) </CITATION>
         public void Update(GameTime pGameTime)
         {
-            // CALL Clear() on _collidableList to remove old references
-            _collidableList.Clear();
-
-            // FOREACH IEntity in _entityDictionary.values:
-            foreach (IEntity pEntity in _entityDictionary.Values)
+            // IF _entityDictionary DOES HAVE an active instance:
+            if (_entityDictionary != null)
             {
-                // IF pEntity implements ICollidable:
-                if (pEntity is ICollidable)
+                // CALL Clear() on _collidableList to remove old references
+                _collidableList.Clear();
+
+                // FOREACH IEntity in _entityDictionary.values:
+                foreach (IEntity pEntity in _entityDictionary.Values)
                 {
-                    // ADD pEntity to _collidableList:
-                    _collidableList.Add(pEntity as ICollidable);
+                    // IF pEntity implements ICollidable:
+                    if (pEntity is ICollidable)
+                    {
+                        // ADD pEntity to _collidableList:
+                        _collidableList.Add(pEntity as ICollidable);
+                    }
                 }
-            }
 
-            // FORLOOP, _collidableList.Count - 1, so that object cannot collide with itself:
-            for (int i = 0; i < (_collidableList.Count - 1); i++)
-            {
-                // FORLOOP, j = i + 1, so that object cannot collide with itself:
-                for (int j = i + 1; j < _collidableList.Count; j++)
+                // FORLOOP, _collidableList.Count - 1, so that object cannot collide with itself:
+                for (int i = 0; i < (_collidableList.Count - 1); i++)
                 {
-                    // CALL 'CollideResponse()' passing two ICollidables as parameters, used to determine which ICollidable objects change on Collision:
-                    CollideResponse(_collidableList[i], _collidableList[j]);
+                    // FORLOOP, j = i + 1, so that object cannot collide with itself:
+                    for (int j = i + 1; j < _collidableList.Count; j++)
+                    {
+                        // CALL 'CollideResponse()' passing two ICollidables as parameters, used to determine which ICollidable objects change on Collision:
+                        CollideResponse(_collidableList[i], _collidableList[j]);
+                    }
                 }
             }
         }

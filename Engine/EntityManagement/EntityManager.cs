@@ -125,9 +125,6 @@ namespace OrbitalEngine.EntityManagement
         /// <param name="pUName">Reference to object using unique name</param>
         public void Terminate(string pUName)
         {
-            // CALL Terminate(), on ITerminate to dispose of resources:
-            (_entityDict[pUName] as ITerminate).Terminate();
-
             // IF _entityDict[pUName] implements IKeyboardListener:
             if (_entityDict[pUName] is IKeyboardListener)
             {

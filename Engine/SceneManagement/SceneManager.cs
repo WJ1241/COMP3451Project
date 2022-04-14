@@ -15,9 +15,10 @@ namespace OrbitalEngine.SceneManagement
     /// <summary>
     /// Class which manages all entities in the scene
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 11/04/22
+    /// Date: 14/04/22
     /// </summary>
-    public class SceneManager : ISceneManager, IDraw, IInitialiseParam<IDictionary<string, ICommand>>, IInitialiseParam<IDictionary<string, ISceneGraph>>, IInitialiseParam<IFactory<ISceneGraph>>, IService, IUpdatable
+    public class SceneManager : ISceneManager, IDraw, IInitialiseParam<IDictionary<string, ICommand>>, IInitialiseParam<IDictionary<string, ISceneGraph>>, IInitialiseParam<IFactory<ISceneGraph>>, IInitialiseParam<IFuncCommand<ICommand>>,
+        IService, IUpdatable
     {
         #region FIELD VARIABLES
 
@@ -29,6 +30,9 @@ namespace OrbitalEngine.SceneManagement
 
         // DECLARE an IFactory<ISceneGraph>, name it '_sGFactory':
         private IFactory<ISceneGraph> _sGFactory;
+
+        // DECLARE an IFuncCommand<ICommand>, name it '_createCommand':
+        private IFuncCommand<ICommand> _createCommand;
 
         // DECLARE a string, name it '_currentScene':
         private string _currentScene;
@@ -43,7 +47,8 @@ namespace OrbitalEngine.SceneManagement
         /// </summary>
         public SceneManager()
         {
-            // EMPTY CONSTRUCTOR
+            // INITIALISE _currentScene with a blank string, so that the scene can be loaded empty without any scene rather than crashing:
+            _currentScene = "";
         }
 
         #endregion
@@ -55,8 +60,9 @@ namespace OrbitalEngine.SceneManagement
         /// Creates a Scene which stores entities and their positions
         /// </summary>
         /// <param name="pSceneName"> Name of Scene </param>
-        /// <param name="pResetSceneCommand"> Command to Reset Scene when needed </param>
-        public void CreateScene(string pSceneName, ICommand pResetSceneCommand)
+        /// <param name="pCommandDict"> Dictionary to store commands in </param>
+        /// <param name="pLoadSceneCommand"> Command to Load Scene when needed </param>
+        public void CreateScene(string pSceneName, IDictionary<string, ICommand> pCommandDict, ICommand pLoadSceneCommand)
         {
             // INITIALISE _currentScene with value of pSceneName:
             _currentScene = pSceneName;
@@ -64,39 +70,117 @@ namespace OrbitalEngine.SceneManagement
             // ADD _currentScene as a key, and a new SceneGraph() to _sGDict:
             _sGDict.Add(_currentScene, _sGFactory.Create<SceneGraph>());
 
-            // ADD _currentScene as a key, and a reference to pResetSceneCommand to _sceneLoadDict:
-            _sceneLoadDict.Add(_currentScene, pResetSceneCommand);
+            // IF _sceneLoadDict DOES NOT already contain pSceneName:
+            if (!_sceneLoadDict.ContainsKey(pSceneName))
+            {
+                // ADD _currentScene as a key, and a reference to pLoadSceneCommand to _sceneLoadDict:
+                _sceneLoadDict.Add(_currentScene, pLoadSceneCommand);
+            }
+
+            // INITIALISE _sGDict[pSceneName] with a reference to pCommandDict:
+            (_sGDict[pSceneName] as IInitialiseParam<IDictionary<string, ICommand>>).Initialise(pCommandDict);
+
+            // DECLARE & INSTANTIATE an ICommandOneParam<string> as a new CommandOneParam<string>(), name it 'resetSceneCommand':
+            ICommandOneParam<string> resetSceneCommand = _createCommand.ExecuteMethod() as ICommandOneParam<string>;
+
+            // INITIALISE resetSceneCommand with reference to ResetScene():
+            resetSceneCommand.MethodRef = ResetScene;
+
+            // INITIALISE _sGDict[pSceneName] with "ResetScene" and a reference to resetSceneCommand as parameters:
+            (_sGDict[pSceneName] as IInitialiseParam<string, ICommand>).Initialise("ResetScene", resetSceneCommand);
         }
 
         /// <summary>
         /// Creates a Cutscene which stores entities and their positions
         /// </summary>
         /// <param name="pCutsceneName"> Name of Cutscene </param>
-        /// <param name="pResetSceneCommand"> Command to Reset Scene when needed </param>
-        public void CreateCutscene(string pCutsceneName, ICommand pResetSceneCommand)
+        /// <param name="pLoadSceneCommand"> Command to Load Scene when needed </param>
+        public void CreateCutscene(string pCutsceneName, ICommand pLoadSceneCommand)
         {
-            // INITIALISE _currentScene with value of pCutsceneName:
-            _currentScene = pCutsceneName;
+            // IF pLoadSceneCommand DOES HAVE an active instance:
+            if (pLoadSceneCommand != null)
+            {
+                // INITIALISE _currentScene with value of pCutsceneName:
+                _currentScene = pCutsceneName;
 
-            // ADD _currentScene as a key, and a new CutsceneGraph() to _sGDict:
-           // _sGDict.Add(_currentScene, _sGFactory.Create<CutsceneGraph>());
+                // ADD _currentScene as a key, and a new CutsceneGraph() to _sGDict:
+                // _sGDict.Add(_currentScene, _sGFactory.Create<CutsceneGraph>());
 
-            // ADD _currentScene as a key, and a reference to pResetSceneCommand to _sceneLoadDict:
-            _sceneLoadDict.Add(_currentScene, pResetSceneCommand);
+                // IF _sceneLoadDict DOES NOT already contain pCutsceneName:
+                if (!_sceneLoadDict.ContainsKey(pCutsceneName))
+                {
+                    // ADD _currentScene as a key, and a reference to pLoadSceneCommand to _sceneLoadDict:
+                    _sceneLoadDict.Add(_currentScene, pLoadSceneCommand);
+                }
+                // IF _sceneLoadDict DOES already contain pCutsceneName:
+                else
+                {
+                    // THROW a new ValueAlreadyStoredException(), with corresponding message:
+                    throw new ValueAlreadyStoredException("ERROR: _sceneLoadDict already contains pCutsceneName as a key!");
+                }
+            }
+            // IF pLoadSceneCommand DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pLoadSceneCommand does not have an active instance!");
+            }
         }
 
         /// <summary>
-        /// Removes current level references and loads the next level for the user
+        /// Uploads the next scene so there can be scene transitioning happening from one scene
         /// </summary>
-        /// <param name="pPrevLevel"> Name of previous level </param>
-        /// <param name="pNextLevel"> Name of next level </param>
-        public void LoadNextLevel(string pPrevLevel, string pNextLevel)
+        /// <param name="pNextSceneName"> Name of Next Scene </param>
+        /// <param name="pLoadNextSceneCommand"> Command to keep ready for next scene </param>
+        public void UploadNextScene(string pNextSceneName, ICommand pLoadNextSceneCommand)
         {
-            // CALL RemoveScene(), passing pPrevLevel as a parameter:
-            RemoveScene(pPrevLevel);
+            // IF pLoadNextSceneCommand DOES HAVE an active instance:
+            if (pLoadNextSceneCommand != null)
+            {
+                // IF _sceneLoadDict DOES NOT already contain pNextSceneName:
+                if (!_sceneLoadDict.ContainsKey(pNextSceneName))
+                {
+                    // ADD pNextSceneName as a key, and a reference to pLoadNextSceneCommand to _sceneLoadDict:
+                    _sceneLoadDict.Add(pNextSceneName, pLoadNextSceneCommand);
+                }
+            }
+            // IF pLoadNextSceneCommand DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pLoadNextSceneCommand does not have an active instance!");
+            }
+        }
 
-            // CALL ExecuteMethod() on _sceneLoadDict[pNextLevel]:
-            _sceneLoadDict[pNextLevel].ExecuteMethod();
+        /// <summary>
+        /// Removes current scene references and loads the next scene for the user
+        /// </summary>
+        /// <param name="pPrevScene"> Name of previous scene </param>
+        /// <param name="pNextScene"> Name of next scene </param>
+        public void LoadNextScene(string pPrevScene, string pNextScene)
+        {
+            // CALL RemoveScene(), passing pPrevScene as a parameter:
+            RemoveScene(pPrevScene);
+
+            // IF _sceneLoadDict DOES contain pNextScene as a key:
+            if (_sceneLoadDict.ContainsKey(pNextScene))
+            {
+                // CALL ExecuteMethod() on _sceneLoadDict[pNextScene]:
+                _sceneLoadDict[pNextScene].ExecuteMethod();
+            }
+        }
+
+        /// <summary>
+        /// Removes current scene references and reloads the current scene for the user
+        /// </summary>
+        /// <param name="pCurrentScene"> Name of current scene </param>
+        public void ResetScene(string pCurrentScene)
+        {
+            // REMOVE ISceneGraph instance stored using pCurrentScene from _sGDict:
+            _sGDict.Remove(pCurrentScene);
+
+            // CALL ExecuteMethod() on _sceneLoadDict[pCurrentScene]:
+            _sceneLoadDict[pCurrentScene].ExecuteMethod();
         }
 
         /// <summary>
@@ -123,7 +207,7 @@ namespace OrbitalEngine.SceneManagement
         }
 
         /// <summary>
-        /// Initialises a specified scene with an ICollisionManager object, an IDictionary<string, IEntity> object and an IFuncCommand<ICommand> object
+        /// Initialises a specified scene with a string, an IDictionary<string, IEntity> object and an IFuncCommand<ICommand> object
         /// </summary>
         /// <param name="pSceneName"> Name of Scene </param>
         /// <param name="pEntDict"> IDictionary<string, IEntity> object </param>
@@ -136,6 +220,9 @@ namespace OrbitalEngine.SceneManagement
                 // IF _sGDict DOES contain pSceneName as a key already:
                 if (_sGDict.ContainsKey(pSceneName))
                 {
+                    // SET Name Property of _sGDict[pSceneName] to equal pSceneName:
+                    (_sGDict[pSceneName] as IName).Name = pSceneName;
+
                     // INITIALISE _sGDict[pSceneName] with reference to pEntDict:
                     (_sGDict[pSceneName] as IInitialiseParam<IDictionary<string, IEntity>>).Initialise(pEntDict);
 
@@ -296,6 +383,31 @@ namespace OrbitalEngine.SceneManagement
             {
                 // THROW a new NullInstanceException(), with corresponding message:
                 throw new NullInstanceException("ERROR: pFactory does not have an active instance!");
+            }
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEPARAM<IFUNCCOMMAND<ICOMMAND>>
+
+        /// <summary>
+        /// Initialises an object with an IFuncCommand<ICommand> object
+        /// </summary>
+        /// <param name="pFuncCommand"> IFuncCommand<ICommand> object </param>
+        public void Initialise(IFuncCommand<ICommand> pFuncCommand)
+        {
+            // IF pFuncCommand DOES HAVE an active instance:
+            if (pFuncCommand != null)
+            {
+                // INITIALISE _createCommand with reference to pFuncCommand:
+                _createCommand = pFuncCommand;
+            }
+            // IF pFuncCommand DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pFuncCommand does not have an active instance!");
             }
         }
 

@@ -1,11 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using OrbitalEngine.Behaviours.Interfaces;
 using OrbitalEngine.CollisionManagement.Interfaces;
 using OrbitalEngine.CoreInterfaces;
-using OrbitalEngine.CustomEventArgs;
-using OrbitalEngine.EntityManagement.Interfaces;
-using OrbitalEngine.Exceptions;
 
 namespace COMP3451Project.RIRRPackage.Entities
 {
@@ -14,7 +10,7 @@ namespace COMP3451Project.RIRRPackage.Entities
     /// Authors: Declan Kerby-Collins & William Smith
     /// Date: 13/04/22
     /// </summary>
-    public class NPC : RIRREntity, ICollidable, ICollisionListener
+    public class NPC : RIRREntity, ICollidable, ICollisionListener, IDrawSourceRectangle
     {
         #region CONSTRUCTOR
 
@@ -62,28 +58,22 @@ namespace COMP3451Project.RIRRPackage.Entities
         #endregion
 
 
-        #region IMPLEMENTATION OF IINITIALISEPARAM<IEVENTLISTENER<UPDATEEVENTARGS>>
+        #region IMPLEMENTATION OF IDRAWSOURCERECTANGLE
 
         /// <summary>
-        /// Initialises an object with an IEventListener<UpdateEventArgs> object
+        /// Property which allows read and write access to a Draw Position Rectangle
         /// </summary>
-        /// <param name="pUpdateEventListener"> IEventListener<UpdateEventArgs> object </param>
-        public override void Initialise(IEventListener<UpdateEventArgs> pUpdateEventListener)
+        public Rectangle SourceRectangle
         {
-            // IF pUpdateEventListener DOES HAVE an active instance:
-            if (pUpdateEventListener != null)
+            get
             {
-                // SET value of _pUpdateEventListener's Velocity Property to value of _velocity:
-                (pUpdateEventListener as IVelocity).Velocity = _velocity;
-
-                // INITIALISE pUpdateEventListener with this class:
-                (pUpdateEventListener as IInitialiseParam<IEntity>).Initialise(this);
+                // RETURN value of _sourceRectangle:
+                return _sourceRectangle;
             }
-            // IF pUpdateEventListener DOES NOT HAVE an active instance:
-            else
+            set
             {
-                // THROW a new NullInstanceException(), with corresponding message:
-                throw new NullInstanceException("ERROR: pUpdateEventListener does not have an active instance");
+                // SET value of _sourceRectangle to incoming value:
+                _sourceRectangle = value;
             }
         }
 

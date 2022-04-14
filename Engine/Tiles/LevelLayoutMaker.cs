@@ -226,8 +226,8 @@ namespace OrbitalEngine.Tiles
                                 // IF Group name is "NPC":
                                 else if (pTileMap.ObjectGroups[i].Name == "NPC")
                                 {
-                                    // SET FirstParam of _createEntDict["NPC"] to "NPC" + j:
-                                    (_createEntDict["NPC"] as IFuncCommandOneParam<string, IEntity>).FirstParam = "NPC" + j;
+                                    // SET FirstParam of _createEntDict["NPC"] to "NPC" + (j + 1) for easier addressing:
+                                    (_createEntDict["NPC"] as IFuncCommandOneParam<string, IEntity>).FirstParam = "NPC" + (j + 1);
 
                                     // INITIALISE tempEntity with return value from _createEntDict["NPC"].ExecuteMethod():
                                     tempEntity = _createEntDict["NPC"].ExecuteMethod();

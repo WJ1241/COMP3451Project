@@ -51,11 +51,11 @@ namespace COMP3451Project.RIRRPackage.Behaviours
                 // SET ObjectiveComplete property of the Player to true:
                 (pArgs.RequiredArg as IHaveObjective).ObjectiveComplete = true;
 
-                // INITIALISE FirstParam Property of _sfxCommand with value of "ObjectiveComplete":
-                //(_sfxCommand as ICommandOneParam<string>).FirstParam = "ObjectiveComplete";
+                // INITIALISE FirstParam Property of _sfxCommand with value of "Pickup":
+                (_sfxCommand as ICommandOneParam<string>).FirstParam = "Pickup";
 
-                // SCHEDULER _sfxCommand to play:
-                // (_entity as ICommandSender).ScheduleCommand(_sfxCommand);
+                // SCHEDULE _sfxCommand to play:
+                (_entity as ICommandSender).ScheduleCommand(_sfxCommand);
 
                 // CALL Terminate method in Artefact:
                 (_entity as ITerminate).Terminate();

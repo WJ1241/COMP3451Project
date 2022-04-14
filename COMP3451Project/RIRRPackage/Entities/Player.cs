@@ -16,7 +16,7 @@ namespace COMP3451Project.RIRRPackage.Entities
     /// Authors: William Smith & Declan Kerby-Collins
     /// Date: 11/04/22
     /// </summary>
-    public class Player : RIRREntity, IPlayer, IChangeTexColour, ICollidable, ICollisionListener, IDrawSourceRectangle, IGetSpeed, IHaveHealth, IHaveObjective, IKeyboardListener
+    public class Player : RIRREntity, IPlayer, IChangeTexColour, ICollidable, ICollisionListener, IDrawSourceRectangle, IGetSpeed, IHaveHealth, IHaveObjective, IKeyboardListener, ITakeDamage
     {
         #region FIELD VARIABLES
 
@@ -25,6 +25,9 @@ namespace COMP3451Project.RIRRPackage.Entities
 
         // DECLARE a Color, name it '_texColour':
         private Color _texColour;
+
+        // DECLARE a bool, name it '_damaged':
+        private bool _damaged;
 
         // DECLARE a bool, name it '_objectiveComplete':
         private bool _objectiveComplete;
@@ -47,6 +50,9 @@ namespace COMP3451Project.RIRRPackage.Entities
         {
             // INITIALISE _texColour with value of Color.White:
             _texColour = Color.White;
+
+            // SET _damaged to false:
+            _damaged = false;
 
             // SET _objectiveComplete to false:
             _objectiveComplete = false;
@@ -271,6 +277,28 @@ namespace COMP3451Project.RIRRPackage.Entities
         {
             // CALL OnKBInput on _currentState, passing pKeyboardState as a parameter:
             (_currentState as IKeyboardListener).OnKBInput(pKeyboardState);
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF ITAKEDAMAGE
+
+        /// <summary>
+        /// Property which has read and write acess to an implementation's damage state
+        /// </summary>
+        public bool Damaged
+        {
+            get
+            {
+                // RETURN value of _damaged:
+                return _damaged;
+            }
+            set
+            {
+                // SET value of _damaged to incoming value:
+                _damaged = value;
+            }
         }
 
         #endregion

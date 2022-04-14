@@ -17,19 +17,19 @@ namespace OrbitalEngine.SceneManagement
     /// <summary>
     /// Class which holds reference to list in Scene Manager, Draws and Updates entities
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 13/04/22
+    /// Date: 14/04/22
     /// </summary>
     /// <REFERENCE> Abuhakmeh, K. (2009) XNA 2D Camera Engine That Follows Sprite. Available at: https://stackoverflow.com/questions/712296/xna-2d-camera-engine-that-follows-sprite. (Accessed: 20 April 2021). </REFERENCE>
-    public class SceneGraph : ISceneGraph, IDraw, IEventListener<MatrixEventArgs>, IInitialiseParam<ICollisionManager>, IInitialiseParam<ICommand>, IInitialiseParam<IDictionary<string, IEntity>>,
-        IInitialiseParam<IFuncCommand<ICommand>>, IName, ISpawn, IUpdatable
+    public class SceneGraph : ISceneGraph, IDraw, IEventListener<MatrixEventArgs>, IInitialiseParam<ICollisionManager>, IInitialiseParam<IDictionary<string, ICommand>>, IInitialiseParam<IDictionary<string, IEntity>>,
+        IInitialiseParam<IFuncCommand<ICommand>>, IInitialiseParam<string, ICommand>, IName, IResetScene, ISpawn, IUpdatable
     {
         #region FIELD VARIABLES
 
         // DECLARE an IDictionary<string, IEntity>, name it '_sceneEntDict':
         private IDictionary<string, IEntity> _sceneEntDict;
 
-        // DECLARE an ICommand, name it '_loadNextLevelCommand':
-        private ICommand _loadNextLevelCommand;
+        // DECLARE an IDictionary<string, ICommand>, name it '_commandDict':
+        private IDictionary<string, ICommand> _commandDict;
 
         // DECLARE an IFuncCommand<ICommand>, name it '_createCommand':
         private IFuncCommand<ICommand> _createCommand;
@@ -74,11 +74,14 @@ namespace OrbitalEngine.SceneManagement
         public void ClearScene()
         {
             // FOREACH IEntity in _sceneEntDict.Values:
-            foreach (IEntity pEntity in _sceneEntDict.Values)
+            foreach (IEntity pEntity in _sceneEntDict.Values.ToList())
             {
                 // CALL Terminate() on pEntity:
                 (pEntity as ITerminate).Terminate();
             }
+
+            // EXECUTE _commandDict["StopAudio"]:
+            _commandDict["StopAudio"].ExecuteMethod();
         }
 
         /// <summary>
@@ -90,14 +93,14 @@ namespace OrbitalEngine.SceneManagement
             // CALL ClearScene():
             ClearScene();
 
-            //// INITIALISE _loadNextLevelCommand's FirstParam Property with value of _sceneName:
-            //(_loadNextLevelCommand as ICommandTwoParam<string, string>).FirstParam = _sceneName;
+            // INITIALISE _commandDict["NextScene"]'s FirstParam Property with value of _sceneName:
+            (_commandDict["NextScene"] as ICommandTwoParam<string, string>).FirstParam = _sceneName;
 
-            //// INITIALISE _loadNextLevelCommand's SecondParam Property with value of pNextScene:
-            //(_loadNextLevelCommand as ICommandTwoParam<string, string>).SecondParam = pNextScene;
+            // INITIALISE _commandDict["NextScene"]'s SecondParam Property with value of pNextScene:
+            (_commandDict["NextScene"] as ICommandTwoParam<string, string>).SecondParam = pNextScene;
 
-            //// EXECUTE _loadNextLevelCommand:
-            //_loadNextLevelCommand.ExecuteMethod();
+            // EXECUTE _commandDict["NextScene"]:
+            _commandDict["NextScene"].ExecuteMethod();
         }
 
         /// <summary>
@@ -193,25 +196,61 @@ namespace OrbitalEngine.SceneManagement
         #endregion
 
 
-        #region IMPLEMENTATION OF IINITIALISEPARAM<ICOMMAND>
+        #region IMPLEMENTATION OF IINITIALISEPARAM<STRING, ICOMMAND>
 
         /// <summary>
-        /// Initialises an object with an ICommand object
+        /// Initialises an object with a string and an ICommand object
         /// </summary>
+        /// <param name="pCommandName"> Name of Command </param>
         /// <param name="pCommand"> ICommand object </param>
-        public void Initialise(ICommand pCommand)
+        public void Initialise(string pCommandName, ICommand pCommand)
         {
             // IF pCommand DOES HAVE an active instance:
             if (pCommand != null)
             {
-                // INITIALISE _loadNextLevelCommand with reference to pCommand:
-                _loadNextLevelCommand = pCommand;
+                // IF _commandDict DOES NOT already contain pCommandName as a key:
+                if (!_commandDict.ContainsKey(pCommandName))
+                {
+                    // ADD pCommandName as a key, and pCommand as a value to _commandDict:
+                    _commandDict.Add(pCommandName, pCommand);
+                }
+                // IF _commandDict DOES already contain pCommandName as a key:
+                else
+                {
+                    // THROW a new NullInstanceException(), with corresponding message:
+                    throw new ValueAlreadyStoredException("ERROR: pCommandName is already stored in _commandDict!");
+                }
             }
             // IF pCommand DOES NOT HAVE an active instance:
             else
             {
                 // THROW a new NullInstanceException(), with corresponding message:
                 throw new NullInstanceException("ERROR: pCommand does not have an active instance!");
+            }
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEPARAM<IDICTIONARY<STRING, ICOMMAND>>
+
+        /// <summary>
+        /// Initialises an object with a reference to an IDictionary<string, ICommand> instance
+        /// </summary>
+        /// <param name="pCommandDict"> IDictionary<string, ICommand> instance </param>
+        public void Initialise(IDictionary<string, ICommand> pCommandDict)
+        {
+            // IF pCommandDict DOES HAVE an active instance:
+            if (pCommandDict != null)
+            {
+                // INITIALISE _commandDict with reference to pCommandDict:
+                _commandDict = pCommandDict;
+            }
+            // IF pCommandDict DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message():
+                throw new NullInstanceException("ERROR: _commandDict does not have an active instance!");
             }
         }
 
@@ -285,6 +324,26 @@ namespace OrbitalEngine.SceneManagement
                 // SET value of _sceneName to incoming value:
                 _sceneName = value;
             }
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IRESETSCENE
+
+        /// <summary>
+        /// Clears all references to entities in current scene and signals command to reset current scene
+        /// </summary>
+        public void ResetScene()
+        {
+            // CALL ClearScene();
+            ClearScene();
+
+            // INITIALISE _commandDict["ResetScene"]'s FirstParam with value of _sceneName:
+            (_commandDict["ResetScene"] as ICommandOneParam<string>).FirstParam = _sceneName;
+
+            // EXECUTE _commandDict["ResetScene"]:
+            _commandDict["ResetScene"].ExecuteMethod();
         }
 
         #endregion
