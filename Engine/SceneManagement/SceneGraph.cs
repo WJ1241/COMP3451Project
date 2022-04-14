@@ -25,11 +25,11 @@ namespace OrbitalEngine.SceneManagement
     {
         #region FIELD VARIABLES
 
-        // DECLARE an IDictionary<string, IEntity>, name it '_sceneEntDict':
-        private IDictionary<string, IEntity> _sceneEntDict;
-
         // DECLARE an IDictionary<string, ICommand>, name it '_commandDict':
         private IDictionary<string, ICommand> _commandDict;
+
+        // DECLARE an IDictionary<string, IEntity>, name it '_sceneEntDict':
+        private IDictionary<string, IEntity> _sceneEntDict;
 
         // DECLARE an IFuncCommand<ICommand>, name it '_createCommand':
         private IFuncCommand<ICommand> _createCommand;
@@ -196,42 +196,6 @@ namespace OrbitalEngine.SceneManagement
         #endregion
 
 
-        #region IMPLEMENTATION OF IINITIALISEPARAM<STRING, ICOMMAND>
-
-        /// <summary>
-        /// Initialises an object with a string and an ICommand object
-        /// </summary>
-        /// <param name="pCommandName"> Name of Command </param>
-        /// <param name="pCommand"> ICommand object </param>
-        public void Initialise(string pCommandName, ICommand pCommand)
-        {
-            // IF pCommand DOES HAVE an active instance:
-            if (pCommand != null)
-            {
-                // IF _commandDict DOES NOT already contain pCommandName as a key:
-                if (!_commandDict.ContainsKey(pCommandName))
-                {
-                    // ADD pCommandName as a key, and pCommand as a value to _commandDict:
-                    _commandDict.Add(pCommandName, pCommand);
-                }
-                // IF _commandDict DOES already contain pCommandName as a key:
-                else
-                {
-                    // THROW a new NullInstanceException(), with corresponding message:
-                    throw new ValueAlreadyStoredException("ERROR: pCommandName is already stored in _commandDict!");
-                }
-            }
-            // IF pCommand DOES NOT HAVE an active instance:
-            else
-            {
-                // THROW a new NullInstanceException(), with corresponding message:
-                throw new NullInstanceException("ERROR: pCommand does not have an active instance!");
-            }
-        }
-
-        #endregion
-
-
         #region IMPLEMENTATION OF IINITIALISEPARAM<IDICTIONARY<STRING, ICOMMAND>>
 
         /// <summary>
@@ -301,6 +265,42 @@ namespace OrbitalEngine.SceneManagement
             {
                 // THROW a new NullInstanceException(), with corresponding message:
                 throw new NullInstanceException("ERROR: pFuncCommand does not have an active instance!");
+            }
+        }
+
+        #endregion
+
+
+        #region IMPLEMENTATION OF IINITIALISEPARAM<STRING, ICOMMAND>
+
+        /// <summary>
+        /// Initialises an object with a string and an ICommand object
+        /// </summary>
+        /// <param name="pCommandName"> Name of Command </param>
+        /// <param name="pCommand"> ICommand object </param>
+        public void Initialise(string pCommandName, ICommand pCommand)
+        {
+            // IF pCommand DOES HAVE an active instance:
+            if (pCommand != null)
+            {
+                // IF _commandDict DOES NOT already contain pCommandName as a key:
+                if (!_commandDict.ContainsKey(pCommandName))
+                {
+                    // ADD pCommandName as a key, and pCommand as a value to _commandDict:
+                    _commandDict.Add(pCommandName, pCommand);
+                }
+                // IF _commandDict DOES already contain pCommandName as a key:
+                else
+                {
+                    // THROW a new NullInstanceException(), with corresponding message:
+                    throw new ValueAlreadyStoredException("ERROR: pCommandName is already stored in _commandDict!");
+                }
+            }
+            // IF pCommand DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pCommand does not have an active instance!");
             }
         }
 

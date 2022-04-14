@@ -28,8 +28,9 @@ namespace OrbitalEngine.SceneManagement.Interfaces
         /// Creates a Cutscene which stores entities and their positions
         /// </summary>
         /// <param name="pCutsceneName"> Name of Cutscene </param>
+        /// <param name="pCommandDict"> Dictionary to store commands in </param>
         /// <param name="pLoadSceneCommand"> Command to Load Scene when needed </param>
-        void CreateCutscene(string pCutsceneName, ICommand pLoadSceneCommand);
+        void CreateCutscene(string pCutsceneName, IDictionary<string, ICommand> pCommandDict, ICommand pLoadSceneCommand);
 
         /// <summary>
         /// Uploads the next scene so there can be scene transitioning happening from one scene

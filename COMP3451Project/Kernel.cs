@@ -38,17 +38,20 @@ namespace COMP3451Project
     {
         #region FIELD VARIABLES
 
+        // DECLARE an IRtnService, name it '_engineManager':
+        private IRtnService _engineManager;
+
         // DECLARE a GraphicsDeviceManager, name it '_graphics':
         private GraphicsDeviceManager _graphics;
 
         // DECLARE a SpriteBatch, name it '_spriteBatch':
         private SpriteBatch _spriteBatch;
 
-        // DECLARE an IRtnService, name it '_engineManager':
-        private IRtnService _engineManager;
-
         // DECLARE a Random, name it '_rand':
         private Random _rand;
+
+        // DECLARE a Color, name it '_bgColour':
+        private Color _bgColour;
 
         // DECLARE a Vector2, name it 'screenSize':
         private Vector2 _screenSize;
@@ -285,7 +288,7 @@ namespace COMP3451Project
 
 
                 // CALL CreateLevelOne():
-                CreateLevelOne();
+                CreateVNOne();
             }
             // CATCH ClassDoesNotExistException from Create():
             catch (ClassDoesNotExistException e)
@@ -378,8 +381,8 @@ namespace COMP3451Project
         /// <param name="pGameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime pGameTime)
         {
-            // SET colour of screen background as Black:
-            GraphicsDevice.Clear(Color.Black);
+            // SET colour of screen background to value of _bgColour:
+            GraphicsDevice.Clear(_bgColour);
 
             // CALL Draw() method on returned SceneManager instance from _engineManager:
             (_engineManager.GetService<SceneManager>() as IDraw).Draw(_spriteBatch);

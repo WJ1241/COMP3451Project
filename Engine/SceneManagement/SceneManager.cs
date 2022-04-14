@@ -64,38 +64,49 @@ namespace OrbitalEngine.SceneManagement
         /// <param name="pLoadSceneCommand"> Command to Load Scene when needed </param>
         public void CreateScene(string pSceneName, IDictionary<string, ICommand> pCommandDict, ICommand pLoadSceneCommand)
         {
-            // INITIALISE _currentScene with value of pSceneName:
-            _currentScene = pSceneName;
-
-            // ADD _currentScene as a key, and a new SceneGraph() to _sGDict:
-            _sGDict.Add(_currentScene, _sGFactory.Create<SceneGraph>());
-
-            // IF _sceneLoadDict DOES NOT already contain pSceneName:
-            if (!_sceneLoadDict.ContainsKey(pSceneName))
+            // IF pLoadSceneCommand DOES HAVE an active instance:
+            if (pLoadSceneCommand != null)
             {
-                // ADD _currentScene as a key, and a reference to pLoadSceneCommand to _sceneLoadDict:
-                _sceneLoadDict.Add(_currentScene, pLoadSceneCommand);
+                // INITIALISE _currentScene with value of pSceneName:
+                _currentScene = pSceneName;
+
+                // ADD _currentScene as a key, and a new SceneGraph() to _sGDict:
+                _sGDict.Add(_currentScene, _sGFactory.Create<SceneGraph>());
+
+                // IF _sceneLoadDict DOES NOT already contain pSceneName:
+                if (!_sceneLoadDict.ContainsKey(pSceneName))
+                {
+                    // ADD pSceneName as a key, and a reference to pLoadSceneCommand to _sceneLoadDict:
+                    _sceneLoadDict.Add(pSceneName, pLoadSceneCommand);
+                }
+
+                // INITIALISE _sGDict[pSceneName] with a reference to pCommandDict:
+                (_sGDict[pSceneName] as IInitialiseParam<IDictionary<string, ICommand>>).Initialise(pCommandDict);
+
+                // DECLARE & INSTANTIATE an ICommandOneParam<string> as a new CommandOneParam<string>(), name it 'resetSceneCommand':
+                ICommandOneParam<string> resetSceneCommand = _createCommand.ExecuteMethod() as ICommandOneParam<string>;
+
+                // INITIALISE resetSceneCommand with reference to ResetScene():
+                resetSceneCommand.MethodRef = ResetScene;
+
+                // INITIALISE _sGDict[pSceneName] with "ResetScene" and a reference to resetSceneCommand as parameters:
+                (_sGDict[pSceneName] as IInitialiseParam<string, ICommand>).Initialise("ResetScene", resetSceneCommand);
             }
-
-            // INITIALISE _sGDict[pSceneName] with a reference to pCommandDict:
-            (_sGDict[pSceneName] as IInitialiseParam<IDictionary<string, ICommand>>).Initialise(pCommandDict);
-
-            // DECLARE & INSTANTIATE an ICommandOneParam<string> as a new CommandOneParam<string>(), name it 'resetSceneCommand':
-            ICommandOneParam<string> resetSceneCommand = _createCommand.ExecuteMethod() as ICommandOneParam<string>;
-
-            // INITIALISE resetSceneCommand with reference to ResetScene():
-            resetSceneCommand.MethodRef = ResetScene;
-
-            // INITIALISE _sGDict[pSceneName] with "ResetScene" and a reference to resetSceneCommand as parameters:
-            (_sGDict[pSceneName] as IInitialiseParam<string, ICommand>).Initialise("ResetScene", resetSceneCommand);
+            // IF pLoadSceneCommand DOES NOT HAVE an active instance:
+            else
+            {
+                // THROW a new NullInstanceException(), with corresponding message:
+                throw new NullInstanceException("ERROR: pLoadSceneCommand does not have an active instance!");
+            }
         }
 
         /// <summary>
         /// Creates a Cutscene which stores entities and their positions
         /// </summary>
         /// <param name="pCutsceneName"> Name of Cutscene </param>
+        /// <param name="pCommandDict"> Dictionary to store commands in </param>
         /// <param name="pLoadSceneCommand"> Command to Load Scene when needed </param>
-        public void CreateCutscene(string pCutsceneName, ICommand pLoadSceneCommand)
+        public void CreateCutscene(string pCutsceneName, IDictionary<string, ICommand> pCommandDict, ICommand pLoadSceneCommand)
         {
             // IF pLoadSceneCommand DOES HAVE an active instance:
             if (pLoadSceneCommand != null)
@@ -104,20 +115,17 @@ namespace OrbitalEngine.SceneManagement
                 _currentScene = pCutsceneName;
 
                 // ADD _currentScene as a key, and a new CutsceneGraph() to _sGDict:
-                // _sGDict.Add(_currentScene, _sGFactory.Create<CutsceneGraph>());
+                _sGDict.Add(_currentScene, _sGFactory.Create<CutsceneGraph>());
 
                 // IF _sceneLoadDict DOES NOT already contain pCutsceneName:
                 if (!_sceneLoadDict.ContainsKey(pCutsceneName))
                 {
-                    // ADD _currentScene as a key, and a reference to pLoadSceneCommand to _sceneLoadDict:
-                    _sceneLoadDict.Add(_currentScene, pLoadSceneCommand);
+                    // ADD pCutsceneName as a key, and a reference to pLoadSceneCommand to _sceneLoadDict:
+                    _sceneLoadDict.Add(pCutsceneName, pLoadSceneCommand);
                 }
-                // IF _sceneLoadDict DOES already contain pCutsceneName:
-                else
-                {
-                    // THROW a new ValueAlreadyStoredException(), with corresponding message:
-                    throw new ValueAlreadyStoredException("ERROR: _sceneLoadDict already contains pCutsceneName as a key!");
-                }
+
+                // INITIALISE _sGDict[pCutsceneName] with a reference to pCommandDict:
+                (_sGDict[pCutsceneName] as IInitialiseParam<IDictionary<string, ICommand>>).Initialise(pCommandDict);
             }
             // IF pLoadSceneCommand DOES NOT HAVE an active instance:
             else

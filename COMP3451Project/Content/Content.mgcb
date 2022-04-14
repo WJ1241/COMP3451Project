@@ -13,12 +13,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin RIRR/Fonts/Calibri.spritefont
+#begin RIRR/Fonts/ComicSansMS.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:RIRR/Fonts/Calibri.spritefont
+/build:RIRR/Fonts/ComicSansMS.spritefont
 
 #begin RIRR/GameSprites/Geoff.png
 /importer:TextureImporter

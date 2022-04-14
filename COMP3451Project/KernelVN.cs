@@ -45,7 +45,154 @@ namespace COMP3451Project
     {
         #region PRE LEVEL 1 VN
 
+        /// <summary>
+        /// Creates every dependency for the scene as well as all references for entities in VN Scene One
+        /// </summary>
+        private void CreateVNOne()
+        {
+            #region MANAGER REFERENCES
 
+            /// ENTITY MANAGER
+
+            // DECLARE & GET an instance of EntityManager as an IEntityManager, name it 'entityManager':
+            IEntityManager entityManager = _engineManager.GetService<EntityManager>() as IEntityManager;
+
+            /// SCENE MANAGER
+
+            // DECLARE & GET an instance of SceneManager as an ISceneManager, name it 'sceneManager':
+            ISceneManager sceneManager = _engineManager.GetService<SceneManager>() as ISceneManager;
+
+            /// CREATE ICOMMAND FUNCCOMMAND
+
+            // DECLARE & INSTANTIATE an IFuncCommand<ICommandOneParam<string>> as a new FuncCommand<ICommandOneParam<string>>(), name it 'createCommand':
+            IFuncCommand<ICommand> createCommand = (_engineManager.GetService<Factory<IFuncCommand<ICommand>>>() as IFactory<IFuncCommand<ICommand>>).Create<FuncCommandZeroParam<ICommand>>();
+
+            // INITIALISE _createFloor's MethodRef Property with Factory<ICommand>.Create<CommandOneParam<string>>:
+            (createCommand as IFuncCommandZeroParam<ICommand>).MethodRef = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandOneParam<string>>;
+
+            #endregion
+
+
+            #region SFX COMMAND
+
+            // DECLARE & INSTANTIATE an ICommand as a new CommandOneParam<string>(), name it 'playSFXCommand':
+            ICommand playSFXCommand = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandOneParam<string>>();
+
+            // INITIALISE playSFXCommand's MethodRef Property with reference to SFXManager.PlayAudio:
+            (playSFXCommand as ICommandOneParam<string>).MethodRef = (_engineManager.GetService<SFXManager>() as IPlayAudio).PlayAudio;
+
+            #endregion
+
+
+            #region VN SCENE ONE CREATION
+
+            /// SCENE
+
+            // SET _bgColour to Grey:
+            _bgColour = Color.Gray;
+
+            // DECLARE & INSTANTIATE an ICommand as a new CommandZeroParam(), name it 'loadVNOne':
+            ICommand loadVNOne = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandZeroParam>();
+
+            // INITIALISE loadVNOne with reference to this method:
+            (loadVNOne as ICommandZeroParam).MethodRef = CreateVNOne;
+
+            // DECLARE & INSTANTIATE an ICommand as a new CommandZeroParam(), name it 'loadLevelOne':
+            ICommand loadLevelOne = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandZeroParam>();
+
+            // INITIALISE loadLevelOne with reference to CreateLevelOne:
+            (loadLevelOne as ICommandZeroParam).MethodRef = CreateLevelOne;
+
+            // CALL CreateScene() on sceneManager, passing "VN1", a new Dictionary<string, ICommand>, and loadVNOne as parameters:
+            sceneManager.CreateCutscene("VN1", (_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, ICommand>>() as IDictionary<string, ICommand>, loadVNOne);
+
+            // CALL UploadNextScene() on sceneManager, passing "Level1", and loadLevelOne as parameters:
+            sceneManager.UploadNextScene("Level1", loadLevelOne);
+
+            // INITIALISE sceneManager with a new Dictionary<string, IEntity>() and a reference to createCommand for scene "VN1":
+            sceneManager.Initialise("VN1", (_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, IEntity>>() as IDictionary<string, IEntity>, createCommand);
+
+            /// SCENE GRAPH
+
+            // DECLARE & INSTANTIATE an ICommand as a new CommandTwoParam<string, string>(), 'nextSceneCommand':
+            ICommand nextSceneCommand = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandTwoParam<string, string>>();
+
+            // INITIALISE nextSceneCommand with a reference to SceneManager.LoadNextScene():
+            (nextSceneCommand as ICommandTwoParam<string, string>).MethodRef = sceneManager.LoadNextScene;
+
+            // DECLARE & INSTANTIATE an ICommand as a new CommandZeroParam(), name it 'stopAudioCommand':
+            ICommand stopAudioCommand = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandZeroParam>();
+
+            // INITIALISE stopAudioCommand with a reference to SongManager.StopAudio():
+            (stopAudioCommand as ICommandZeroParam).MethodRef = (_engineManager.GetService<SongManager>() as ISongManager).StopAudio;
+
+            // INITIALISE the current scene with a new Dictionary<string, IDictionary<int, Texture2D>>:
+            (sceneManager.ReturnCurrentScene() as IInitialiseParam<IDictionary<string, IDictionary<int, Texture2D>>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, IDictionary<int, Texture2D>>>() as IDictionary<string, IDictionary<int, Texture2D>>);
+
+            // INITIALISE the current scene with "NextScene" and nextSceneCommand as parameters:
+            (sceneManager.ReturnCurrentScene() as IInitialiseParam<string, ICommand>).Initialise("NextScene", nextSceneCommand);
+
+            // INITIALISE the current scene with "StopAudio" and stopAudioCommand as parameters:
+            (sceneManager.ReturnCurrentScene() as IInitialiseParam<string, ICommand>).Initialise("StopAudio", stopAudioCommand);
+
+            // INITIALISE the current scene with "Level1" as a parameter:
+            (sceneManager.ReturnCurrentScene() as IInitialiseParam<string>).Initialise("Level1");
+
+            // INITIALISE the current scene with "ComicSansMS" for text font:
+            (sceneManager.ReturnCurrentScene() as IInitialiseParam<SpriteFont>).Initialise(Content.Load<SpriteFont>("RIRR/Fonts/ComicSansMS"));
+
+            // INITIALISE the current scene with a new Vector2() for text positioning:
+            (sceneManager.ReturnCurrentScene() as IInitialiseParam<Vector2>).Initialise(new Vector2(100, 600));
+
+
+            #region ITERATION SETUP
+
+            // DECLARE & INSTANTIATE an IDictionary<int, string> as a new Dictionary<int, string>(), name it 'quoteDict':
+            IDictionary<int, string> quoteDict = (_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<int, string>>() as IDictionary<int, string>;
+
+
+            #region ITERATION 1
+
+            quoteDict.Add(0, "BOB");
+            quoteDict.Add(1, "Keith");
+            quoteDict.Add(2, "Steve");
+            quoteDict.Add(3, "Darren");
+            quoteDict.Add(4, "Dickie Wilks");
+
+
+            #endregion
+
+
+            #endregion
+
+
+
+
+            #region SPAWNING
+
+
+
+            #endregion
+
+
+            #region DICTIONARY INITIALISATION
+
+
+            // INITIALISE the current scene with a reference to quoteDict:
+            (sceneManager.ReturnCurrentScene() as IInitialiseParam<IDictionary<int, string>>).Initialise(quoteDict);
+
+            #endregion
+
+
+            #region AUDIO
+
+            // CALL PlayAudio on songMgr to play "VNTrack":
+            (_engineManager.GetService<SongManager>() as IPlayAudio).PlayAudio("VNTrack");
+
+            #endregion
+
+            #endregion
+        }
 
         #endregion
 

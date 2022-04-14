@@ -71,7 +71,6 @@ namespace COMP3451Project
             // INITIALISE _createFloor's MethodRef Property with Factory<ICommand>.Create<CommandOneParam<string>>:
             (createCommand as IFuncCommandZeroParam<ICommand>).MethodRef = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandOneParam<string>>;
 
-
             #endregion
 
 
@@ -89,6 +88,9 @@ namespace COMP3451Project
             #region LEVEL 1 CREATION
 
             /// SCENE
+
+            // SET _bgColour to Black:
+            _bgColour = Color.Black;
 
             // DECLARE & INSTANTIATE an ICommand as a new CommandZeroParam(), name it 'loadLevelOne':
             ICommand loadLevelOne = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandZeroParam>();
@@ -2316,6 +2318,9 @@ namespace COMP3451Project
 
             /// SCENE
 
+            // SET _bgColour to Black:
+            _bgColour = Color.Black;
+
             // DECLARE & INSTANTIATE an ICommand as a new CommandZeroParam(), name it 'loadLevelTwo':
             ICommand loadLevelTwo = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandZeroParam>();
 
@@ -4542,6 +4547,9 @@ namespace COMP3451Project
             #region LEVEL 3 CREATION
 
             /// SCENE
+
+            // SET _bgColour to Black:
+            _bgColour = Color.Black;
 
             // DECLARE & INSTANTIATE an ICommand as a new CommandZeroParam(), name it 'loadLevelThree':
             ICommand loadLevelThree = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandZeroParam>();
