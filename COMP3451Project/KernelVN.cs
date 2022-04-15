@@ -174,7 +174,7 @@ namespace COMP3451Project
             #region ITERATION 0
 
             // ADD blank string for Iteration 0:
-            quoteDict.Add(0, "");
+            quoteDict.Add(0, " Press the 'ENTER' key to continue");
 
             // ADD Gerald_Dialogue_Normal" at address '0' in geraldTexDict:
             geraldTexDict.Add(0, Content.Load<Texture2D>("RIRR/VNSprites/Gerald_Dialogue_Normal"));
