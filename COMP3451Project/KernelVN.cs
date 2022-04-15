@@ -1,21 +1,12 @@
-﻿using COMP3451Project.RIRRPackage.Behaviours;
-using COMP3451Project.RIRRPackage.Entities;
-using COMP3451Project.RIRRPackage.Entities.Interfaces;
-using COMP3451Project.RIRRPackage.States;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using OrbitalEngine.Animation;
-using OrbitalEngine.Animation.Interfaces;
 using OrbitalEngine.Audio;
 using OrbitalEngine.Audio.Interfaces;
-using OrbitalEngine.Behaviours.Interfaces;
-using OrbitalEngine.Camera;
-using OrbitalEngine.Camera.Behaviours;
-using OrbitalEngine.Camera.Interfaces;
 using OrbitalEngine.CollisionManagement;
 using OrbitalEngine.CollisionManagement.Interfaces;
 using OrbitalEngine.CoreInterfaces;
-using OrbitalEngine.CustomEventArgs;
 using OrbitalEngine.EntityManagement;
 using OrbitalEngine.EntityManagement.Interfaces;
 using OrbitalEngine.InputManagement;
@@ -26,13 +17,6 @@ using OrbitalEngine.Services.Commands;
 using OrbitalEngine.Services.Commands.Interfaces;
 using OrbitalEngine.Services.Factories;
 using OrbitalEngine.Services.Factories.Interfaces;
-using OrbitalEngine.States;
-using OrbitalEngine.States.Interfaces;
-using OrbitalEngine.Tiles;
-using OrbitalEngine.Tiles.Interfaces;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace COMP3451Project
 {

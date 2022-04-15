@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using OrbitalEngine.Camera.Interfaces;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.EntityManagement.Interfaces;
 using OrbitalEngine.Exceptions;
@@ -121,8 +122,18 @@ namespace OrbitalEngine.SceneManagement
             // FOREACH IEntity in _sceneEntDict.Values:
             foreach (IEntity pEntity in _sceneEntDict.Values)
             {
-                // IF pEntity implements IDraw:
-                if (pEntity is IDraw)
+                // IF pEntity implements ICamera:
+                if (pEntity is ICamera)
+                {
+                    // IF pEntity's Texture DOES HAVE an active instance:
+                    if ((pEntity as ITexture).Texture != null)
+                    {
+                        // CALL Draw() on pEntity, passing pSpriteBatch as a parameter:
+                        (pEntity as IDraw).Draw(pSpriteBatch);
+                    }
+                }
+                // IF pEntity only implements IDraw:
+                else if (pEntity is IDraw)
                 {
                     // CALL Draw() on pEntity, passing pSpriteBatch as a parameter:
                     (pEntity as IDraw).Draw(pSpriteBatch);

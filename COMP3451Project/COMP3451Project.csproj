@@ -102,7 +102,7 @@
     <Compile Include="RIRRPackage\Behaviours\RIRRBehaviour.cs" />
     <Compile Include="RIRRPackage\Entities\NPC.cs" />
     <Compile Include="RIRRPackage\Entities\RIRREntity.cs" />
-    <Compile Include="RIRRPackage\Interfaces\IHaveObjective.cs" />
+    <Compile Include="RIRRPackage\Entities\Interfaces\IHaveObjective.cs" />
     <Compile Include="RIRRPackage\States\AnimatedRIRRState.cs" />
     <Compile Include="RIRRPackage\States\PlayerState.cs" />
   </ItemGroup>
