@@ -783,7 +783,6 @@ namespace COMP3451Project
         /// </summary>
         private void CreateVNThree()
         {
-
             #region MANAGER REFERENCES
 
             /// ENTITY MANAGER
@@ -987,10 +986,10 @@ namespace COMP3451Project
             #region ITERATION 6
 
             // ADD GEOFF quote string for Iteration 6:
-            quoteDict.Add(6, "GEOFF: What? ");
+            quoteDict.Add(6, "GEOFF: What?");
 
             // ADD Geoff_Dialogue_Shocked" at address '6' in geoffTexDict:
-            geraldTexDict.Add(6, Content.Load<Texture2D>("RIRR/VNSprites/Geoff_Dialogue_Shocked"));
+            geraldTexDict.Add(6, Content.Load<Texture2D>("RIRR/VNSprites/Gerald_Dialogue_Shocked"));
 
             #endregion
 
@@ -1301,6 +1300,7 @@ namespace COMP3451Project
 
             #endregion
 
+
             #region ITERATION 6
 
             // ADD Geoff quote string for Iteration 6:
@@ -1344,6 +1344,7 @@ namespace COMP3451Project
 
             #endregion
 
+
             #region ITERATION 10
 
             // ADD Geoff quote string for Iteration 10:
@@ -1361,7 +1362,7 @@ namespace COMP3451Project
             quoteDict.Add(11, "GEOFF: *Geoff falls into hell portal*");
 
             // ADD Geoff_Dialogue_Shocked" at address '11' in geoffTexDict:
-            geoffTexDict.Add(10, Content.Load<Texture2D>("RIRR/VNSprites/Geoff_Dialogue_Shocked"));
+            geoffTexDict.Add(11, Content.Load<Texture2D>("RIRR/VNSprites/Geoff_Dialogue_Shocked"));
 
             #endregion
 
