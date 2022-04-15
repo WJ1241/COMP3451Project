@@ -598,7 +598,7 @@ namespace COMP3451Project
             #region ITERATION 2
 
             // ADD Geoff quote string for Iteration 2:
-            quoteDict.Add(2, "GEOFF: Yeah, they use 'em to stop bleedin', popular method in the 1800's and still in use today actually!");
+            quoteDict.Add(2, "GEOFF: Yeah, they use 'em to stop form bleedin' out, that ones from the 1800's!");
 
             // ADD Geoff_Dialogue_Normal" at address '2' in geoffTexDict:
             geoffTexDict.Add(2, Content.Load<Texture2D>("RIRR/VNSprites/Geoff_Dialogue_Normal"));
@@ -609,7 +609,7 @@ namespace COMP3451Project
             #region ITERATION 3
 
             // ADD Geoff quote string for Iteration 3:
-            quoteDict.Add(3, "GEOFF: You stick that on ya leg or arm to stop the blood flow n' keep yourself from bleedin' out");
+            quoteDict.Add(3, "GEOFF: You stick that on ya leg or arm to stop the blood flow n' keep yourself from bleedin' out.");
 
             // ADD Geoff_Dialogue_Normal_Stern" at address '3' in geoffTexDict:
             geoffTexDict.Add(3, Content.Load<Texture2D>("RIRR/VNSprites/Geoff_Dialogue_Normal_Stern"));
@@ -620,7 +620,7 @@ namespace COMP3451Project
             #region ITERATION 4
 
             // ADD GEOFF quote string for Iteration 4:
-            quoteDict.Add(4, "GEOFF: Might not want to use it on your neck though, pretty obvious but knowing you, you don't really know much...");
+            quoteDict.Add(4, "GEOFF: Might not want to use it on your neck though, pretty obvious but knowing you...");
 
             // ADD Geoff_Dialogue_Evil" at address '4' in geoffTexDict:
             geoffTexDict.Add(4, Content.Load<Texture2D>("RIRR/VNSprites/Geoff_Dialogue_Evil"));
@@ -942,7 +942,7 @@ namespace COMP3451Project
             #region ITERATION 2
 
             // ADD Geoff quote string for Iteration 2:
-            quoteDict.Add(2, "GEOFF: Yeah, did ya know surgeons could adjust the tension of the blade for different amputations?");
+            quoteDict.Add(2, "GEOFF: Yup, did ya know surgeons could adjust the tension of the blade for different amputations?");
 
             // ADD Geoff_Dialogue_Evil" at address '2' in geoffTexDict:
             geoffTexDict.Add(2, Content.Load<Texture2D>("RIRR/VNSprites/Geoff_Dialogue_Evil"));
@@ -989,7 +989,7 @@ namespace COMP3451Project
             quoteDict.Add(6, "GEOFF: What?");
 
             // ADD Geoff_Dialogue_Shocked" at address '6' in geoffTexDict:
-            geraldTexDict.Add(6, Content.Load<Texture2D>("RIRR/VNSprites/Gerald_Dialogue_Shocked"));
+            geoffTexDict.Add(6, Content.Load<Texture2D>("RIRR/VNSprites/Geoff_Dialogue_Shocked"));
 
             #endregion
 
@@ -1217,23 +1217,24 @@ namespace COMP3451Project
 
             // DECLARE & INSTANTIATE an IDictionary<int, Texture2D> as a new Dictionary<int, Texture2D>(), name it 'geraldTexDict':
             IDictionary<int, Texture2D> geraldTexDict = (_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<int, Texture2D>>() as IDictionary<int, Texture2D>;
+            
+            // DECLARE & INSTANTIATE an IDictionary<int, string> as a new Dictionary<int, Texture2D>(), name it 'portalTexDict':
+            IDictionary<int, Texture2D> portalTexDict = (_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<int, Texture2D>>() as IDictionary<int, Texture2D>;
 
             // DECLARE & INSTANTIATE an IDictionary<int, string> as a new Dictionary<int, Texture2D>(), name it 'geoffTexDict':
             IDictionary<int, Texture2D> geoffTexDict = (_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<int, Texture2D>>() as IDictionary<int, Texture2D>;
 
-            // DECLARE & INSTANTIATE an IDictionary<int, string> as a new Dictionary<int, Texture2D>(), name it 'portalTexDict':
-            IDictionary<int, Texture2D> portalTexDict = (_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<int, Texture2D>>() as IDictionary<int, Texture2D>;
-
+            
 
             // DECLARE & INSTANTIATE an IEntity as a new DrawableEntity(), name it 'gerald':
             IEntity gerald = (_engineManager.GetService<EntityManager>() as IEntityManager).Create<DrawableEntity>("Gerald");
 
-            // DECLARE & INSTANTIATE an IEntity as a new DrawableEntity(), name it 'geoff':
-            IEntity geoff = (_engineManager.GetService<EntityManager>() as IEntityManager).Create<DrawableEntity>("Geoff");
-
             // DECLARE & INSTANTIATE an IEntity as a new DrawableEntity(), name it 'portal':
             IEntity portal = (_engineManager.GetService<EntityManager>() as IEntityManager).Create<DrawableEntity>("Portal");
 
+            // DECLARE & INSTANTIATE an IEntity as a new DrawableEntity(), name it 'geoff':
+            IEntity geoff = (_engineManager.GetService<EntityManager>() as IEntityManager).Create<DrawableEntity>("Geoff");
+            
             // DECLARE & INSTANTIATE an IEntity as a new DrawableEntity(), name it 'textBox':
             IEntity textBox = (_engineManager.GetService<EntityManager>() as IEntityManager).Create<DrawableEntity>("TextBox");
 
@@ -1259,22 +1260,22 @@ namespace COMP3451Project
 
             #region ITERATION 2
 
-            // ADD blank quote string for Iteration 2:
-            quoteDict.Add(2, "");
+            // ADD Geoff quote string for Iteration 2:
+            quoteDict.Add(2, "GEOFF: It was me, Geoff! I did it, it didn't exactly go to plan... But I did it!");
 
-            // ADD Geoff_Dialogue_Evil" at address '2' in portalTexDict:
-            portalTexDict.Add(2, Content.Load<Texture2D>("RIRR/VNSprites/Hell_Portal_Stones"));
+            // ADD Geoff_Dialogue_Evil" at address '2' in geoffTexDict:
+            geoffTexDict.Add(2, Content.Load<Texture2D>("RIRR/VNSprites/Geoff_Dialogue_Evil"));
 
             #endregion
 
 
             #region ITERATION 3
 
-            // ADD Geoff quote string for Iteration 3:
-            quoteDict.Add(3, "GEOFF: It was me, Geoff! I did it, it didn't exactly go to plan… But I did it!");
+            // ADD blank quote string for Iteration 3:
+            quoteDict.Add(3, "");
 
-            // ADD Geoff_Dialogue_Evil" at address '3' in geoffTexDict:
-            geoffTexDict.Add(3, Content.Load<Texture2D>("RIRR/VNSprites/Geoff_Dialogue_Evil"));
+            // ADD Geoff_Dialogue_Evil" at address '3' in portalTexDict:
+            portalTexDict.Add(3, Content.Load<Texture2D>("RIRR/VNSprites/Hell_Portal_Stones"));
 
             #endregion
 
@@ -1396,12 +1397,12 @@ namespace COMP3451Project
             // INITIALISE the current scene with "Gerald" and a reference to geraldTexDict:
             (sceneManager.ReturnCurrentScene() as IInitialiseParam<string, IDictionary<int, Texture2D>>).Initialise("Gerald", geraldTexDict);
 
-            // INITIALISE the current scene with "Geoff" and a reference to geoffTexDict:
-            (sceneManager.ReturnCurrentScene() as IInitialiseParam<string, IDictionary<int, Texture2D>>).Initialise("Geoff", geoffTexDict);
-
             // INITIALISE the current scene with "Portal" and a reference to geoffTexDict:
             (sceneManager.ReturnCurrentScene() as IInitialiseParam<string, IDictionary<int, Texture2D>>).Initialise("Portal", portalTexDict);
 
+            // INITIALISE the current scene with "Geoff" and a reference to geoffTexDict:
+            (sceneManager.ReturnCurrentScene() as IInitialiseParam<string, IDictionary<int, Texture2D>>).Initialise("Geoff", geoffTexDict);
+            
             // INITIALISE the current scene with a reference to quoteDict:
             (sceneManager.ReturnCurrentScene() as IInitialiseParam<IDictionary<int, string>>).Initialise(quoteDict);
 
@@ -1418,6 +1419,14 @@ namespace COMP3451Project
             // SPAWN gerald in "VN4" at (40, 0):
             sceneManager.Spawn("VN4", gerald, new Vector2(40, 0));
 
+            /// PORTAL
+
+            // INITIALISE portal's Texture Property with "Blank":
+            (portal as ITexture).Texture = Content.Load<Texture2D>("RIRR/VNSprites/Blank");
+
+            // SPAWN geoff in "VN4" at (840, 0):
+            sceneManager.Spawn("VN4", portal, new Vector2(870, 0));
+
             /// GEOFF
 
             // INITIALISE geoff's Texture Property with "Blank":
@@ -1425,14 +1434,6 @@ namespace COMP3451Project
 
             // SPAWN geoff in "VN4" at (840, 0):
             sceneManager.Spawn("VN4", geoff, new Vector2(840, 0));
-
-            /// PORTAL
-
-            // INITIALISE portal's Texture Property with "Blank":
-            (portal as ITexture).Texture = Content.Load<Texture2D>("RIRR/VNSprites/Blank");
-
-            // SPAWN geoff in "VN4" at (840, 0):
-            sceneManager.Spawn("VN4", portal, new Vector2(840, 0));
 
             /// TEXT BOX
 
