@@ -38,8 +38,8 @@ namespace COMP3451Project
 {
     /// <summary>
     /// Kernel Class to hold all VN Scene Creation Methods
-    /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 14/04/22
+    /// Authors: Declan Kerby-Collins & William Smith
+    /// Date: 15/04/22
     /// </summary>
     public partial class Kernel
     {
@@ -1294,7 +1294,7 @@ namespace COMP3451Project
             #region ITERATION 5
 
             // ADD Geoff quote string for Iteration 5:
-            quoteDict.Add(5, "GEOFF: *Continues to monologues* ");
+            quoteDict.Add(5, "GEOFF: *Continues to monologue* ");
 
             // ADD Geoff_Dialogue_Evil" at address '5' in geoffTexDict:
             geoffTexDict.Add(5, Content.Load<Texture2D>("RIRR/VNSprites/Geoff_Dialogue_Evil"));
@@ -1304,11 +1304,11 @@ namespace COMP3451Project
 
             #region ITERATION 6
 
-            // ADD Geoff quote string for Iteration 6:
-            quoteDict.Add(6, "GEOFF: It was me, Geoff! I did it, it didnt exactly go to plan... But I did it!");
+            // ADD Gerald quote string for Iteration 6:
+            quoteDict.Add(6, "GERALD: ...");
 
-            // ADD Geoff_Dialogue_Evil" at address '6' in geoffTexDict:
-            geoffTexDict.Add(6, Content.Load<Texture2D>("RIRR/VNSprites/Geoff_Dialogue_Evil"));
+            // ADD Gerald_Dialogue_Thinking" at address '6' in geraldTexDict:
+            geraldTexDict.Add(6, Content.Load<Texture2D>("RIRR/VNSprites/Gerald_Dialogue_Thinking"));
 
             #endregion
 
@@ -1316,10 +1316,10 @@ namespace COMP3451Project
             #region ITERATION 7
 
             // ADD Gerald quote string for Iteration 7:
-            quoteDict.Add(7, "GERALD: ...");
+            quoteDict.Add(7, "GERALD: Oh would you sod Off!?");
 
-            // ADD Gerald_Dialogue_Thinking" at address '7' in geraldTexDict:
-            geraldTexDict.Add(7, Content.Load<Texture2D>("RIRR/VNSprites/Gerald_Dialogue_Thinking"));
+            // ADD Gerald_Dialogue_Angry" at address '7' in geraldTexDict:
+            geraldTexDict.Add(7, Content.Load<Texture2D>("RIRR/VNSprites/Gerald_Dialogue_Angry"));
 
             #endregion
 
@@ -1327,7 +1327,7 @@ namespace COMP3451Project
             #region ITERATION 8
 
             // ADD Gerald quote string for Iteration 8:
-            quoteDict.Add(8, "GERALD: Oh would you sod Off!?");
+            quoteDict.Add(8, "GERALD: *hits Geoff in face with whisky bottle*");
 
             // ADD Gerald_Dialogue_Angry" at address '8' in geraldTexDict:
             geraldTexDict.Add(8, Content.Load<Texture2D>("RIRR/VNSprites/Gerald_Dialogue_Angry"));
@@ -1337,11 +1337,11 @@ namespace COMP3451Project
 
             #region ITERATION 9
 
-            // ADD Gerald quote string for Iteration 9:
-            quoteDict.Add(9, "GERALD: *hits Geoff in face with whisky bottle*");
+            // ADD Geoff quote string for Iteration 9:
+            quoteDict.Add(9, "GEOFF: AGGHHHHHHHH!!!");
 
-            // ADD Gerald_Dialogue_Angry" at address '9' in geraldTexDict:
-            geraldTexDict.Add(9, Content.Load<Texture2D>("RIRR/VNSprites/Gerald_Dialogue_Angry"));
+            // ADD Geoff_Dialogue_Shocked" at address '9' in geoffTexDict:
+            geoffTexDict.Add(9, Content.Load<Texture2D>("RIRR/VNSprites/Geoff_Dialogue_Shocked"));
 
             #endregion
 
@@ -1349,7 +1349,7 @@ namespace COMP3451Project
             #region ITERATION 10
 
             // ADD Geoff quote string for Iteration 10:
-            quoteDict.Add(10, "GEOFF: AGGHHHHHHHH!!!");
+            quoteDict.Add(10, "GEOFF: *Geoff falls into hell portal*");
 
             // ADD Geoff_Dialogue_Shocked" at address '10' in geoffTexDict:
             geoffTexDict.Add(10, Content.Load<Texture2D>("RIRR/VNSprites/Geoff_Dialogue_Shocked"));
@@ -1359,33 +1359,22 @@ namespace COMP3451Project
 
             #region ITERATION 11
 
-            // ADD Geoff quote string for Iteration 11:
-            quoteDict.Add(11, "GEOFF: *Geoff falls into hell portal*");
+            // ADD Blank quote string for Iteration 11:
+            quoteDict.Add(11, "");
 
-            // ADD Geoff_Dialogue_Shocked" at address '11' in geoffTexDict:
-            geoffTexDict.Add(11, Content.Load<Texture2D>("RIRR/VNSprites/Geoff_Dialogue_Shocked"));
+            // ADD Blank" at address '11' in geoffTexDict:
+            geoffTexDict.Add(11, Content.Load<Texture2D>("RIRR/VNSprites/Blank"));
 
             #endregion
 
 
             #region ITERATION 12
 
-            // ADD Blank quote string for Iteration 12:
-            quoteDict.Add(12, "");
-
-            // ADD Blank" at address '12' in geoffTexDict:
-            geoffTexDict.Add(12, Content.Load<Texture2D>("RIRR/VNSprites/Blank"));
-
-            #endregion
-
-
-            #region ITERATION 13
-
-            // ADD Gerald quote string for Iteration 13:
-            quoteDict.Add(13, "GERALD: What a moron... Time to go to sleep, got work in t' morning");
+            // ADD Gerald quote string for Iteration 12:
+            quoteDict.Add(12, "GERALD: What a moron... Time to go to sleep, got work in t' morning");
 
             // ADD Gerald_Dialogue_Normal" at address '12' in geraldTexDict:
-            geraldTexDict.Add(13, Content.Load<Texture2D>("RIRR/VNSprites/Gerald_Dialogue_Normal"));
+            geraldTexDict.Add(12, Content.Load<Texture2D>("RIRR/VNSprites/Gerald_Dialogue_Normal"));
 
             #endregion
 

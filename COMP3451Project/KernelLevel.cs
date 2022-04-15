@@ -39,8 +39,8 @@ namespace COMP3451Project
 {
     /// <summary>
     /// Kernel Class to hold all Level Creation Methods
-    /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 14/04/22
+    /// Authors: Declan Kerby-Collins & William Smith
+    /// Date: 15/04/22
     /// </summary>
     public partial class Kernel
     {
