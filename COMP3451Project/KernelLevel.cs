@@ -98,17 +98,17 @@ namespace COMP3451Project
             // INITIALISE loadLevelOne with reference to this method:
             (loadLevelOne as ICommandZeroParam).MethodRef = CreateLevelOne;
 
-            // DECLARE & INSTANTIATE an ICommand as a new CommandZeroParam(), name it 'loadLevelTwo':
-            ICommand loadLevelTwo = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandZeroParam>();
+            // DECLARE & INSTANTIATE an ICommand as a new CommandZeroParam(), name it 'loadVNTwo':
+            ICommand loadVNTwo = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandZeroParam>();
 
-            // INITIALISE loadLevelTwo with reference to CreateLevelTwo:
-            (loadLevelTwo as ICommandZeroParam).MethodRef = CreateLevelTwo;
+            // INITIALISE loadVNTwo with reference to CreateVNTwo:
+            (loadVNTwo as ICommandZeroParam).MethodRef = CreateVNTwo;
 
             // CALL CreateScene() on sceneManager, passing "Level1", a new Dictionary<string, ICommand>, and loadLevelOne as parameters:
             sceneManager.CreateScene("Level1", (_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, ICommand>>() as IDictionary<string, ICommand>, loadLevelOne);
 
-            // CALL UploadNextScene() on sceneManager, passing "Level2", and loadLevelTwo as parameters:
-            sceneManager.UploadNextScene("Level2", loadLevelTwo);
+            // CALL UploadNextScene() on sceneManager, passing "VN2", and loadVNTwo as parameters:
+            sceneManager.UploadNextScene("VN2", loadVNTwo);
 
             // INITIALISE sceneManager with a CollisionManager instance from _engineManager, a new Dictionary<string, IEntity>() and a reference to createCommand for scene "Level1":
             sceneManager.Initialise("Level1", _engineManager.GetService<CollisionManager>() as ICollisionManager,
@@ -233,8 +233,8 @@ namespace COMP3451Project
             // INITIALISE levelChangeBehaviour with a reference to levelChangeCommand:
             (levelChangeBehaviour as IInitialiseParam<ICommand>).Initialise(nextLevelCommand);
 
-            // INITIALISE levelChangeBehaviour with a value of "Level2":
-            (levelChangeBehaviour as IInitialiseParam<string>).Initialise("Level2");
+            // INITIALISE levelChangeBehaviour with a value of "VN2":
+            (levelChangeBehaviour as IInitialiseParam<string>).Initialise("VN2");
 
             // INITIALISE artefactState with a reference to levelChangeBehaviour:
             (levelChangeState as IInitialiseParam<IEventListener<CollisionEventArgs>>).Initialise(levelChangeBehaviour);
@@ -2327,17 +2327,17 @@ namespace COMP3451Project
             // INITIALISE loadLevelTwo with reference to this method:
             (loadLevelTwo as ICommandZeroParam).MethodRef = CreateLevelTwo;
 
-            // DECLARE & INSTANTIATE an ICommand as a new CommandZeroParam(), name it 'loadLevelThree':
-            ICommand loadLevelThree = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandZeroParam>();
+            // DECLARE & INSTANTIATE an ICommand as a new CommandZeroParam(), name it 'loadVNThree':
+            ICommand loadVNThree = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandZeroParam>();
 
-            // INITIALISE loadLevelThree with reference to CreateLevelThree:
-            (loadLevelThree as ICommandZeroParam).MethodRef = CreateLevelThree;
+            // INITIALISE loadVNThree with reference to CreateVNThree:
+            (loadVNThree as ICommandZeroParam).MethodRef = CreateVNThree;
 
             // CALL CreateScene() on sceneManager, passing "Level2", a new Dictionary<string, ICommand>, and loadLevelTwo as parameters:
             sceneManager.CreateScene("Level2", (_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, ICommand>>() as IDictionary<string, ICommand>, loadLevelTwo);
 
-            // CALL UploadNextScene() on sceneManager, passing "Level3", and loadLevelThree as parameters:
-            sceneManager.UploadNextScene("Level3", loadLevelThree);
+            // CALL UploadNextScene() on sceneManager, passing "VN3", and loadVNThree as parameters:
+            sceneManager.UploadNextScene("VN3", loadVNThree);
 
             // INITIALISE sceneManager with a CollisionManager instance from _engineManager, a new Dictionary<string, IEntity>() and a reference to createCommand for scene "Level2":
             sceneManager.Initialise("Level2", _engineManager.GetService<CollisionManager>() as ICollisionManager,
@@ -2463,8 +2463,8 @@ namespace COMP3451Project
             // INITIALISE levelChangeBehaviour with a reference to levelChangeCommand:
             (levelChangeBehaviour as IInitialiseParam<ICommand>).Initialise(nextLevelCommand);
 
-            // INITIALISE levelChangeBehaviour with a value of "Level3":
-            (levelChangeBehaviour as IInitialiseParam<string>).Initialise("Level3");
+            // INITIALISE levelChangeBehaviour with a value of "VN3":
+            (levelChangeBehaviour as IInitialiseParam<string>).Initialise("VN3");
 
             // INITIALISE artefactState with a reference to levelChangeBehaviour:
             (levelChangeState as IInitialiseParam<IEventListener<CollisionEventArgs>>).Initialise(levelChangeBehaviour);
@@ -4557,17 +4557,17 @@ namespace COMP3451Project
             // INITIALISE loadLevelThree with reference to CreateLevelThree:
             (loadLevelThree as ICommandZeroParam).MethodRef = CreateLevelThree;
 
-            // DECLARE & INSTANTIATE an ICommand as a new CommandZeroParam(), name it 'loadTYScene':
-            ICommand loadTYScene = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandZeroParam>();
+            // DECLARE & INSTANTIATE an ICommand as a new CommandZeroParam(), name it 'loadEpilogue':
+            ICommand loadEpilogue = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandZeroParam>();
 
-            // INITIALISE loadTYScene with reference to CreateThankYouScene:
-            (loadTYScene as ICommandZeroParam).MethodRef = CreateThankYouScene;
+            // INITIALISE loadEpilogue with reference to CreateVNEpilogue:
+            (loadEpilogue as ICommandZeroParam).MethodRef = CreateVNEpilogue;
 
             // CALL CreateScene() on sceneManager, passing "Level3", a new Dictionary<string, ICommand>, and loadLevelThree as parameters:
             sceneManager.CreateScene("Level3", (_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, ICommand>>() as IDictionary<string, ICommand>, loadLevelThree);
 
-            // CALL UploadNextScene() on sceneManager, passing "TYScene", and loadTYScene as parameters:
-            sceneManager.UploadNextScene("TYScene", loadTYScene);
+            // CALL UploadNextScene() on sceneManager, passing "Epilogue", and loadEpilogue as parameters:
+            sceneManager.UploadNextScene("Epilogue", loadEpilogue);
 
             // INITIALISE sceneManager with a CollisionManager instance from _engineManager, a new Dictionary<string, IEntity>() and a reference to createCommand for scene "Level3":
             sceneManager.Initialise("Level3", _engineManager.GetService<CollisionManager>() as ICollisionManager,
@@ -4693,8 +4693,8 @@ namespace COMP3451Project
             // INITIALISE levelChangeBehaviour with a reference to levelChangeCommand:
             (levelChangeBehaviour as IInitialiseParam<ICommand>).Initialise(nextLevelCommand);
 
-            // INITIALISE levelChangeBehaviour with a value of "TYScene":
-            (levelChangeBehaviour as IInitialiseParam<string>).Initialise("TYScene");
+            // INITIALISE levelChangeBehaviour with a value of "Epilogue":
+            (levelChangeBehaviour as IInitialiseParam<string>).Initialise("Epilogue");
 
             // INITIALISE artefactState with a reference to levelChangeBehaviour:
             (levelChangeState as IInitialiseParam<IEventListener<CollisionEventArgs>>).Initialise(levelChangeBehaviour);

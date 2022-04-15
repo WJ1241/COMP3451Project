@@ -308,6 +308,18 @@
 /processorParam:TextureFormat=Color
 /build:RIRR/VNSprites/Gerald_Dialogue_Thinking.png
 
+#begin RIRR/VNSprites/Hell_Portal_Stones.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:RIRR/VNSprites/Hell_Portal_Stones.png
+
 #begin RIRR/VNSprites/Text_Bubble.png
 /importer:TextureImporter
 /processor:TextureProcessor
