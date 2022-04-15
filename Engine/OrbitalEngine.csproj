@@ -110,6 +110,7 @@
     <Compile Include="SceneManagement\Interfaces\ISceneGraph.cs" />
     <Compile Include="SceneManagement\Interfaces\ISceneManager.cs" />
     <Compile Include="SceneManagement\Interfaces\ISpawn.cs" />
+    <Compile Include="SceneManagement\LevelSceneGraph.cs" />
     <Compile Include="SceneManagement\SceneGraph.cs" />
     <Compile Include="SceneManagement\SceneManager.cs" />
     <Compile Include="Services\Commands\CommandTwoParam.cs" />

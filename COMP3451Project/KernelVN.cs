@@ -114,6 +114,14 @@ namespace COMP3451Project
 
             /// SCENE GRAPH
 
+            #region COMMANDS
+
+            // DECLARE & INSTANTIATE an ICommand as a new CommandOneParam<IKeyboardListener>(), 'unsubscribeKBCommand':
+            ICommand unsubscribeKBCommand = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandOneParam<string>>();
+
+            // INITIALISE unsubscribeKBCommand with a reference to KeyboardManager.Unsubscribe:
+            (unsubscribeKBCommand as ICommandOneParam<string>).MethodRef = (_engineManager.GetService<KeyboardManager>() as IKeyboardPublisher).Unsubscribe;
+
             // DECLARE & INSTANTIATE an ICommand as a new CommandTwoParam<string, string>(), 'nextSceneCommand':
             ICommand nextSceneCommand = (_engineManager.GetService<Factory<ICommand>>() as IFactory<ICommand>).Create<CommandTwoParam<string, string>>();
 
@@ -126,8 +134,19 @@ namespace COMP3451Project
             // INITIALISE stopAudioCommand with a reference to SongManager.StopAudio():
             (stopAudioCommand as ICommandZeroParam).MethodRef = (_engineManager.GetService<SongManager>() as ISongManager).StopAudio;
 
+            #endregion
+
+
+            #region INITIALISATIONS
+
+            // SUBSCRIBE current scene to the KeyboardManager:
+            (_engineManager.GetService<KeyboardManager>() as IKeyboardPublisher).Subscribe(sceneManager.ReturnCurrentScene() as IKeyboardListener);
+
             // INITIALISE the current scene with a new Dictionary<string, IDictionary<int, Texture2D>>:
             (sceneManager.ReturnCurrentScene() as IInitialiseParam<IDictionary<string, IDictionary<int, Texture2D>>>).Initialise((_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<string, IDictionary<int, Texture2D>>>() as IDictionary<string, IDictionary<int, Texture2D>>);
+
+            // INITIALISE the current scene with "UnsubscribeKB" and unsubscribeKBCommand as parameters:
+            (sceneManager.ReturnCurrentScene() as IInitialiseParam<string, ICommand>).Initialise("UnsubscribeKB", unsubscribeKBCommand);
 
             // INITIALISE the current scene with "NextScene" and nextSceneCommand as parameters:
             (sceneManager.ReturnCurrentScene() as IInitialiseParam<string, ICommand>).Initialise("NextScene", nextSceneCommand);
@@ -144,32 +163,58 @@ namespace COMP3451Project
             // INITIALISE the current scene with a new Vector2() for text positioning:
             (sceneManager.ReturnCurrentScene() as IInitialiseParam<Vector2>).Initialise(new Vector2(100, 600));
 
+            #endregion
+
 
             #region ITERATION SETUP
 
             // DECLARE & INSTANTIATE an IDictionary<int, string> as a new Dictionary<int, string>(), name it 'quoteDict':
             IDictionary<int, string> quoteDict = (_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<int, string>>() as IDictionary<int, string>;
 
+            // DECLARE & INSTANTIATE an IDictionary<int, Texture2D> as a new Dictionary<int, Texture2D>(), name it 'geraldTexDict':
+            IDictionary<int, Texture2D> geraldTexDict = (_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<int, Texture2D>>() as IDictionary<int, Texture2D>;
+
+            // DECLARE & INSTANTIATE an IDictionary<int, string> as a new Dictionary<int, Texture2D>(), name it 'geoffTexDict':
+            IDictionary<int, Texture2D> geoffTexDict = (_engineManager.GetService<Factory<IEnumerable>>() as IFactory<IEnumerable>).Create<Dictionary<int, Texture2D>>() as IDictionary<int, Texture2D>;
+
+            // DECLARE & INSTANTIATE an IEntity as a new DrawableEntity(), name it 'gerald':
+            IEntity gerald = (_engineManager.GetService<EntityManager>() as IEntityManager).Create<DrawableEntity>("Gerald");
+
+            // DECLARE & INSTANTIATE an IEntity as a new DrawableEntity(), name it 'geoff':
+            IEntity geoff = (_engineManager.GetService<EntityManager>() as IEntityManager).Create<DrawableEntity>("Geoff");
+
+            // DECLARE & INSTANTIATE an IEntity as a new DrawableEntity(), name it 'textBox':
+            IEntity textBox = (_engineManager.GetService<EntityManager>() as IEntityManager).Create<DrawableEntity>("TextBox");
+
+
+            #region ITERATION 0
+
+            // ADD blank string for Iteration 0:
+            quoteDict.Add(0, "");
+
+            // ADD Gerald_Dialogue_Normal" at address '0' in geraldTexDict:
+            geraldTexDict.Add(3, Content.Load<Texture2D>("RIRR/VNSprites/Gerald_Dialogue_Normal"));
+
+            #endregion
+
 
             #region ITERATION 1
 
-            quoteDict.Add(0, "BOB");
-            quoteDict.Add(1, "Keith");
-            quoteDict.Add(2, "Steve");
-            quoteDict.Add(3, "Darren");
-            quoteDict.Add(4, "Dickie Wilks");
-
+            // ADD Gerald quote for Iteration 1:
+            quoteDict.Add(1, "GERALD: Ah well... Looks like 'nother boring night...");
 
             #endregion
 
 
+            #region ITERATION 2
+
+            // ADD Gerald quote string for Iteration 2:
+            quoteDict.Add(2, "GERALD: ...");
+
+            // ADD Gerald_Dialogue_Thinking" at address '2' in geraldTexDict:
+            geraldTexDict.Add(2, Content.Load<Texture2D>("RIRR/VNSprites/Gerald_Dialogue_Thinking"));
+
             #endregion
-
-
-
-
-            #region SPAWNING
-
 
 
             #endregion
@@ -177,9 +222,44 @@ namespace COMP3451Project
 
             #region DICTIONARY INITIALISATION
 
+            // INITIALISE the current scene with "Gerald" and a reference to geraldTexDict:
+            (sceneManager.ReturnCurrentScene() as IInitialiseParam<string, IDictionary<int, Texture2D>>).Initialise("Gerald", geraldTexDict);
+
+            // INITIALISE the current scene with "Geoff" and a reference to geoffTexDict:
+            (sceneManager.ReturnCurrentScene() as IInitialiseParam<string, IDictionary<int, Texture2D>>).Initialise("Geoff", geoffTexDict);
 
             // INITIALISE the current scene with a reference to quoteDict:
             (sceneManager.ReturnCurrentScene() as IInitialiseParam<IDictionary<int, string>>).Initialise(quoteDict);
+
+            #endregion
+
+
+            #region SPAWNING
+
+            /// GERALD
+
+            // INITIALISE gerald's Texture Property with "Gerald_Dialogue_Shocked":
+            (gerald as ITexture).Texture = Content.Load<Texture2D>("RIRR/VNSprites/Gerald_Dialogue_Shocked");
+            
+            // SPAWN gerald in "VN1" at (40, 0):
+            sceneManager.Spawn("VN1", gerald, new Vector2(40, 0));
+
+            /// GEOFF
+
+            // INITIALISE geoff's Texture Property with "Blank":
+            (geoff as ITexture).Texture = Content.Load<Texture2D>("RIRR/VNSprites/Blank");
+
+            // SPAWN geoff in "VN1" at (840, 0):
+            sceneManager.Spawn("VN1", geoff, new Vector2(840, 0));
+
+            /// TEXT BOX
+
+            // INITIALISE textBox's Texture Property with "Text_Bubble":
+            (textBox as ITexture).Texture = Content.Load<Texture2D>("RIRR/VNSprites/Text_Bubble");
+
+            // SPAWN textBox in "VN1" at (-40, 500):
+            sceneManager.Spawn("VN1", textBox, new Vector2(-40, 500));
+
 
             #endregion
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using OrbitalEngine.CoreInterfaces;
@@ -12,7 +13,7 @@ namespace OrbitalEngine.InputManagement
     /// <summary>
     /// Class which manages all entities listening for Keyboard input
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 07/04/22
+    /// Date: 15/04/22
     /// </summary>
     public class KeyboardManager : IKeyboardPublisher, IInitialiseParam<IDictionary<string, IKeyboardListener>>, IService, IUpdatable
     {
@@ -48,8 +49,18 @@ namespace OrbitalEngine.InputManagement
         /// <param name="pKeyboardListener"> Reference to an object implementing IKeyboardListener </param>
         public void Subscribe(IKeyboardListener pKeyboardListener)
         {
-            // ADD KeyboardListener to Dictionary<string, IKeyboardListener>:
-            _kBListeners.Add((pKeyboardListener as IEntity).UName, pKeyboardListener);
+            // IF pKeyboardListener implements IEntity:
+            if (pKeyboardListener is IEntity)
+            {
+                // ADD pKeyboardListener to Dictionary<string, IKeyboardListener>:
+                _kBListeners.Add((pKeyboardListener as IEntity).UName, pKeyboardListener);
+            }
+            // IF pKeyboardListener implements IName:
+            else if (pKeyboardListener is IName)
+            {
+                // ADD pKeyboardListener to Dictionary<string, IKeyboardListener>:
+                _kBListeners.Add((pKeyboardListener as IName).Name, pKeyboardListener);
+            }
         }
 
         /// <summary>
@@ -102,7 +113,7 @@ namespace OrbitalEngine.InputManagement
             _keyboardState = Keyboard.GetState();
 
             // FOREACH IKeyboardListener objects in _kBListeners:
-            foreach (IKeyboardListener pKeyboardListener in _kBListeners.Values)
+            foreach (IKeyboardListener pKeyboardListener in _kBListeners.Values.ToList())
             {
                 // CALL 'OnKBInput()' passing a KeyboardState as a parameter, used to get Keyboard input:
                 pKeyboardListener.OnKBInput(_keyboardState);

@@ -70,8 +70,8 @@ namespace OrbitalEngine.SceneManagement
                 // INITIALISE _currentScene with value of pSceneName:
                 _currentScene = pSceneName;
 
-                // ADD _currentScene as a key, and a new SceneGraph() to _sGDict:
-                _sGDict.Add(_currentScene, _sGFactory.Create<SceneGraph>());
+                // ADD _currentScene as a key, and a new LevelSceneGraph() to _sGDict:
+                _sGDict.Add(_currentScene, _sGFactory.Create<LevelSceneGraph>());
 
                 // IF _sceneLoadDict DOES NOT already contain pSceneName:
                 if (!_sceneLoadDict.ContainsKey(pSceneName))

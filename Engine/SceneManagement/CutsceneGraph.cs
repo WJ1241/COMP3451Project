@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using OrbitalEngine.CoreInterfaces;
 using OrbitalEngine.EntityManagement.Interfaces;
 using OrbitalEngine.Exceptions;
-using OrbitalEngine.SceneManagement.Interfaces;
+using OrbitalEngine.InputManagement.Interfaces;
 using OrbitalEngine.Services.Commands.Interfaces;
 
 namespace OrbitalEngine.SceneManagement
@@ -15,28 +13,18 @@ namespace OrbitalEngine.SceneManagement
     /// <summary>
     /// Class which is used to hold all entities relative to a Cutscene situation, and to update and draw them depending on their case
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 14/04/22
+    /// Date: 15/04/22
     /// </summary>
-    public class CutsceneGraph : ISceneGraph, IDraw, IInitialiseParam<IDictionary<string, ICommand>>, IInitialiseParam<IDictionary<string, IDictionary<int, Texture2D>>>, IInitialiseParam<IDictionary<int, string>>, 
-        IInitialiseParam<IFuncCommand<ICommand>>, IInitialiseParam<SpriteFont>, IInitialiseParam<string>, IInitialiseParam<string, ICommand>, IInitialiseParam<IDictionary<string, IEntity>>,
-        IInitialiseParam<string, IDictionary<int, Texture2D>>, IInitialiseParam<Vector2>, IName, ISpawn, IUpdatable
+    public class CutsceneGraph : SceneGraph, IInitialiseParam<IDictionary<string, IDictionary<int, Texture2D>>>, IInitialiseParam<IDictionary<int, string>>, 
+         IInitialiseParam<SpriteFont>, IInitialiseParam<string>, IInitialiseParam<string, IDictionary<int, Texture2D>>, IInitialiseParam<Vector2>, IKeyboardListener
     {
         #region FIELD VARIABLES
 
         // DECLARE an IDictionary<string, IDictionary<int, Texture2D>>, name it '_entityTextureDict':
         private IDictionary<string, IDictionary<int, Texture2D>> _entityTextureDict;
 
-        // DECLARE an IDictionary<string, ICommand>, name it '_commandDict':
-        private IDictionary<string, ICommand> _commandDict;
-
-        // DECLARE an IDictionary<string, IEntity>, name it '_cutsceneEntDict':
-        private IDictionary<string, IEntity> _cutsceneEntDict;
-
         // DECLARE an IDictionary<int, string>, name it '_quoteDict':
         private IDictionary<int, string> _quoteDict;
-
-        // DECLARE an IFuncCommand<ICommand>, name it '_createCommand':
-        private IFuncCommand<ICommand> _createCommand;
 
         // DECLARE a SpriteFont, name it '_font':
         private SpriteFont _font;
@@ -46,9 +34,6 @@ namespace OrbitalEngine.SceneManagement
 
         // DECLARE a bool, name it '_frameBreak':
         private bool _frameBreak;
-
-        // DECLARE a string, name it '_currentScene':
-        private string _currentScene;
 
         // DECLARE a string, name it '_nextScene':
         private string _nextScene;  /**/
@@ -79,58 +64,28 @@ namespace OrbitalEngine.SceneManagement
         #region IMPLEMENTATION OF ISCENEGRAPH
 
         /// <summary>
-        /// Removes instance of object from list/dictionary using an entity's unique name
-        /// </summary>
-        /// <param name="pUName"> Used for passing unique name </param>
-        public void RemoveEntity(string pUName)
-        {
-            // REMOVE IEntity object addressed by pUName from _cutsceneEntDict:
-            _cutsceneEntDict.Remove(pUName);
-        }
-
-        /// <summary>
-        /// Removes and terminates any references to entities from the scene
-        /// </summary>
-        public void ClearScene()
-        {
-            // FOREACH IEntity in _cutsceneEntDict.Values:
-            foreach (IEntity pEntity in _cutsceneEntDict.Values.ToList())
-            {
-                // CALL Terminate() on pEntity:
-                (pEntity as ITerminate).Terminate();
-            }
-
-            // EXECUTE _commandDict["StopAudio"]:
-            _commandDict["StopAudio"].ExecuteMethod();
-        }
-
-        /// <summary>
         /// Clears all references to entities in current scene and signals command to load next scene
         /// </summary>
         /// <param name="pNextScene"> Name of next scene </param>
-        public void GoToNextScene(string pNextScene)
+        public override void GoToNextScene(string pNextScene)
         {
             // CALL ClearScene():
             ClearScene();
 
-            // INITIALISE _commandDict["NextScene"]'s FirstParam Property with value of _currentScene:
-            (_commandDict["NextScene"] as ICommandTwoParam<string, string>).FirstParam = _currentScene;
+            // INITIALISE _commandDict["UnsubscribeKB"]'s FirstParam Property with value of _sceneName:
+            (_commandDict["UnsubscribeKB"] as ICommandOneParam<string>).FirstParam = _sceneName;
+
+            // EXECUTE _commandDict["UnsubscribeKB"]:
+            _commandDict["UnsubscribeKB"].ExecuteMethod();
+
+            // INITIALISE _commandDict["NextScene"]'s FirstParam Property with value of _sceneName:
+            (_commandDict["NextScene"] as ICommandTwoParam<string, string>).FirstParam = _sceneName;
 
             // INITIALISE _commandDict["NextScene"]'s SecondParam Property with value of pNextScene:
             (_commandDict["NextScene"] as ICommandTwoParam<string, string>).SecondParam = pNextScene;
 
             // EXECUTE _commandDict["NextScene"]:
             _commandDict["NextScene"].ExecuteMethod();
-        }
-
-        /// <summary>
-        /// Returns Scene Dictionary, used for testing
-        /// </summary>
-        /// <returns> IDictionary<string, IEntity> object </returns>
-        public IDictionary<string, IEntity> ReturnSceneDict()
-        {
-            // RETURN instance of _cutsceneEntDict:
-            return _cutsceneEntDict;
         }
 
         #endregion
@@ -142,13 +97,13 @@ namespace OrbitalEngine.SceneManagement
         /// When called, draws entity's texture on screen
         /// </summary>
         /// <param name="pSpriteBatch"> Needed to draw entity's texture on screen </param>
-        public void Draw(SpriteBatch pSpriteBatch)
+        public override void Draw(SpriteBatch pSpriteBatch)
         {
             // BEGIN creation of displayable objects:
             pSpriteBatch.Begin();
 
-            // FOREACH IEntity in _cutsceneEntDict.Values:
-            foreach (IEntity pEntity in _cutsceneEntDict.Values)
+            // FOREACH IEntity in _sceneEntDict.Values:
+            foreach (IEntity pEntity in _sceneEntDict.Values)
             {
                 // IF pEntity implements IDraw:
                 if (pEntity is IDraw)
@@ -158,7 +113,7 @@ namespace OrbitalEngine.SceneManagement
                 }
             }
 
-            // DRAW string value of _quoteDict[_cuteceneCase] at _textPos in _font coloured White:
+            // DRAW string value of _quoteDict[_cutsceneCase] at _textPos in _font coloured White:
             pSpriteBatch.DrawString(_font, _quoteDict[_cutsceneCase], _textPos, Color.White);
 
             // END creation of displayable objects:
@@ -193,31 +148,6 @@ namespace OrbitalEngine.SceneManagement
         #endregion
 
 
-        #region IMPLEMENTATION OF IINITIALISEPARAM<IDICTIONARY<STRING, ICOMMAND>>
-
-        /// <summary>
-        /// Initialises an object with a reference to an IDictionary<string, ICommand> instance
-        /// </summary>
-        /// <param name="pCommandDict"> IDictionary<string, ICommand> instance </param>
-        public void Initialise(IDictionary<string, ICommand> pCommandDict)
-        {
-            // IF pCommandDict DOES HAVE an active instance:
-            if (pCommandDict != null)
-            {
-                // INITIALISE _commandDict with reference to pCommandDict:
-                _commandDict = pCommandDict;
-            }
-            // IF pCommandDict DOES NOT HAVE an active instance:
-            else
-            {
-                // THROW a new NullInstanceException(), with corresponding message():
-                throw new NullInstanceException("ERROR: _commandDict does not have an active instance!");
-            }
-        }
-
-        #endregion
-
-
         #region IMPLEMENTATION OF IINITIALISEPARAM<IDICTIONARY<STRING, IDICTIONARY<INT, TEXTURE2D>>>
 
         /// <summary>
@@ -243,56 +173,6 @@ namespace OrbitalEngine.SceneManagement
         #endregion
 
 
-        #region IMPLEMENTATION OF IINITIALISEPARAM<IDICTIONARY<STRING, IENTITY>>
-
-        /// <summary>
-        /// Initialises an object with a reference to an IDictionary<string, IEntity> instance
-        /// </summary>
-        /// <param name="pSceneEntDict"> IDictionary<string, IEntity> instance </param>
-        public void Initialise(IDictionary<string, IEntity> pSceneEntDict)
-        {
-            // IF pSceneEntDict DOES HAVE an active instance:
-            if (pSceneEntDict != null)
-            {
-                // INITIALISE _cutsceneEntDict with reference to pSceneEntDict:
-                _cutsceneEntDict = pSceneEntDict;
-            }
-            // IF pSceneEntDict DOES NOT HAVE an active instance:
-            else
-            {
-                // THROW a new NullInstanceException(), with corresponding message():
-                throw new NullInstanceException("ERROR: pSceneEntDict does not have an active instance!");
-            }
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF IINITIALISEPARAM<IFUNCCOMMAND<ICOMMAND>>
-
-        /// <summary>
-        /// Initialises an object with an IFuncCommand<ICommand> object
-        /// </summary>
-        /// <param name="pFuncCommand"> IFuncCommand<ICommand> object </param>
-        public void Initialise(IFuncCommand<ICommand> pFuncCommand)
-        {
-            // IF pFuncCommand DOES HAVE an active instance:
-            if (pFuncCommand != null)
-            {
-                // INITIALISE _createCommand with reference to pFuncCommand:
-                _createCommand = pFuncCommand;
-            }
-            // IF pFuncCommand DOES NOT HAVE an active instance:
-            else
-            {
-                // THROW a new NullInstanceException(), with corresponding message:
-                throw new NullInstanceException("ERROR: pFuncCommand does not have an active instance!");
-            }
-        }
-
-        #endregion
-
-
         #region IMPLEMENTATION OF IINITIALISEPARAM<STRING>
 
         /// <summary>
@@ -312,42 +192,6 @@ namespace OrbitalEngine.SceneManagement
             {
                 // THROW a new NullValueException(), with corresponding message:
                 throw new NullValueException("ERROR: pNextSceneName does not have a valid string value!");
-            }
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF IINITIALISEPARAM<STRING, ICOMMAND>
-
-        /// <summary>
-        /// Initialises an object with a string and an ICommand object
-        /// </summary>
-        /// <param name="pCommandName"> Name of Command </param>
-        /// <param name="pCommand"> ICommand object </param>
-        public void Initialise(string pCommandName, ICommand pCommand)
-        {
-            // IF pCommand DOES HAVE an active instance:
-            if (pCommand != null)
-            {
-                // IF _commandDict DOES NOT already contain pCommandName as a key:
-                if (!_commandDict.ContainsKey(pCommandName))
-                {
-                    // ADD pCommandName as a key, and pCommand as a value to _commandDict:
-                    _commandDict.Add(pCommandName, pCommand);
-                }
-                // IF _commandDict DOES already contain pCommandName as a key:
-                else
-                {
-                    // THROW a new NullInstanceException(), with corresponding message:
-                    throw new ValueAlreadyStoredException("ERROR: pCommandName is already stored in _commandDict!");
-                }
-            }
-            // IF pCommand DOES NOT HAVE an active instance:
-            else
-            {
-                // THROW a new NullInstanceException(), with corresponding message:
-                throw new NullInstanceException("ERROR: pCommand does not have an active instance!");
             }
         }
 
@@ -440,94 +284,16 @@ namespace OrbitalEngine.SceneManagement
         #endregion
 
 
-        #region IMPLEMENTATION OF INAME
+        #region IMPLEMENTATION OF IKEYBOARDLISTENER
 
         /// <summary>
-        /// Property which allows read and write access to the value of an object's specific name
+        /// Called when Publisher has new Keyboard input information for listening objects
         /// </summary>
-        public string Name
-        {
-            get
-            {
-                // RETURN value of _currentScene:
-                return _currentScene;
-            }
-            set
-            {
-                // SET value of _currentScene to incoming value:
-                _currentScene = value;
-            }
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF ISPAWN
-
-        /// <summary>
-        /// Spawns specified Entity and initialises its position
-        /// </summary>
-        /// <param name="pEntity"> IEntity object </param>
-        /// <param name="pPosition"> Positional values used to place entity </param>
-        public void Spawn(IEntity pEntity, Vector2 pPosition)
-        {
-            #region ADD TO DICTIONARY
-
-            // ADD pEntity.UName as a key, and pEntity as a value to _cutsceneEntDict:
-            _cutsceneEntDict.Add(pEntity.UName, pEntity);
-
-            #endregion
-
-
-            #region REMOVE COMMAND
-
-            // IF pEntity implements IEntityInternal:
-            if (pEntity is IEntityInternal)
-            {
-                // DECLARE & INSTANTIATE an ICommandOneParam<string> as a new CommandOneParam<string>(), name it 'removeMe':
-                ICommandOneParam<string> removeMe = _createCommand.ExecuteMethod() as ICommandOneParam<string>;
-
-                // SET MethodRef of removeMe with RemoveEntity method:
-                removeMe.MethodRef = RemoveEntity;
-
-                // SET FirstParam of removeMe with pEntity's UName Property:
-                removeMe.FirstParam = pEntity.UName;
-
-                // SET RemoveMe property of pEntity with removeMe Command:
-                (pEntity as IEntityInternal).RemoveMe = removeMe;
-            }
-
-            #endregion
-
-
-            #region SPAWN LOCATION
-
-            // IF pEntity's Position Property DOES NOT return the same value as pPosition:
-            if (pEntity.Position != pPosition)
-            {
-                // INITIALISE pEntity.Position with value of pPosition:
-                pEntity.Position = pPosition;
-            }
-
-            // WRITE to console, alerting when object has been added to the scene:
-            Console.WriteLine(pEntity.UName + " ID:" + pEntity.UID + " has been Spawned on Scene!");
-
-            #endregion
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF IUPDATABLE
-
-        /// <summary>
-        /// Updates object when a frame has been rendered on screen
-        /// </summary>
-        /// <param name="pGameTime"> GameTime object </param>
-        public void Update(GameTime pGameTime)
+        /// <param name="pKeyboardState"> Holds reference to Keyboard State object </param>
+        public void OnKBInput(KeyboardState pKeyboardState)
         {
             // IF Enter key is pressed and _frameBreak is false:
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter) && !_frameBreak)
+            if (pKeyboardState.IsKeyDown(Keys.Enter) && !_frameBreak)
             {
                 // INCREMENT _cutsceneCase:
                 _cutsceneCase++;
@@ -536,7 +302,7 @@ namespace OrbitalEngine.SceneManagement
                 _frameBreak = true;
             }
 
-            // IF _frameTimer is less than to '0' frames passed:
+            // IF _frameTimer is less than to '30' frames passed:
             if (_frameTimer < 30)
             {
                 // INCREMENT _frameTimer by '1':
@@ -557,8 +323,8 @@ namespace OrbitalEngine.SceneManagement
             // USING QUOTES DUE TO EACH CASE INCLUDING A QUOTE
             if (_cutsceneCase < _quoteDict.Values.Count)
             {
-                // FOREACH IEntity in _cutsceneEntDict:
-                foreach (IEntity pEntity in _cutsceneEntDict.Values)
+                // FOREACH IEntity in _sceneEntDict:
+                foreach (IEntity pEntity in _sceneEntDict.Values)
                 {
                     // IF pEntity implements ITexture:
                     if (pEntity is ITexture)

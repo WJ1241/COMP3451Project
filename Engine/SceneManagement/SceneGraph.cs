@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using OrbitalEngine.Behaviours.Interfaces;
-using OrbitalEngine.CollisionManagement.Interfaces;
 using OrbitalEngine.CoreInterfaces;
-using OrbitalEngine.CustomEventArgs;
 using OrbitalEngine.EntityManagement.Interfaces;
 using OrbitalEngine.Exceptions;
 using OrbitalEngine.SceneManagement.Interfaces;
@@ -17,28 +14,25 @@ namespace OrbitalEngine.SceneManagement
     /// <summary>
     /// Class which holds reference to list in Scene Manager, Draws and Updates entities
     /// Authors: William Smith & Declan Kerby-Collins
-    /// Date: 14/04/22
+    /// Date: 15/04/22
     /// </summary>
     /// <REFERENCE> Abuhakmeh, K. (2009) XNA 2D Camera Engine That Follows Sprite. Available at: https://stackoverflow.com/questions/712296/xna-2d-camera-engine-that-follows-sprite. (Accessed: 20 April 2021). </REFERENCE>
-    public class SceneGraph : ISceneGraph, IDraw, IEventListener<MatrixEventArgs>, IInitialiseParam<ICollisionManager>, IInitialiseParam<IDictionary<string, ICommand>>, IInitialiseParam<IDictionary<string, IEntity>>,
-        IInitialiseParam<IFuncCommand<ICommand>>, IInitialiseParam<string, ICommand>, IName, IResetScene, ISpawn, IUpdatable
+    public class SceneGraph : ISceneGraph, IDraw, IInitialiseParam<IDictionary<string, ICommand>>, IInitialiseParam<IDictionary<string, IEntity>>,
+        IInitialiseParam<IFuncCommand<ICommand>>, IInitialiseParam<string, ICommand>, IName, ISpawn, IUpdatable
     {
         #region FIELD VARIABLES
 
         // DECLARE an IDictionary<string, ICommand>, name it '_commandDict':
-        private IDictionary<string, ICommand> _commandDict;
+        protected IDictionary<string, ICommand> _commandDict;
 
         // DECLARE an IDictionary<string, IEntity>, name it '_sceneEntDict':
-        private IDictionary<string, IEntity> _sceneEntDict;
+        protected IDictionary<string, IEntity> _sceneEntDict;
 
         // DECLARE an IFuncCommand<ICommand>, name it '_createCommand':
-        private IFuncCommand<ICommand> _createCommand;
-
-        // DECLARE a Matrix, name it '_zoomFollowMatrix':
-        private Matrix _zoomFollowMatrix;
+        protected IFuncCommand<ICommand> _createCommand;
 
         // DECLARE a string, name it '_sceneName':
-        private string _sceneName;
+        protected string _sceneName;
 
         #endregion
 
@@ -88,7 +82,7 @@ namespace OrbitalEngine.SceneManagement
         /// Clears all references to entities in current scene and signals command to load next scene
         /// </summary>
         /// <param name="pNextScene"> Name of next scene </param>
-        public void GoToNextScene(string pNextScene)
+        public virtual void GoToNextScene(string pNextScene)
         {
             // CALL ClearScene():
             ClearScene();
@@ -122,21 +116,8 @@ namespace OrbitalEngine.SceneManagement
         /// When called, draws entity's texture on screen
         /// </summary>
         /// <param name="pSpriteBatch"> Needed to draw entity's texture on screen </param>
-        public void Draw(SpriteBatch pSpriteBatch)
+        public virtual void Draw(SpriteBatch pSpriteBatch)
         {
-            // IF "Camera" IS stored in _sceneEntDict:
-            if (_sceneEntDict.ContainsKey("Camera"))
-            {
-                // BEGIN creation of displayable objects:
-                pSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, _zoomFollowMatrix);
-            }
-            // IF "Camera" IS NOT stored in _sceneEntDict:
-            else
-            {
-                // BEGIN creation of displayable objects:
-                pSpriteBatch.Begin();
-            }
-
             // FOREACH IEntity in _sceneEntDict.Values:
             foreach (IEntity pEntity in _sceneEntDict.Values)
             {
@@ -150,47 +131,6 @@ namespace OrbitalEngine.SceneManagement
 
             // END creation of displayable objects:
             pSpriteBatch.End();
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF IEVENTLISTENER<MATRIXEVENTARGS>
-
-        /// <summary>
-        /// Event called when needing to update Matrix value for Draw() Method
-        /// </summary>
-        /// <param name="pSource"> Caller of Event </param>
-        /// <param name="pArgs"> MatrixEventArgs object </param>
-        public void OnEvent(object pSource, MatrixEventArgs pArgs)
-        {
-            // INITIALISE _zoomFollowMatrix with value of pArgs' RequiredArg Property:
-            _zoomFollowMatrix = pArgs.RequiredArg;
-        }
-
-        #endregion
-
-
-        #region IMPLEMENTATION OF IINITIALISEPARAM<ICOLLISIONMANAGER>
-
-        /// <summary>
-        /// Initialises an object with an ICollisionManager object
-        /// </summary>
-        /// <param name="pCollisionManager"> ICollisionManager object </param>
-        public void Initialise(ICollisionManager pCollisionManager)
-        {
-            // IF pCollisionManager DOES HAVE an active instance:
-            if (pCollisionManager != null)
-            {
-                // INITIALISE pCollisionManager with _sceneEntDict:
-                pCollisionManager.Initialise(_sceneEntDict as IReadOnlyDictionary<string, IEntity>);
-            }
-            // IF pCollisionManager DOES NOT HAVE an active instance:
-            else
-            {
-                // THROW a new NullInstanceException(), with corresponding message:
-                throw new NullInstanceException("ERROR: pCollisionManager does not have an active instance!");
-            }
         }
 
         #endregion
@@ -329,26 +269,6 @@ namespace OrbitalEngine.SceneManagement
         #endregion
 
 
-        #region IMPLEMENTATION OF IRESETSCENE
-
-        /// <summary>
-        /// Clears all references to entities in current scene and signals command to reset current scene
-        /// </summary>
-        public void ResetScene()
-        {
-            // CALL ClearScene();
-            ClearScene();
-
-            // INITIALISE _commandDict["ResetScene"]'s FirstParam with value of _sceneName:
-            (_commandDict["ResetScene"] as ICommandOneParam<string>).FirstParam = _sceneName;
-
-            // EXECUTE _commandDict["ResetScene"]:
-            _commandDict["ResetScene"].ExecuteMethod();
-        }
-
-        #endregion
-
-
         #region IMPLEMENTATION OF ISPAWN
 
         /// <summary>
@@ -411,7 +331,7 @@ namespace OrbitalEngine.SceneManagement
         /// Updates object when a frame has been rendered on screen
         /// </summary>
         /// <param name="pGameTime"> GameTime object </param>
-        public void Update(GameTime pGameTime)
+        public virtual void Update(GameTime pGameTime)
         {
             // FOREACH IEntity in _sceneEntDict.Values:
             foreach (IEntity pEntity in _sceneEntDict.Values)
