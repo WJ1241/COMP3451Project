@@ -19,3 +19,5 @@ The Undecided consists of:
 - Jack Maley (Sprites, level art and animation sheets)
 
 ## Orbital Engine
+### Different Runtime managers
+- EntityManager, SceneManager, SceneGraph
